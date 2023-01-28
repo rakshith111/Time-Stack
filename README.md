@@ -22,8 +22,8 @@
 - python Server.py for the server
 
 ## API methods (Server Side)
-- POST /message
-    - Request body: JSON object containing a message
+- POST /receive
+    - Request body: JSON object containing a key - "message" and a value - the message
     - Response body: "OK" or "ERROR"
-- GET /messages
+- GET /dump
     - Response body: JSON object containing all messages
