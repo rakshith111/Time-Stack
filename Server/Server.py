@@ -7,6 +7,7 @@ class Server:
         self.router = APIRouter()
         self.router.add_api_route("/dump", self.dump, methods=["GET"])
         self.router.add_api_route("/send", self.send, methods=["POST"])
+        self.count=0
         self.map={"dump":{}}
 
     def dump(self):
@@ -15,8 +16,9 @@ class Server:
 
     def send(self, data: dict):
         print(data)
-        convert = strftime("%H:%M:%S", gmtime())
-        self.map["dump"][convert]=data["message"]
+        #convert = strftime("%H:%M:%S", gmtime())
+        self.map["dump"][f'data{self.count}']=data["message"]
+        self.count+=1
         return "OK"
 
 app = FastAPI()
