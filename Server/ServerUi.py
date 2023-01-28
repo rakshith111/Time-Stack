@@ -14,9 +14,13 @@ def fastapi_server():
     global count
     count = 0        
 
-    @server.post("/send")
-    async def send( data: dict):
-        print("[+] [GET] /send")
+    @server.post("/receive")
+    async def receive( data: dict):
+        '''
+        A function that receives data and stores it in a dictionary with a timestamp
+        uses a count to keep track of the number of messages received
+        '''
+        print("[+] [GET] /receive")
         global count
         convert = strftime("%H:%M:%S", gmtime())
         dumpstore["dump"][f'data{count}'] =data["message"]+ " @" f" {convert}"
@@ -25,11 +29,14 @@ def fastapi_server():
 
     @server.post("/dump")
     async def dump():
+        '''
+        A function that returns dumpstore data
+        '''
         print("[+] [POST] /dump")
         return dumpstore
   
     server.add_api_route("/dump", dump, methods=["GET"])
-    server.add_api_route("/send", send, methods=["POST"])
+    server.add_api_route("/receive", receive, methods=["POST"])
     uvicorn.run(server, host="127.0.0.1", port=8000)
 
 
@@ -43,6 +50,7 @@ class MyApp(QWidget):
 
         # Create a thread to run the server function
         self.setGeometry(100, 100, 800, 600)
+
         self.server_thread = QThread()
         self.server_worker = ServerWorker()
         self.server_worker.moveToThread(self.server_thread)
@@ -60,8 +68,10 @@ class MyApp(QWidget):
         self.setLayout(layout)
 
     def update_response_label(self):
+        '''
+        A function that updates the response label with the data from dumpstore        
+        '''
         global dumpstore
-
         if dumpstore is not None:
             text_data=""
             for key, value in dumpstore.items():
