@@ -1,5 +1,6 @@
 package com.example.timestackprototype
 
 data class Dump(
-    val time: String
+    val server1 : String,
+    val server2 : String
 )
