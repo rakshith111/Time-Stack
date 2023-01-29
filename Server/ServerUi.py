@@ -27,7 +27,7 @@ def fastapi_server():
         count += 1
         return "OK"
 
-    @server.post("/dump")
+    @server.get("/dump")
     async def dump():
         '''
         A function that returns dumpstore data
