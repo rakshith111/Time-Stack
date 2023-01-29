@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TimeStackPrototype</string>
+    <string name="Error">Error</string>
 </resources>
