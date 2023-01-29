@@ -62,7 +62,7 @@ class ServerWorker(QObject):
         A function that receives data and stores it in a dictionary with a timestamp
         uses a count to keep track of the number of messages received
         '''
-        print("[+] [GET] /receive")
+        print("[+] [POST] /receive")
         convert = strftime("%H:%M:%S", gmtime())
         self.dumpstore["dump"][f'data{self.count}'] = data["message"] + \
             " @" f" {convert}"
@@ -73,7 +73,7 @@ class ServerWorker(QObject):
         '''
         A function that returns dumpstore data
         '''
-        print("[+] [POST] /dump")
+        print("[+] [GET] /dump")
         return self.dumpstore
     def _start(self):
         app = FastAPI()
@@ -86,5 +86,3 @@ if __name__ == "__main__":
     window.show()
     app.exec()
     
-
-        
