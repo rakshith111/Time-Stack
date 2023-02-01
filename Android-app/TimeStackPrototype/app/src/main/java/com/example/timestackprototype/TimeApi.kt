@@ -1,10 +1,12 @@
 package com.example.timestackprototype
 
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.http.GET
+import com.google.gson.annotations.SerializedName
 
-interface TimeApi {
-    @GET ("/receive")
-    fun message(): Response<List<TimeDump>>
-}
+data class TimeApi(
+    @SerializedName("message") val message: String,
+)
+
+
+
+
+
