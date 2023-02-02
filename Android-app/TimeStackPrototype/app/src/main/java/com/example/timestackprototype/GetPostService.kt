@@ -1,14 +1,17 @@
 package com.example.timestackprototype
 
+import android.widget.EditText
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class GetService {
     private lateinit var timeX: TimeInterface
-    fun getTimeX():TimeInterface {
+    private lateinit var addressInput:String
+    fun getTimeX(editTxtAddress: EditText):TimeInterface {
+        addressInput = editTxtAddress.text.toString()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.0.106:8000")
+            .baseUrl(addressInput)
             .addConverterFactory(GsonConverterFactory.create()) //Use Gson
             .build()
 
@@ -18,11 +21,11 @@ class GetService {
 
 }
 
-class PostService {
+class PostService(editTxtAddress: EditText) {
     private val client = OkHttpClient.Builder().build()
-
+    private var addressInput:String = editTxtAddress.text.toString()
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.0.106:8000") // change this IP for testing by your actual machine IP
+        .baseUrl(addressInput) // change this IP for testing by your actual machine IP
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
