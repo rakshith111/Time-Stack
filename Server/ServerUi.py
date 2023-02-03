@@ -11,7 +11,6 @@ from datetime import datetime
 from fastapi import FastAPI, APIRouter
 from ui import Ui_TimeStackServer
 
-
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
@@ -39,7 +38,7 @@ class MainWindow(QtWidgets.QMainWindow):
         data = {"message": str(self.ui.message_field.text())}
         data = json.dumps(data)
         subprocess.run(['curl', '-X', 'POST', '-H', 'Content-Type: application/json',  '-H',
-                       'accept: application/json', '-d', f'{data}', 'http://192.168.1.2:8000/receive'])
+                       'accept: application/json', '-d', f'{data}', 'http://192.168.0.106:8000/receive'])
 
         self.ui.message_field.setText('')
 
@@ -85,7 +84,8 @@ class ServerWorker(QObject):
         self.dumpstore['dump'][f'data{self.count}'] = data['message'] + \
             ' @' f' {convert}'
         self.count += 1
-        return 'OK'
+        response = {"message": "OK"}
+        return response
 
     def dump(self):
         '''
@@ -100,7 +100,7 @@ class ServerWorker(QObject):
         '''
         app = FastAPI()
         app.include_router(self.router)
-        uvicorn.run(app, host='192.168.1.2', port=8000)
+        uvicorn.run(app, host='192.168.0.106', port=8000)
 
 
 if __name__ == '__main__':

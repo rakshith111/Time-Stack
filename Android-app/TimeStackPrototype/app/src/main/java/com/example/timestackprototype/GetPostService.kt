@@ -21,6 +21,7 @@ class GetService {
 
 }
 
+
 class PostService(editTxtAddress: EditText) {
     private val client = OkHttpClient.Builder().build()
     private var addressInput:String = editTxtAddress.text.toString()
