@@ -1,3 +1,5 @@
+import datetime
+import time
 from fastapi import FastAPI, APIRouter
 from time import gmtime, strftime
 import uvicorn
@@ -17,14 +19,23 @@ class Server:
         self.count = 0
         self.dumpstore = {"dump": {}}
 
+    def _current_time(self):
+        '''
+        A function that returns the current time
+        '''
+        now_timestamp = time.time()
+        offset = datetime.fromtimestamp(
+            now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
+        return (datetime.utcnow() + offset).strftime('%H:%M:%S')
 
     def receive(self, data: dict):
         '''
         A function that receives data and stores it in a dictionary with a timestamp
         '''
         print("[+] [GET] /receive")
-        convert = strftime("%H:%M:%S", gmtime())
-        self.dumpstore["dump"][f'data{self.count}'] =data["message"]+ " @" f" {convert}"
+        convert = self._current_time()
+        self.dumpstore["dump"][f'data{self.count}'] = data["message"] + \
+            " @" f" {convert}"
         self.count += 1
         return "OK"
 
@@ -40,6 +51,7 @@ class Server:
         hello = Server()
         app.include_router(hello.router)
         uvicorn.run(app, host="127.0.0.1", port=8000)
-        
+
+
 if __name__ == "__main__":
     Server().start()
