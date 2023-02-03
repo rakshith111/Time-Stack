@@ -10,7 +10,6 @@ from PyQt6.QtCore import QThread, QObject, QTimer
 from datetime import datetime
 from fastapi import FastAPI, APIRouter
 from ui import Ui_TimeStackServer
-from flask import jsonify
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -86,7 +85,7 @@ class ServerWorker(QObject):
             ' @' f' {convert}'
         self.count += 1
         response = {"message": "OK"}
-        return jsonify(response)
+        return response
 
     def dump(self):
         '''
