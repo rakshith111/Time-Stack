@@ -1,15 +1,15 @@
 package com.example.timestackprototype
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
 
-object TimeInterface {
-    val api:TimeApi by lazy{
-        Retrofit.Builder()
-            .baseUrl("http://127.0.0.1:8000")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(TimeApi::class.java)
-    }
+interface TimeInterface {
+    @GET ("/dump")
+//    fun message(): Response<Dump>
+    fun message(): Call<Map<String, Any>>
+
+    @POST ("/receive")
+    fun messageUser(@Body messageData: TimeApi): Call<TimeApi>
 }

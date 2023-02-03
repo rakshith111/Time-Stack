@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">TimeStackPrototype</string>
     <string name="Error">Error</string>
+    <string name="get">Get</string>
+    <string name="address">Address</string>
+    <string name="message">Message</string>
+    <string name="post">POST</string>
 </resources>

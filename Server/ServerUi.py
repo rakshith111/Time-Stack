@@ -78,7 +78,7 @@ class ServerWorker(QObject):
     def _start(self):
         app = FastAPI()
         app.include_router(self.router)
-        uvicorn.run(app, host="127.0.0.1", port=8000)
+        uvicorn.run(app, host="192.168.0.106", port=8000)
     
 if __name__ == "__main__":
     app = QApplication([])
