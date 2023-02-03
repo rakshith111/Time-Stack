@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.example.timestackprototype.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 import retrofit2.*
-
 
 const val TAG1 = "Retro_clean"
 const val TAG2 = "Retro_dirty"
@@ -27,7 +29,8 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 } else {
                     GetService().getTimeX(binding.EditTxtAddress).message().enqueue(object : Callback<Map<String, Any>> {
-                         override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                         override fun onResponse(call: Call<Map<String, Any>>,
+                                                 response: Response<Map<String, Any>>) {
                             if (response.isSuccessful) {
                                 allMessages.clear()
                                 val dumpData = response.body()
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                                             is Map<*, *> -> for ((innerKey, innerValue) in value) {
                                                 println("$key.$innerKey = $innerValue")
                                                 allMessages.add("$innerValue")
+//                                                txtView.text = "$innerValue"
                                             }
                                             else -> println("$key = $value")
                                         }
@@ -49,21 +53,36 @@ class MainActivity : AppCompatActivity() {
                                 Log.e(TAG1, "HEADERS, ${response.headers()}")
                                 Log.e(TAG1, "CODE, ${response.code()}")
                             } else {
-                                Log.e(TAG2, "RAW, ${response.raw()}")
-                                Log.e(TAG2, "BODY, ${response.body()}")
-                                Log.e(TAG2, "HEADERS, ${response.headers()}")
-                                Log.e(TAG2, "CODE, ${response.code()}")
-                                //Toast error
+                                when (response.code()) {
+                                    404 -> Toast.makeText(
+                                        this@MainActivity,
+                                        "not found",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    500 -> Toast.makeText(
+                                        this@MainActivity,
+                                        "server broken",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    else -> Toast.makeText(
+                                        this@MainActivity,
+                                        "unknown error",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
+                             txtView.text = allMessages.toString()
                         }
 
                         override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                             Log.e(TAG2, "NO")
-                            //toast error
+                            Log.e(TAG2, "$t")
+                            Toast.makeText(this@MainActivity,"$t", Toast.LENGTH_LONG)
+                                .show()
                         }
                     })
                 }
-                    txtView.text = allMessages.toString()
+
 
             }
         }
@@ -73,10 +92,10 @@ class MainActivity : AppCompatActivity() {
                 messageInput = binding.EditTxtMessage.text.toString()
                 if(messageInput.isNotEmpty() && addressInput.isNotEmpty()) {
                     println(messageInput)
-                    sendReq(TimeApi(message = messageInput)){
+                    lifecycleScope.launch{
+                        sendReq(TimeApi(message = messageInput)){
                         Log.e(TAG1, "Message sent")
-                        Toast.makeText(this@MainActivity,"Post Message = $messageInput", Toast.LENGTH_SHORT)
-                            .show()
+                        }
                     }
                 } else {
                     Toast.makeText(this@MainActivity,"Empty Input", Toast.LENGTH_SHORT)
@@ -90,11 +109,15 @@ class MainActivity : AppCompatActivity() {
         retrofit.messageUser(messageData).enqueue(
             object : Callback<TimeApi> {
                 override fun onFailure(call: Call<TimeApi>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT)
+                        .show()
                     onResult(null)
                 }
                 override fun onResponse( call: Call<TimeApi>, response: Response<TimeApi>) {
-                    val addedUser = response.body()
-                    onResult(addedUser)
+                    val addedMessage = response.body()
+                    Toast.makeText(this@MainActivity, "Data added to API", Toast.LENGTH_SHORT)
+                        .show()
+                    onResult(addedMessage)
                 }
             }
         )
