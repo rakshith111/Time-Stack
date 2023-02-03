@@ -34,62 +34,59 @@ from autobahn.asyncio.websocket import WebSocketServerProtocol, \
 
 
 class SlowSquareServerProtocol(WebSocketServerProtocol):
-   def __init__(self):
-         super().__init__()
-         self.value = 3
-         self.copy=copy.deepcopy(self.value)
-         self.onOpen()
+    def __init__(self):
+        super().__init__()
+        self.value = 3
+        self.copy = copy.deepcopy(self.value)
+        self.onOpen()
 
-   async def onOpen(self):
-      
-      asyncio.ensure_future(self.valuealt())
-      
+    async def onOpen(self):
 
-   async def slowsquare(self, x):
-      if x > 1000:
-          raise Exception("number too large")
-      else:
-         await asyncio.sleep(1)
+        asyncio.ensure_future(self.valuealt())
 
-         self.value=self.value+1
-         print(self.value,"value in slowsquare")
-         return x * x
+    async def slowsquare(self, x):
+        if x > 1000:
+            raise Exception("number too large")
+        else:
+            await asyncio.sleep(1)
 
-   async def onMessage(self, payload, isBinary):
-      if not isBinary:
-         x = json.loads(payload.decode('utf8'))
-         try:
-            res = await self.slowsquare(x)
-            print(self.value,"value in onMessage")
-            
-         except Exception as e:
-            self.sendClose(1000, "Exception raised: {0}".format(e))
-         else:
-            self.sendMessage(json.dumps(res).encode('utf8'))
+            self.value = self.value+1
+            print(self.value, "value in slowsquare")
+            return x * x
 
-   async def valuealt(self):
-      print(self.value,"value in valuealt")
-      print(self.copy,"copy in valuealt")
-      if self.value%4==0:
-         print("value is divisible by 4")
-         self.sendMessage(("high").encode('utf8'))
+    async def onMessage(self, payload, isBinary):
+        if not isBinary:
+            x = json.loads(payload.decode('utf8'))
+            try:
+                res = await self.slowsquare(x)
+                print(self.value, "value in onMessage")
 
+            except Exception as e:
+                self.sendClose(1000, "Exception raised: {0}".format(e))
+            else:
+                self.sendMessage(json.dumps(res).encode('utf8'))
+
+    async def valuealt(self):
+        print(self.value, "value in valuealt")
+        print(self.copy, "copy in valuealt")
+        if self.value % 4 == 0:
+            print("value is divisible by 4")
+            self.sendMessage(("high").encode('utf8'))
 
 
 if __name__ == '__main__':
 
-   factory = WebSocketServerFactory("ws://192.168.1.2:9000")
-   factory.protocol = SlowSquareServerProtocol
+    factory = WebSocketServerFactory("ws://192.168.1.2:9000")
+    factory.protocol = SlowSquareServerProtocol
 
-   loop = asyncio.get_event_loop()
-   coro = loop.create_server(factory, '192.168.1.2', 9000)
-   server = loop.run_until_complete(coro)
+    loop = asyncio.get_event_loop()
+    coro = loop.create_server(factory, '192.168.1.2', 9000)
+    server = loop.run_until_complete(coro)
 
-
-   try:
-       loop.run_forever()
-   except KeyboardInterrupt:
-       pass
-   finally:
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
         server.close()
         loop.close()
