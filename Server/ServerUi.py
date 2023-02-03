@@ -1,22 +1,27 @@
 import uvicorn
+import sys
+import subprocess
+import json
+import time
 
-from PyQt6.QtCore import Qt
-from time import gmtime, strftime
-from PyQt6.QtCore import QThread, QObject,QTimer
-from PyQt6.QtWidgets import QApplication, QLabel,  QVBoxLayout, QWidget
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import QThread, QObject, QTimer
+
+from datetime import datetime
 from fastapi import FastAPI, APIRouter
+from ui import Ui_TimeStackServer
 
-class MyApp(QWidget):
 
-    def __init__(self):
-        super().__init__()
+class MainWindow(QtWidgets.QMainWindow):
 
-        # Create a label to display the response
-        self.response_label = QLabel("No response yet")
+    def __init__(self, parent=None):
 
-        # Create a thread to run the server function
-        self.setGeometry(100, 100, 800, 600)
+        super(MainWindow, self).__init__(parent=parent)
 
+        self.ui = Ui_TimeStackServer()
+        self.ui.setupUi(self)
+        self.ui.submit_btn.clicked.connect(self.post_data)
+        self.ui.refresh_btn.clicked.connect(self.update_response_label)
         self.server_thread = QThread()
         self.server_worker = ServerWorker()
         self.server_worker.moveToThread(self.server_thread)
@@ -26,12 +31,17 @@ class MyApp(QWidget):
         self.timer.timeout.connect(self.update_response_label)
         self.timer.start(1000)
 
-        # Create a layout to organize the widgets
-        layout = QVBoxLayout()
-        layout.addWidget(self.response_label)
-        layout.addWidget(self.response_label,
-                         alignment=Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        self.setLayout(layout)
+    def post_data(self):
+        '''
+        A function that posts data to the server
+        '''
+
+        data = {"message": str(self.ui.message_field.text())}
+        data = json.dumps(data)
+        subprocess.run(['curl', '-X', 'POST', '-H', 'Content-Type: application/json',  '-H',
+                       'accept: application/json', '-d', f'{data}', 'http://192.168.1.2:8000/receive'])
+
+        self.ui.message_field.setText('')
 
     def update_response_label(self):
         '''
@@ -39,50 +49,62 @@ class MyApp(QWidget):
         '''
         dumpstore = self.server_worker.dumpstore
         if dumpstore is not None:
-            text_data=""
+            text_data = ''
             for key, value in dumpstore.items():
-                text_data+=(f"\n{key} : {value}\n\n")
+                text_data += (f'\n{key} : {value}\n\n')
                 for k, v in value.items():
-                    text_data+=(f"    {k} : {v}\n\n")
-            self.response_label.setText(str(text_data))
+                    text_data += (f'    {k} : {v}\n\n')
+            self.ui.response_label.setText(str(text_data))
 
 
 class ServerWorker(QObject):
     def __init__(self):
         super().__init__()
         self.count = 0
-        self.dumpstore = {"dump": {}}
+        self.dumpstore = {'dump': {}}
         self.router = APIRouter()
-        self.router.add_api_route("/receive", self.receive, methods=["POST"])
-        self.router.add_api_route("/dump", self.dump, methods=["GET"])
-        
+        self.router.add_api_route('/receive', self.receive, methods=['POST'])
+        self.router.add_api_route('/dump', self.dump, methods=['GET'])
+
+    def _current_time(self):
+        '''
+        A function that returns the current time
+        '''
+        now_timestamp = time.time()
+        offset = datetime.fromtimestamp(
+            now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
+        return (datetime.utcnow() + offset).strftime('%H:%M:%S')
 
     def receive(self, data: dict):
         '''
         A function that receives data and stores it in a dictionary with a timestamp
         uses a count to keep track of the number of messages received
         '''
-        print("[+] [POST] /receive")
-        convert = strftime("%H:%M:%S", gmtime())
-        self.dumpstore["dump"][f'data{self.count}'] = data["message"] + \
-            " @" f" {convert}"
+        print('[+] [POST] /receive')
+        convert = self._current_time()
+        self.dumpstore['dump'][f'data{self.count}'] = data['message'] + \
+            ' @' f' {convert}'
         self.count += 1
-        return "OK"
+        return 'OK'
 
     def dump(self):
         '''
         A function that returns dumpstore data
         '''
-        print("[+] [GET] /dump")
+        print('[+] [GET] /dump')
         return self.dumpstore
+
     def _start(self):
+        '''
+        A function that starts the server
+        '''
         app = FastAPI()
         app.include_router(self.router)
-        uvicorn.run(app, host="192.168.0.106", port=8000)
-    
-if __name__ == "__main__":
-    app = QApplication([])
-    window = MyApp()
-    window.show()
-    app.exec()
-    
+        uvicorn.run(app, host='192.168.1.2', port=8000)
+
+
+if __name__ == '__main__':
+    app = QtWidgets.QApplication(sys.argv)
+    w = MainWindow()
+    w.show()
+    sys.exit(app.exec())
