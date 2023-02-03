@@ -27,3 +27,5 @@
     - Response body: "OK" or "ERROR"
 - GET /dump
     - Response body: JSON object containing all messages
+## Screenshots
+![image](https://user-images.githubusercontent.com/36219488/216549961-0db7e0b8-ca1a-4ffc-918a-a5e1e0ba895c.png)
