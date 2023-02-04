@@ -13,6 +13,10 @@ from fastapi import FastAPI, APIRouter
 from ui import Ui_TimeStackServer
 
 def get_local_ip():
+    '''
+    A function that returns the local ip address.
+    It makes a connection to google's dns server and returns the local ip address.    
+    '''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
