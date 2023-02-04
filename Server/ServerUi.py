@@ -12,13 +12,20 @@ from datetime import datetime
 from fastapi import FastAPI, APIRouter
 from ui import Ui_TimeStackServer
 
+def get_local_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return local_ip
+    except:
+        return None
 
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
-        hostname = socket.getfqdn()
-        self.ip = socket.gethostbyname_ex(hostname)[2][1]
-
+        self.ip = get_local_ip()
         super(MainWindow, self).__init__(parent=parent)
 
         self.ui = Ui_TimeStackServer()
@@ -33,6 +40,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_response_label)
         self.timer.start(1000)
+
+
 
     def post_data(self):
         '''
@@ -55,15 +64,14 @@ class MainWindow(QtWidgets.QMainWindow):
             text_data = ''
             for key, value in dumpstore.items():
                 text_data += (f'\n{key} : {value}\n\n')
-                for k, v in value.items():
-                    text_data += (f'    {k} : {v}\n\n')
+                for message, time_stamp_data in value.items():
+                    text_data += (f'    {message} : {time_stamp_data}\n\n')
             self.ui.response_label.setText(str(text_data))
 
 
 class ServerWorker(QObject):
     def __init__(self):
-        hostname = socket.getfqdn()
-        self.ip = socket.gethostbyname_ex(hostname)[2][1]
+        self.ip = get_local_ip()
         super().__init__()
         self.count = 0
         self.dumpstore = {'dump': {}}
@@ -129,3 +137,6 @@ if __name__ == '__main__':
     w = MainWindow()
     w.show()
     sys.exit(app.exec())
+import socket
+hostname = socket.getfqdn()
+socket.gethostbyname_ex(hostname)
