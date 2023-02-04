@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         runnable = Runnable {
             makeNetworkRequest(binding.txtView)
             handler.postDelayed(runnable, 30000) // Repeat task every 30 seconds
+            Log.e(TAG1,"GETTING data after 30 secs")
         }
         handler.postDelayed(runnable, 300)
         binding.apply {
@@ -128,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 override fun onResponse( call: Call<TimeApi>, response: Response<TimeApi>) {
                     val addedMessage = response.body()
-                    Toast.makeText(this@MainActivity, "Data added to API", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MainActivity, "Data Successfully POSTED ", Toast.LENGTH_SHORT)
                         .show()
                     onResult(addedMessage)
                 }
@@ -138,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeNetworkRequest(txtView: TextView) {
             addressInput = binding.EditTxtAddress.text.toString()
-                if(addressInput.isEmpty()){
+            if(addressInput.isEmpty()){
                     Toast.makeText(this@MainActivity,"Empty Input", Toast.LENGTH_SHORT)
                         .show()
                 } else {

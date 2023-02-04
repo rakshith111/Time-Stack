@@ -12,12 +12,20 @@ from datetime import datetime
 from fastapi import FastAPI, APIRouter
 from ui import Ui_TimeStackServer
 
+def get_local_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return local_ip
+    except:
+        return None
+
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
-        hostname = socket.getfqdn()
-        self.ip=socket.gethostbyname_ex(hostname)[2][1]
-
+        self.ip = get_local_ip()
         super(MainWindow, self).__init__(parent=parent)
 
         self.ui = Ui_TimeStackServer()
@@ -32,6 +40,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_response_label)
         self.timer.start(1000)
+
+
 
     def post_data(self):
         '''
@@ -54,21 +64,21 @@ class MainWindow(QtWidgets.QMainWindow):
             text_data = ''
             for key, value in dumpstore.items():
                 text_data += (f'\n{key} : {value}\n\n')
-                for k, v in value.items():
-                    text_data += (f'    {k} : {v}\n\n')
+                for message, time_stamp_data in value.items():
+                    text_data += (f'    {message} : {time_stamp_data}\n\n')
             self.ui.response_label.setText(str(text_data))
 
 
 class ServerWorker(QObject):
     def __init__(self):
-        hostname = socket.getfqdn()
-        self.ip = socket.gethostbyname_ex(hostname)[2][1]
+        self.ip = get_local_ip()
         super().__init__()
         self.count = 0
         self.dumpstore = {'dump': {}}
         self.router = APIRouter()
         self.router.add_api_route('/receive', self.receive, methods=['POST'])
         self.router.add_api_route('/dump', self.dump, methods=['GET'])
+        self.router.add_api_route('/ping', self.ping, methods=['GET'])
 
     def _current_time(self):
         '''
@@ -79,8 +89,18 @@ class ServerWorker(QObject):
             now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
         return (datetime.utcnow() + offset).strftime('%H:%M:%S')
 
+    def _start(self):
+        '''
+        A function that starts the server
+        '''
+        app = FastAPI()
+        app.include_router(self.router)
+        uvicorn.run(app, host=self.ip, port=8000)
+
     def receive(self, data: dict):
         '''
+        CLient POST request handler
+        Called when a client sends a POST request to /receive
         A function that receives data and stores it in a dictionary with a timestamp
         uses a count to keep track of the number of messages received
         '''
@@ -94,18 +114,22 @@ class ServerWorker(QObject):
 
     def dump(self):
         '''
+        Client GET request handler
+        Called when a client sends a GET request to /dump
         A function that returns dumpstore data
         '''
         print('[+] [GET] /dump')
         return self.dumpstore
 
-    def _start(self):
+    def ping(self):
         '''
-        A function that starts the server
+        Client GET request handler
+        Called when a client sends a GET request to /ping
+        A function that returns a ping response
         '''
-        app = FastAPI()
-        app.include_router(self.router)
-        uvicorn.run(app, host=self.ip, port=8000)
+        print('[+] [GET] /ping')
+        response = {"message": "OK"}
+        return response
 
 
 if __name__ == '__main__':
