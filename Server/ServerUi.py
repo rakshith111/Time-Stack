@@ -137,6 +137,3 @@ if __name__ == '__main__':
     w = MainWindow()
     w.show()
     sys.exit(app.exec())
-import socket
-hostname = socket.getfqdn()
-socket.gethostbyname_ex(hostname)
