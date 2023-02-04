@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        //runnable for every 30sec
         handler = Handler(Looper.getMainLooper())
         runnable = Runnable {
             makeNetworkRequest(binding.txtView)
