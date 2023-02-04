@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -138,7 +137,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeNetworkRequest(txtView: TextView) {
-        addressInput = binding.EditTxtAddress.text.toString()
+            addressInput = binding.EditTxtAddress.text.toString()
                 if(addressInput.isEmpty()){
                     Toast.makeText(this@MainActivity,"Empty Input", Toast.LENGTH_SHORT)
                         .show()
