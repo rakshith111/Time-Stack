@@ -3,6 +3,7 @@ import sys
 import subprocess
 import json
 import time
+import socket
 
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import QThread, QObject, QTimer
@@ -14,6 +15,8 @@ from ui import Ui_TimeStackServer
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None):
+        hostname = socket.getfqdn()
+        self.ip=socket.gethostbyname_ex(hostname)[2][1]
 
         super(MainWindow, self).__init__(parent=parent)
 
@@ -38,7 +41,7 @@ class MainWindow(QtWidgets.QMainWindow):
         data = {"message": str(self.ui.message_field.text())}
         data = json.dumps(data)
         subprocess.run(['curl', '-X', 'POST', '-H', 'Content-Type: application/json',  '-H',
-                       'accept: application/json', '-d', f'{data}', 'http://192.168.0.106:8000/receive'])
+                       'accept: application/json', '-d', f'{data}', f'http://{self.ip}:8000/receive'])
 
         self.ui.message_field.setText('')
 
@@ -58,6 +61,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
 class ServerWorker(QObject):
     def __init__(self):
+        hostname = socket.getfqdn()
+        self.ip = socket.gethostbyname_ex(hostname)[2][1]
         super().__init__()
         self.count = 0
         self.dumpstore = {'dump': {}}
@@ -100,7 +105,7 @@ class ServerWorker(QObject):
         '''
         app = FastAPI()
         app.include_router(self.router)
-        uvicorn.run(app, host='192.168.0.106', port=8000)
+        uvicorn.run(app, host=self.ip, port=8000)
 
 
 if __name__ == '__main__':
