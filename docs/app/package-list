@@ -1,0 +1,24 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.example.timestackprototype////PointingToDeclaration/app/com.example.timestackprototype/index.html
+$dokka.location:com.example.timestackprototype//TAG1/#/PointingToDeclaration/app/com.example.timestackprototype/-t-a-g1.html
+$dokka.location:com.example.timestackprototype//TAG2/#/PointingToDeclaration/app/com.example.timestackprototype/-t-a-g2.html
+$dokka.location:com.example.timestackprototype/GetService///PointingToDeclaration/app/com.example.timestackprototype/-get-service/index.html
+$dokka.location:com.example.timestackprototype/GetService/GetService/#/PointingToDeclaration/app/com.example.timestackprototype/-get-service/-get-service.html
+$dokka.location:com.example.timestackprototype/GetService/getTimeX/#android.widget.EditText/PointingToDeclaration/app/com.example.timestackprototype/-get-service/get-time-x.html
+$dokka.location:com.example.timestackprototype/MainActivity///PointingToDeclaration/app/com.example.timestackprototype/-main-activity/index.html
+$dokka.location:com.example.timestackprototype/MainActivity/MainActivity/#/PointingToDeclaration/app/com.example.timestackprototype/-main-activity/-main-activity.html
+$dokka.location:com.example.timestackprototype/PostService///PointingToDeclaration/app/com.example.timestackprototype/-post-service/index.html
+$dokka.location:com.example.timestackprototype/PostService/PostService/#android.widget.EditText/PointingToDeclaration/app/com.example.timestackprototype/-post-service/-post-service.html
+$dokka.location:com.example.timestackprototype/PostService/buildService/#java.lang.Class[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/app/com.example.timestackprototype/-post-service/build-service.html
+$dokka.location:com.example.timestackprototype/StartRunnable///PointingToDeclaration/app/com.example.timestackprototype/-start-runnable/index.html
+$dokka.location:com.example.timestackprototype/StartRunnable/allMessages/#/PointingToDeclaration/app/com.example.timestackprototype/-start-runnable/all-messages.html
+$dokka.location:com.example.timestackprototype/StartRunnable/startCheck/#android.widget.TextView#android.widget.EditText#android.content.Context#android.widget.Button/PointingToDeclaration/app/com.example.timestackprototype/-start-runnable/start-check.html
+$dokka.location:com.example.timestackprototype/TimeApi///PointingToDeclaration/app/com.example.timestackprototype/-time-api/index.html
+$dokka.location:com.example.timestackprototype/TimeApi/TimeApi/#kotlin.String/PointingToDeclaration/app/com.example.timestackprototype/-time-api/-time-api.html
+$dokka.location:com.example.timestackprototype/TimeApi/message/#/PointingToDeclaration/app/com.example.timestackprototype/-time-api/message.html
+$dokka.location:com.example.timestackprototype/TimeInterface///PointingToDeclaration/app/com.example.timestackprototype/-time-interface/index.html
+$dokka.location:com.example.timestackprototype/TimeInterface/message/#/PointingToDeclaration/app/com.example.timestackprototype/-time-interface/message.html
+$dokka.location:com.example.timestackprototype/TimeInterface/messageUser/#com.example.timestackprototype.TimeApi/PointingToDeclaration/app/com.example.timestackprototype/-time-interface/message-user.html
+com.example.timestackprototype
+
