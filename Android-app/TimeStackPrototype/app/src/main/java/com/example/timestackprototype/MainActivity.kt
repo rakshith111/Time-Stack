@@ -12,7 +12,6 @@ import com.example.timestackprototype.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 import retrofit2.*
 
-
 const val TAG1 = "Retro_clean"
 const val TAG2 = "Retro_dirty"
 class MainActivity : AppCompatActivity() {
