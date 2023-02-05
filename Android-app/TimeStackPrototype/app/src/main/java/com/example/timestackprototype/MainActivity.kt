@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         binding.apply {
             btnGet.setOnClickListener {
                 addressInput = binding.EditTxtAddress.text.toString()
