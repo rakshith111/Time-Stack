@@ -1,7 +1,6 @@
 package com.example.timestackprototype
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -23,9 +22,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var runnable: Runnable
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.apply {
             btnGet.setOnClickListener {
@@ -39,10 +40,8 @@ class MainActivity : AppCompatActivity() {
                          override fun onResponse(call: Call<Map<String, Any>>,
                                                  response: Response<Map<String, Any>>) {
                             if (response.isSuccessful) {
-                                Log.e(TAG1, "RAW, ${response.raw()}")
-                                Log.e(TAG1, "BODY, ${response.body()}")
-                                Log.e(TAG1, "HEADERS, ${response.headers()}")
-                                Log.e(TAG1, "CODE, ${response.code()}")
+                                Log.i(TAG1, "RAW, ${response.raw()}")
+                                Log.i(TAG1, "BODY, ${response.body()}")
                                 Toast.makeText(this@MainActivity, "Server is Up, Starting runnable",
                                     Toast.LENGTH_SHORT).show()
                                 StartRunnable.startCheck(binding.txtView, binding.EditTxtAddress
@@ -70,8 +69,8 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
-                            Log.e(TAG2, "NO")
-                            Log.e(TAG2, "$t")
+                            Log.i(TAG2, "POST Failed\n DEBUG INFO")
+                            Log.d(TAG2, "$t")
                             handler = Handler(Looper.getMainLooper())
                             runnable = Runnable {
                                 Toast.makeText(this@MainActivity,"$t", Toast.LENGTH_LONG)
@@ -96,7 +95,8 @@ class MainActivity : AppCompatActivity() {
                     println(messageInput)
                     lifecycleScope.launch{
                         sendReq(TimeApi(message = messageInput)){
-                        Log.e(TAG1, "Message sent")
+                        Log.i(TAG1, "Message sent")
+                            binding.EditTxtMessage.setText("")
                         }
                     }
                 } else {
@@ -119,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                     val addedMessage = response.body()
                     Toast.makeText(this@MainActivity, "Data Successfully POSTED ", Toast.LENGTH_SHORT)
                         .show()
+
                     onResult(addedMessage)
                 }
             }

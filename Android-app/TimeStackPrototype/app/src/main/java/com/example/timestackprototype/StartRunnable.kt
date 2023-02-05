@@ -10,9 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.postDelayed
-import com.example.timestackprototype.StartRunnable.runnable
-import com.google.gson.annotations.Until
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +26,7 @@ object StartRunnable {
         runnable = Runnable {
             makeNetworkRequest(txtView, EditTxtAddress, context, btnGet)
             handler.postDelayed(runnable, 30000) // Repeat task every 30 seconds
-            Log.e(TAG1,"GETTING data after 30 secs")
+            Log.i(TAG1,"GETTING data after 30 secs")
         }
         handler.postDelayed(runnable, 30)
     }
@@ -64,11 +61,9 @@ object StartRunnable {
                                         }
                                     }
                                 }
-
-                                Log.e(TAG1, "RAW, ${response.raw()}")
-                                Log.e(TAG1, "BODY, ${response.body()}")
-                                Log.e(TAG1, "HEADERS, ${response.headers()}")
-                                Log.e(TAG1, "CODE, ${response.code()}")
+                                Log.i(TAG1,"MESSAGE INFO")
+                                Log.i(TAG1, "RAW, ${response.raw()}")
+                                Log.i(TAG1, "BODY, ${response.body()}")
 
                                 btnGet.isEnabled = false
                                 btnGet.setBackgroundColor(Color.GREEN)
@@ -97,15 +92,9 @@ object StartRunnable {
 
                         @SuppressLint("SetTextI18n")
                         override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
-                            Log.e(TAG2, "NO")
-                            Log.e(TAG2, "$t")
+                            Log.i(TAG2, "POST Failed\n DEBUG INFO")
+                            Log.d(TAG2, "$t")
                             if(count == 0){
-                                println("the fuckkkk")
-//                                runnable = Runnable {
-//                                    Toast.makeText(context, "$t", Toast.LENGTH_LONG)
-//                                        .show()
-//                                }
-//                                handler.postDelayed(runnable, 5000)
                                 handler = Handler(Looper.getMainLooper())
                                 runnableToast = Runnable {
                                    Toast.makeText(context, "runnable stopped", Toast.LENGTH_LONG)
@@ -120,6 +109,7 @@ object StartRunnable {
                             btnGet.isEnabled = true
                             btnGet.text = "connect"
                             if(count != 4){
+                                Log.i(TAG1,"Retrying $count")
                                 count++
                                 startCheck(txtView, EditTxtAddress, context, btnGet)
                                 Toast.makeText(context, "Retrying $count", Toast.LENGTH_LONG)
