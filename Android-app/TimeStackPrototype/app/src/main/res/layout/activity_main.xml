@@ -21,11 +21,13 @@
 
     <Button
         android:id="@+id/btnGet"
-        android:layout_width="151dp"
+        android:layout_width="154dp"
         android:layout_height="73dp"
         android:layout_gravity="center"
         android:layout_marginBottom="25dp"
-        android:text="@string/get" />
+        android:text="@string/connect"
+        android:backgroundTint="@color/red"
+        />
 
     <TextView
         android:id="@+id/txtView"
