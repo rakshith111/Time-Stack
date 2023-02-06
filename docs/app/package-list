@@ -3,6 +3,7 @@ $dokka.linkExtension:html
 $dokka.location:com.example.timestackprototype////PointingToDeclaration/app/com.example.timestackprototype/index.html
 $dokka.location:com.example.timestackprototype//TAG1/#/PointingToDeclaration/app/com.example.timestackprototype/-t-a-g1.html
 $dokka.location:com.example.timestackprototype//TAG2/#/PointingToDeclaration/app/com.example.timestackprototype/-t-a-g2.html
+$dokka.location:com.example.timestackprototype//msgThread/#/PointingToDeclaration/app/com.example.timestackprototype/msg-thread.html
 $dokka.location:com.example.timestackprototype/GetService///PointingToDeclaration/app/com.example.timestackprototype/-get-service/index.html
 $dokka.location:com.example.timestackprototype/GetService/GetService/#/PointingToDeclaration/app/com.example.timestackprototype/-get-service/-get-service.html
 $dokka.location:com.example.timestackprototype/GetService/getTimeX/#android.widget.EditText/PointingToDeclaration/app/com.example.timestackprototype/-get-service/get-time-x.html
