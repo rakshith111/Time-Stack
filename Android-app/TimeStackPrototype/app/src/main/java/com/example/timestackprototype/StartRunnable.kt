@@ -13,22 +13,23 @@ import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.*
 
 object StartRunnable {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
     private lateinit var runnableToast: Runnable
     private lateinit var addressInput:String
+    private lateinit var executor: ScheduledExecutorService
+    private lateinit var task: ScheduledFuture<*>
     private var count:Int = 0
     var allMessages: MutableList<String> = mutableListOf("")
+
     fun startCheck(txtView: TextView, EditTxtAddress: EditText,context: Context, btnGet: Button){
-        handler = Handler(Looper.getMainLooper())
-        runnable = Runnable {
+        executor = Executors.newSingleThreadScheduledExecutor()
+        task = executor.scheduleAtFixedRate({
             makeNetworkRequest(txtView, EditTxtAddress, context, btnGet)
-            handler.postDelayed(runnable, 30000) // Repeat task every 30 seconds
-            Log.i(TAG1,"GETTING data after 30 secs")
-        }
-        handler.postDelayed(runnable, 30)
+        }, 0, 30, TimeUnit.SECONDS)
     }
 
          private fun makeNetworkRequest(txtView: TextView, EditTxtAddress: EditText, context: Context, btnGet: Button) {
@@ -104,11 +105,12 @@ object StartRunnable {
 
                             }
 
-                            handler.removeCallbacks(runnable)
+                            executor.shutdown()
+                            task.cancel(false)
                             btnGet.setBackgroundColor(Color.RED)
                             btnGet.isEnabled = true
                             btnGet.text = "connect"
-                            if(count != 4){
+                            if(count != 5){
                                 Log.i(TAG1,"Retrying $count")
                                 count++
                                 startCheck(txtView, EditTxtAddress, context, btnGet)
