@@ -1,11 +1,10 @@
 import datetime
 import time
 from fastapi import FastAPI, APIRouter
-from time import gmtime, strftime
 import uvicorn
 
 
-class Server:
+class ApiServer:
 
     def __init__(self):
         '''
@@ -48,10 +47,10 @@ class Server:
 
     def start(self):
         app = FastAPI()
-        hello = Server()
+        hello = ApiServer()
         app.include_router(hello.router)
         uvicorn.run(app, host="127.0.0.1", port=8000)
 
 
 if __name__ == "__main__":
-    Server().start()
+    ApiServer().start()
