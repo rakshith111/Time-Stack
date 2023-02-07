@@ -14,7 +14,7 @@ def make_android():
 
 
 def move_docs():
-    shutil.copytree("docs-builder\\index.html", "docs")
+    shutil.copy("docs-builder\\index.html", "docs\\index.html")
     subprocess.call(["git", "add", "docs"])
     subprocess.call(["git", "commit", "-m", "Update docs"])
     subprocess.call(["git", "push"])
