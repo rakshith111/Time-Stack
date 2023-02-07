@@ -1,6 +1,6 @@
 import subprocess
 import os
-import sys
+import shutil
 def make_python():
     os.chdir(os.path.join(os.path.dirname(
         os.path.dirname(__file__)), "docs-builder", ))
@@ -11,6 +11,22 @@ def make_android():
     os.chdir(os.path.join(os.path.dirname(
         os.path.dirname(__file__)), "Android-app", "TimeStackPrototype"))
     subprocess.run("gradlew.bat dokkaHtml", shell=True, check=True)
+def move_docs():
+    subprocess.call(["git", "add", "docs"])
+    subprocess.call(["git", "commit", "-m", "Update docs"])
+    subprocess.call(["git", "push"])
 
-make_python()
-make_android()
+    docs_path= os.path.join(os.path.dirname(os.path.dirname(__file__)) , "docs")
+    docs_move = os.path.join(os.path.dirname(
+        os.path.dirname(os.path.dirname(__file__))), "docs")
+    subprocess.run("xcopy /E /I /Y /Q "+docs_path+" "+docs_move, shell=True, check=True)
+
+    # Check out the docs branch
+    subprocess.call(["git", "checkout", "docs"])
+    # Move the docs folder to the root of the repository
+    subprocess.run("git checkout prototype -- docs ", shell=True, check=True)
+
+#make_python()
+#make_android()
+move_docs()
+# print(    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))) ))
