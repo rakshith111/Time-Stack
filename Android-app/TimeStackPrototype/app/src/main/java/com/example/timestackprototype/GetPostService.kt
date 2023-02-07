@@ -29,7 +29,7 @@ class GetService {
         // Create a new Retrofit instance
         val retrofit = Retrofit.Builder()
             .baseUrl(addressInput) // Set the base url to the address input provided by the user
-            .addConverterFactory(GsonConverterFactory.create()) // Use Gson for converting response to POJO
+            .addConverterFactory(GsonConverterFactory.create()) // Use Gson for converting response
             .build()
 
         // Create the TimeInterface object using the retrofit instance

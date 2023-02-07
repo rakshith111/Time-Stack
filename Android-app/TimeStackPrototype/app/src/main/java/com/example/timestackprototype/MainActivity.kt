@@ -109,8 +109,8 @@ class MainActivity : AppCompatActivity() {
                              * server fails
 
                              *
-                             * @param call
-                             * @param t
+                             * @param call The call that failed.
+                             * @param t The Throwable that caused the failure.
                              */
                             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                                 // Logging the error message for debugging purposes
@@ -211,6 +211,12 @@ class MainActivity : AppCompatActivity() {
                     onResult(null)
                 }
 
+                /**
+                 * On response
+                 *
+                 * @param call - The call object to retrieve the response
+                 * @param response - The response from the server
+                 */
                 // On response, show a success Toast and call the onResult function with the response body
                 override fun onResponse(call: Call<TimeApi>, response: Response<TimeApi>) {
                     val addedMessage = response.body()

@@ -68,6 +68,12 @@ object StartRunnable {
                 // Make the network request using Retrofit
                 GetService().getTimeX(EditTxtAddress).message()
                     .enqueue(object : Callback<Map<String, Any>> {
+                        /**
+                         * On response
+                         *
+                         * @param call - The call object to retrieve the response
+                         * @param response - The response from the server
+                         */
                         @SuppressLint("SetTextI18n")
                         override fun onResponse(
                             call: Call<Map<String, Any>>,
