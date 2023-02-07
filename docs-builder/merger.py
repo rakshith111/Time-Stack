@@ -8,7 +8,9 @@ def make_python():
 
 def make_android():
 
-      subprocess.call(["Android-app\\TimeStackPrototype\\gradlew.bat","dokkaHtml"], shell=True)
+    os.chdir("Android-app\\TimeStackPrototype")
+    subprocess.call(["gradlew.bat","dokkaHtml"], shell=True)
+    os.chdir("..\\..")
 
 
 def move_docs():
