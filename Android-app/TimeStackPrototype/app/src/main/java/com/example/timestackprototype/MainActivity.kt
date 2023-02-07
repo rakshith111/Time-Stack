@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
                         sendReq(TimeApi(message = messageInput)) {
                             // Logging a successful message send for debugging purposes
                             Log.i(TAG1, "Message sent")
-
+                            Log.i(msgThread, "Running on thread for POST request: ${Thread.currentThread().name}")
                             // Clearing the EditText field after the request is sent
                             binding.EditTxtMessage.setText("")
                         }
