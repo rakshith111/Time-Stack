@@ -20,7 +20,6 @@ const val msgThread = "thread"
 /**
  * Start runnable
  *
- * @constructor Create empty Start runnable
  */
 object StartRunnable {
     private lateinit var handler: Handler
