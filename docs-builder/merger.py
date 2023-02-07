@@ -22,9 +22,10 @@ def move_docs():
     # Check out the docs branch
     subprocess.call(["git", "checkout", "docs"])
     # Move the docs folder to the root of the repository
-    subprocess.run("git checkout prototype -- docs ", shell=True, check=True)
-    subprocess.run("git add docs", shell=True, check=True)
-    subprocess.run("git commit -m 'Update docs'", shell=True, check=True)
+    subprocess.call(["git","checkout","prototype","--","docs"])
+    subprocess.call(["git", "add", "docs"])
+    subprocess.call(["git", "commit", "-m", "Update docs"])
+    subprocess.call(["git", "push"])
 
 make_python()
 make_android()
