@@ -11,7 +11,11 @@ def make_android():
     os.chdir(os.path.join(os.path.dirname(
         os.path.dirname(__file__)), "Android-app", "TimeStackPrototype"))
     subprocess.run("gradlew.bat dokkaHtml", shell=True, check=True)
+
 def move_docs():
+    os.chdir(os.path.join(os.path.dirname(
+        os.path.dirname(__file__))))
+
     subprocess.call(["git", "add", "docs"])
     subprocess.call(["git", "commit", "-m", "Update docs"])
     subprocess.call(["git", "push"])
