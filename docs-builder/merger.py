@@ -16,11 +16,6 @@ def move_docs():
     subprocess.call(["git", "commit", "-m", "Update docs"])
     subprocess.call(["git", "push"])
 
-    docs_path= os.path.join(os.path.dirname(os.path.dirname(__file__)) , "docs")
-    docs_move = os.path.join(os.path.dirname(
-        os.path.dirname(os.path.dirname(__file__))), "docs")
-    subprocess.run("xcopy /E /I /Y /Q "+docs_path+" "+docs_move, shell=True, check=True)
-
     # Check out the docs branch
     subprocess.call(["git", "checkout", "docs"])
     # Move the docs folder to the root of the repository
