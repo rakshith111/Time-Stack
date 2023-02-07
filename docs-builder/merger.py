@@ -25,8 +25,9 @@ def move_docs():
     subprocess.call(["git", "checkout", "docs"])
     # Move the docs folder to the root of the repository
     subprocess.run("git checkout prototype -- docs ", shell=True, check=True)
+    subprocess.run("git add docs", shell=True, check=True)
+    subprocess.run("git commit -m 'Update docs'", shell=True, check=True)
 
-#make_python()
-#make_android()
+make_python()
+make_android()
 move_docs()
-# print(    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))) ))
