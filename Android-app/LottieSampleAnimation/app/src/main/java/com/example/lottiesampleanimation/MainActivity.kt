@@ -1,8 +1,7 @@
 package com.example.lottiesampleanimation
 
-import android.graphics.Point
+
 import android.os.Bundle
-import android.os.CountDownTimer
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -14,14 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toPointF
-import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.compose.*
 import com.example.lottiesampleanimation.ui.theme.LottieSampleAnimationTheme
 
 class MainActivity : ComponentActivity() {
 
-    private var timeRemaining: Long = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -49,8 +46,6 @@ fun Greeting(name: String) {
 
 @Composable
 fun Loader() {
-    var timeRemaining by remember { mutableStateOf(0) }
-    val totalTime = 100
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,54 +54,19 @@ fun Loader() {
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
-
-            val point = remember { Point() }
-            val dynamicProperties = rememberLottieDynamicProperties(
-                rememberLottieDynamicProperty(LottieProperty.TRANSFORM_POSITION, "Body") { frameInfo ->
-                    var startY = frameInfo.startValue.y.toInt()
-                    var endY = frameInfo.endValue.y.toInt()
-                    val timeFactor = timeRemaining
-                    when {
-                        startY > endY -> startY -= timeFactor
-                        else -> endY += timeFactor
-                    }
-                    point.set(frameInfo.startValue.x.toInt(), lerp(startY, endY, frameInfo.interpolatedKeyframeProgress.toInt()))
-                    point.toPointF()
-                }
-            )
-
-            LottieAnimation(
-                composition,
-                progress = {
-                    println(timeRemaining.toFloat())
-                    timeRemaining.toFloat()/totalTime
-
-                },
-                dynamicProperties = dynamicProperties
-            )
-
-            object : CountDownTimer(100000, 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-                    timeRemaining = (millisUntilFinished / 1000).toInt()
-//                    println(timeRemaining)
-                }
-
-                override fun onFinish() {
-                    println("over")
-                }
-
-            }.start()
+            val videoLength = composition?.duration
+            println(videoLength)
+            if (videoLength != null) {
+                LottieAnimation(
+                    composition,
+                    iterations = LottieConstants.IterateForever,
+                    clipSpec = LottieClipSpec.Progress(0f, 1f),
+                    speed = videoLength/100000
+                )
+            }
         }
     )
 }
-
-private fun lerp(valueA: Int, valueB: Int, progress: Int): Int {
-    val smallerY = minOf(valueA, valueB)
-    val largerY = maxOf(valueA, valueB)
-    return smallerY + progress * (largerY - smallerY)
-}
-
 
 @Preview(showBackground = true)
 @Composable
