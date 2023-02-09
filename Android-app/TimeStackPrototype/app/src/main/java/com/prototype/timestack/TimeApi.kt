@@ -1,4 +1,4 @@
-package com.example.timestackprototype
+package com.prototype.timestack
 
 import com.google.gson.annotations.SerializedName
 

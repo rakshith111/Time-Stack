@@ -1,4 +1,4 @@
-package com.example.timestackprototype
+package com.prototype.timestack
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

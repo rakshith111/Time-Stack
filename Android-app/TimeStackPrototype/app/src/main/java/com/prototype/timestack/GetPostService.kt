@@ -1,4 +1,4 @@
-package com.example.timestackprototype
+package com.prototype.timestack
 
 import android.widget.EditText
 import okhttp3.OkHttpClient
@@ -23,7 +23,7 @@ class GetService {
      * @param editTxtAddress: EditText object that contains the address input by the user
      * @return TimeInterface object created using the address input provided by the user
      */
-    fun getTimeX(editTxtAddress: EditText):TimeInterface {
+    fun getTimeX(editTxtAddress: EditText): TimeInterface {
         // Store the address input in the addressInput variable
         addressInput = editTxtAddress.text.toString()
         // Create a new Retrofit instance

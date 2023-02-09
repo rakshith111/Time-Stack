@@ -1,4 +1,4 @@
-package com.example.timestackprototype
+package com.prototype.timestack
 
 import retrofit2.Call
 import retrofit2.http.Body
