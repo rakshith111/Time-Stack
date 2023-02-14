@@ -1,7 +1,8 @@
 # Time-Stack
 
 ## Prototype Goal
-
+## To create a web application that allows users to post messages to a server and retrieve all messages posted to the server.
+## Basic networking architecture
 ### Create a web application that allows users to post messages to a server and retrieve all messages posted to the server.
 ## Server Side (Windows)
 - POST Request to server with a JSON object containing a message
