@@ -49,8 +49,12 @@ class StackSpace(QtWidgets.QWidget):
             f'Scrollbar vsibility is  {self.vertical_scrollbar.isVisible()}')
 
     def closeEvent(self, event: QCloseEvent):
+        '''
+        Overrides the closeEvent function to hide the window instead of closing it.
+        '''
         # Override the closeEvent and hide the window instead of closing it
         event.ignore()
+        logger.info('StackSpace Hide event called')
         self.hide()
 
 
@@ -103,6 +107,13 @@ class StackGen(QtWidgets.QWidget):
             f'Contents stack_name: {self.stack_name}, start_time_input: {dt_time1}, end_time_input: {dt_time2}, total_time_output: {temp}')
         self.stack_space.add_stack(self.stack_name, dt_time1, dt_time2)
         self.stack_space.show()
+
+    def closeEvent(self, event: QCloseEvent):
+        '''
+        Overrides the closeEvent function to close subwindows then close itself .
+        '''
+        self.stack_space.close()
+        logger.info('Stackgen closed')
 
 
 class Stack(QtWidgets.QWidget):
