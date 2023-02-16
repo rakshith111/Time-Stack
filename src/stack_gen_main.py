@@ -3,6 +3,7 @@ import logging
 import logging.config
 import os
 import sys
+from os import path
 
 import PyQt6.QtCore as QtCore
 from PyQt6 import QtWidgets
@@ -46,7 +47,7 @@ class StackSpace(QtWidgets.QWidget):
         logger.debug(
             f'Parms name: {name}, start_time: {start_time}, end_time: {end_time}')
         logger.debug(
-            f'Scrollbar vsibility is  {self.vertical_scrollbar.isVisible()}')
+            f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
 
     def closeEvent(self, event: QCloseEvent):
         '''
@@ -140,8 +141,9 @@ class Stack(QtWidgets.QWidget):
 
 if __name__ == '__main__':
 
-    logger_config_path = r'src\logging.ini'
-    logging.config.fileConfig(os.path.abspath(logger_config_path))
+
+    log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.ini')
+    logging.config.fileConfig(log_file_path)
     logger = logging.getLogger('QTApp')
     app = QtWidgets.QApplication(sys.argv)
     w = StackGen()
