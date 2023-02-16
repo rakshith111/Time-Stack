@@ -9,6 +9,7 @@ import PyQt6.QtCore as QtCore
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import QObject, QThread, QTimer
 from PyQt6.QtGui import QCloseEvent
+from PyQt6.QtWidgets import QMessageBox
 
 from ui_modules.Stack_gen import Ui_stack_gen
 from ui_modules.Stack_space import Ui_stack_space
@@ -77,6 +78,17 @@ class StackGen(QtWidgets.QWidget):
             QtCore.Qt.AlignmentFlag.AlignCenter)
         self.stack_gen_ui.create_stack_button.clicked.connect(
             self.create_stack)
+        self.warningmsg = QMessageBox()
+        self.warningmsg.setIcon(QMessageBox.Icon.Warning)
+        self.warningmsg.setWindowTitle("Error")
+        self.warningmsg.setStandardButtons(QMessageBox.StandardButton.Close)
+
+        self.informationmsg = QMessageBox()
+        self.informationmsg.setIcon(QMessageBox.Icon.Information)
+        self.informationmsg.setGeometry(QtCore.QRect(800, 600, 651, 300))
+        self.informationmsg.setWindowTitle("Information")
+        self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
+        self.informationmsg.show()
         self.stack_space = StackSpace()
 
     def create_stack(self) -> None:
@@ -103,9 +115,28 @@ class StackGen(QtWidgets.QWidget):
         self.stack_gen_ui.total_time_output.setText(temp.strftime("%H:%M"))
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
-        # Create a new thread to run the stack generator
+        # optionally Create a new thread to run the stack generator
         logger.debug(
             f'Contents stack_name: {self.stack_name}, start_time_input: {dt_time1}, end_time_input: {dt_time2}, total_time_output: {temp}')
+        if self.stack_name == "":
+            self.warningmsg.setText("Please enter a stack name")
+            self.warningmsg.exec()
+            return
+        if dt_time1 > dt_time2:
+            self.warningmsg.setText(
+                "End time cannot be before start time")
+            self.warningmsg.exec()
+            return
+        if dt_time1 == dt_time2:
+            self.warningmsg.setText(
+                "End time cannot be the same as start time")
+            self.warningmsg.exec()
+            return
+        self.informationmsg.setText(
+            f"Stack {self.stack_name} created with start time {dt_time1} and end time {dt_time2}")
+        self.informationmsg.exec()
+
+
         self.stack_space.add_stack(self.stack_name, dt_time1, dt_time2)
         self.stack_space.show()
 
