@@ -30,6 +30,7 @@ fun AddInputDialog(
                     onValueChange = onActivityTimeChange,
                     label = { Text("Activity Time") }
                 )
+                TimePicker(onTimeSelected = { println("d") })
             }
         },
         confirmButton = {
