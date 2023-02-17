@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     var openDialog by remember { mutableStateOf(false) }
+
                     Greeting("Android")
                     Container(context = this)
                 }
