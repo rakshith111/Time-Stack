@@ -9,8 +9,8 @@ import androidx.compose.runtime.*
 fun AddInputDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
-    activityName: String, onActivityNameChange: (String) -> Unit,
-    activityTime: String, onActivityTimeChange: (String) -> Unit){
+    activityName: String, onActivityNameChange: (String) -> Unit, onActivityTimeChange: (String) -> Unit){
+    var timeInMilli = "0"
     AlertDialog(
         onDismissRequest = {
             onDismiss()
@@ -25,17 +25,13 @@ fun AddInputDialog(
                     onValueChange = onActivityNameChange,
                     label = { Text("Activity Name") }
                 )
-                OutlinedTextField(
-                    value = activityTime,
-                    onValueChange = onActivityTimeChange,
-                    label = { Text("Activity Time") }
-                )
-                TimePicker(onTimeSelected = { println("d") })
+                TimePicker(onTimeSelected = { timeInMilli = it.toString()})
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
+                    onActivityTimeChange(timeInMilli)
                     onConfirm()
                 }
             ) {
