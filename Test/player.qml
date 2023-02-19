@@ -13,7 +13,7 @@ Item {
         // working small_play.json,loading.json,smal.json
         // play.json long time to load 
         // rest of the json files not working
-        source: "http://127.0.0.1:8000/small_play.json"
+        source: "http://127.0.0.1:8000/full_loading.json"
         onStatusChanged : {
             if (status === LottieAnimation.Ready)
             {
