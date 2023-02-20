@@ -26,6 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import com.example.timestackbeta.R
+import com.example.timestackbeta.StackTimer
 
 
 @Composable
@@ -38,7 +39,17 @@ fun Container(context:Context) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
     val activeStack = remember { mutableStateListOf<Boolean>()}
+    val finished = remember { mutableStateListOf<Boolean>()}
+    var threadStarted by remember { mutableStateOf(false) }
+    var threadFirstTime by remember { mutableStateOf(true) }
+    var totalPausedTime by remember { mutableStateOf(0L) }
     var play by remember { mutableStateOf(false) }
+    var buttonPressed by remember{ mutableStateOf(false) }
+    var buttonPressedFirstTime by remember{ mutableStateOf(0) }
+    var pauseTime by remember { mutableStateOf(0L) }
+    val stackObject by remember { mutableStateOf(StackTimer()) }
+    var elapsedTime = 0L
+    var currentTime: Long
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -54,10 +65,29 @@ fun Container(context:Context) {
                 LazyColumn(Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
                     itemsIndexed(activityNameList){
                         index, item ->
-                        val endTime = System.currentTimeMillis()
-                        val elapsedTime = endTime - startTime[index]
+                        if(buttonPressed){
+                            println("button presserd sd")
+                             if(play){
+                                elapsedTime = pauseTime - startTime[index] - totalPausedTime
+                            }
+                            buttonPressed = false
+                        } else {
+                            println("curent time")
+                            currentTime = System.currentTimeMillis()
+                            elapsedTime = currentTime - startTime[index] - totalPausedTime
+                        }
+
                         Log.i("start_time","${index + 1} $elapsedTime elapsed time ${activityNameList.size}")
-                        Loader(elapsedTime, activityTimeList[index], play, activeStack[index])
+                        Loader(elapsedTime, activityTimeList[index], play, activeStack[index], finished[index], {
+                            activeStack[index] = false
+                        }){
+                            finished[index] = true
+                            if(activeStack.size > index + 1){
+                                activeStack[index + 1] = true
+                                startTime[index + 1] = System.currentTimeMillis()
+                                totalPausedTime = 0
+                            }
+                        }
                         Text(
                             item, textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
@@ -86,9 +116,22 @@ fun Container(context:Context) {
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
-
                 PlayPauseButton(isPlaying = play) {
                     play = it
+                    buttonPressed = true
+                    stackObject.apply {
+                        if (!it and !threadFirstTime) {
+                            pauseTime = System.currentTimeMillis()
+                            startTimer()
+                            println("Timer started")
+                            threadStarted = true
+                        } else if (threadStarted) {
+                            stopTimer {time-> totalPausedTime += (time * 1000) }
+                            threadStarted = false
+                        }
+                        threadFirstTime = false
+                    }
+
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 ElevatedButton(onClick = {
@@ -101,10 +144,7 @@ fun Container(context:Context) {
                         textAlign = TextAlign.Center,
                     )
                 }
-
-
             }
-
         }
     }
     when {
@@ -115,7 +155,12 @@ fun Container(context:Context) {
                     activityNameList.add(activityName)
                     activityTimeList.add(activityTime.toLong())
                     startTime.add(System.currentTimeMillis())
-                    activeStack.add(true)
+                    finished.add(false)
+                    if(activityNameList.size == 1){
+                        activeStack.add(true)
+                    } else {
+                        activeStack.add(false)
+                    }
                     startTime.forEach { i ->
                         Log.i("start_time", "$i Hello")
                     }
@@ -135,6 +180,7 @@ fun Container(context:Context) {
                     activityTimeList.removeLast()
                     startTime.removeLast()
                     activeStack.removeLast()
+                    finished.removeLast()
                     startTime.forEach { i ->
                         Log.i("start_time", "$i Hello remove")
                     }
@@ -169,6 +215,7 @@ fun PlayPauseButton(
         }
     }
 }
+
 
 
 
