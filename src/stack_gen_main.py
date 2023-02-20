@@ -136,7 +136,6 @@ class StackGen(QtWidgets.QWidget):
             f"Stack {self.stack_name} created with start time {dt_time1} and end time {dt_time2}")
         self.informationmsg.exec()
 
-
         self.stack_space.add_stack(self.stack_name, dt_time1, dt_time2)
         self.stack_space.show()
 
@@ -172,8 +171,8 @@ class Stack(QtWidgets.QWidget):
 
 if __name__ == '__main__':
 
-
-    log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.ini')
+    log_file_path = path.join(path.dirname(
+        path.abspath(__file__)), 'logging.ini')
     logging.config.fileConfig(log_file_path)
     logger = logging.getLogger('QTApp')
     app = QtWidgets.QApplication(sys.argv)
