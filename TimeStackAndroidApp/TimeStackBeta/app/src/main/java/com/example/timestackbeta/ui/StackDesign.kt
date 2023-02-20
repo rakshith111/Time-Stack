@@ -9,11 +9,13 @@ import com.airbnb.lottie.compose.*
 import com.example.timestackbeta.R
 
 @Composable
-fun Loader(elapsedTime: Long, totalTime: Long, play: Boolean) {
+fun Loader(elapsedTime: Long, totalTime: Long, play: Boolean, activeStack: Boolean) {
     var speedTime = totalTime
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
     val videoLength = composition?.duration
     val progress:Float
+    var isPlaying = play
+
     if (videoLength != null) {
         progress = if (elapsedTime > totalTime){
             speedTime = 1L
@@ -21,14 +23,22 @@ fun Loader(elapsedTime: Long, totalTime: Long, play: Boolean) {
         } else {
             elapsedTime.toFloat() / totalTime
         }
+        if(!activeStack){
+            isPlaying = false
+        }
+        val progressAsState by animateLottieCompositionAsState(composition = composition,
+            clipSpec = LottieClipSpec.Progress(progress, 1f),
+            isPlaying = isPlaying,speed = videoLength/speedTime)
 
         LottieAnimation(
-            composition,
+            composition = composition,
+            progress = { progressAsState },
             modifier = Modifier.requiredHeight(350.dp),
-            clipSpec = LottieClipSpec.Progress(progress, 1f),
-            speed = videoLength/speedTime,
-            contentScale = ContentScale.FillHeight,
-            isPlaying = play
+            contentScale = ContentScale.FillHeight
         )
+        if (progressAsState == 1F){
+            println("THE END")
+        }
     }
+
 }

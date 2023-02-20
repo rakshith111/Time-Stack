@@ -37,6 +37,7 @@ fun Container(context:Context) {
     var activityTime by remember { mutableStateOf("") }
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
+    val activeStack = remember { mutableStateListOf<Boolean>()}
     var play by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -56,7 +57,7 @@ fun Container(context:Context) {
                         val endTime = System.currentTimeMillis()
                         val elapsedTime = endTime - startTime[index]
                         Log.i("start_time","${index + 1} $elapsedTime elapsed time ${activityNameList.size}")
-                        Loader(elapsedTime, activityTimeList[index], play)
+                        Loader(elapsedTime, activityTimeList[index], play, activeStack[index])
                         Text(
                             item, textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
@@ -114,6 +115,7 @@ fun Container(context:Context) {
                     activityNameList.add(activityName)
                     activityTimeList.add(activityTime.toLong())
                     startTime.add(System.currentTimeMillis())
+                    activeStack.add(true)
                     startTime.forEach { i ->
                         Log.i("start_time", "$i Hello")
                     }
@@ -132,6 +134,7 @@ fun Container(context:Context) {
                     activityNameList.removeLast()
                     activityTimeList.removeLast()
                     startTime.removeLast()
+                    activeStack.removeLast()
                     startTime.forEach { i ->
                         Log.i("start_time", "$i Hello remove")
                     }
