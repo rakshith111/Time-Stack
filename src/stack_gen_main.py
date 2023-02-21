@@ -1,20 +1,74 @@
 import datetime
 import logging
 import logging.config
-import os
 import sys
+import time
 from os import path
 
 import PyQt6.QtCore as QtCore
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import QObject, QThread, QTimer
+from PyQt6.QtCore import QObject, QThread, QTimer, pyqtSignal
 from PyQt6.QtGui import QCloseEvent
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import (QApplication, QMessageBox, QProgressBar,
+                             QPushButton, QVBoxLayout, QWidget)
 
+from ui_modules.progressbar_test import Ui_Form
 from ui_modules.Stack_gen import Ui_stack_gen
 from ui_modules.Stack_space import Ui_stack_space
 
 
+class Thread(QThread):
+
+    _signal = pyqtSignal(int)
+
+    def __init__(self,maxsize):
+    
+        super(Thread, self).__init__()
+        self.maxsize=maxsize
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        for count in range(self.maxsize+1):
+            time.sleep(1)
+            self._signal.emit(self.maxsize-count)
+
+class Progress(QtWidgets.QWidget):
+    def __init__(self, parent=None) -> None:
+        '''
+        Initializes the Stackgen class and sets up the UI.
+
+        '''
+
+        super(Progress, self).__init__(parent=parent)
+        self.progress_ui = Ui_Form()
+        self.progress_ui.setupUi(self)
+        self.progress_ui.progressBar.setValue(0)
+        self.progress_ui.progressBar.setStyleSheet('QString::fromUtf8("text-align: center;")')
+        self.progress_ui.progressBar.setTextVisible(True)
+        self.progress_ui.progressBar.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.progress_ui.pushButton.clicked.connect(self.start_progress)
+ 
+
+    def start_progress(self):
+        self.progress_end= self.progress_ui.plainTextEdit.toPlainText()
+        self.progress_end=int(self.progress_end)
+        self.progress_ui.progressBar.setFormat(f"{self.progress_end} task @ %p%")
+        self.progress_ui.progressBar.setRange(0, self.progress_end)
+        self.progress_ui.progressBar.setValue(self.progress_end)
+
+        self.thread = Thread(self.progress_end)
+        self.thread._signal.connect(self.signal_accept)
+        self.thread.start()
+        self.progress_ui.pushButton.setEnabled(False)
+
+    def signal_accept(self, progress):
+        print(int(progress))
+        self.progress_ui.progressBar.setValue(int(progress))
+        if self.progress_ui.progressBar.value() == 0:
+            self.progress_ui.progressBar.setValue(0)
+            self.progress_ui.pushButton.setEnabled(True)
 class StackSpace(QtWidgets.QWidget):
 
     def __init__(self, parent=None) -> None:
@@ -176,6 +230,6 @@ if __name__ == '__main__':
     logging.config.fileConfig(log_file_path)
     logger = logging.getLogger('QTApp')
     app = QtWidgets.QApplication(sys.argv)
-    w = StackGen()
+    w = Progress()
     w.show()
     sys.exit(app.exec())
