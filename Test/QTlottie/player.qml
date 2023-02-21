@@ -5,17 +5,17 @@ Item {
     width: 600
     height: 600
 
-    property string myProperty: ""
+    property string Src: ""
         LottieAnimation {
             anchors.fill: parent
             loops: LottieAnimation.Infinite
             direction: LottieAnimation.Forward
-
+            
             // working full_loading.json, small_play.json, loading.json, smal.json, stars.json, online_converted.json
             // play.json long time to load
             // rest of the json files not working
 
-            source: myProperty
+            source: Src
 
             onStatusChanged: {
                 console.log("status", status);

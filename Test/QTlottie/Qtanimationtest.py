@@ -6,12 +6,6 @@ import sys
 from pathlib import Path
 
 from PyQt6 import QtCore, QtQuickWidgets, QtWidgets
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QApplication, QLabel, QScrollArea, QVBoxLayout,
-                             QWidget)
-from PyQt6.QtCore import QObject, QVariant
-from PyQt6.QtGui import QGuiApplication
-from PyQt6.QtQml import QQmlApplicationEngine
 
 
 class MyWidget(QtWidgets.QWidget):
@@ -35,7 +29,6 @@ class MyWidget(QtWidgets.QWidget):
         # Start a local HTTP server to serve the QML file
         subprocess.Popen([sys.executable, "-m", "http.server",
                          "-b", "127.0.0.1", "-d", "test/animation"])
-        
 
         # Create the QML widget
         self.animation_widget = QtQuickWidgets.QQuickWidget(
@@ -50,7 +43,6 @@ class MyWidget(QtWidgets.QWidget):
 
         # Set a property on the root QML object to pass data from Python to QML
         self.root_object = self.animation_widget.rootObject()
- 
 
     def submit(self):
         # Get the value of the input field
@@ -58,12 +50,11 @@ class MyWidget(QtWidgets.QWidget):
 
         # Use the value to update the QML animation
 
-        self.root_object.setProperty("myProperty", input_value)
-
+        self.root_object.setProperty("Src", input_value)
 
 
 if __name__ == "__main__":
-    
+
     CURRENT_DIRECTORY = Path(__file__).resolve().parent
     app = QtWidgets.QApplication(sys.argv)
     widget = MyWidget()
