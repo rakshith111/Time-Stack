@@ -2,7 +2,10 @@ import time
 import PyQt6.QtCore as QtCore
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import QThread, pyqtSignal
-
+from _base_logger import logger
+from _base_logger import CURRENT_DIR
+from os import path
+qss_file = open(path.join(CURRENT_DIR, 'ui_files', 'stack.qss'),'r').read()
 
 class Thread(QThread):
 
@@ -49,78 +52,7 @@ class Stack(QtWidgets.QWidget):
     def return_stack_bar(self, task_name, progress_end):
         self.progressBar = QtWidgets.QProgressBar()
         self.progressBar.setRange(0, progress_end)
-        self.progressBar.setStyleSheet('''
-      
-        QProgressBar {
-                border: 1px solid black;
-                text-align: center;
-                padding: 1px;
-                border-bottom-right-radius: 7px;
-                border-bottom-left-radius: 7px;
-                background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,
-                stop: 0 #fff,
-                stop: 0.4999 #eee,
-                stop: 0.5 #ddd,
-                stop: 1 #eee );
-                width: 15px;
-                }
-
-        QProgressBar::chunk {
-                background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,
-                stop: 0 #78d,
-                stop: 0.4999 #46a,
-                stop: 0.5 #45a,
-                stop: 1 #238 );
-                border-bottom-right-radius: 7px;
-                border-bottom-left-radius: 7px;
-                border: 1px solid black;
-                }
-        QProgressBar::groove:horizontal {
-                border: 1px solid black;
-                border-top-right-radius: 7px;
-                border-top-left-radius: 7px;
-                background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,
-                stop: 0 #fff,
-                stop: 0.4999 #eee,
-                stop: 0.5 #ddd,
-                stop: 1 #eee );
-                width: 15px;
-                }
-        QProgressBar::chunk:horizontal {
-                background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,
-                stop: 0 #78d,
-                stop: 0.4999 #46a,
-                stop: 0.5 #45a,
-                stop: 1 #238 );
-                border-top-right-radius: 7px;
-                border-top-left-radius: 7px;
-                border: 1px solid black;
-                }
-        QProgressBar::groove:vertical {
-                border: 1px solid black;
-                border-bottom-right-radius: 7px;
-                border-top-right-radius: 7px;
-                background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,
-                stop: 0 #fff,
-                stop: 0.4999 #eee,
-                stop: 0.5 #ddd,
-                stop: 1 #eee );
-                width: 15px;
-                }
-        QProgressBar::chunk:vertical {
-                background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0,
-                stop: 0 #78d,
-                stop: 0.4999 #46a,
-                stop: 0.5 #45a,
-                stop: 1 #238 );
-                border-bottom-right-radius: 7px;
-                border-top-right-radius: 7px;
-                border: 1px solid black;
-                }
-
-        
- 
-        ''')
+        self.progressBar.setStyleSheet(qss_file)
         self.progressBar.setFixedSize(180,250)
         self.progressBar.setFormat(f"{task_name} task @ %p%")
         self.progressBar.setOrientation(QtCore.Qt.Orientation.Vertical)
@@ -142,6 +74,7 @@ if __name__ == '__main__':
 
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle('Fusion')
     w = Stack()
     w.show()
     sys.exit(app.exec())
