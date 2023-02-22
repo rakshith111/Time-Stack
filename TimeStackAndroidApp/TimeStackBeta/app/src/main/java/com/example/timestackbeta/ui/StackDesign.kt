@@ -10,34 +10,38 @@ import com.example.timestackbeta.R
 
 @Composable
 fun Loader(
-    elapsedTime: Long,
+    totalPlayed: Int,
     totalTime: Long,
     play: Boolean,
     activeStack: Boolean,
     finished: Boolean,
     onActiveStackChange: () -> Unit,
-    onFinishedChange: () -> Unit
+    onFinishedChange: () -> Unit,
 ) {
     var speedTime = totalTime
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.water_loading))
     val videoLength = composition?.duration
     var progress: Float
     var isPlaying = play
+    val totalPlayedTime = totalPlayed * 1000
     if (videoLength != null) {
-        progress = if (elapsedTime > totalTime) {
+        progress = if ( totalPlayedTime > totalTime) {
             speedTime = 1L
             1f
         } else {
-            elapsedTime.toFloat() / totalTime
+            totalPlayedTime.toFloat() / totalTime
         }
         if (finished) {
+            println("1")
             progress = 1F
         }
         if (!activeStack and !finished) {
+            println("activeNotActive")
             progress = 0F
             isPlaying = false
         }
         if(!activeStack and finished and !isPlaying){
+            println("3")
             progress = 1F
             isPlaying = true
         }
@@ -53,9 +57,11 @@ fun Loader(
             modifier = Modifier.requiredHeight(350.dp),
             contentScale = ContentScale.FillHeight
         )
-        if (progressAsState == 1F) {
-            onActiveStackChange()
-            onFinishedChange()
+        LaunchedEffect(progressAsState) {
+            if (progressAsState == 1F) {
+                onActiveStackChange()
+                onFinishedChange()
+            }
         }
     }
 }
