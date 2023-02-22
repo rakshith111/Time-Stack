@@ -7,10 +7,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
@@ -33,23 +33,17 @@ import com.example.timestackbeta.StackTimer
 fun Container(context:Context) {
     val activityNameList = remember { mutableStateListOf<String>() }
     val activityTimeList = remember { mutableStateListOf<Long>() }
-    val startTime = remember { mutableStateListOf<Long>() }
     var activityName by remember { mutableStateOf("") }
     var activityTime by remember { mutableStateOf("") }
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
-    val activeStack = remember { mutableStateListOf<Boolean>()}
-    val finished = remember { mutableStateListOf<Boolean>()}
+    val activeStack = remember { mutableStateListOf<Boolean>() }
+    val finished = remember { mutableStateListOf<Boolean>() }
     var threadStarted by remember { mutableStateOf(false) }
-    var threadFirstTime by remember { mutableStateOf(true) }
-    var totalPausedTime by remember { mutableStateOf(0L) }
+    var totalPlayedTime by remember { mutableStateOf(0) }
     var play by remember { mutableStateOf(false) }
     var buttonPressed by remember{ mutableStateOf(false) }
-    var buttonPressedFirstTime by remember{ mutableStateOf(0) }
-    var pauseTime by remember { mutableStateOf(0L) }
     val stackObject by remember { mutableStateOf(StackTimer()) }
-    var elapsedTime = 0L
-    var currentTime: Long
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -62,30 +56,21 @@ fun Container(context:Context) {
                     .clip(shape = RoundedCornerShape(size = 12.dp))
                     .background(color = Color(0xFF82D8FF))
             ) {
-                LazyColumn(Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
-                    itemsIndexed(activityNameList){
-                        index, item ->
-                        if(buttonPressed){
-                            println("button presserd sd")
-                             if(play){
-                                elapsedTime = pauseTime - startTime[index] - totalPausedTime
-                            }
-                            buttonPressed = false
-                        } else {
-                            println("curent time")
-                            currentTime = System.currentTimeMillis()
-                            elapsedTime = currentTime - startTime[index] - totalPausedTime
-                        }
-
-                        Log.i("start_time","${index + 1} $elapsedTime elapsed time ${activityNameList.size}")
-                        Loader(elapsedTime, activityTimeList[index], play, activeStack[index], finished[index], {
+                Column(Modifier.fillMaxHeight().verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.Center) {
+                    activityNameList.forEachIndexed{ index, item ->
+                        Log.i("start_time","${index + 1} $totalPlayedTime totalPlayedTime  ${activityNameList.size}")
+                        Loader(totalPlayedTime, activityTimeList[index], play, activeStack[index], finished[index],{
+//                            println("active stack false")
                             activeStack[index] = false
                         }){
+//                            println("finish stack false")
                             finished[index] = true
                             if(activeStack.size > index + 1){
                                 activeStack[index + 1] = true
-                                startTime[index + 1] = System.currentTimeMillis()
-                                totalPausedTime = 0
+                                println("afer finsihed $totalPlayedTime")
+                                stackObject.stopTimer { time-> totalPlayedTime = 0}
+                                play = false
                             }
                         }
                         Text(
@@ -119,17 +104,16 @@ fun Container(context:Context) {
                 PlayPauseButton(isPlaying = play) {
                     play = it
                     buttonPressed = true
+                    println("1play")
                     stackObject.apply {
-                        if (!it and !threadFirstTime) {
-                            pauseTime = System.currentTimeMillis()
-                            startTimer()
+                        if (it) {
+                            startTimer(totalPlayedTime)
                             println("Timer started")
                             threadStarted = true
                         } else if (threadStarted) {
-                            stopTimer {time-> totalPausedTime += (time * 1000) }
+                            stopTimer {time-> totalPlayedTime = (time) }
                             threadStarted = false
                         }
-                        threadFirstTime = false
                     }
 
                 }
@@ -154,15 +138,11 @@ fun Container(context:Context) {
                     Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show()
                     activityNameList.add(activityName)
                     activityTimeList.add(activityTime.toLong())
-                    startTime.add(System.currentTimeMillis())
                     finished.add(false)
                     if(activityNameList.size == 1){
                         activeStack.add(true)
                     } else {
                         activeStack.add(false)
-                    }
-                    startTime.forEach { i ->
-                        Log.i("start_time", "$i Hello")
                     }
                     openDialogAdd = false
                 },
@@ -178,12 +158,8 @@ fun Container(context:Context) {
                     Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show()
                     activityNameList.removeLast()
                     activityTimeList.removeLast()
-                    startTime.removeLast()
                     activeStack.removeLast()
                     finished.removeLast()
-                    startTime.forEach { i ->
-                        Log.i("start_time", "$i Hello remove")
-                    }
                     openDialogRemove = false
                 },
                 onDismiss = { openDialogRemove = false },

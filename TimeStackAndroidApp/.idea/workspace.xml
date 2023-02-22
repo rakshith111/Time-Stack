@@ -5,52 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab00e704-eb9b-4dae-b888-cae519161b54" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/androidTest/java/com/example/timestackbeta/ExampleInstrumentedTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/MainActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/theme/Color.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/theme/Shape.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/theme/Theme.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/theme/Type.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-anydpi-v33/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/values/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/test/java/com/example/timestackbeta/ExampleUnitTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TimeStackBeta/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/Container.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/Container.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/StackDesign.kt" beforeDir="false" afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/java/com/example/timestackbeta/ui/StackDesign.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/raw/loading.json" beforeDir="false" afterPath="$PROJECT_DIR$/TimeStackBeta/app/src/main/res/raw/loading.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Dell\.android\avd\Pixel_6_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[2B191JEGR02490]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -58,6 +23,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2LdIgPwlzitATpSEmanU90GvCVU" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -71,6 +39,7 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "E:/Time-Stack/TimeStackAndroidApp",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
@@ -132,9 +101,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
