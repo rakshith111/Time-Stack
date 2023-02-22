@@ -12,7 +12,6 @@ from PyQt6.QtGui import QCloseEvent
 from PyQt6.QtWidgets import (QApplication, QMessageBox, QProgressBar,
                              QPushButton, QVBoxLayout, QWidget)
 
-from ui_modules.progressbar_test import Ui_Form
 from ui_modules.Stack_gen import Ui_stack_gen
 from ui_modules.Stack_space import Ui_stack_space
 
