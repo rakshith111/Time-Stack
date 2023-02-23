@@ -7,7 +7,6 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -28,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
@@ -52,7 +50,6 @@ fun Container(context:Context) {
     var buttonPressed by remember{ mutableStateOf(false) }
     val selectedItems = remember { mutableStateListOf<Int>() }
     val haptic = LocalHapticFeedback.current
-    val context = LocalContext.current
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -107,7 +104,7 @@ fun Container(context:Context) {
                                 if(activeStack.size > index + 1){
                                     activeStack[index + 1] = true
                                     println("afer finsihed $totalPlayedTime")
-                                    StackTimer.stopTimer { time-> totalPlayedTime = 0}
+                                    StackTimer.stopTimer {totalPlayedTime = 0}
                                     play = false
                                 }
                             }
