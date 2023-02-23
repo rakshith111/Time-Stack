@@ -50,7 +50,6 @@ fun Container(context:Context) {
     var totalPlayedTime by remember { mutableStateOf(0) }
     var play by remember { mutableStateOf(false) }
     var buttonPressed by remember{ mutableStateOf(false) }
-    val stackObject by remember { mutableStateOf(StackTimer()) }
     val selectedItems = remember { mutableStateListOf<Int>() }
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -108,7 +107,7 @@ fun Container(context:Context) {
                                 if(activeStack.size > index + 1){
                                     activeStack[index + 1] = true
                                     println("afer finsihed $totalPlayedTime")
-                                    stackObject.stopTimer { time-> totalPlayedTime = 0}
+                                    StackTimer.stopTimer { time-> totalPlayedTime = 0}
                                     play = false
                                 }
                             }
@@ -145,16 +144,14 @@ fun Container(context:Context) {
                     play = it
                     buttonPressed = true
                     println("1play")
-                    stackObject.apply {
                         if (it) {
-                            startTimer(totalPlayedTime)
+                            StackTimer.startTimer(totalPlayedTime)
                             println("Timer started")
                             threadStarted = true
                         } else if (threadStarted) {
-                            stopTimer {time-> totalPlayedTime = (time) }
+                            StackTimer.stopTimer {time-> totalPlayedTime = (time) }
                             threadStarted = false
                         }
-                    }
 
                 }
                 Spacer(modifier = Modifier.width(10.dp))
@@ -213,10 +210,15 @@ fun Container(context:Context) {
                     finished.clear()
                     finished.addAll(newFinished)
 
-                    selectedItems.clear()
                     openDialogRemove = false
+                    if (threadStarted and selectedItems.contains(0)){
+                        StackTimer.stopTimer { totalPlayedTime = 0 }
+                        play = false
+                        if(activeStack.size >= 1){
+                            activeStack[0] = true
+                        }
+                }
                     selectedItems.clear()
-                    openDialogRemove = false
                 },
                 onDismiss = { openDialogRemove = false },
             )
