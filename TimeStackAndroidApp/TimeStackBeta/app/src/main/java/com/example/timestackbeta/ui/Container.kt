@@ -84,7 +84,7 @@ fun Container(context:Context) {
                                     detectTapGestures(
                                         onLongPress = {
                                             if (!selectedItems.contains(index)) {
-                                                println("pressed")
+                                                println("pressed $index")
                                                 selectedItems.add(index)
                                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                             }
@@ -196,13 +196,26 @@ fun Container(context:Context) {
             RemoveInputDialog(
                 onConfirm = {
                     Toast.makeText(context, "Stack Removed", Toast.LENGTH_SHORT).show()
-                    for(i in selectedItems){
-                        activityNameList.removeAt(i)
-                        activityTimeList.removeAt(i)
-                        activeStack.removeAt(i)
-                        finished.removeAt(i)
-                        selectedItems.removeAt(i)
-                    }
+                    val newActivityNameList = activityNameList.filterIndexed { index, _ ->  index !in selectedItems }
+                    val newActivityTimeList = activityTimeList.filterIndexed { index, _ ->  index !in selectedItems }
+                    val newActiveStack = activeStack.filterIndexed { index, _ ->  index !in selectedItems }
+                    val newFinished = finished.filterIndexed { index, _ ->  index !in selectedItems }
+
+                    activityNameList.clear()
+                    activityNameList.addAll(newActivityNameList)
+
+                    activityTimeList.clear()
+                    activityTimeList.addAll(newActivityTimeList)
+
+                    activeStack.clear()
+                    activeStack.addAll(newActiveStack)
+
+                    finished.clear()
+                    finished.addAll(newFinished)
+
+                    selectedItems.clear()
+                    openDialogRemove = false
+                    selectedItems.clear()
                     openDialogRemove = false
                 },
                 onDismiss = { openDialogRemove = false },
