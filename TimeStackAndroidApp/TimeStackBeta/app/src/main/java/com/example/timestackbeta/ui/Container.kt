@@ -2,10 +2,13 @@ package com.example.timestackbeta.ui
 
 
 import AddInputDialog
+import RemoveInputDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -23,6 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import com.example.timestackbeta.R
@@ -44,6 +51,9 @@ fun Container(context:Context) {
     var play by remember { mutableStateOf(false) }
     var buttonPressed by remember{ mutableStateOf(false) }
     val stackObject by remember { mutableStateOf(StackTimer()) }
+    val selectedItems = remember { mutableStateListOf<Int>() }
+    val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -56,25 +66,55 @@ fun Container(context:Context) {
                     .clip(shape = RoundedCornerShape(size = 12.dp))
                     .background(color = Color(0xFF82D8FF))
             ) {
-                Column(Modifier.fillMaxHeight().verticalScroll(rememberScrollState()),
+                Column(
+                    Modifier
+                        .fillMaxHeight()
+                        .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.Center) {
-                    activityNameList.forEachIndexed{ index, item ->
-                        Log.i("start_time","${index + 1} $totalPlayedTime totalPlayedTime  ${activityNameList.size}")
-                        Loader(totalPlayedTime, activityTimeList[index], play, activeStack[index], finished[index],{
+
+                    repeat(activityNameList.size){ index ->
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    if (selectedItems.contains(index))
+                                        Color.LightGray else Color.Transparent
+                                )
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onLongPress = {
+                                            if (!selectedItems.contains(index)) {
+                                                println("pressed")
+                                                selectedItems.add(index)
+                                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                            }
+                                        },
+                                        onTap = {
+                                            if (selectedItems.contains(index)) {
+                                                println("deselect")
+                                                selectedItems.remove(index)
+                                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                            }
+                                        }
+                                    )
+                                }){
+                            Log.i("start_time","${index + 1} $totalPlayedTime totalPlayedTime  ${activityNameList.size}")
+                            Loader(totalPlayedTime, activityTimeList[index], play, activeStack[index], finished[index],{
 //                            println("active stack false")
-                            activeStack[index] = false
-                        }){
+                                activeStack[index] = false
+                            }){
 //                            println("finish stack false")
-                            finished[index] = true
-                            if(activeStack.size > index + 1){
-                                activeStack[index + 1] = true
-                                println("afer finsihed $totalPlayedTime")
-                                stackObject.stopTimer { time-> totalPlayedTime = 0}
-                                play = false
+                                finished[index] = true
+                                if(activeStack.size > index + 1){
+                                    activeStack[index + 1] = true
+                                    println("afer finsihed $totalPlayedTime")
+                                    stackObject.stopTimer { time-> totalPlayedTime = 0}
+                                    play = false
+                                }
                             }
                         }
                         Text(
-                            item, textAlign = TextAlign.Center,
+                            activityNameList[index], textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
                             fontWeight = FontWeight.Bold
                         )
@@ -153,19 +193,19 @@ fun Container(context:Context) {
             )
         }
         openDialogRemove -> {
-            AddInputDialog(
+            RemoveInputDialog(
                 onConfirm = {
-                    Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show()
-                    activityNameList.removeLast()
-                    activityTimeList.removeLast()
-                    activeStack.removeLast()
-                    finished.removeLast()
+                    Toast.makeText(context, "Stack Removed", Toast.LENGTH_SHORT).show()
+                    for(i in selectedItems){
+                        activityNameList.removeAt(i)
+                        activityTimeList.removeAt(i)
+                        activeStack.removeAt(i)
+                        finished.removeAt(i)
+                        selectedItems.removeAt(i)
+                    }
                     openDialogRemove = false
                 },
                 onDismiss = { openDialogRemove = false },
-                activityName = activityName,
-                onActivityNameChange = { activityName = it },
-                onActivityTimeChange = { activityTime = it }
             )
         }
     }

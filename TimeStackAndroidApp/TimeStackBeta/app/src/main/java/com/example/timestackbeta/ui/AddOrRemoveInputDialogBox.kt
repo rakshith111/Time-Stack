@@ -49,3 +49,35 @@ fun AddInputDialog(
         }
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RemoveInputDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit){
+    AlertDialog(
+        onDismissRequest = {
+            onDismiss()
+        },
+        title = {
+            Text(text = "Confirm Deletion")
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirm()
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismiss()
+                }
+            ) {
+                Text("Dismiss")
+            }
+        }
+    )
+}
