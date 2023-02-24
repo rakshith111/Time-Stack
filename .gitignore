@@ -1,5 +1,4 @@
 Android-app/
 Server/
-src/ui_modules/__pycache__/
+__pycache__
 QTApp.log
-6.4.2
