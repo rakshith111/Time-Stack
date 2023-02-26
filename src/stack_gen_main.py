@@ -4,7 +4,7 @@ import logging.config
 import sys
 import time
 from os import path
-
+import random
 import PyQt6.QtCore as QtCore
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import QObject, QThread, QTimer, pyqtSignal
@@ -14,6 +14,8 @@ from PyQt6.QtWidgets import (QApplication, QMessageBox, QProgressBar,
 
 from ui_modules.Stack_gen import Ui_stack_gen
 from ui_modules.Stack_space import Ui_stack_space
+from QStack_Manager import StackManager
+
 
 class StackSpace(QtWidgets.QWidget):
 
@@ -30,6 +32,36 @@ class StackSpace(QtWidgets.QWidget):
         scroll_layout = QtWidgets.QVBoxLayout()
         self.vertical_scrollbar = self.stack_gen_space_ui.stack_area_scrollable.verticalScrollBar()
         self.stack_gen_space_ui.stack_area_scrollable.widget().setLayout(scroll_layout)
+        self.manager = StackManager(
+            self.stack_gen_space_ui.stack_area_scrollable.widget().layout())
+        self.stack_top_item = None
+        self.stack_items = []
+
+    def printer(self):
+        if len(self.stack_items) > 0:
+            logger.debug("Stack Items")
+            for item in self.stack_items:
+                logger.debug(f"Item - {item.objectName()}")
+        if self.stack_top_item is not None:
+            logger.debug("Current top is " + self.stack_top_item.objectName())
+
+    def add_stack_bar(self, name, dt_start_time, dt_stop_time):
+        logger.debug(
+            f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
+        delta = dt_stop_time-dt_start_time
+        total_seconds = int(delta.total_seconds())
+
+        rand = random.randint(1, 100)
+        stack_bar_item = self.manager.add_stack(
+            f"{name}_{rand}", total_seconds)
+        logger.info(
+            f'Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}, ')
+        self.stack_items.append(stack_bar_item)
+
+        if self.stack_top_item is None:
+            self.stack_top_item = stack_bar_item
+
+        self.printer()
 
     def add_stack(self, name, start_time, end_time) -> None:
         '''
@@ -104,39 +136,38 @@ class StackGen(QtWidgets.QWidget):
         self.stack_name = self.stack_gen_ui.stack_name_input.toPlainText()
         self.start_time_input = self.stack_gen_ui.start_time_input.time()
         self.end_time_input = self.stack_gen_ui.end_time_input.time()
-        dt_time1 = datetime.time(
-            self.start_time_input.hour(), self.start_time_input.minute())
-        dt_time2 = datetime.time(
-            self.end_time_input.hour(), self.end_time_input.minute())
-        delta = (datetime.datetime.combine(datetime.date.today(), dt_time2) -
-                 datetime.datetime.combine(datetime.date.today(), dt_time1))
+        dt_start_time = datetime.datetime.now().replace(hour=self.start_time_input.hour(),
+                                                        minute=self.start_time_input.minute(), second=0, microsecond=0)
+        dt_stop_time = datetime.datetime.now().replace(hour=self.end_time_input.hour(),
+                                                       minute=self.end_time_input.minute(), second=0, microsecond=0)
+        delta = dt_stop_time-dt_start_time
         temp = datetime.datetime.combine(
             datetime.date.today(), datetime.time()) + delta
         self.stack_gen_ui.total_time_output.setText(temp.strftime("%H:%M"))
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
-        # optionally Create a new thread to run the stack generator
-        logger.debug(
-            f'Contents stack_name: {self.stack_name}, start_time_input: {dt_time1}, end_time_input: {dt_time2}, total_time_output: {temp}')
+
         if self.stack_name == "":
             self.warningmsg.setText("Please enter a stack name")
             self.warningmsg.exec()
             return
-        if dt_time1 > dt_time2:
+        if dt_start_time > dt_stop_time:
             self.warningmsg.setText(
                 "End time cannot be before start time")
             self.warningmsg.exec()
             return
-        if dt_time1 == dt_time2:
+        if dt_start_time == dt_stop_time:
             self.warningmsg.setText(
                 "End time cannot be the same as start time")
             self.warningmsg.exec()
             return
         self.informationmsg.setText(
-            f"Stack {self.stack_name} created with start time {dt_time1} and end time {dt_time2}")
+            f"Stack {self.stack_name} created with start time {dt_start_time} and end time {dt_stop_time}")
         self.informationmsg.exec()
-
-        self.stack_space.add_stack(self.stack_name, dt_time1, dt_time2)
+        self.stack_space.add_stack_bar(
+            self.stack_name, dt_start_time, dt_stop_time)
+        # self.stack_space.add_stack(
+        # self.stack_name, dt_start_time, dt_stop_time)
         self.stack_space.show()
 
     def closeEvent(self, event: QCloseEvent):
