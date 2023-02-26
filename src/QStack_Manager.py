@@ -62,7 +62,7 @@ class StackBar(QProgressBar):
         self.setFormat(f"{name} task @ %p%")
         self.setRange(0, progress_end)
         self.setValue(progress_end)
-        self.setObjectName(f"Stack_{name}_{rand}")
+        self.setObjectName(f"{name}")
         self.setStyleSheet(qss_file)
 
         self._thread = Thread(progress_end, f"Thread_{name}_{rand}")
@@ -145,7 +145,7 @@ class Stack(QWidget):
             self.stack_top_item._thread.start()
         # Add error msg for if there is no stack bar in the stack
 
-    def pop_top_acive(self):
+    def pop_top_active(self):
         if self.stack_top_item is not None:
             self.manager.remove_top_stack(self.stack_top_item)
             self.stack_items.remove(self.stack_top_item)
@@ -161,7 +161,6 @@ class Stack(QWidget):
 
 
 if __name__ == '__main__':
-
 
     from _base_logger import logger
 
