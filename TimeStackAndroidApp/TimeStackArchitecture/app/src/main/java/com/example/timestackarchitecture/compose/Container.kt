@@ -1,4 +1,4 @@
-//package com.example.timestackarch.compose
+//package com.example.timestackarchitecture.compose
 //
 //
 //
