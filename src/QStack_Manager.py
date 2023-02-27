@@ -34,12 +34,14 @@ class Thread(QThread):
     def pause(self, value):
         self.currentvalue = value
         self._is_running = False
-        print(f"pause - {self.name} {self.currentvalue}  {self._is_running}")
+        logger.info(
+            f"Pause {self.name} @  {self.currentvalue} Is running? ={self._is_running}")
 
     def resume(self):
         self._signal.emit(self.currentvalue)
-        print(f"Resume - {self.name} {self.currentvalue}  {self._is_running}")
         self._is_running = True
+        logger.info(
+            f"Resume {self.name}@  {self.currentvalue}  Is running? ={self._is_running}")
 
     def run(self):
         while True:
@@ -54,7 +56,6 @@ class Thread(QThread):
 class StackBar(QProgressBar):
     def __init__(self, name, progress_end, parent=None):
         super(StackBar, self).__init__(parent)
-        rand = random.randint(1, 100)
         self.setFixedSize(180, 250)
         self.setOrientation(QtCore.Qt.Orientation.Vertical)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -65,7 +66,7 @@ class StackBar(QProgressBar):
         self.setObjectName(f"{name}")
         self.setStyleSheet(qss_file)
 
-        self._thread = Thread(progress_end, f"Thread_{name}_{rand}")
+        self._thread = Thread(progress_end, f"Thread_{name}")
         self._thread._signal.connect(self.setValue)
 
     def closeEvent(self, event):
@@ -98,7 +99,7 @@ class StackManager():
         return self.stack_bar
 
     def remove_top_stack(self, stack_bar):
-        # print(stack_bar.objectName())
+        logger.info(f"Removing {stack_bar.objectName()}")
         self.layout.removeWidget(stack_bar)
         stack_bar.deleteLater()
 
