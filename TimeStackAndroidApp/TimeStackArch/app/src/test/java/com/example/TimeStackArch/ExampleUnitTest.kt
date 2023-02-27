@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.timestackarch
 
 import org.junit.Test
 
