@@ -24,6 +24,7 @@ class StackTimer {
             time = 0
             executor.shutdown()
             task.cancel(false)
+            println("stopped")
         }
     }
 

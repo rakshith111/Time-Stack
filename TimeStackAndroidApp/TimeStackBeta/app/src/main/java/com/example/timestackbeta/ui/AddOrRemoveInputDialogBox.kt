@@ -31,8 +31,13 @@ fun AddInputDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onActivityTimeChange(timeInMilli)
-                    onConfirm()
+                    if(timeInMilli == "0"){
+                      onDismiss()
+                    } else {
+                        onActivityTimeChange(timeInMilli)
+                        onConfirm()
+                    }
+
                 }
             ) {
                 Text("Confirm")
