@@ -4,6 +4,8 @@ QTApp.log
 __pycache__
 Test
 #Android-app
+TimeStackAndroidApp
+Android-app
 *.iml
 .gradle
 .idea
