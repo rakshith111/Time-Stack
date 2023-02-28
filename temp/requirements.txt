@@ -1,0 +1,4 @@
+autobahn_rce==0.6.0.5
+fastapi==0.89.1
+PyQt6==6.4.1
+uvicorn==0.20.0
