@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.prototype.timestack.MainActivity">
+
+    <EditText
+        android:id="@+id/EditTxtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="Address"
+        android:ems="10"
+        android:hint="@string/address"
+        android:text="http://192.168."
+        android:inputType="textPersonName"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <Button
+        android:id="@+id/btnGet"
+        android:layout_width="154dp"
+        android:layout_height="73dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="25dp"
+        android:text="@string/connect"
+        android:backgroundTint="@color/red"
+        />
+
+    <TextView
+        android:id="@+id/txtView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="25dp"/>
+
+    <EditText
+        android:id="@+id/EditTxtMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/message"
+        android:inputType="textPersonName"
+        android:layout_gravity="center"
+        android:autofillHints="Message"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="151dp"
+        android:layout_height="73dp"
+        android:layout_gravity="center"
+        android:text="@string/post" />
+
+</LinearLayout>
