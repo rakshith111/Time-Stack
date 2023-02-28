@@ -25,6 +25,7 @@ fun Loader(
     var progress: Float
     var isPlaying = play
     val totalPlayedTime = totalPlayed * 1000
+
     if (videoLength != null) {
         progress = if ( totalPlayedTime > totalTime) {
             speedTime = 1L

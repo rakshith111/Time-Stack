@@ -15,7 +15,7 @@ class StackTimer {
 
             executor = Executors.newSingleThreadScheduledExecutor()
             task = executor.scheduleAtFixedRate({
-                println(time)
+                println("time $time")
                 time++
             }, 0, 1, TimeUnit.SECONDS)
         }
