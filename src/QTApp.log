@@ -1,0 +1,8 @@
+[08:31:03 PM 02/16/2023] [    INFO] --- [            __init__()] --- details={Stackgen UI initialized}
+[08:31:15 PM 02/16/2023] [   DEBUG] --- [        create_stack()] --- details={Contents stack_name: mbnvb, start_time_input: 04:00:00, end_time_input: 06:00:00, total_time_output: 2023-02-16 02:00:00}
+[08:31:19 PM 02/16/2023] [    INFO] --- [           add_stack()] --- details={Label created with name mbnvb}
+[08:31:19 PM 02/16/2023] [   DEBUG] --- [           add_stack()] --- details={Parms name: mbnvb, start_time: 04:00:00, end_time: 06:00:00}
+[08:31:19 PM 02/16/2023] [   DEBUG] --- [           add_stack()] --- details={Scrollbar Status  is  False}
+[08:31:28 PM 02/16/2023] [    INFO] --- [          closeEvent()] --- details={StackSpace Hide event called}
+[08:31:29 PM 02/16/2023] [    INFO] --- [          closeEvent()] --- details={StackSpace Hide event called}
+[08:31:29 PM 02/16/2023] [    INFO] --- [          closeEvent()] --- details={Stackgen closed}
