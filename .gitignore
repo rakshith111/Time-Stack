@@ -1,3 +1,4 @@
-Server/__pycache__/
+__pycache__
 QTApp.log
-src/
+oldie_ref
+TimeStackAndroidApp
