@@ -1,20 +1,19 @@
 import datetime
-import logging
-import logging.config
 import sys
-import time
-from os import path
 import random
+
 import PyQt6.QtCore as QtCore
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import QObject, QThread, QTimer, pyqtSignal
-from PyQt6.QtGui import QCloseEvent
-from PyQt6.QtWidgets import (QApplication, QMessageBox, QProgressBar,
-                             QPushButton, QVBoxLayout, QWidget)
+from PyQt6.QtGui import QCloseEvent, QIcon
+from PyQt6.QtWidgets import QMessageBox
+from os import path
 
 from ui_modules.Stack_gen import Ui_stack_gen
 from ui_modules.Stack_space import Ui_stack_space
+
 from QStack_Manager import StackManager
+from _base_logger import logger
+from _base_logger import CURRENT_DIR
 
 
 class StackSpace(QtWidgets.QWidget):
@@ -24,63 +23,41 @@ class StackSpace(QtWidgets.QWidget):
         Initializes the Stackgen class and sets up the UI.
 
         '''
-
         super(StackSpace, self).__init__(parent=parent)
         self.stack_gen_space_ui = Ui_stack_space()
         self.stack_gen_space_ui.setupUi(self)
-        self.custom_widget = Stack()
+        self.stack_gen_space_ui.start_btn.setIcon(
+            QIcon(path.join(CURRENT_DIR, 'ui_files', 'icon', 'play-button.png')))
+        self.stack_gen_space_ui.pause_btn.setIcon(
+            QIcon(path.join(CURRENT_DIR, 'ui_files', 'icon', 'pause-button.png')))
+        self.stack_gen_space_ui.remove_btn.setIcon(
+            QIcon(path.join(CURRENT_DIR, 'ui_files', 'icon', 'remove.png')))
         scroll_layout = QtWidgets.QVBoxLayout()
+        scroll_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignJustify)
+
         self.vertical_scrollbar = self.stack_gen_space_ui.stack_area_scrollable.verticalScrollBar()
+
         self.stack_gen_space_ui.stack_area_scrollable.widget().setLayout(scroll_layout)
+
         self.manager = StackManager(
             self.stack_gen_space_ui.stack_area_scrollable.widget().layout())
-        self.stack_top_item = None
-        self.stack_items = []
 
-    def printer(self):
-        if len(self.stack_items) > 0:
-            logger.debug("Stack Items")
-            for item in self.stack_items:
-                logger.debug(f"Item - {item.objectName()}")
-        if self.stack_top_item is not None:
-            logger.debug("Current top is " + self.stack_top_item.objectName())
+        self.stack_gen_space_ui.start_btn.clicked.connect(
+            self.manager.start_thread)
+        self.stack_gen_space_ui.pause_btn.clicked.connect(
+            self.manager.pause_thread)
+        self.stack_gen_space_ui.remove_btn.clicked.connect(
+            self.manager.remove_top_stack)
 
     def add_stack_bar(self, name, dt_start_time, dt_stop_time):
         logger.debug(
             f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
         delta = dt_stop_time-dt_start_time
         total_seconds = int(delta.total_seconds())
-
         rand = random.randint(1, 100)
-        stack_bar_item = self.manager.add_stack(
-            f"{name}_{rand}", total_seconds)
+        self.manager.add_stack(f"{name}_{rand}", total_seconds)
         logger.info(
             f'Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}, ')
-        self.stack_items.append(stack_bar_item)
-
-        if self.stack_top_item is None:
-            self.stack_top_item = stack_bar_item
-
-        self.printer()
-
-    def add_stack(self, name, start_time, end_time) -> None:
-        '''
-        Adds a custom widget to the scroll area.
-
-        Currently creates a new label and adds it to the scroll area.
-        This function is called when the create stack button is clicked.
-        For now it just creates a label with the name of the stack.
-
-        '''
-
-        label = self.custom_widget.create_label(name=name)
-        scroll_layout = self.stack_gen_space_ui.stack_area_scrollable.widget().layout()
-        scroll_layout.addWidget(label)
-        logger.info(f'Label created with name {name}')
-        logger.debug(
-            f'Parms name: {name}, start_time: {start_time}, end_time: {end_time}')
-        logger.debug(
-            f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
 
     def closeEvent(self, event: QCloseEvent):
         '''
@@ -166,8 +143,6 @@ class StackGen(QtWidgets.QWidget):
         self.informationmsg.exec()
         self.stack_space.add_stack_bar(
             self.stack_name, dt_start_time, dt_stop_time)
-        # self.stack_space.add_stack(
-        # self.stack_name, dt_start_time, dt_stop_time)
         self.stack_space.show()
 
     def closeEvent(self, event: QCloseEvent):
@@ -178,33 +153,10 @@ class StackGen(QtWidgets.QWidget):
         logger.info('Stackgen closed')
 
 
-class Stack(QtWidgets.QWidget):
-    def __init__(self, parent=None):
-        '''
-        Initializes the Stack class and sets up the UI.
-
-        '''
-        super().__init__(parent)
-
-    def create_label(self, name) -> QtWidgets.QLabel:
-        '''
-        :param str name: The name of the stack
-        :return: A label with the name of the stack
-        Creates a label with the name of the stack.
-        For now it just creates a label with the name of the stack.
-        later it will create a custom widget with the name of the stack and the start and end time.
-        '''
-
-        label = QtWidgets.QLabel(name)
-        label.setFixedSize(200, 100)  # Set the label's fixed size
-        return label
-
-
 if __name__ == '__main__':
-
-    from _base_logger import logger
 
     app = QtWidgets.QApplication(sys.argv)
     w = StackGen()
+    app.setStyle('Fusion')
     w.show()
     sys.exit(app.exec())
