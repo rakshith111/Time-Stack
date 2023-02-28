@@ -7,7 +7,6 @@ src/
 QTApp.log
 __pycache__
 #Android-app
-TimeStackArchitecture
 Android-app
 *.iml
 .gradle
