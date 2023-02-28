@@ -45,6 +45,7 @@ object StartRunnable {
            Log.i(msgThread, "Running on thread: ${Thread.currentThread().name}")
             makeNetworkRequest(txtView, EditTxtAddress, context, btnGet)
         }, 0, 30, TimeUnit.SECONDS)
+        
     }
 
     /**
