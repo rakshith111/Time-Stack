@@ -1,4 +1,0 @@
-get data :{
-"dump":{"time1":msg},{"time2":msg2}
-}
-post data: { message: "hello world" }

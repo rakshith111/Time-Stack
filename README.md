@@ -1,9 +1,32 @@
-
 # Time-Stack
-## check out prototype at [https://github.com/rakshith111/Time-Stack/tree/prototype/](https://github.com/rakshith111/Time-Stack/tree/prototype/)
------
-Attribution
------
-<a href="https://iconscout.com/icons/play-button" target="_blank">Play button Icon</a> by <a href="https://iconscout.com/contributors/adrien-coquet" target="_blank">Coquet Adrien</a><br>
-<a href="https://iconscout.com/icons/remove" target="_blank">Remove Icon</a> on <a href="https://iconscout.com">IconScout</a><br>
-<a href="https://iconscout.com/icons/pause" target="_blank">Pause Icon</a> on <a href="https://iconscout.com/contributors/unicons">unicons</a>
+
+## Prototype Goal
+## To create a web application that allows users to post messages to a server and retrieve all messages posted to the server.
+## Basic networking architecture
+### Create a web application that allows users to post messages to a server and retrieve all messages posted to the server.
+## Server Side (Windows)
+- POST Request to server with a JSON object containing a message
+    - Server stores the message in a database
+    - Server saves the time the message was received
+- GET Request to server to retrieve all messages
+    - View all the messages in QtUi
+
+## Client Side (Android)
+- POST Request to server with a JSON object containing a message
+    - Receive a response from the server ("OK" or "ERROR")
+- GET Request to server to retrieve all messages
+    - View all the messages in a list
+
+## Server Side (Windows) setup
+- pip install -r requirements.txt
+- python ServerUi.py for the server UI
+- python Server.py for the server
+
+## API methods (Server Side)
+- POST /receive
+    - Request body: JSON object containing a key - "message" and a value - the message
+    - Response body: "OK" or "ERROR"
+- GET /dump
+    - Response body: JSON object containing all messages
+## Screenshots
+![image](https://user-images.githubusercontent.com/36219488/216549961-0db7e0b8-ca1a-4ffc-918a-a5e1e0ba895c.png)
