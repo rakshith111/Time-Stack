@@ -21,7 +21,8 @@ class StackSpace(QtWidgets.QWidget):
     def __init__(self, parent=None) -> None:
         '''
         Initializes the Stackgen class and sets up the UI.
-
+        Sets up the scroll area and the stack manager.
+        Adds icons to the buttons.        
         '''
         super(StackSpace, self).__init__(parent=parent)
         self.stack_gen_space_ui = Ui_stack_space()
@@ -47,9 +48,19 @@ class StackSpace(QtWidgets.QWidget):
         self.stack_gen_space_ui.pause_btn.clicked.connect(
             self.manager.pause_thread)
         self.stack_gen_space_ui.remove_btn.clicked.connect(
-            self.manager.remove_top_stack)
+            self.manager.pop_top_stack)
 
-    def add_stack_bar(self, name, dt_start_time, dt_stop_time):
+    def add_stack_bar(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
+        '''
+        :param str name: Name of the stack
+        :param datetime.time dt_start_time: Start time of the stack
+        :param datetime.time dt_stop_time: End time of the stack
+
+        This function is called when the create stack button is clicked.
+        Converts the start and end time to datetime.time objects and then calculates the total time.
+        has to be done this way because the time objects are not compatible with the datetime module.
+        delta: `datetime.timedelta` object used to get total seconds.
+        '''
         logger.debug(
             f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
         delta = dt_stop_time-dt_start_time
@@ -59,7 +70,7 @@ class StackSpace(QtWidgets.QWidget):
         logger.info(
             f'Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}, ')
 
-    def closeEvent(self, event: QCloseEvent):
+    def closeEvent(self, event: QCloseEvent) -> None:
         '''
         Overrides the closeEvent function to hide the window instead of closing it.
         '''
@@ -75,7 +86,6 @@ class StackGen(QtWidgets.QWidget):
         '''
         Initializes the Stackgen class and sets up the UI.
         '''
-
         super(StackGen, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
         self.stack_gen_ui.setupUi(self)
@@ -107,7 +117,6 @@ class StackGen(QtWidgets.QWidget):
         Converts the start and end time to datetime.time objects and then calculates the total time.
         has to be done this way because the time objects are not compatible with the datetime module.
         Calls the `add_stack` function in the `StackSpace` class to add the stack to the scroll area.
-
 
         '''
         self.stack_name = self.stack_gen_ui.stack_name_input.toPlainText()
@@ -145,9 +154,9 @@ class StackGen(QtWidgets.QWidget):
             self.stack_name, dt_start_time, dt_stop_time)
         self.stack_space.show()
 
-    def closeEvent(self, event: QCloseEvent):
+    def closeEvent(self, event: QCloseEvent) -> None:
         '''
-        Overrides the closeEvent function to close subwindows then close itself .
+        Overrides the closeEvent function to close subwindows then close itself.
         '''
         self.stack_space.close()
         logger.info('Stackgen closed')
@@ -156,7 +165,7 @@ class StackGen(QtWidgets.QWidget):
 if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
-    w = StackGen()
+    window = StackGen()
     app.setStyle('Fusion')
-    w.show()
+    window.show()
     sys.exit(app.exec())
