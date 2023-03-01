@@ -3,7 +3,6 @@ oldie_ref
 Test
 #Prototype
 Server/
-src/
 QTApp.log
 __pycache__
 #Android-app
