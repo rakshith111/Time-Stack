@@ -6,5 +6,4 @@ import com.example.timestackarchitecture.data.StackData
 
 class StackViewModel : ViewModel() {
     val stacks = mutableListOf<StackData>()
-
 }

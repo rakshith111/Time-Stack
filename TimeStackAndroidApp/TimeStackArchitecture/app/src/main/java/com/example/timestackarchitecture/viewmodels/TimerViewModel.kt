@@ -5,11 +5,14 @@ import com.example.timestackarchitecture.ui.components.StackTimer
 
 
 class TimerViewModel : ViewModel() {
-    fun startTimer(totalPlayedTime: Int) {
-        StackTimer.startTimer(totalPlayedTime)
+    companion object {
+        fun startTimer(totalPlayedTime: Int) {
+            StackTimer.startTimer(totalPlayedTime)
+        }
+
+        fun stopTimer(pauseTimer: (Int) -> Unit) {
+            StackTimer.stopTimer(pauseTimer)
+        }
     }
 
-    fun stopTimer(pauseTimer: (Int) -> Unit) {
-        StackTimer.stopTimer(pauseTimer)
-    }
 }

@@ -6,14 +6,28 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.example.timestackarchitecture.compose.BaseScreen
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
+import com.example.timestackarchitecture.viewmodels.StackViewModel
+import com.example.timestackarchitecture.viewmodels.TimerViewModel
+import com.example.timestackarchitecture.viewmodels.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+// Create an instance of StackViewModelFactory
+        val stackViewModelFactory = ViewModelFactory(StackViewModel())
+
+// Use the factory to create an instance of StackViewModel
+        val stackViewModelInstance = ViewModelProvider(this, stackViewModelFactory).get(StackViewModel::class.java)
+
+// Create an instance of TimerViewModelFactory
+        val timerViewModelFactory = ViewModelFactory(TimerViewModel())
+
+// Use the factory to create an instance of TimerViewModel
+        val timerViewModelInstance = ViewModelProvider(this, timerViewModelFactory).get(TimerViewModel::class.java)
+
         super.onCreate(savedInstanceState)
         setContent {
             TimeStackArchitectureTheme {
@@ -22,22 +36,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    BaseScreen( stackViewModelInstance, timerViewModelInstance)
+
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    TimeStackArchitectureTheme {
-        Greeting("Android")
-    }
-}
