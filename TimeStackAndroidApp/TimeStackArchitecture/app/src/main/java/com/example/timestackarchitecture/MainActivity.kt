@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.timestackarchitecture.compose.BaseScreen
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
 import com.example.timestackarchitecture.viewmodels.StackViewModel
