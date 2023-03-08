@@ -2,18 +2,14 @@ package com.example.timestackarchitecture.compose
 
 
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,14 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.AddInputDialog
+import com.example.timestackarchitecture.ui.components.PlayPauseButton
 import com.example.timestackarchitecture.ui.components.RemoveInputDialog
 import kotlin.reflect.KFunction1
 
@@ -46,8 +41,9 @@ fun Container(
     var activityName by remember { mutableStateOf("") }
     var activityTime by remember { mutableStateOf("0") }
     var activeStack by remember { mutableStateOf(true) }
+    var play by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
-
+    println("recomposing container")
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -91,11 +87,10 @@ fun Container(
                                         }
                                     )
                                 }){
-                            Loader(stackList[index].totalPlayedTime, stackList[index].stackTime, true, stackList[index].activeStack, false,{
-//                            println("active stack false")
-                            }){
-//                            println("finish stack false")
-
+                            Loader(stackList[index].totalPlayedTime, stackList[index].stackTime, stackList[index].isPlaying, stackList[index].activeStack) {
+                                println("outside ${stackList[index].totalPlayedTime}")
+                                stackList.removeAt(0)
+                                stopTimer{play = false}
                             }
                         }
                         Text(
@@ -126,20 +121,21 @@ fun Container(
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
-//                PlayPauseButton(isPlaying = play) {
-//                    play = it
-//                    buttonPressed = true
-//                    println("1play")
-//                    if (it) {
-//                        startTimer(totalPlayedTime)
-//                        println("Timer started")
-//                        threadStarted = true
-//                    } else if (threadStarted) {
-//                        StackTimer.stopTimer {time-> totalPlayedTime = (time) }
-//                        threadStarted = false
-//                    }
-//
-//                }
+
+                PlayPauseButton(isPlaying = play) {
+                    if(stackList.size == 0) return@PlayPauseButton
+                    else{
+                        play = it
+                        stackList[0].isPlaying = it
+                        if (it) {
+                            startTimer(stackList[0].totalPlayedTime)
+                            println("Timer started")
+                        } else  {
+                            stopTimer {time-> stackList[0].totalPlayedTime = (time) }
+                        }
+                    }
+                }
+
                 Spacer(modifier = Modifier.width(10.dp))
                 ElevatedButton(onClick = {
                     openDialogRemove = true
@@ -156,11 +152,10 @@ fun Container(
     }
     when {
         openDialogAdd -> {
-
             AddInputDialog(
                 onConfirm = {
-                    activeStack = stackList.size == 1
-                    stackList.add(StackData(3, activityName, activityTime.toLong(), activeStack, 0))
+                    activeStack = stackList.size == 0
+                    stackList.add(StackData((0..100).random(), activityName, activityTime.toLong(), activeStack, 0, false))
                     openDialogAdd = false
                 },
                 onDismiss = { openDialogAdd = false },
@@ -174,38 +169,19 @@ fun Container(
             RemoveInputDialog(
                 onConfirm = {
                     val newActivityNameList = stackList.filterIndexed { index, _ ->
-
                         index !in selectedItems
                     }
-
                     stackList.clear()
                     stackList.addAll(newActivityNameList)
                     openDialogRemove = false
+                    if(selectedItems.contains(0)){
+                        println("sd")
+                        stopTimer{play = false }
+                    }
                     selectedItems.clear()
                 },
                 onDismiss = { openDialogRemove = false },
             )
-        }
-    }
-}
-@Composable
-fun PlayPauseButton(
-    isPlaying: Boolean,
-    onClick: (Boolean) -> Unit
-) {
-    FloatingActionButton(onClick = {
-        onClick(!isPlaying)},
-        shape = CircleShape,
-        containerColor = Color.Black,
-        modifier = Modifier.size(60.dp)) {
-        if(isPlaying){
-            Icon(painter = painterResource(id = R.drawable.baseline_stop_24),
-                contentDescription = "Stop", tint = Color.White)
-
-        } else{
-            Icon(imageVector = Icons.Filled.PlayArrow,
-                contentDescription = "Play",
-                tint = Color.White)
         }
     }
 }
