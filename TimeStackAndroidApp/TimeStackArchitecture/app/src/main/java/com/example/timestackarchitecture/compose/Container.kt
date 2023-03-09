@@ -178,11 +178,11 @@ fun Container(
                         index !in selectedItems
                     }
                     clearStack()
-                    for (i in list.indices) {
-                        insertStack(list[i])
+                    for (i in newActivityNameList) {
+                        insertStack(i)
                     }
                     openDialogRemove = false
-                    if(selectedItems.contains(0)){
+                    if(selectedItems.contains(0) && play){
                         stopTimer{ play = false }
                     }
                     selectedItems.clear()
