@@ -31,10 +31,13 @@ import kotlin.reflect.KFunction1
 
 @Composable
 fun Container(
-    stackList: MutableList<StackData>,
+    stackList: State<List<StackData>>,
     selectedItems: MutableList<Int>,
     startTimer: (Int) -> Unit,
-    stopTimer: KFunction1<(Int) -> Unit, Unit>,
+    stopTimer: ((Int) -> Unit) -> Unit,
+    insertStack: (StackData) -> Unit,
+    removeStack: (StackData) -> Unit,
+    clearStack: () -> Unit,
     ) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
@@ -43,6 +46,8 @@ fun Container(
     var activeStack by remember { mutableStateOf(true) }
     var play by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
+
+    val list = stackList.value
     println("recomposing container")
     Box(
         modifier = Modifier
@@ -61,7 +66,7 @@ fun Container(
                         .fillMaxHeight()
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.Center) {
-                    repeat(stackList.size){ index ->
+                    repeat(list.size){ index ->
                         Box(
                             Modifier
                                 .fillMaxWidth()
@@ -87,20 +92,21 @@ fun Container(
                                         }
                                     )
                                 }){
-                            Loader(stackList[index].totalPlayedTime, stackList[index].stackTime, stackList[index].isPlaying, stackList[index].activeStack) {
-                                println("outside ${stackList[index].totalPlayedTime}")
-                                stackList.removeAt(0)
-                                stopTimer{play = false}
+                            Loader(list[index].totalPlayedTime, list[index].stackTime, list[index].isPlaying, list[index].activeStack) {
+                                println("outside ${list[index].totalPlayedTime}")
+                                removeStack(list[0])
+                                stopTimer {play = false}
+
                             }
                         }
                         Text(
-                            stackList[index].stackName, textAlign = TextAlign.Center,
+                            list[index].stackName, textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
                             fontWeight = FontWeight.Bold
                         )
 
                         Text(
-                            "${stackList[index]} milliseconds",
+                            "${list[index]} milliseconds",
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
                             fontWeight = FontWeight.Bold
@@ -123,15 +129,15 @@ fun Container(
                 Spacer(modifier = Modifier.width(10.dp))
 
                 PlayPauseButton(isPlaying = play) {
-                    if(stackList.size == 0) return@PlayPauseButton
+                    if(list.size == 0) return@PlayPauseButton
                     else{
                         play = it
-                        stackList[0].isPlaying = it
+                        list[0].isPlaying = it
                         if (it) {
-                            startTimer(stackList[0].totalPlayedTime)
+                            startTimer(list[0].totalPlayedTime)
                             println("Timer started")
                         } else  {
-                            stopTimer {time-> stackList[0].totalPlayedTime = (time) }
+                            stopTimer { time-> list[0].totalPlayedTime = (time)}
                         }
                     }
                 }
@@ -154,8 +160,8 @@ fun Container(
         openDialogAdd -> {
             AddInputDialog(
                 onConfirm = {
-                    activeStack = stackList.size == 0
-                    stackList.add(StackData((0..100).random(), activityName, activityTime.toLong(), activeStack, 0, false))
+                    activeStack = list.size == 0
+                    insertStack(StackData((0..100).random(), activityName, activityTime.toLong(), activeStack, 0, false))
                     openDialogAdd = false
                 },
                 onDismiss = { openDialogAdd = false },
@@ -168,15 +174,16 @@ fun Container(
         openDialogRemove -> {
             RemoveInputDialog(
                 onConfirm = {
-                    val newActivityNameList = stackList.filterIndexed { index, _ ->
+                    val newActivityNameList = list.filterIndexed { index, _ ->
                         index !in selectedItems
                     }
-                    stackList.clear()
-                    stackList.addAll(newActivityNameList)
+                    clearStack()
+                    for (i in list.indices) {
+                        insertStack(list[i])
+                    }
                     openDialogRemove = false
                     if(selectedItems.contains(0)){
-                        println("sd")
-                        stopTimer{play = false }
+                        stopTimer{ play = false }
                     }
                     selectedItems.clear()
                 },
@@ -185,12 +192,3 @@ fun Container(
         }
     }
 }
-
-
-
-
-
-
-
-
-
