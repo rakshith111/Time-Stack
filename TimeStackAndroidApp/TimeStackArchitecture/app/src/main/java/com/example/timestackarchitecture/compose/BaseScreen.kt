@@ -24,7 +24,8 @@ fun BaseScreen(
         },
         stopTimer = { pauseTimer: (Int) -> Unit ->
             timerViewModel.stopTimer(pauseTimer)
-        } , insertStack = { stackData: StackData ->
+        } ,
+        insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
         removeStack = { stackData: StackData -> stackViewModel.removeStack(stackData) }
     ) { stackViewModel.clearAll() }
