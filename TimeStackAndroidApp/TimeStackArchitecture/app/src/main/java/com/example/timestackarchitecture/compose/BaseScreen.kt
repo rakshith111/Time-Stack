@@ -5,8 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.viewmodels.*
-import com.google.android.gms.tagmanager.Container
-import kotlin.reflect.KFunction1
 
 @Composable
 fun BaseScreen(
@@ -14,7 +12,8 @@ fun BaseScreen(
     timerViewModel: TimerViewModel,
     stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
 ) {
-    val stackList = stackViewModel.stackList.collectAsState(initial = emptyList())
+    val list = stackViewModel.stackList.collectAsState(initial = emptyList())
+    val stackList = list.value
     val startTimerRef = { totalPlayedTime: Int ->
         timerViewModel.startTimer(totalPlayedTime)
     }
