@@ -14,7 +14,6 @@ fun Loader(
     totalPlayed: Int,
     totalTime: Long,
     play: Boolean,
-    activeStack: Boolean,
     onFinishedChange: () -> Unit,
 ) {
     var speedTime = totalTime - 2000

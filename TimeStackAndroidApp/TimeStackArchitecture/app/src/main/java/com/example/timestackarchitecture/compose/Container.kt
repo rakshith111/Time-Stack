@@ -27,6 +27,7 @@ import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.AddInputDialog
 import com.example.timestackarchitecture.ui.components.PlayPauseButton
 import com.example.timestackarchitecture.ui.components.RemoveInputDialog
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun Container(
@@ -34,9 +35,10 @@ fun Container(
     selectedItems: MutableList<Int>,
     startTimer: (Int) -> Unit,
     stopTimer: ((Int) -> Unit) -> Unit,
+    totalPlayedTime: () -> Int,
+    updateProgress: (Int) -> Unit,
     insertStack: (StackData) -> Unit,
     removeStack: (StackData) -> Unit,
-    clearStack: () -> Unit,
     ) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
@@ -46,7 +48,6 @@ fun Container(
     var play by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
 
-    println("recomposing container")
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -90,10 +91,12 @@ fun Container(
                                         }
                                     )
                                 }){
-                            Loader(stackList[index].totalPlayedTime, stackList[index].stackTime, stackList[index].isPlaying, stackList[index].activeStack) {
-                                println("outside ${stackList[index].totalPlayedTime}")
-                                removeStack(stackList[0])
+
+                            Loader(totalPlayedTime(), stackList[index].stackTime, stackList[index].isPlaying) {
+                                println("outside ${totalPlayedTime()}")
                                 stopTimer {play = false}
+                                removeStack(stackList[index])
+                                updateProgress(0)
 
                             }
                         }
@@ -132,10 +135,10 @@ fun Container(
                         play = it
                         stackList[0].isPlaying = it
                         if (it) {
-                            startTimer(stackList[0].totalPlayedTime)
+                            startTimer(totalPlayedTime())
                             println("Timer started")
                         } else  {
-                            stopTimer { time-> stackList[0].totalPlayedTime = (time)}
+                            stopTimer { time-> updateProgress(time)}
                         }
                     }
                 }
@@ -158,8 +161,7 @@ fun Container(
         openDialogAdd -> {
             AddInputDialog(
                 onConfirm = {
-                    activeStack = stackList.isEmpty()
-                    insertStack(StackData((0..100).random(), activityName, activityTime.toLong(), activeStack, 0, false))
+                    insertStack(StackData(0, activityName, activityTime.toLong(), activeStack,false))
                     openDialogAdd = false
                 },
                 onDismiss = { openDialogAdd = false },
@@ -172,18 +174,16 @@ fun Container(
         openDialogRemove -> {
             RemoveInputDialog(
                 onConfirm = {
-                    val newActivityNameStackList = stackList.filterIndexed { index, _ ->
-                        index !in selectedItems
+                    selectedItems.sortedDescending().forEach { index ->
+                        removeStack(stackList[index])
                     }
-                    clearStack()
-                    for (i in newActivityNameStackList) {
-                        insertStack(i)
-                    }
-                    openDialogRemove = false
                     if(selectedItems.contains(0) && play){
+                        println("contains 0")
                         stopTimer{ play = false }
+                        updateProgress(0)
                     }
                     selectedItems.clear()
+                    openDialogRemove = false
                 },
                 onDismiss = { openDialogRemove = false },
             )

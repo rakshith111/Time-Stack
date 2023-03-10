@@ -9,3 +9,4 @@ interface StackRepository {
     suspend fun deleteAllStacks()
     fun getStacks(): Flow<List<StackData>>
 }
+

@@ -6,7 +6,8 @@ import com.example.timestackarchitecture.data.StackRepository
 import javax.inject.Inject
 
 
-class StackViewModelFactory @Inject constructor(private val repository: StackRepository):
+class StackViewModelFactory @Inject constructor(private val repository: StackRepository
+                                                ):
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>):
             T = StackViewModel(repository) as T

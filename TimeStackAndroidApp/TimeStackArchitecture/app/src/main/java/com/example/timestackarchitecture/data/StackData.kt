@@ -15,8 +15,8 @@ data class StackData(
     val stackTime: Long,
     @ColumnInfo(name = "stack_active")
     var activeStack: Boolean,
-    @ColumnInfo(name = "stack_total_played_time")
-    var totalPlayedTime: Int,
     @ColumnInfo(name = "stack_is_playing")
     var isPlaying: Boolean,
 )
+
+

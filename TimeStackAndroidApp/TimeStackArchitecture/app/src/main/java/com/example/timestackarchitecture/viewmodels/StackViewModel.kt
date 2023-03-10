@@ -9,25 +9,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class StackViewModel(private val repository: StackRepository) : ViewModel() {
+class StackViewModel(private val stackRepository: StackRepository) : ViewModel() {
     val selectedItems =  mutableStateListOf<Int>()
 
-    val stackList =  repository.getStacks()
+    val stackList =  stackRepository.getStacks()
     fun insertStack(stack: StackData) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertStack(stack)
+            stackRepository.insertStack(stack)
         }
     }
 
     fun removeStack(stack: StackData) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteStack(stack)
+            stackRepository.deleteStack(stack)
         }
     }
 
     fun clearAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllStacks()
+            stackRepository.deleteAllStacks()
         }
     }
 
