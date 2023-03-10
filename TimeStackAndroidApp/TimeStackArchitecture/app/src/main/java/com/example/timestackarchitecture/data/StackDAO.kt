@@ -8,6 +8,8 @@ import java.util.*
 interface StackDAO {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStack(stack: StackData)
+    @Update
+    suspend fun updateStack(stack: StackData)
     @Delete
     suspend fun deleteStack(stack: StackData)
     @Query("DELETE FROM stack_table")

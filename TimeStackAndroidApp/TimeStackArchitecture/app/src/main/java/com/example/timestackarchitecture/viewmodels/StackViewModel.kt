@@ -19,16 +19,17 @@ class StackViewModel(private val stackRepository: StackRepository) : ViewModel()
         }
     }
 
+    fun updateStack(stack: StackData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            stackRepository.updateStack(stack)
+        }
+    }
+
     fun removeStack(stack: StackData) {
         viewModelScope.launch(Dispatchers.IO) {
             stackRepository.deleteStack(stack)
         }
     }
 
-    fun clearAll() {
-        viewModelScope.launch(Dispatchers.IO) {
-            stackRepository.deleteAllStacks()
-        }
-    }
 
 }

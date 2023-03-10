@@ -27,7 +27,6 @@ import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.AddInputDialog
 import com.example.timestackarchitecture.ui.components.PlayPauseButton
 import com.example.timestackarchitecture.ui.components.RemoveInputDialog
-import kotlinx.coroutines.runBlocking
 
 @Composable
 fun Container(
@@ -38,6 +37,7 @@ fun Container(
     totalPlayedTime: () -> Int,
     updateProgress: (Int) -> Unit,
     insertStack: (StackData) -> Unit,
+    updateStack: (StackData) -> Unit,
     removeStack: (StackData) -> Unit,
     ) {
     var openDialogAdd by remember { mutableStateOf(false) }
@@ -47,7 +47,10 @@ fun Container(
     var activeStack by remember { mutableStateOf(true) }
     var play by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
-
+    println("timePlayed: ${totalPlayedTime()}")
+    if(stackList.isNotEmpty()){
+        play = stackList[0].isPlaying
+    }
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -97,7 +100,6 @@ fun Container(
                                 stopTimer {play = false}
                                 removeStack(stackList[index])
                                 updateProgress(0)
-
                             }
                         }
                         Text(
@@ -116,6 +118,7 @@ fun Container(
                 }
             }
             Spacer(modifier = Modifier.size(30.dp))
+
             Row {
                 ElevatedButton(onClick = {
                     openDialogAdd = true
@@ -134,6 +137,7 @@ fun Container(
                     else{
                         play = it
                         stackList[0].isPlaying = it
+                        updateStack(StackData(stackList[0].id, stackList[0].stackName, stackList[0].stackTime, activeStack, it))
                         if (it) {
                             startTimer(totalPlayedTime())
                             println("Timer started")
@@ -144,6 +148,7 @@ fun Container(
                 }
 
                 Spacer(modifier = Modifier.width(10.dp))
+
                 ElevatedButton(onClick = {
                     openDialogRemove = true
                 }, Modifier.size(60.dp, 50.dp), colors = ButtonDefaults.buttonColors(Color.Black)) {

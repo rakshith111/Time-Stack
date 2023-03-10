@@ -34,6 +34,8 @@ fun BaseScreen(
         updateProgress = { playedTime: Int -> sharedPreferencesManager.saveProgress(playedTime) },
         insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
+        updateStack = { stackData: StackData ->
+            stackViewModel.updateStack(stackData) },
         removeStack = { stackData: StackData -> stackViewModel.removeStack(stackData) }
     )
 }

@@ -7,6 +7,10 @@ class StackRepositoryImpl(private val dao: StackDAO) : StackRepository {
         dao.insertStack(stack)
     }
 
+    override suspend fun updateStack(stack: StackData) {
+        dao.updateStack(stack)
+    }
+
     override suspend fun deleteStack(stack: StackData) {
         dao.deleteStack(stack)
     }
