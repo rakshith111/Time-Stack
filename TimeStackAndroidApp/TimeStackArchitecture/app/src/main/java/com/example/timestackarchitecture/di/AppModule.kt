@@ -1,10 +1,13 @@
 package com.example.timestackarchitecture.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.timestackarchitecture.data.StackDatabase
 import com.example.timestackarchitecture.data.StackRepository
 import com.example.timestackarchitecture.data.StackRepositoryImpl
+import com.example.timestackarchitecture.viewmodels.TimerViewModel
+import com.example.timestackarchitecture.viewmodels.TimerViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,5 +33,9 @@ object AppModule {
     fun provideStackRepository(db : StackDatabase) : StackRepository {
         return StackRepositoryImpl(db.stackDAO)
     }
+
+    @Provides
+    @Singleton
+    fun provideContext(application: Application): Context = application.applicationContext
 
 }

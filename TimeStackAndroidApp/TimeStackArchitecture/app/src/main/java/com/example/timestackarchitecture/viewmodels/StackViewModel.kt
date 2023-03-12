@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.data.StackRepository
+import com.example.timestackarchitecture.data.StackRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,5 @@ class StackViewModel(private val stackRepository: StackRepository) : ViewModel()
             stackRepository.deleteStack(stack)
         }
     }
-
 
 }

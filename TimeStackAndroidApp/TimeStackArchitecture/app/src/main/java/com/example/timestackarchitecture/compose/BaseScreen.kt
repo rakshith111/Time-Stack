@@ -1,18 +1,18 @@
 package com.example.timestackarchitecture.compose
 
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.timestackarchitecture.data.SharedPreferencesManager
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.viewmodels.*
 
 @Composable
 fun BaseScreen(
     stackViewModelFactory: StackViewModelFactory,
-    timerViewModel: TimerViewModel,
+    timerViewModelFactory: TimerViewModelFactory,
     stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
-    sharedPreferencesManager: SharedPreferencesManager,
+    timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory),
 ) {
     val list = stackViewModel.stackList.collectAsState(initial = emptyList())
     val stackList = list.value
@@ -20,7 +20,7 @@ fun BaseScreen(
     val selectedItems = stackViewModel.selectedItems
 
     if(stackList.isEmpty()){
-        sharedPreferencesManager.saveProgress(0)
+        timerViewModel.saveProgress(0)
     }
     Container(
         stackList, selectedItems,
@@ -30,8 +30,8 @@ fun BaseScreen(
         stopTimer = { pauseTimer: (Int) -> Unit ->
             timerViewModel.stopTimer(pauseTimer)
         } ,
-        totalPlayedTime = { sharedPreferencesManager.getProgress()},
-        updateProgress = { playedTime: Int -> sharedPreferencesManager.saveProgress(playedTime) },
+        totalPlayedTime = { timerViewModel.getProgress() },
+        updateProgress = { playedTime: Int -> timerViewModel.saveProgress(playedTime) },
         insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
         updateStack = { stackData: StackData ->
