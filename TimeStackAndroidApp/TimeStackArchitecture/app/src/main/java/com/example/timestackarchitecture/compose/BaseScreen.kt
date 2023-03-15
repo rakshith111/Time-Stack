@@ -14,8 +14,8 @@ fun BaseScreen(
     stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
     timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory),
 ) {
-    val list = stackViewModel.stackList.collectAsState(initial = emptyList())
-    val stackList = list.value
+
+    val stackList = stackViewModel.stackList
 
     val selectedItems = stackViewModel.selectedItems
 

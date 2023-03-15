@@ -1,28 +1,19 @@
 package com.example.timestackarchitecture.service
 
 import android.app.*
-import android.app.NotificationManager.IMPORTANCE_LOW
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
-import com.example.timestackarchitecture.other.Constants.ACTION_PAUSE_SERVICE
-import com.example.timestackarchitecture.other.Constants.ACTION_SHOW_TRACKING_FRAGMENT
-import com.example.timestackarchitecture.other.Constants.ACTION_START_OR_RESUME_SERVICE
-import com.example.timestackarchitecture.other.Constants.ACTION_STOP_SERVICE
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
-import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_NAME
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
 import com.example.timestackarchitecture.viewmodels.TimerViewModel
 
 
 class TimerService : Service(){
-
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         TimerViewModel(this).startTimer(TimerViewModel(this).getProgress())

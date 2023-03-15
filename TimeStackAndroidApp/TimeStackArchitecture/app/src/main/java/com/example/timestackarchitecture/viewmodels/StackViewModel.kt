@@ -7,13 +7,22 @@ import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.data.StackRepository
 import com.example.timestackarchitecture.data.StackRepositoryImpl
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
 class StackViewModel(private val stackRepository: StackRepository) : ViewModel() {
+    var stackList: List<StackData> by mutableStateOf(listOf())
+    init {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            stackRepository.getStacks().collect { list ->
+                stackList = list
+            }
+        }
+    }
     val selectedItems =  mutableStateListOf<Int>()
 
-    val stackList =  stackRepository.getStacks()
     fun insertStack(stack: StackData) {
         viewModelScope.launch(Dispatchers.IO) {
             stackRepository.insertStack(stack)
