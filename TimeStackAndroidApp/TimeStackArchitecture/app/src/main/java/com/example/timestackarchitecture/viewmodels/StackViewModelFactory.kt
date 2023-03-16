@@ -7,6 +7,7 @@ import com.example.timestackarchitecture.data.StackRepository
 import javax.inject.Inject
 
 
+@Suppress("UNCHECKED_CAST")
 class StackViewModelFactory @Inject constructor(private val repository: StackRepository
                                                 ):
     ViewModelProvider.NewInstanceFactory() {
@@ -14,6 +15,7 @@ class StackViewModelFactory @Inject constructor(private val repository: StackRep
             T = StackViewModel(repository) as T
 }
 
+@Suppress("UNCHECKED_CAST")
 class TimerViewModelFactory @Inject constructor(private val context: Context) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>):

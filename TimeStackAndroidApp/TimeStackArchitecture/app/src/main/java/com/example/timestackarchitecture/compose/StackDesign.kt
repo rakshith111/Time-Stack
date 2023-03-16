@@ -19,7 +19,7 @@ fun Loader(
     var speedTime = totalTime - 2000
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.water_loading))
     val videoLength = composition?.duration
-    var progress: Float
+    val progress: Float
     val totalPlayedTime = totalPlayed * 1000
 
     if (videoLength != null) {

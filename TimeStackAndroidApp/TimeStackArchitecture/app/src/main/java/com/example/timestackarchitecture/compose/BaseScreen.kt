@@ -2,7 +2,6 @@ package com.example.timestackarchitecture.compose
 
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.viewmodels.*
@@ -16,7 +15,6 @@ fun BaseScreen(
 ) {
 
     val stackList = stackViewModel.stackList
-
     val selectedItems = stackViewModel.selectedItems
 
     if(stackList.isEmpty()){
