@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
@@ -59,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 timerViewModel.stopTimer { pauseTime ->
                     timerViewModel.saveProgress(pauseTime)
                 }
-                startService()
+                startService(stackViewModel.stackList[0].stackTime)
                 println("service started")
             }
         }
@@ -76,7 +77,7 @@ class MainActivity : ComponentActivity() {
             timerViewModel.stopTimer { pauseTime ->
                 timerViewModel.saveProgress(pauseTime)
             }
-            startService()
+            startService(stackViewModel.stackList[0].stackTime)
             println("service started")
         }
     }
@@ -85,10 +86,10 @@ class MainActivity : ComponentActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun startService() {
+    private fun startService(duration: Long) {
         // Start the service
         val serviceIntent = Intent(this, TimerService::class.java)
-        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android")
+        serviceIntent.putExtra("duration", duration)
         startForegroundService(serviceIntent)
     }
 
@@ -100,24 +101,25 @@ class MainActivity : ComponentActivity() {
             ViewModelProvider(this, timerViewModelFactory)[TimerViewModel::class.java]
         if (stackViewModel.stackList.isNotEmpty()) {
             if (stackViewModel.stackList[0].isPlaying) {
+
                 timerViewModel.stopTimer { pauseTime ->
                     timerViewModel.saveProgress(pauseTime)
+                    println("view started service stopped $pauseTime")
                 }
-                startService()
+                timerViewModel.startTimer(timerViewModel.getProgress(), stackViewModel.stackList[0].stackTime.toInt())
                 println("service started")
+                val serviceIntent = Intent(this, TimerService::class.java)
+                stopService(serviceIntent)
+                TimerService().stopProgressNotificationThread()
             }
-            val serviceIntent = Intent(this, TimerService::class.java)
-            println("service stopped")
-            stopService(serviceIntent)
         }
+
     }
 //
 //
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
     stopService()
-    super.onResume()
-}
-
+    super.onResume() }
 }
 

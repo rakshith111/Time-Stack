@@ -22,8 +22,8 @@ fun BaseScreen(
     }
     Container(
         stackList, selectedItems,
-        startTimer = { playedTime: Int ->
-            timerViewModel.startTimer(playedTime)
+        startTimer = { playedTime: Int, duration: Int ->
+            timerViewModel.startTimer(playedTime, duration)
         },
         stopTimer = { pauseTimer: (Int) -> Unit ->
             timerViewModel.stopTimer(pauseTimer)
@@ -33,7 +33,6 @@ fun BaseScreen(
         insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
         updateStack = { stackData: StackData ->
-            stackViewModel.updateStack(stackData) },
-        removeStack = { stackData: StackData -> stackViewModel.removeStack(stackData) }
-    )
+            stackViewModel.updateStack(stackData) }
+    ) { stackData: StackData -> stackViewModel.removeStack(stackData) }
 }

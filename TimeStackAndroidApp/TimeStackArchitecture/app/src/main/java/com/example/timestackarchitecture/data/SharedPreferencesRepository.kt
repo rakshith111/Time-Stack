@@ -2,7 +2,7 @@ package com.example.timestackarchitecture.data
 
 import android.content.Context
 
-class SharedPreferencesRepository(context: Context){
+class SharedPreferencesProgressRepository(context: Context){
     private val sharedPref = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
 
     fun saveProgress(progress: Int) {

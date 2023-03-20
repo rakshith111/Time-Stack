@@ -57,13 +57,20 @@ fun AddInputDialog(
 @Composable
 fun RemoveInputDialog(
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit){
+    onDismiss: () -> Unit,
+    selectedItems: MutableList<Int>
+){
     AlertDialog(
         onDismissRequest = {
             onDismiss()
         },
         title = {
-            Text(text = "Confirm Deletion")
+            if (selectedItems.size == 1 || selectedItems.size == 0) {
+                Text(text = "Remove top activity?")
+            } else {
+                Text(text = "Remove ${selectedItems.size} activities?")
+            }
+
         },
         confirmButton = {
             TextButton(

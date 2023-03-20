@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.*
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +32,7 @@ import kotlinx.coroutines.launch
 fun Container(
     stackList: List<StackData>,
     selectedItems: MutableList<Int>,
-    startTimer: (Int) -> Unit,
+    startTimer: (Int, Int) -> Unit,
     stopTimer: ((Int) -> Unit) -> Unit,
     totalPlayedTime: () -> Int,
     updateProgress: (Int) -> Unit,
@@ -52,8 +51,10 @@ fun Container(
     val haptic = LocalHapticFeedback.current
 
     println("timePlayed: ${totalPlayedTime()}")
-    if (stackList.isNotEmpty()) {
-        play = stackList[0].isPlaying
+    play = if (stackList.isNotEmpty()) {
+        stackList[0].isPlaying
+    } else {
+        false
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         snackbarHost = {SnackbarHost(hostState = snackBarHostState)}){ paddingValues ->
@@ -117,8 +118,8 @@ fun Container(
                                             scope = scope,
                                             snackBarHostState = snackBarHostState
                                         )
+                                    }
                                 }
-                            }
 
                             Text(
                                 stackList[index].stackName, textAlign = TextAlign.Center,
@@ -169,7 +170,7 @@ fun Container(
                                 )
                             )
                             if (it) {
-                                startTimer(totalPlayedTime())
+                                startTimer(totalPlayedTime(), stackList[0].stackTime.toInt())
                                 println("Timer started")
                             } else {
                                 stopTimer { time -> updateProgress(time) }
@@ -212,7 +213,8 @@ fun Container(
                         snackBarMessage(
                             message = "$activityName stack added",
                             scope = scope,
-                            snackBarHostState = snackBarHostState)
+                            snackBarHostState = snackBarHostState
+                        )
                         openDialogAdd = false
                     },
                     onDismiss = { openDialogAdd = false },
@@ -225,23 +227,38 @@ fun Container(
             openDialogRemove -> {
                 RemoveInputDialog(
                     onConfirm = {
-                        selectedItems.sortedDescending().forEach { index ->
-                            removeStack(stackList[index])
-                        }
-                        if (selectedItems.contains(0) && play) {
-                            println("contains 0")
-                            stopTimer { play = false }
-                            updateProgress(0)
+                        if (selectedItems.size > 0) {
+                            selectedItems.sortedDescending().forEach { index ->
+                                removeStack(stackList[index])
+                            }
+                            if (selectedItems.contains(0)) {
+                                println("contains 0")
+                                if (play) {
+                                    stopTimer { play = false }
+                                }
+                                updateProgress(0)
+                            }
+                            selectedItems.clear()
+                        } else {
+                            if (stackList.isNotEmpty()) {
+                                removeStack(stackList[0])
+                                if (play) {
+                                    stopTimer { play = false }
+                                }
+                                updateProgress(0)
+                            }
+
                         }
                         snackBarMessage(
                             message = if (selectedItems.size > 1) "${selectedItems.size} Stacks removed"
                             else "Stack removed",
                             scope = scope,
-                            snackBarHostState = snackBarHostState)
-                        selectedItems.clear()
+                            snackBarHostState = snackBarHostState
+                        )
                         openDialogRemove = false
                     },
                     onDismiss = { openDialogRemove = false },
+                    selectedItems = selectedItems,
                 )
             }
         }

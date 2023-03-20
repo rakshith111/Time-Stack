@@ -10,6 +10,7 @@ class CreateNotificationChannel(private val context: Context) {
 
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            println("creating notification channel")
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = android.app.NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
@@ -22,4 +23,6 @@ class CreateNotificationChannel(private val context: Context) {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+
 }
