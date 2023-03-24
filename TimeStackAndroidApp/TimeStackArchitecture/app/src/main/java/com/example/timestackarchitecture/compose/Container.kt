@@ -186,7 +186,9 @@ fun Container(
 
                     ElevatedButton(
                         onClick = {
-                            if(stackList.isEmpty()) return@ElevatedButton
+                            if(stackList.isEmpty()) {
+                                return@ElevatedButton
+                            }
                             else
                             openDialogRemove = true
                         },
