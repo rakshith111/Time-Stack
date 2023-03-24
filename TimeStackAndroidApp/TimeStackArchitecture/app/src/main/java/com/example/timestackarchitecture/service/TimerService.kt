@@ -5,20 +5,23 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.Service
 import android.content.Intent
-import android.content.SharedPreferences
+import android.graphics.Typeface
+import android.media.*
 import android.os.Build
 import android.os.IBinder
+import android.util.TypedValue
 import android.widget.RemoteViews
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
-import com.example.timestackarchitecture.ui.components.StackTimer
 import com.example.timestackarchitecture.viewmodels.TimerViewModel
 import kotlinx.coroutines.*
-import java.time.Duration
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
@@ -31,16 +34,22 @@ class TimerService : Service(){
         private lateinit var executor: ScheduledExecutorService
         private lateinit var task: ScheduledFuture<*>
         private var duration: Long? = null
+        private lateinit var ringtone: Ringtone
+        var isAppInForeground = false
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val progress = TimerViewModel(this).getProgress()
         duration = intent?.getLongExtra("duration", 0)
         TimerViewModel(this).startTimer(progress, duration!!.toInt())
+        duration = duration?.div(1000)
         println("service started")
         startForeground(NOTIFICATION_ID,  createNotification(progress))
         return START_STICKY
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotification(progress: Int): Notification {
         val notificationIntent = Intent(this, MainActivity::class.java)
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -54,22 +63,36 @@ class TimerService : Service(){
             packageName,
             R.layout.notification_collapsed
         )
+        val expandedView = RemoteViews(
+            packageName,
+            R.layout.notification_expanded
+        )
+
+
 
         collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer is running..")
         collapsedView.setTextViewText(R.id.tvCollapsedTime, "00:00:00")
+
+        expandedView.setTextViewText(R.id.text_view_expanded, "1 2 3 4 %")
+
+        val defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        ringtone = RingtoneManager.getRingtone(applicationContext, defaultRingtoneUri)
+
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(collapsedView)
-            .setCustomBigContentView(RemoteViews(packageName, R.layout.notification_expanded))
+            .setCustomBigContentView(expandedView)
             .setOngoing(true)
+            .setSilent(true)
             .setOnlyAlertOnce(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSound(defaultRingtoneUri)
+            .setColorized(true)
 
         NotificationManagerCompat.from(this).apply {
             //background service thread to update notification according to timer
-            createThread(collapsedView, builder, progress)
+            createThread(collapsedView, expandedView, builder, progress)
             notify( NOTIFICATION_ID, builder.build())
         }
         return builder.build()
@@ -81,23 +104,34 @@ class TimerService : Service(){
 
     private fun createThread(
         collapsedView: RemoteViews,
+        expandedView: RemoteViews,
         builder: NotificationCompat.Builder,
         progress: Int,
-    ) {
+        ) {
         var i = progress
+        var percentage = 0
         executor = Executors.newSingleThreadScheduledExecutor()
         task = executor.scheduleAtFixedRate({
             println("$i")
-            collapsedView.setTextViewText(R.id.tvCollapsedTime, "$i")
+            collapsedView.setTextViewText(R.id.tvCollapsedTime, "$percentage%")
+            expandedView.setTextViewText(R.id.text_view_expanded, "$percentage%")
             i++
-            println("duration $duration")
-            if(i >= (duration?.toInt()!!/ 1000)) {
-
+            percentage = ((i.toFloat() / (duration?.toFloat()!!)) * 100).toInt()
+            percentage = 100 - percentage
+            if(percentage == 10){
+                ringtone.play()
+            }
+            println("duration $duration percentage $percentage%")
+            if(i >= (duration?.toInt()!!)) {
                 collapsedView.setTextViewText(R.id.tvCollapsedTime, "task completed")
+                expandedView.setTextViewText(R.id.text_view_expanded, "task completed")
                 builder.setCustomContentView(collapsedView)
+                    .setCustomBigContentView(expandedView)
+                ringtone.play()
                 stopProgressNotificationThread()
             } else {
                 builder.setCustomContentView(collapsedView)
+                    .setCustomBigContentView(expandedView)
             }
 
             NotificationManagerCompat.from(applicationContext).notify(NOTIFICATION_ID, builder.build())
@@ -109,5 +143,8 @@ class TimerService : Service(){
         executor.shutdown()
         task.cancel(false)
         println("notification thread stopped")
+        if(isAppInForeground){
+            ringtone.stop()
+        }
     }
 }

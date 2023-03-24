@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
+        TimerService.isAppInForeground = true
         stopService()
         setContent {
             TimeStackArchitectureTheme {
@@ -63,6 +63,7 @@ class MainActivity : ComponentActivity() {
                 println("service started")
             }
         }
+        TimerService.isAppInForeground = false
         super.onDestroy()
     }
 
@@ -80,6 +81,7 @@ class MainActivity : ComponentActivity() {
             println("service started")
         }
     }
+        TimerService.isAppInForeground = false
         super.onPause()
     }
 
@@ -119,6 +121,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
     stopService()
+    TimerService.isAppInForeground = true
     super.onResume() }
 }
 

@@ -23,6 +23,4 @@ class CreateNotificationChannel(private val context: Context) {
             notificationManager.createNotificationChannel(channel)
         }
     }
-
-
 }

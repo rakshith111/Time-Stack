@@ -6,8 +6,6 @@ import androidx.room.Room
 import com.example.timestackarchitecture.data.StackDatabase
 import com.example.timestackarchitecture.data.StackRepository
 import com.example.timestackarchitecture.data.StackRepositoryImpl
-import com.example.timestackarchitecture.viewmodels.TimerViewModel
-import com.example.timestackarchitecture.viewmodels.TimerViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

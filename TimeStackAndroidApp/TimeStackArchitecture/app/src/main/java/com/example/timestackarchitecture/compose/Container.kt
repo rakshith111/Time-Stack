@@ -19,10 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.*
 
@@ -131,7 +134,8 @@ fun Container(
                                 "${stackList[index]} milliseconds",
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth(),
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily(Font(R.font.dm_sans))
                             )
                         }
                     }
@@ -182,6 +186,8 @@ fun Container(
 
                     ElevatedButton(
                         onClick = {
+                            if(stackList.isEmpty()) return@ElevatedButton
+                            else
                             openDialogRemove = true
                         },
                         Modifier.size(60.dp, 50.dp),
@@ -192,6 +198,8 @@ fun Container(
                             Color.White,
                             23.sp,
                             textAlign = TextAlign.Center,
+                            fontFamily = FontFamily(
+                                Font(R.font.dm_sans))
                         )
                     }
                 }

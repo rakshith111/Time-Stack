@@ -14,7 +14,6 @@ class StackTimer {
         private lateinit var timerViewModel: TimerViewModel
         fun startTimer(totalPlayedTime: Int, duration: Int) {
             time = totalPlayedTime
-
             executor = Executors.newSingleThreadScheduledExecutor()
             task = executor.scheduleAtFixedRate({
                 println("time $time")

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomFontFamily">
+        <item name="android:fontFamily">@font/dm_sans</item>
+    </style>
+</resources>

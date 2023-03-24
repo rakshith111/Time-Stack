@@ -7,6 +7,7 @@ import com.example.timestackarchitecture.ui.components.StackTimer
 
 
 class TimerViewModel(context : Context) : ViewModel(){
+
     private var sharedPreferencesManager = SharedPreferencesProgressRepository(context)
 
     fun startTimer(totalPlayedTime: Int, duration: Int) {
@@ -19,6 +20,5 @@ class TimerViewModel(context : Context) : ViewModel(){
 
     fun getProgress() = sharedPreferencesManager.getProgress()
     fun saveProgress(progress: Int) = sharedPreferencesManager.saveProgress(progress)
-
 
 }

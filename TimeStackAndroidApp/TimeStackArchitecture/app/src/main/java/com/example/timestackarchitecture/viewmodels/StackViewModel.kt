@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 class StackViewModel(private val stackRepository: StackRepository) : ViewModel() {
     var stackList: List<StackData> by mutableStateOf(listOf())
     init {
-
         viewModelScope.launch(Dispatchers.IO) {
             stackRepository.getStacks().collect { list ->
                 stackList = list
