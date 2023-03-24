@@ -60,7 +60,7 @@ fun Container(
         false
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
-        snackbarHost = {SnackbarHost(hostState = snackBarHostState)}){ paddingValues ->
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }) { paddingValues ->
         println(paddingValues)
         Box(
             modifier = Modifier
@@ -116,13 +116,13 @@ fun Container(
                                     stopTimer { play = false }
                                     removeStack(stackList[index])
                                     updateProgress(0)
-                                        snackBarMessage(
-                                            message = "Stack removed",
-                                            scope = scope,
-                                            snackBarHostState = snackBarHostState
-                                        )
-                                    }
+                                    snackBarMessage(
+                                        message = "Stack removed",
+                                        scope = scope,
+                                        snackBarHostState = snackBarHostState
+                                    )
                                 }
+                            }
 
                             Text(
                                 stackList[index].stackName, textAlign = TextAlign.Center,
@@ -186,11 +186,11 @@ fun Container(
 
                     ElevatedButton(
                         onClick = {
-                            if(stackList.isEmpty()) {
+                            if (stackList.isEmpty()) {
                                 return@ElevatedButton
+                            } else {
+                                openDialogRemove = true
                             }
-                            else
-                            openDialogRemove = true
                         },
                         Modifier.size(60.dp, 50.dp),
                         colors = ButtonDefaults.buttonColors(Color.Black)
@@ -201,7 +201,8 @@ fun Container(
                             23.sp,
                             textAlign = TextAlign.Center,
                             fontFamily = FontFamily(
-                                Font(R.font.dm_sans))
+                                Font(R.font.dm_sans)
+                            )
                         )
                     }
                 }
