@@ -123,7 +123,6 @@ fun Container(
                                     )
                                 }
                             }
-
                             Text(
                                 stackList[index].stackName, textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth(),
@@ -228,7 +227,20 @@ fun Container(
                         )
                         openDialogAdd = false
                     },
-                    onDismiss = { openDialogAdd = false },
+                    onDismiss = { openDialogAdd = false
+                        if (activityName.isEmpty()){
+                            snackBarMessage(
+                                message = "Please enter activity name",
+                                scope = scope,
+                                snackBarHostState = snackBarHostState)
+
+                        } else {
+                            snackBarMessage(
+                                message = "Time is set to 0",
+                                scope = scope,
+                                snackBarHostState = snackBarHostState)
+                        }
+                    },
                     activityName = activityName,
                     onActivityNameChange = { activityName = it },
                     onActivityTimeChange = { activityTime = it }
@@ -275,4 +287,5 @@ fun Container(
         }
     }
 }
+
 

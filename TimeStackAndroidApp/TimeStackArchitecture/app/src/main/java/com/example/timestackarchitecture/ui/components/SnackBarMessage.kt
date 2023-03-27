@@ -4,7 +4,6 @@ import androidx.compose.material3.SnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
 fun snackBarMessage(
     message: String,
     scope: CoroutineScope,

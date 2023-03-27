@@ -1,8 +1,10 @@
 package com.example.timestackarchitecture.ui.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun AddInputDialog(
@@ -30,7 +32,7 @@ fun AddInputDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if(timeInMilli == "0"){
+                    if(timeInMilli == "0" || activityName == ""){
                         onDismiss()
                     } else {
                         onActivityTimeChange(timeInMilli)

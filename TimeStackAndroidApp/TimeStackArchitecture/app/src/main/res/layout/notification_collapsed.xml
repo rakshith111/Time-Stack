@@ -11,17 +11,18 @@
         style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Message!"
-        android:textColor="@color/black" />
+        tools:text="New Message!"
+        android:textColor="@color/black"
+        android:fontFamily="serif"/>
 
     <TextView
         android:id="@+id/tvCollapsedTime"
         style="@style/TextAppearance.Compat.Notification.Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Expand to show  2 3!"
-        android:tooltipText="sd"
+        tools:text="Expand to show  2 3!"
         android:textFontWeight="700"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:fontFamily="serif"/>
 
 </LinearLayout>

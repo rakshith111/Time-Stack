@@ -20,6 +20,7 @@ import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
+import com.example.timestackarchitecture.viewmodels.StackViewModel
 import com.example.timestackarchitecture.viewmodels.TimerViewModel
 import kotlinx.coroutines.*
 import java.util.concurrent.Executors
@@ -36,14 +37,35 @@ class TimerService : Service(){
         private var duration: Long? = null
         private lateinit var ringtone: Ringtone
         var isAppInForeground = false
+        var stackName = ""
+        var convertedTime = ""
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val progress = TimerViewModel(this).getProgress()
         duration = intent?.getLongExtra("duration", 0)
+        stackName = intent?.getStringExtra("stackName") ?: ""
         TimerViewModel(this).startTimer(progress, duration!!.toInt())
         duration = duration?.div(1000)
+
+// Convert the selected time from seconds to hours and minutes
+        val hours = duration?.div(3600)
+        val remainingSeconds = duration?.minus((hours?.times(3600)!!))
+        val minutes = remainingSeconds?.div(60)
+
+// Format the converted time as a string
+        convertedTime = when {
+            hours == 0L && minutes == 1L -> String.format("%d minute", minutes)
+            hours == 0L -> String.format("%d minutes", minutes)
+            minutes == 0L -> String.format("%d hours", hours)
+            minutes == 1L && hours == 1L -> String.format("%d hour : %d minute", hours, minutes)
+            minutes == 1L -> String.format("%d hours : %d minute", hours, minutes)
+            hours == 1L -> String.format("%d hour : %d minutes", hours, minutes)
+            else -> String.format("%d hours : %d minutes", hours, minutes)
+        }
+
+
         println("service started")
         startForeground(NOTIFICATION_ID,  createNotification(progress))
         return START_STICKY
@@ -68,12 +90,12 @@ class TimerService : Service(){
             R.layout.notification_expanded
         )
 
-
-
         collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer is running..")
         collapsedView.setTextViewText(R.id.tvCollapsedTime, "00:00:00")
 
         expandedView.setTextViewText(R.id.text_view_expanded, "1 2 3 4 %")
+        expandedView.setTextViewText(R.id.text_view_activity_name, stackName)
+        expandedView.setTextViewText(R.id.text_view_duration, convertedTime)
 
         val defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         ringtone = RingtoneManager.getRingtone(applicationContext, defaultRingtoneUri)
@@ -123,8 +145,9 @@ class TimerService : Service(){
             }
             println("duration $duration percentage $percentage%")
             if(i >= (duration?.toInt()!!)) {
-                collapsedView.setTextViewText(R.id.tvCollapsedTime, "task completed")
-                expandedView.setTextViewText(R.id.text_view_expanded, "task completed")
+                collapsedView.setTextViewText(R.id.tvCollapsedTime, "Task completed")
+                expandedView.setTextViewText(R.id.text_view_expanded, "Task completed")
+                collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer stopped")
                 builder.setCustomContentView(collapsedView)
                     .setCustomBigContentView(expandedView)
                 ringtone.play()

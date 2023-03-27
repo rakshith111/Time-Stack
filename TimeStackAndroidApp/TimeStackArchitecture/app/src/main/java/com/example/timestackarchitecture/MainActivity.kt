@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 timerViewModel.stopTimer { pauseTime ->
                     timerViewModel.saveProgress(pauseTime)
                 }
-                startService(stackViewModel.stackList[0].stackTime)
+                startService(stackViewModel.stackList[0].stackTime, stackViewModel.stackList[0].stackName)
                 println("service started")
             }
         }
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
             timerViewModel.stopTimer { pauseTime ->
                 timerViewModel.saveProgress(pauseTime)
             }
-            startService(stackViewModel.stackList[0].stackTime)
+            startService(stackViewModel.stackList[0].stackTime, stackViewModel.stackList[0].stackName)
             println("service started")
         }
     }
@@ -87,10 +87,11 @@ class MainActivity : ComponentActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun startService(duration: Long) {
+    private fun startService(duration: Long, stackName: String) {
         // Start the service
         val serviceIntent = Intent(this, TimerService::class.java)
         serviceIntent.putExtra("duration", duration)
+        serviceIntent.putExtra("stackName", stackName)
         startForegroundService(serviceIntent)
     }
 
