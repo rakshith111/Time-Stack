@@ -56,6 +56,7 @@ fun TimePicker(onTimeSelected: (Int) -> Unit) {
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (textColor == Color.White) {
+
                         setTextColor(ContextCompat.getColor(context, android.R.color.white))
                     } else {
                         setTextColor(ContextCompat.getColor(context, android.R.color.black))
