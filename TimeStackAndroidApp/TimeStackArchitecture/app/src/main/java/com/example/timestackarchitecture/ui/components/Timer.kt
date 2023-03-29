@@ -1,6 +1,7 @@
 package com.example.timestackarchitecture.ui.components
 
 import com.example.timestackarchitecture.viewmodels.TimerViewModel
+import timber.log.Timber
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
@@ -16,7 +17,7 @@ class StackTimer {
             time = totalPlayedTime
             executor = Executors.newSingleThreadScheduledExecutor()
             task = executor.scheduleAtFixedRate({
-                println("time $time")
+                Timber.d("time $time")
                 time++
                 if (time >= duration/ 1000) {
                     stopTimer { time ->
@@ -30,7 +31,7 @@ class StackTimer {
             time = 0
             executor.shutdown()
             task.cancel(false)
-            println("stopped")
+            Timber.d("stopped")
         }
     }
 

@@ -30,17 +30,6 @@ fun Loader(
             totalPlayedTime.toFloat() / totalTime
 
         }
-//        if (finished) {
-//            progress = 1F
-//        }
-//        if (!activeStack and !finished) {
-//            progress = 0F
-//            isPlaying = false
-//        }
-//        if(!activeStack and finished and !isPlaying){
-//            progress = 1F
-//            isPlaying = true
-//        }
         val progressAsState by animateLottieCompositionAsState(
             composition = composition,
             clipSpec = LottieClipSpec.Progress(progress, 1f),

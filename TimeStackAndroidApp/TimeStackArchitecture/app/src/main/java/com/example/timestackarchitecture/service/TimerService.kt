@@ -5,31 +5,25 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.Service
 import android.content.Intent
-import android.graphics.Typeface
 import android.media.*
 import android.os.Build
 import android.os.IBinder
-import android.util.TypedValue
 import android.widget.RemoteViews
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.res.ResourcesCompat
 import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
-import com.example.timestackarchitecture.viewmodels.StackViewModel
 import com.example.timestackarchitecture.viewmodels.TimerViewModel
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
-
-@OptIn(DelicateCoroutinesApi::class)
 class TimerService : Service(){
     companion object {
         private lateinit var executor: ScheduledExecutorService
@@ -66,7 +60,7 @@ class TimerService : Service(){
         }
 
 
-        println("service started")
+        Timber.d("service started $duration")
         startForeground(NOTIFICATION_ID,  createNotification(progress))
         return START_STICKY
     }
@@ -134,7 +128,7 @@ class TimerService : Service(){
         var percentage = 0
         executor = Executors.newSingleThreadScheduledExecutor()
         task = executor.scheduleAtFixedRate({
-            println("$i")
+            Timber.d("service running $i")
             collapsedView.setTextViewText(R.id.tvCollapsedTime, "$percentage%")
             expandedView.setTextViewText(R.id.text_view_expanded, "$percentage%")
             i++
@@ -143,7 +137,7 @@ class TimerService : Service(){
             if(percentage == 10){
                 ringtone.play()
             }
-            println("duration $duration percentage $percentage%")
+            Timber.d("duration $duration percentage $percentage%")
             if(i >= (duration?.toInt()!!)) {
                 collapsedView.setTextViewText(R.id.tvCollapsedTime, "Task completed")
                 expandedView.setTextViewText(R.id.text_view_expanded, "Task completed")
@@ -151,7 +145,7 @@ class TimerService : Service(){
                 builder.setCustomContentView(collapsedView)
                     .setCustomBigContentView(expandedView)
                 ringtone.play()
-                stopProgressNotificationThread()
+                stopProgressNotificationThread("onStopCommand")
             } else {
                 builder.setCustomContentView(collapsedView)
                     .setCustomBigContentView(expandedView)
@@ -162,11 +156,11 @@ class TimerService : Service(){
         }, 0, 1, TimeUnit.SECONDS)
     }
 
-    fun stopProgressNotificationThread() {
+    fun stopProgressNotificationThread(LifecycleEvent: String) {
         executor.shutdown()
         task.cancel(false)
-        println("notification thread stopped")
-        if(isAppInForeground){
+        Timber.d("notification thread stopped $LifecycleEvent")
+        if (LifecycleEvent == "onCreate" || LifecycleEvent == "onResume") {
             ringtone.stop()
         }
     }

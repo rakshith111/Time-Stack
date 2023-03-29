@@ -5,12 +5,13 @@ import android.content.Context
 import android.os.Build
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_NAME
+import timber.log.Timber
 
 class CreateNotificationChannel(private val context: Context) {
 
     fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            println("creating notification channel")
+            Timber.d("creating notification channel")
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = android.app.NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,

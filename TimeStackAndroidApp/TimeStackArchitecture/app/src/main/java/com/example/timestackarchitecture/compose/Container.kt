@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.*
+import timber.log.Timber
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +54,7 @@ fun Container(
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
 
-    println("timePlayed: ${totalPlayedTime()}")
+    Timber.d("timePlayed: ${totalPlayedTime()}")
     play = if (stackList.isNotEmpty()) {
         stackList[0].isPlaying
     } else {
@@ -61,7 +62,7 @@ fun Container(
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }) { paddingValues ->
-        println(paddingValues)
+        Timber.d("paddingValues: $paddingValues")
         Box(
             modifier = Modifier
                 .background(color = Color.White)
@@ -92,14 +93,15 @@ fun Container(
                                         detectTapGestures(
                                             onLongPress = {
                                                 if (!selectedItems.contains(index)) {
-                                                    println("pressed $index")
+                                                    Timber.d("pressed $index")
                                                     selectedItems.add(index)
                                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                                 }
                                             },
                                             onTap = {
                                                 if (selectedItems.contains(index)) {
-                                                    println("deselect")
+
+                                                    Timber.d("deselected $index")
                                                     selectedItems.remove(index)
                                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                                 }
@@ -112,7 +114,7 @@ fun Container(
                                     stackList[index].stackTime,
                                     stackList[index].isPlaying
                                 ) {
-                                    println("outside ${totalPlayedTime()}")
+                                    Timber.d("outside ${totalPlayedTime()}")
                                     stopTimer { play = false }
                                     removeStack(stackList[index])
                                     updateProgress(0)
@@ -174,7 +176,7 @@ fun Container(
                             )
                             if (it) {
                                 startTimer(totalPlayedTime(), stackList[0].stackTime.toInt())
-                                println("Timer started")
+                                Timber.d("Timer started")
                             } else {
                                 stopTimer { time -> updateProgress(time) }
                             }
@@ -255,7 +257,7 @@ fun Container(
                                 removeStack(stackList[index])
                             }
                             if (selectedItems.contains(0)) {
-                                println("contains 0")
+                                Timber.d("contains 0")
                                 if (play) {
                                     stopTimer { play = false }
                                 }
