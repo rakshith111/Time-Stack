@@ -1,8 +1,8 @@
 package com.example.timestackarchitecture.compose
 
 
-
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
@@ -77,7 +78,7 @@ fun Container(
                 ) {
                     Column(
                         Modifier
-                            .fillMaxHeight()
+//                            .fillMaxHeight()
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -85,10 +86,34 @@ fun Container(
                             Box(
                                 Modifier
                                     .fillMaxWidth()
+                                    .border(
+                                        if (selectedItems.contains(index))
+                                            5.dp else 0.dp,
+                                        if (selectedItems.contains(index))
+                                            Color(0x1FFFFFFF) else Color.Transparent,
+                                        if (selectedItems.contains(index))
+                                            RoundedCornerShape(58.dp) else RoundedCornerShape(0.dp)
+                                    )
                                     .background(
                                         if (selectedItems.contains(index))
-                                            Color.LightGray else Color.Transparent
+                                            Color(0x1FFFFFFF) else Color.Transparent,
+                                        shape = RoundedCornerShape(50.dp)
                                     )
+                                    .shadow(
+                                        if (selectedItems.contains(index)){
+                                            7.dp
+                                        } else {
+                                            0.dp
+                                        },
+                                        if (selectedItems.contains(index)){
+                                            RoundedCornerShape(50.dp)
+                                        } else {
+                                            RoundedCornerShape(0.dp)
+                                        },
+                                        ambientColor = Color(0xFFFFFFFF),
+                                        spotColor = Color(0xFFFFFFFF)
+                                    ) //shadow
+//
                                     .pointerInput(Unit) {
                                         detectTapGestures(
                                             onLongPress = {
@@ -100,14 +125,14 @@ fun Container(
                                             },
                                             onTap = {
                                                 if (selectedItems.contains(index)) {
-
                                                     Timber.d("deselected $index")
                                                     selectedItems.remove(index)
                                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                                 }
                                             }
                                         )
-                                    }) {
+                                    }
+                            ) {
 
                                 Loader(
                                     totalPlayedTime(),
@@ -130,6 +155,7 @@ fun Container(
                                 modifier = Modifier.fillMaxWidth(),
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black)
+
                             //convert milliseconds to hours and minutes
                             val time = stackList[index].stackTime/1000
                             val hours = time.div(3600)

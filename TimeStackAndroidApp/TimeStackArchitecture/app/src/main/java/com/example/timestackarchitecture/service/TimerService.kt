@@ -96,6 +96,7 @@ class TimerService : Service(){
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultRingtoneUri)
             .setColorized(true)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
 
         NotificationManagerCompat.from(this).apply {
             //background service thread to update notification according to timer

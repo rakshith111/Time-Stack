@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         tools:text="New Message!"
         android:textColor="@color/black"
-        android:fontFamily="serif"/>
+        android:fontFamily="@font/dm_sans"/>
 
     <TextView
         android:id="@+id/tvCollapsedTime"
@@ -23,6 +23,6 @@
         tools:text="Expand to show  2 3!"
         android:textFontWeight="700"
         android:textColor="@color/black"
-        android:fontFamily="serif"/>
+        android:fontFamily="@font/dm_sans"/>
 
 </LinearLayout>

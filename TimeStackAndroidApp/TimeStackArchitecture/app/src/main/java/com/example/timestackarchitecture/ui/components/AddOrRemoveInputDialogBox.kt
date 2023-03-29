@@ -1,10 +1,8 @@
 package com.example.timestackarchitecture.ui.components
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun AddInputDialog(
@@ -17,14 +15,14 @@ fun AddInputDialog(
             onDismiss()
         },
         title = {
-            Text(text = "New Activity")
+            Text(text = "New Activity", style = MaterialTheme.typography.titleLarge)
         },
         text = {
             Column {
                 OutlinedTextField(
                     value = activityName,
                     onValueChange = onActivityNameChange,
-                    label = { Text("Activity Name") }
+                    label = { Text("Activity Name", style = MaterialTheme.typography.bodyLarge) }
                 )
                 TimePicker(onTimeSelected = { timeInMilli = it.toString()})
             }
@@ -41,7 +39,7 @@ fun AddInputDialog(
 
                 }
             ) {
-                Text("Confirm")
+                Text("Confirm", style = MaterialTheme.typography.bodyLarge)
             }
         },
         dismissButton = {
@@ -50,7 +48,7 @@ fun AddInputDialog(
                     onDismiss()
                 }
             ) {
-                Text("Dismiss")
+                Text("Dismiss", style = MaterialTheme.typography.bodyLarge)
             }
         }
     )
@@ -68,9 +66,9 @@ fun RemoveInputDialog(
         },
         title = {
             if (selectedItems.size == 1 || selectedItems.size == 0) {
-                Text(text = "Remove top activity?")
+                Text(text = "Remove top activity?", style = MaterialTheme.typography.titleLarge)
             } else {
-                Text(text = "Remove ${selectedItems.size} activities?")
+                Text(text = "Remove ${selectedItems.size} activities?", style = MaterialTheme.typography.titleLarge)
             }
 
         },
@@ -80,7 +78,7 @@ fun RemoveInputDialog(
                     onConfirm()
                 }
             ) {
-                Text("Confirm")
+                Text("Confirm", style = MaterialTheme.typography.bodyLarge)
             }
         },
         dismissButton = {
@@ -89,7 +87,7 @@ fun RemoveInputDialog(
                     onDismiss()
                 }
             ) {
-                Text("Dismiss")
+                Text("Dismiss", style = MaterialTheme.typography.bodyLarge)
             }
         }
     )

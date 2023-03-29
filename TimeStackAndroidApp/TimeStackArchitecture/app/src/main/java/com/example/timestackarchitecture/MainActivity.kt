@@ -70,59 +70,60 @@ class MainActivity : ComponentActivity() {
         }
 
         TimerService.isAppInForeground = true
-            stopService("onCreate")
-            setContent {
-                TimeStackArchitectureTheme {
-                    val context = LocalContext.current
+        stopService("onCreate")
 
-                    when {
-                        ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.POST_NOTIFICATIONS
-                        ) == PackageManager.PERMISSION_GRANTED -> {
-                            // You can use the API that requires the permission.
-                        }
-                        shouldShowRequestPermissionRationale(
-                            Manifest.permission.POST_NOTIFICATIONS
-                        ) -> {
-                          AlertDialog.Builder(context)
-                                .setTitle("Permission required")
-                                .setMessage("This permission is required to show notifications.")
-                                .setPositiveButton("OK") { _, _ ->
-                                    // Request the permission
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                        requestPermissionLauncher.launch(
-                                            Manifest.permission.POST_NOTIFICATIONS
-                                        )
-                                    }
-                                }
-                                .setNegativeButton("Cancel") { dialog, _ ->
-                                    // Dismiss the dialog and do nothing
-                                    dialog.dismiss()
-                                }
-                                .show()
-                        }
-                        else ->   {
-                            // You can directly ask for the permission.
-                            // The registered ActivityResultCallback gets the result of this request.
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                requestPermissionLauncher.launch(
-                                    Manifest.permission.POST_NOTIFICATIONS
+        setContent {
+            TimeStackArchitectureTheme {
+                val context = LocalContext.current
 
-                                )
-                            }
-                        }
+                when {
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        // You can use the API that requires the permission.
                     }
+                    shouldShowRequestPermissionRationale(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) -> {
+                        AlertDialog.Builder(context)
+                            .setTitle("Permission required")
+                            .setMessage("This permission is required to show notifications.")
+                            .setPositiveButton("OK") { _, _ ->
+                                // Request the permission
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    requestPermissionLauncher.launch(
+                                        Manifest.permission.POST_NOTIFICATIONS
+                                    )
+                                }
+                            }
+                            .setNegativeButton("Cancel") { dialog, _ ->
+                                // Dismiss the dialog and do nothing
+                                dialog.dismiss()
+                            }
+                            .show()
+                    }
+                    else ->   {
+                        // You can directly ask for the permission.
+                        // The registered ActivityResultCallback gets the result of this request.
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            requestPermissionLauncher.launch(
+                                Manifest.permission.POST_NOTIFICATIONS
 
-
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        BaseScreen(stackViewModelFactory = stackViewModelFactory, timerViewModelFactory = timerViewModelFactory)
+                            )
+                        }
                     }
                 }
+
+
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    BaseScreen(stackViewModelFactory = stackViewModelFactory, timerViewModelFactory = timerViewModelFactory)
+                }
             }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
