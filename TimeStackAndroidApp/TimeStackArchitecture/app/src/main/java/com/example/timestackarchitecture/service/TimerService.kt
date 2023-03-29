@@ -16,6 +16,7 @@ import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
+import com.example.timestackarchitecture.ui.components.convertTime
 import com.example.timestackarchitecture.viewmodels.TimerViewModel
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -48,17 +49,7 @@ class TimerService : Service(){
         val remainingSeconds = duration?.minus((hours?.times(3600)!!))
         val minutes = remainingSeconds?.div(60)
 
-// Format the converted time as a string
-        convertedTime = when {
-            hours == 0L && minutes == 1L -> String.format("%d minute", minutes)
-            hours == 0L -> String.format("%d minutes", minutes)
-            minutes == 0L -> String.format("%d hours", hours)
-            minutes == 1L && hours == 1L -> String.format("%d hour : %d minute", hours, minutes)
-            minutes == 1L -> String.format("%d hours : %d minute", hours, minutes)
-            hours == 1L -> String.format("%d hour : %d minutes", hours, minutes)
-            else -> String.format("%d hours : %d minutes", hours, minutes)
-        }
-
+        convertedTime = convertTime(hours!!, minutes!!)
 
         Timber.d("service started $duration")
         startForeground(NOTIFICATION_ID,  createNotification(progress))

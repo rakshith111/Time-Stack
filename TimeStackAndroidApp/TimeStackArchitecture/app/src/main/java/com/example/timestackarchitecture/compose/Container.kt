@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.data.StackData
+import com.example.timestackarchitecture.service.TimerService
 import com.example.timestackarchitecture.ui.components.*
 import timber.log.Timber
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -128,16 +128,21 @@ fun Container(
                             Text(
                                 stackList[index].stackName, textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth(),
-                                fontWeight = FontWeight.Bold
-                            )
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black)
+                            //convert milliseconds to hours and minutes
+                            val time = stackList[index].stackTime/1000
+                            val hours = time.div(3600)
+                            val remainingSeconds = time.minus((hours.times(3600)))
+                            val minutes = remainingSeconds.div(60)
 
                             Text(
-                                "${stackList[index]} milliseconds",
+                                convertTime(hours, minutes),
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth(),
                                 fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily(Font(R.font.dm_sans))
-                            )
+                                fontFamily = FontFamily(Font(R.font.dm_sans)),
+                                color = Color.Black)
                         }
                     }
                 }
