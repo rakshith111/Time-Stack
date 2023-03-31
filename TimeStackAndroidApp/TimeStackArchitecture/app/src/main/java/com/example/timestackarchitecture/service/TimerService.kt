@@ -31,6 +31,7 @@ class TimerService : Service(){
         private lateinit var task: ScheduledFuture<*>
         private var duration: Long? = null
         private lateinit var ringtone: Ringtone
+        private lateinit var NotificationRingtone: MediaPlayer
         var isAppInForeground = false
         var stackName = ""
         var convertedTime = ""
@@ -84,9 +85,9 @@ class TimerService : Service(){
 
         val defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         ringtone = RingtoneManager.getRingtone(applicationContext, defaultRingtoneUri)
-
+        NotificationRingtone = MediaPlayer.create(applicationContext, R.raw.promise)
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_stack_noti)
             .setContentIntent(pendingIntent)
             .setCustomContentView(collapsedView)
             .setCustomBigContentView(expandedView)
@@ -126,8 +127,8 @@ class TimerService : Service(){
             i++
             percentage = ((i.toFloat() / (duration?.toFloat()!!)) * 100).toInt()
             percentage = 100 - percentage
-            if(percentage == 10){
-                ringtone.play()
+            if(percentage == 50 || percentage == 10){
+                NotificationRingtone.start()
             }
             Timber.d("duration $duration percentage $percentage%")
             if(i >= (duration?.toInt()!!)) {

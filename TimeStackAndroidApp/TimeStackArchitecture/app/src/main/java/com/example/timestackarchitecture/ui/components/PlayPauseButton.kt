@@ -21,7 +21,7 @@ fun PlayPauseButton(
     FloatingActionButton(onClick = {
         onClick(!isPlaying)},
         shape = CircleShape,
-        containerColor = Color.Black,
+        containerColor = Color(0xff000000),
         modifier = Modifier.size(60.dp), ) {
         if(isPlaying){
             Icon(painter = painterResource(id = R.drawable.baseline_stop_24),

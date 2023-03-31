@@ -13,13 +13,13 @@ fun BaseScreen(
     stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
     timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory),
 ) {
-
     val stackList = stackViewModel.stackList
     val selectedItems = stackViewModel.selectedItems
 
     if(stackList.isEmpty()){
         timerViewModel.saveProgress(0)
     }
+
     Container(
         stackList, selectedItems,
         startTimer = { playedTime: Int, duration: Int ->

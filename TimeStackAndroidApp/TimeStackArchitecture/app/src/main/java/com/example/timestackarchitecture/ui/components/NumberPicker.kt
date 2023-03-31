@@ -9,13 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -56,7 +52,6 @@ fun TimePicker(onTimeSelected: (Int) -> Unit) {
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (textColor == Color.White) {
-
                         setTextColor(ContextCompat.getColor(context, android.R.color.white))
                     } else {
                         setTextColor(ContextCompat.getColor(context, android.R.color.black))
