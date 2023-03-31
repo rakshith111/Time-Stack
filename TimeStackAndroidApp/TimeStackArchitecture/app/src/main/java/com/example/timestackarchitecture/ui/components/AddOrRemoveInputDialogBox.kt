@@ -22,7 +22,7 @@ fun AddInputDialog(
                 OutlinedTextField(
                     value = activityName,
                     onValueChange = onActivityNameChange,
-                    label = { Text("Activity Name", style = MaterialTheme.typography.bodyLarge) }
+                    label = { Text("Activity Name", style = MaterialTheme.typography.bodyMedium) }
                 )
                 TimePicker(onTimeSelected = { timeInMilli = it.toString()})
             }
@@ -39,7 +39,7 @@ fun AddInputDialog(
 
                 }
             ) {
-                Text("Confirm", style = MaterialTheme.typography.bodyLarge)
+                Text("Confirm", style = MaterialTheme.typography.bodyMedium)
             }
         },
         dismissButton = {
@@ -48,7 +48,7 @@ fun AddInputDialog(
                     onDismiss()
                 }
             ) {
-                Text("Dismiss", style = MaterialTheme.typography.bodyLarge)
+                Text("Dismiss", style = MaterialTheme.typography.bodyMedium)
             }
         }
     )
@@ -78,7 +78,7 @@ fun RemoveInputDialog(
                     onConfirm()
                 }
             ) {
-                Text("Confirm", style = MaterialTheme.typography.bodyLarge)
+                Text("Confirm", style = MaterialTheme.typography.bodyMedium)
             }
         },
         dismissButton = {
@@ -87,7 +87,7 @@ fun RemoveInputDialog(
                     onDismiss()
                 }
             ) {
-                Text("Dismiss", style = MaterialTheme.typography.bodyLarge)
+                Text("Dismiss", style = MaterialTheme.typography.bodyMedium)
             }
         }
     )

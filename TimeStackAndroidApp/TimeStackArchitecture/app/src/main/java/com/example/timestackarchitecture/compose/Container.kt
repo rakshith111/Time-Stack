@@ -21,13 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.ui.components.*
 import timber.log.Timber
@@ -67,10 +64,15 @@ fun Container(
             SmallTopAppBar(
                 modifier = Modifier
                     .requiredHeight(100.dp),
-                title = { Text("Time Stack",
-                    modifier = Modifier.padding(top = 70.dp, start = 15.dp),
-                    fontSize = 30.sp,
-                    ) },
+                title = {
+                    Text(
+                        "Casual Mode",
+                        modifier = Modifier.padding(top = 70.dp, start = 15.dp),
+                        fontSize = 30.sp,
+                        color = Color(0x9f000000),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                },
                 colors = TopAppBarDefaults.largeTopAppBarColors(
                     containerColor = Color(0xFF8EC5FC),
                 ),
@@ -179,6 +181,7 @@ fun Container(
                             stackList[index].stackName, textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
                             fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyLarge,
                             color = Color.Black
                         )
 
@@ -192,14 +195,20 @@ fun Container(
                             convertTime(hours, minutes),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily(Font(R.font.dm_sans)),
+                            style = MaterialTheme.typography.bodyLarge,
                             color = Color.Black
                         )
+                        if (index != stackList.size - 1) {
+                            Divider(
+                                color = Color(0x1FFFFFFF),
+                                thickness = 2.dp,
+                                modifier = Modifier.padding(top = 10.dp)
+                            )
+                        }
                     }
                 }
             }
-            Spacer(modifier = Modifier.size(30.dp))
+            Spacer(modifier = Modifier.size(70.dp))
             Row(
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -217,7 +226,7 @@ fun Container(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(15.dp))
 
                 PlayPauseButton(isPlaying = play) {
                     if (stackList.isEmpty()) return@PlayPauseButton
@@ -242,7 +251,7 @@ fun Container(
                     }
                 }
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(15.dp))
 
                 ElevatedButton(
                     onClick = {
@@ -260,9 +269,7 @@ fun Container(
                         Color.White,
                         23.sp,
                         textAlign = TextAlign.Center,
-                        fontFamily = FontFamily(
-                            Font(R.font.dm_sans)
-                        )
+                        style = MaterialTheme.typography.bodyLarge,
                     )
                 }
             }
