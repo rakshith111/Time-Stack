@@ -126,8 +126,7 @@ class TimerService : Service(){
             expandedView.setTextViewText(R.id.text_view_expanded, "$percentage%")
             i++
             percentage = ((i.toFloat() / (duration?.toFloat()!!)) * 100).toInt()
-            percentage = 100 - percentage
-            if(percentage == 50 || percentage == 10){
+            if(percentage == 50 || percentage == 90){
                 NotificationRingtone.start()
             }
             Timber.d("duration $duration percentage $percentage%")
