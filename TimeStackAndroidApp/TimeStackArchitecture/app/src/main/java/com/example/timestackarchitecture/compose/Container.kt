@@ -97,7 +97,7 @@ fun Container(
         ) {
             Box(
                 contentAlignment = Alignment.Center, modifier = Modifier
-                    .size(350.dp, 440.dp)
+                    .size(350.dp, 447.dp)
                     .clip(shape = RoundedCornerShape(size = 12.dp))
                     .background(color = Color(0x3F82D8FF))
                     .border(5.dp, Color(0x3FFFFFFF), shape = RoundedCornerShape(12.dp))
@@ -192,7 +192,7 @@ fun Container(
                         val hours = time.div(3600)
                         val remainingSeconds = time.minus((hours.times(3600)))
                         val minutes = remainingSeconds.div(60)
-
+                        Spacer(modifier = Modifier.size(5.dp))
                         Text(
                             convertTime(hours, minutes),
                             textAlign = TextAlign.Center,
