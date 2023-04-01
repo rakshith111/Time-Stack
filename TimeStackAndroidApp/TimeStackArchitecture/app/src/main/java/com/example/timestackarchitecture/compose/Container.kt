@@ -97,7 +97,7 @@ fun Container(
         ) {
             Box(
                 contentAlignment = Alignment.Center, modifier = Modifier
-                    .size(350.dp, 367.dp)
+                    .size(350.dp, 440.dp)
                     .clip(shape = RoundedCornerShape(size = 12.dp))
                     .background(color = Color(0x3F82D8FF))
                     .border(5.dp, Color(0x3FFFFFFF), shape = RoundedCornerShape(12.dp))
@@ -160,21 +160,23 @@ fun Container(
                                     )
                                 }
                         ) {
-
-                            Loader(
-                                totalPlayedTime(),
-                                stackList[index].stackTime,
-                                stackList[index].isPlaying
-                            ) {
-                                Timber.d("outside ${totalPlayedTime()}")
-                                stopTimer { play = false }
-                                removeStack(stackList[index])
-                                updateProgress(0)
-                                snackBarMessage(
-                                    message = "Stack removed",
-                                    scope = scope,
-                                    snackBarHostState = snackBarHostState
-                                )
+                            Column {
+                                InfiniteAnimation(play = stackList[index].isPlaying)
+                                Loader(
+                                    totalPlayedTime(),
+                                    stackList[index].stackTime,
+                                    stackList[index].isPlaying
+                                ) {
+                                    Timber.d("outside ${totalPlayedTime()}")
+                                    stopTimer { play = false }
+                                    removeStack(stackList[index])
+                                    updateProgress(0)
+                                    snackBarMessage(
+                                        message = "Activity removed",
+                                        scope = scope,
+                                        snackBarHostState = snackBarHostState
+                                    )
+                                }
                             }
                         }
                         Text(
@@ -289,7 +291,7 @@ fun Container(
                         )
                     )
                     snackBarMessage(
-                        message = "$activityName stack added",
+                        message = "$activityName activity added",
                         scope = scope,
                         snackBarHostState = snackBarHostState
                     )
@@ -344,8 +346,8 @@ fun Container(
 
                     }
                     snackBarMessage(
-                        message = if (selectedItems.size > 1) "${selectedItems.size} Stacks removed"
-                        else "Stack removed",
+                        message = if (selectedItems.size > 1) "${selectedItems.size} activities removed"
+                        else "activity removed",
                         scope = scope,
                         snackBarHostState = snackBarHostState
                     )

@@ -3,6 +3,7 @@ package com.example.timestackarchitecture.compose
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -18,7 +19,7 @@ fun Loader(
     onFinishedChange: () -> Unit,
 ) {
     var speedTime = totalTime - 2000
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.bottle_filling))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration
     val progress: Float
     val totalPlayedTime = totalPlayed * 1000
@@ -38,8 +39,9 @@ fun Loader(
         LottieAnimation(
             composition = composition,
             progress = { progressAsState },
-            modifier = Modifier.size(500.dp, 305.dp),
-            contentScale = ContentScale.FillHeight,
+            modifier = Modifier.requiredHeight(50.dp).size(250.dp).padding(start = 75.dp),
+            alignment = Alignment.Center,
+            contentScale = ContentScale.FillWidth,
         )
         LaunchedEffect(progressAsState) {
             if (progressAsState == 1F) {
