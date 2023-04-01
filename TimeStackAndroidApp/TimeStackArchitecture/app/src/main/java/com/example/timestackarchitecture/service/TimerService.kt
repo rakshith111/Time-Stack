@@ -77,9 +77,6 @@ class TimerService : Service(){
         )
 
         collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer is running..")
-        collapsedView.setTextViewText(R.id.tvCollapsedTime, "00:00:00")
-
-        expandedView.setTextViewText(R.id.text_view_expanded, "1 2 3 4 %")
         expandedView.setTextViewText(R.id.text_view_activity_name, stackName)
         expandedView.setTextViewText(R.id.text_view_duration, convertedTime)
 
