@@ -17,8 +17,8 @@
     </path>
     <path
     android:pathData="M66.75,34.5H41.5V44.25L50.02,54L41.5,63.75V73.5H66.75V63.75L58.23,54L66.75,44.25V34.5ZM55.39,51.21V60.96L62.57,69.32H45.6L52.86,60.96V51.21L46.55,44.25H61.7L55.39,51.21Z"
-    android:strokeWidth="2"
-    android:strokeColor="@color/black"/>
+    android:strokeColor="@color/black"
+        android:fillColor="@color/black"/>
     <path
         android:pathData="M66.75,34.5H41.5V44.25L50.02,54L41.5,63.75V73.5H66.75V63.75L58.23,54L66.75,44.25V34.5ZM55.39,51.21V60.96L62.57,69.32H45.6L52.86,60.96V51.21L46.55,44.25H61.7L55.39,51.21Z"
         />

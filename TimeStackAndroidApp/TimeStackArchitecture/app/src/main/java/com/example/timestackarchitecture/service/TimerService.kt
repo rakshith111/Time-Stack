@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
@@ -75,8 +76,8 @@ class TimerService : Service(){
             packageName,
             R.layout.notification_expanded
         )
-
         collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer is running..")
+
         expandedView.setTextViewText(R.id.text_view_activity_name, stackName)
         expandedView.setTextViewText(R.id.text_view_duration, convertedTime)
 
@@ -93,7 +94,6 @@ class TimerService : Service(){
             .setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultRingtoneUri)
-            .setColorized(true)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
 
         NotificationManagerCompat.from(this).apply {

@@ -16,7 +16,6 @@
         android:fontFamily="@font/lato_regular"
         android:gravity="center"
         android:textAlignment="center"
-        android:textColor="#000"
         android:textFontWeight="600"
         android:textSize="23sp"
         tools:text="Task Completed" />
@@ -38,10 +37,10 @@
             android:fontFamily="@font/dm_sans"
             android:gravity="center"
             tools:text = "activity name"
-            android:textColor="#000"
-            android:textSize="18sp"
+            style="@style/TextAppearance.Compat.Notification"
             android:singleLine="true"
-            android:ellipsize="end" />
+            android:ellipsize="end"
+            android:textSize="18.sp"/>
 
         <TextView
             android:id="@+id/text_view_duration"
@@ -52,10 +51,10 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             tools:text = "duration"
-            android:textColor="#000"
-            android:textSize="18sp"
+            style="@style/TextAppearance.Compat.Notification"
             android:singleLine="true"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:textSize="18.sp"/>
 
     </LinearLayout>
 
