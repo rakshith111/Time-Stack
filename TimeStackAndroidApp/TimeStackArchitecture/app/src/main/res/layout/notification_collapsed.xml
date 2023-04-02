@@ -19,7 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Expand to show  2 3!"
-        android:textFontWeight="700"
         style="@style/TextAppearance.Compat.Notification"
         android:fontFamily="@font/dm_sans"/>
 
