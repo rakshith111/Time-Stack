@@ -3,13 +3,13 @@ package com.example.timestackarchitecture.data
 import android.content.Context
 
 class SharedPreferencesProgressRepository(context: Context){
-    private val sharedPref = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+    private val sharedPrefTimer = context.getSharedPreferences("my_prefs_timer", Context.MODE_PRIVATE)
 
-    fun saveProgress(progress: Int) {
-        sharedPref.edit().putInt("progress", progress).apply()
+    fun saveTimerProgress(progress: Int) {
+        sharedPrefTimer.edit().putInt("progress", progress).apply()
     }
 
-    fun getProgress(): Int {
-        return sharedPref.getInt("progress", 0)
+    fun getTimerProgress(): Int {
+        return sharedPrefTimer.getInt("progress", 0)
     }
 }

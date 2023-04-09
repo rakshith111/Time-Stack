@@ -3,7 +3,6 @@ package com.example.timestackarchitecture
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -18,21 +17,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.timestackarchitecture.compose.BaseScreen
 import com.example.timestackarchitecture.service.TimerService
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
-import com.example.timestackarchitecture.viewmodels.StackViewModel
-import com.example.timestackarchitecture.viewmodels.StackViewModelFactory
-import com.example.timestackarchitecture.viewmodels.TimerViewModel
-import com.example.timestackarchitecture.viewmodels.TimerViewModelFactory
+import com.example.timestackarchitecture.viewmodels.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity()  {
 
     @Inject
     lateinit var stackViewModelFactory: StackViewModelFactory
@@ -52,7 +46,6 @@ class MainActivity : ComponentActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-
                 Toast.makeText(
                     this,
                     "Notification permission is required to use this app.",
@@ -61,16 +54,16 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if(BuildConfig.DEBUG){
+        Timber.d("onCreate")
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
 
-        TimerService.isAppInForeground = true
-        stopService("onCreate")
+        TimerService.isDeviceActive = true
 
         setContent {
             TimeStackArchitectureTheme {
@@ -103,7 +96,7 @@ class MainActivity : ComponentActivity() {
                             }
                             .show()
                     }
-                    else ->   {
+                    else -> {
                         // You can directly ask for the permission.
                         // The registered ActivityResultCallback gets the result of this request.
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -115,7 +108,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
@@ -126,79 +118,18 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onDestroy() {
-        val stackViewModel: StackViewModel = ViewModelProvider(this,stackViewModelFactory )[StackViewModel::class.java]
-        val timerViewModel: TimerViewModel = ViewModelProvider(this,timerViewModelFactory )[TimerViewModel::class.java]
-        // Start the service
-        if(stackViewModel.stackList.isNotEmpty()){
-            if (stackViewModel.stackList[0].isPlaying) {
-                timerViewModel.stopTimer { pauseTime ->
-                    timerViewModel.saveProgress(pauseTime)
-                }
-                startService(stackViewModel.stackList[0].stackTime, stackViewModel.stackList[0].stackName)
-                Timber.d("service started")
-            }
-        }
-        TimerService.isAppInForeground = false
-        super.onDestroy()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onPause() {
-    val stackViewModel: StackViewModel = ViewModelProvider(this,stackViewModelFactory )[StackViewModel::class.java]
-    val timerViewModel: TimerViewModel = ViewModelProvider(this,timerViewModelFactory )[TimerViewModel::class.java]
-    // Start the service
-    if(stackViewModel.stackList.isNotEmpty()){
-        if (stackViewModel.stackList[0].isPlaying) {
-            timerViewModel.stopTimer { pauseTime ->
-                timerViewModel.saveProgress(pauseTime)
-            }
-            startService(stackViewModel.stackList[0].stackTime, stackViewModel.stackList[0].stackName)
-            Timber.d("service started on pause")
-        }
-    }
-        TimerService.isAppInForeground = false
+        TimerService.isDeviceActive = false
+        Timber.d("onPause")
         super.onPause()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun startService(duration: Long, stackName: String) {
-        // Start the service
-        val serviceIntent = Intent(this, TimerService::class.java)
-        serviceIntent.putExtra("duration", duration)
-        serviceIntent.putExtra("stackName", stackName)
-        startForegroundService(serviceIntent)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun stopService(LifecycleEvent: String) {
-        val stackViewModel: StackViewModel =
-            ViewModelProvider(this, stackViewModelFactory)[StackViewModel::class.java]
-        val timerViewModel: TimerViewModel =
-            ViewModelProvider(this, timerViewModelFactory)[TimerViewModel::class.java]
-        if (stackViewModel.stackList.isNotEmpty()) {
-            if (stackViewModel.stackList[0].isPlaying) {
-                timerViewModel.stopTimer { pauseTime ->
-                    timerViewModel.saveProgress(pauseTime)
-                    Timber.d("view started service stopped $pauseTime")
-                }
-
-                timerViewModel.startTimer(timerViewModel.getProgress(), stackViewModel.stackList[0].stackTime.toInt())
-                Timber.d("service started $LifecycleEvent")
-
-                val serviceIntent = Intent(this, TimerService::class.java)
-                stopService(serviceIntent)
-                TimerService().stopProgressNotificationThread(LifecycleEvent)
-            }
-        }
-    }
-//
-//
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
-    stopService("onResume")
-    TimerService.isAppInForeground = true
-    super.onResume() }
+        TimerService.isDeviceActive = true
+        Timber.d("onResume")
+        TimerService().stopRingtone()
+        super.onResume()
+    }
 }
+
 

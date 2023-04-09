@@ -1,11 +1,15 @@
 package com.example.timestackarchitecture.compose
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.viewmodels.*
+import timber.log.Timber
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BaseScreen(
     stackViewModelFactory: StackViewModelFactory,
@@ -16,20 +20,14 @@ fun BaseScreen(
     val stackList = stackViewModel.stackList
     val selectedItems = stackViewModel.selectedItems
 
-    if(stackList.isEmpty()){
-        timerViewModel.saveProgress(0)
-    }
+
+    Timber.d("timer: ${timerViewModel.getTimer()}")
 
     Container(
         stackList, selectedItems,
-        startTimer = { playedTime: Int, duration: Int ->
-            timerViewModel.startTimer(playedTime, duration)
-        },
-        stopTimer = { pauseTimer: (Int) -> Unit ->
-            timerViewModel.stopTimer(pauseTimer)
-        } ,
-        totalPlayedTime = { timerViewModel.getProgress() },
-        updateProgress = { playedTime: Int -> timerViewModel.saveProgress(playedTime) },
+        totalPlayedTime = { timerViewModel.getTimer() },
+            updateProgress = { playedTime: Int -> timerViewModel.saveTimer(playedTime)
+                         Timber.d("updateProgress: $playedTime") },
         insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
         updateStack = { stackData: StackData ->

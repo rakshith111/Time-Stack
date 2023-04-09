@@ -61,7 +61,6 @@ fun TimePicker(onTimeSelected: (Int) -> Unit) {
         })
     }
 
-
     Column(modifier = Modifier.fillMaxWidth()) {
         Row{
             Text(
@@ -70,7 +69,6 @@ fun TimePicker(onTimeSelected: (Int) -> Unit) {
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
             )
         }
-
         onTimeSelected(((selectedTimeHours * 60 * 60 * 1000) + (selectedTimeMinutes * 60 * 1000)))
     }
 }

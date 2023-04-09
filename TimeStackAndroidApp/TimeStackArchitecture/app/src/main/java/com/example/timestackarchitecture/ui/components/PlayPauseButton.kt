@@ -26,7 +26,6 @@ fun PlayPauseButton(
         if(isPlaying){
             Icon(painter = painterResource(id = R.drawable.baseline_stop_24),
                 contentDescription = "Stop", tint = Color.White)
-
         } else{
             Icon(imageVector = Icons.Filled.PlayArrow,
                 contentDescription = "Play",

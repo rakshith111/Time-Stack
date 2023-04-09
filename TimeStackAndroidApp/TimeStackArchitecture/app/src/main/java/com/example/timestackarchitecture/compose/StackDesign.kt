@@ -1,8 +1,11 @@
 package com.example.timestackarchitecture.compose
 
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -39,7 +42,7 @@ fun Loader(
         LottieAnimation(
             composition = composition,
             progress = { progressAsState },
-            modifier = Modifier.requiredHeight(50.dp).size(250.dp).padding(start = 75.dp),
+            modifier = Modifier.aspectRatio(7f).padding(start = 30.dp, end = 30.dp),
             alignment = Alignment.Center,
             contentScale = ContentScale.FillWidth,
         )

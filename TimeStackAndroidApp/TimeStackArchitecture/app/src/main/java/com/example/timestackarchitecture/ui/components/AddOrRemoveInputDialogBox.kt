@@ -30,7 +30,7 @@ fun AddInputDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if(timeInMilli == "0" || activityName == ""){
+                    if(timeInMilli == "0" || activityName.isBlank()){
                         onDismiss()
                     } else {
                         onActivityTimeChange(timeInMilli)
@@ -70,7 +70,6 @@ fun RemoveInputDialog(
             } else {
                 Text(text = "Remove ${selectedItems.size} activities?", style = MaterialTheme.typography.titleLarge)
             }
-
         },
         confirmButton = {
             TextButton(

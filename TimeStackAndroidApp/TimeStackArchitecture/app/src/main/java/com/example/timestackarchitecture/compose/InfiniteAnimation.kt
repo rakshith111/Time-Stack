@@ -1,13 +1,13 @@
 package com.example.timestackarchitecture.compose
 
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.*
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.timestackarchitecture.R
 
 @Composable
@@ -18,8 +18,7 @@ fun InfiniteAnimation(
 
     LottieAnimation(
         composition = composition,
-        modifier = Modifier.size(500.dp, 330.dp),
-        contentScale = ContentScale.FillWidth,
+        modifier = Modifier.aspectRatio(1.1f),
         isPlaying = play,
         iterations = LottieConstants.IterateForever
     )

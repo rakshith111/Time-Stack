@@ -7,6 +7,7 @@ import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.data.StackRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class StackViewModel(private val stackRepository: StackRepository) : ViewModel() {
@@ -14,7 +15,9 @@ class StackViewModel(private val stackRepository: StackRepository) : ViewModel()
     init {
         viewModelScope.launch(Dispatchers.IO) {
             stackRepository.getStacks().collect { list ->
-                stackList = list
+                withContext(Dispatchers.Main){
+                    stackList = list
+                }
             }
         }
     }
