@@ -45,6 +45,8 @@ fun Container(
     insertStack: (StackData) -> Unit,
     updateStack: (StackData) -> Unit,
     removeStack: (StackData) -> Unit,
+    getCompletedActivity: () -> Boolean,
+    saveCompletedActivity: (Boolean) -> Unit,
 ) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
@@ -68,6 +70,7 @@ fun Container(
     } else {
         false
     }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
@@ -184,6 +187,7 @@ fun Container(
                                         stackList[index].isPlaying
                                     ) {
                                         Timber.d("outside ${totalPlayedTime()}")
+                                        updateProgress(0)
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             val serviceIntent =
                                                 Intent(context, TimerService::class.java)
@@ -192,7 +196,6 @@ fun Container(
                                                 play = false
                                             }
                                         }
-                                        updateProgress(0)
                                         removeStack(stackList[index])
                                         snackBarMessage(
                                             message = "Activity removed",

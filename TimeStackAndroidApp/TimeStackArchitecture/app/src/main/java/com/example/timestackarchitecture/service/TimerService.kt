@@ -13,7 +13,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
-import com.example.timestackarchitecture.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
 import com.example.timestackarchitecture.ui.components.convertTime
@@ -32,6 +31,7 @@ class TimerService : Service(){
         var stackName = ""
         var convertedTime = ""
         var countDownTimer: CountDownTimer? = null
+        private var isNotificationRingtonePlaying = false
         @SuppressLint("StaticFieldLeak")
         private lateinit var builder: NotificationCompat.Builder
     }
@@ -106,13 +106,20 @@ class TimerService : Service(){
         countDownTimer = object : CountDownTimer(duration!!, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 i++
-                SharedPreferencesProgressRepository(this@TimerService).saveTimerProgress(i)
+                TimerViewModel(timerServiceContext).saveTimer(i)
                 percentage = ((i.times(1000).toFloat() / (originalDuration!!.toFloat())) * 100).toInt()
 
                 if(originalDuration.div(millisUntilFinished).toFloat() == 2.0F){
                     Timber.d("notification ringtone started")
-                    NotificationRingtone.start()
+                    if (!isNotificationRingtonePlaying) {
+                        NotificationRingtone.start()
+                        isNotificationRingtonePlaying = true
+                    }
+
                     countRingtone.plus(1)
+                }
+                if(percentage == 100 && isDeviceActive){
+                    NotificationRingtone.start()
                 }
                 Timber.d("i = $i duration $duration percentage $percentage%")
             }
@@ -128,11 +135,14 @@ class TimerService : Service(){
                 builder.setContentText("Timer stopped")
                 updateNotificationContent(builder)
                 stopProgressNotificationThread {
-                    TimerViewModel(timerServiceContext).saveTimer(0)
+
                 }
             }
         }
         countDownTimer?.start()
+        NotificationRingtone.setOnCompletionListener {
+            isNotificationRingtonePlaying = false
+        }
     }
 
     private fun updateNotificationContent(
