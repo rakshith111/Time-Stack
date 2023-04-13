@@ -23,6 +23,7 @@ class StackTimer {
                 if (time >= duration / 1000) {
                     stopTimer { time ->
                         timerViewModel.saveTimer(time)
+
                     }
                 }
             }, 0, 1, TimeUnit.SECONDS)

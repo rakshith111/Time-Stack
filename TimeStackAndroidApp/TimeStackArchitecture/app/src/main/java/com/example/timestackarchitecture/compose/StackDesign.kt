@@ -21,6 +21,7 @@ fun Loader(
     play: Boolean,
     onFinishedChange: () -> Unit,
 ) {
+
     var speedTime = totalTime - 2000
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration

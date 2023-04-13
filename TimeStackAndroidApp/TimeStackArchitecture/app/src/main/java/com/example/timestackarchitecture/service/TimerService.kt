@@ -1,5 +1,6 @@
 package com.example.timestackarchitecture.service
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
@@ -7,7 +8,6 @@ import android.app.Service
 import android.content.Intent
 import android.media.*
 import android.os.*
-import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -32,8 +32,9 @@ class TimerService : Service(){
         var stackName = ""
         var convertedTime = ""
         var countDownTimer: CountDownTimer? = null
+        @SuppressLint("StaticFieldLeak")
+        private lateinit var builder: NotificationCompat.Builder
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val progress = TimerViewModel(this).getTimer()
@@ -47,12 +48,15 @@ class TimerService : Service(){
 
         convertedTime = convertTime(hours!!, minutes!!)
         Timber.d("service started duration = $duration")
-        startForeground(NOTIFICATION_ID,  createNotification(progress))
+
+         startForeground(NOTIFICATION_ID,  createNotification())
+
+        // Start the countdown timer after the first notification update
+            startCountdownTimer(progress, this)
         return START_STICKY
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotification(progress: Int): Notification {
+    private fun createNotification(): Notification {
         val notificationIntent = Intent(this, MainActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -62,37 +66,23 @@ class TimerService : Service(){
         }
 
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, flags)
-        val collapsedView = RemoteViews(
-            packageName,
-            R.layout.notification_collapsed
-        )
-        val expandedView = RemoteViews(
-            packageName,
-            R.layout.notification_expanded
-        )
-        collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer is running..")
-
-        expandedView.setTextViewText(R.id.text_view_activity_name, stackName)
-        expandedView.setTextViewText(R.id.text_view_duration, convertedTime)
 
         val defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(applicationContext, RingtoneManager.TYPE_ALARM)
         ringtone = RingtoneManager.getRingtone(applicationContext, defaultRingtoneUri)
         NotificationRingtone = MediaPlayer.create(applicationContext, R.raw.promise)
-        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stack_noti)
             .setContentIntent(pendingIntent)
-            .setCustomContentView(collapsedView)
-            .setCustomBigContentView(expandedView)
             .setOngoing(true)
             .setSilent(true)
             .setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultRingtoneUri)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setContentTitle(stackName)
+            .setContentText("Timer is running for $convertedTime")
 
         NotificationManagerCompat.from(this).apply {
-            //background service thread to update notification according to timer
-            createThread(collapsedView, expandedView, builder, progress, this@TimerService)
             notify( NOTIFICATION_ID, builder.build())
         }
         return builder.build()
@@ -102,13 +92,10 @@ class TimerService : Service(){
         return null
     }
 
-    private fun createThread(
-        collapsedView: RemoteViews,
-        expandedView: RemoteViews,
-        builder: NotificationCompat.Builder,
+    private fun startCountdownTimer(
         progress: Int,
         timerServiceContext: TimerService,
-    ) {
+    ){
         var i = progress
         var percentage: Int
         val countRingtone = 0
@@ -121,36 +108,16 @@ class TimerService : Service(){
                 i++
                 SharedPreferencesProgressRepository(this@TimerService).saveTimerProgress(i)
                 percentage = ((i.times(1000).toFloat() / (originalDuration!!.toFloat())) * 100).toInt()
-                collapsedView.setTextViewText(R.id.tvCollapsedTime, "$percentage%")
-                expandedView.setTextViewText(R.id.text_view_expanded, "$percentage%")
-                if(percentage == 50 ){
+
+                if(originalDuration.div(millisUntilFinished).toFloat() == 2.0F){
                     Timber.d("notification ringtone started")
                     NotificationRingtone.start()
                     countRingtone.plus(1)
                 }
                 Timber.d("i = $i duration $duration percentage $percentage%")
-                if(i >= (duration?.toInt()!!)) {
-                    collapsedView.setTextViewText(R.id.tvCollapsedTime, "Task completed")
-                    expandedView.setTextViewText(R.id.text_view_expanded, "Task completed")
-                    collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer stopped")
-                    builder.setCustomContentView(collapsedView)
-                        .setCustomBigContentView(expandedView)
-                    stopProgressNotificationThread {}
-                } else {
-                    builder.setCustomContentView(collapsedView)
-                        .setCustomBigContentView(expandedView)
-                }
-                percentage = (((duration!! - millisUntilFinished) / 1000.0) / (duration!! / 1000.0) * 100).toInt()
-                NotificationManagerCompat.from(applicationContext).notify(NOTIFICATION_ID, builder.build())
             }
 
             override fun onFinish() {
-                collapsedView.setTextViewText(R.id.tvCollapsedTime, "Task completed")
-                expandedView.setTextViewText(R.id.text_view_expanded, "Task completed")
-                collapsedView.setTextViewText(R.id.tvCollapsedTitle, "Timer stopped")
-                builder.setCustomContentView(collapsedView)
-                    .setCustomBigContentView(expandedView)
-
                 if(isDeviceActive){
                     Timber.d("Notification ringtone started")
                     NotificationRingtone.start()
@@ -158,13 +125,23 @@ class TimerService : Service(){
                     Timber.d("ringtone started")
                     ringtone.play()
                 }
-
-                NotificationManagerCompat.from(applicationContext).notify(NOTIFICATION_ID, builder.build())
+                builder.setContentText("Timer stopped")
+                updateNotificationContent(builder)
                 stopProgressNotificationThread {
+                    TimerViewModel(timerServiceContext).saveTimer(0)
                 }
             }
         }
         countDownTimer?.start()
+    }
+
+    private fun updateNotificationContent(
+        builder: NotificationCompat.Builder,
+    ) {
+        builder.setContentText("Activity completed")
+        NotificationManagerCompat.from(this).apply {
+            notify(NOTIFICATION_ID, builder.build())
+        }
     }
 
     fun stopProgressNotificationThread(stopNotification: () -> Unit) {
@@ -180,35 +157,6 @@ class TimerService : Service(){
             }
         } catch (e: Exception) {
             Timber.d("ringtone not playing")
-        } }
-
-//    private val foregroundBackgroundReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context, intent: Intent) {
-//            when (intent.action) {
-//                Intent.ACTION_SCREEN_ON -> {
-//                    isDeviceActive = true
-//                    if (ringtone.isPlaying) {
-//                        Timber.d("Stopping ringtone as user returned to app")
-//                        ringtone.stop()
-//                    }
-//                }
-//                Intent.ACTION_SCREEN_OFF -> isDeviceActive = false
-//            }
-//        }
-//    }
-//    override fun onCreate() {
-//        super.onCreate()
-//        val filter = IntentFilter().apply {
-//            addAction(Intent.ACTION_SCREEN_ON)
-//            addAction(Intent.ACTION_SCREEN_OFF)
-//        }
-//        registerReceiver(foregroundBackgroundReceiver, filter)
-//
-//    }
-//
-//    override fun onDestroy() {
-//        unregisterReceiver(foregroundBackgroundReceiver)
-//        super.onDestroy()
-//    }
-
+        }
+    }
 }

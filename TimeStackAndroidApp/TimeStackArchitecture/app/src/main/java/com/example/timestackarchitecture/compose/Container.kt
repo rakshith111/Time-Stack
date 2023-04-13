@@ -58,14 +58,15 @@ fun Container(
     val context = LocalContext.current
 
     Timber.d("timePlayed: ${totalPlayedTime()}")
-    if (stackList.isNotEmpty()) {
+    play = if (stackList.isNotEmpty()) {
         Timber.d("play")
-        play = stackList[0].isPlaying
-        if (totalPlayedTime() == 0) {
-            play = false
+        if(totalPlayedTime() == 0) {
+            false
+        } else {
+            stackList[0].isPlaying
         }
     } else {
-        play = false
+        false
     }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -183,7 +184,6 @@ fun Container(
                                         stackList[index].isPlaying
                                     ) {
                                         Timber.d("outside ${totalPlayedTime()}")
-
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             val serviceIntent =
                                                 Intent(context, TimerService::class.java)
@@ -192,14 +192,14 @@ fun Container(
                                                 play = false
                                             }
                                         }
-
-                                        removeStack(stackList[index])
                                         updateProgress(0)
+                                        removeStack(stackList[index])
                                         snackBarMessage(
                                             message = "Activity removed",
                                             scope = scope,
                                             snackBarHostState = snackBarHostState
                                         )
+
                                     }
 
                                     Text(
