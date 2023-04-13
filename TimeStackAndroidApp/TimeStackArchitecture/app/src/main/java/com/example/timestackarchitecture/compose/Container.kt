@@ -45,8 +45,6 @@ fun Container(
     insertStack: (StackData) -> Unit,
     updateStack: (StackData) -> Unit,
     removeStack: (StackData) -> Unit,
-    getCompletedActivity: () -> Boolean,
-    saveCompletedActivity: (Boolean) -> Unit,
 ) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }

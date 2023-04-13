@@ -31,8 +31,7 @@ fun BaseScreen(
         insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
         updateStack = { stackData: StackData ->
-            stackViewModel.updateStack(stackData) },
-        { stackData: StackData -> stackViewModel.removeStack(stackData) },
-        { timerViewModel.getCompletedActivity() }
-    ) { timerViewModel.saveCompletedActivity(it) }
+            stackViewModel.updateStack(stackData) }
+
+    ) { stackData: StackData -> stackViewModel.removeStack(stackData) }
 }
