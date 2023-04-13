@@ -60,11 +60,7 @@ fun Container(
     Timber.d("timePlayed: ${totalPlayedTime()}")
     play = if (stackList.isNotEmpty()) {
         Timber.d("play")
-        if(totalPlayedTime() == 0) {
-            false
-        } else {
-            stackList[0].isPlaying
-        }
+        stackList[0].isPlaying
     } else {
         false
     }
@@ -185,7 +181,7 @@ fun Container(
                                         stackList[index].isPlaying
                                     ) {
                                         Timber.d("outside ${totalPlayedTime()}")
-                                        updateProgress(0)
+
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             val serviceIntent =
                                                 Intent(context, TimerService::class.java)
@@ -195,6 +191,7 @@ fun Container(
                                             }
                                         }
                                         removeStack(stackList[index])
+                                        updateProgress(0)
                                         snackBarMessage(
                                             message = "Activity removed",
                                             scope = scope,
@@ -277,7 +274,7 @@ fun Container(
 //                                startTimer(totalPlayedTime(), stackList[0].stackTime.toInt())
 //                                Timber.d("Timer started")
 //                                //start notification
-
+                                stackList[0].isPlaying = it
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     val serviceIntent = Intent(context, TimerService::class.java)
                                     serviceIntent.putExtra("duration", stackList[0].stackTime)
