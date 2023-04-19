@@ -16,7 +16,7 @@ import com.example.timestackarchitecture.R
 
 @Composable
 fun Loader(
-    totalPlayed: Int,
+    totalPlayed: Long,
     totalTime: Long,
     play: Boolean,
     onFinishedChange: () -> Unit,
@@ -26,15 +26,16 @@ fun Loader(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration
     val progress: Float
-    val totalPlayedTime = totalPlayed * 1000
+
 
     if (videoLength != null) {
-        progress = if ( totalPlayedTime > totalTime) {
+        progress = if ( totalPlayed > totalTime) {
             speedTime = 1L
             1f
         } else {
-            totalPlayedTime.toFloat() / totalTime
+            totalPlayed.toFloat() / totalTime
         }
+
         val progressAsState by animateLottieCompositionAsState(
             composition = composition,
             clipSpec = LottieClipSpec.Progress(progress, 1f),

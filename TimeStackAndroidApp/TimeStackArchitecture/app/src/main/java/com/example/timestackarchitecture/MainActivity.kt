@@ -3,6 +3,7 @@ package com.example.timestackarchitecture
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -10,14 +11,19 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.example.timestackarchitecture.compose.BaseScreen
+import com.example.timestackarchitecture.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.service.TimerService
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
 import com.example.timestackarchitecture.viewmodels.*
@@ -33,6 +39,7 @@ class MainActivity : ComponentActivity()  {
 
     @Inject
     lateinit var timerViewModelFactory: TimerViewModelFactory
+
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -54,7 +61,6 @@ class MainActivity : ComponentActivity()  {
             }
         }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +69,12 @@ class MainActivity : ComponentActivity()  {
             Timber.plant(Timber.DebugTree())
         }
 
-        TimerService.isDeviceActive = true
 
         setContent {
             TimeStackArchitectureTheme {
                 val context = LocalContext.current
-
+                val snackBarHostState = remember { SnackbarHostState() }
+                val scope = rememberCoroutineScope()
                 when {
                     ContextCompat.checkSelfPermission(
                         context,
@@ -107,29 +113,76 @@ class MainActivity : ComponentActivity()  {
                         }
                     }
                 }
+                val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
+                val stackViewModel: StackViewModel by viewModels {
+                    stackViewModelFactory
+                }
+                val timerViewModel: TimerViewModel by viewModels {
+                    timerViewModelFactory
+                }
+
+
+                if(sharedPreferencesProgress.firstTime()) {
+                    Timber.d("firstTime")
+                    sharedPreferencesProgress.saveTimerProgress(0)
+                } else {
+                    if(stackViewModel.stackList.isNotEmpty()) {
+                        if(stackViewModel.stackList[0].isPlaying) {
+                            val elapsed = (System.currentTimeMillis() - sharedPreferencesProgress.getStartTime()) + sharedPreferencesProgress.getTimerProgress()
+                            sharedPreferencesProgress.saveTimerProgress(elapsed)
+                            sharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
+                        }
+                    }
+                }
+                if(timerViewModel.getAlarmTriggered()) {
+                    if (stackViewModel.stackList.isNotEmpty()) {
+                        stackViewModel.removeStack(stackViewModel.stackList[0])
+                        Timber.d("removeStack 0 in MainActivity")
+                        timerViewModel.saveProgress(0)
+                        timerViewModel.saveAlarmTriggered(false)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val serviceIntent =
+                                Intent(context, TimerService::class.java)
+                            context.stopService(serviceIntent)
+                        }
+                    }
+                }
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    BaseScreen(stackViewModelFactory = stackViewModelFactory, timerViewModelFactory = timerViewModelFactory)
+                    BaseScreen(stackViewModel = stackViewModel, timerViewModel = timerViewModel)
                 }
             }
         }
     }
 
     override fun onPause() {
-        TimerService.isDeviceActive = false
         Timber.d("onPause")
+        TimerService.isDeviceActive = false
         super.onPause()
+    }
+    override fun onDestroy() {
+        val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
+
+        val elapsed = (System.currentTimeMillis() - sharedPreferencesProgress.getStartTime()) + sharedPreferencesProgress.getTimerProgress()
+        sharedPreferencesProgress.saveTimerProgress(elapsed)
+        sharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
+        Timber.d("onDestroy")
+        super.onDestroy()
     }
 
     override fun onResume() {
-        TimerService.isDeviceActive = true
         Timber.d("onResume")
+        TimerService.isDeviceActive = true
         TimerService().stopRingtone()
+
         super.onResume()
     }
+
 }
+
+
 
 

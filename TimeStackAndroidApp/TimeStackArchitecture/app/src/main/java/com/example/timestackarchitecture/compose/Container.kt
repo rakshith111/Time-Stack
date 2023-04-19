@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.timestackarchitecture.data.StackData
+import com.example.timestackarchitecture.service.TimerAlarmReceiver
 import com.example.timestackarchitecture.service.TimerService
 import com.example.timestackarchitecture.ui.components.*
 import timber.log.Timber
@@ -40,12 +41,17 @@ import timber.log.Timber
 fun Container(
     stackList: List<StackData>,
     selectedItems: MutableList<Int>,
-    totalPlayedTime: () -> Int,
-    updateProgress: (Int) -> Unit,
+    getProgress: () -> Long,
+    updateProgress: (Long) -> Unit,
     insertStack: (StackData) -> Unit,
     updateStack: (StackData) -> Unit,
     removeStack: (StackData) -> Unit,
-) {
+    getStartTime: () -> Long,
+    saveCurrentTime: (Long) -> Unit,
+    getFirstTime: () -> Boolean,
+    saveFirstTime: (Boolean) -> Unit,
+
+    ) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
     var activityName by remember { mutableStateOf("") }
@@ -57,13 +63,14 @@ fun Container(
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
 
-    Timber.d("timePlayed: ${totalPlayedTime()}")
+    Timber.d("timePlayed: ${getProgress()}")
     play = if (stackList.isNotEmpty()) {
         Timber.d("play")
         stackList[0].isPlaying
     } else {
         false
     }
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -176,28 +183,26 @@ fun Container(
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     InfiniteAnimation(play = stackList[index].isPlaying)
                                     Loader(
-                                        totalPlayedTime(),
+                                        getProgress(),
                                         stackList[index].stackTime,
                                         stackList[index].isPlaying
                                     ) {
-                                        Timber.d("outside ${totalPlayedTime()}")
+                                        Timber.d("outside ${getProgress()}")
 
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             val serviceIntent =
                                                 Intent(context, TimerService::class.java)
                                             context.stopService(serviceIntent)
-                                            TimerService().stopProgressNotificationThread {
-                                                play = false
-                                            }
                                         }
-                                        removeStack(stackList[index])
+                                        play = false
+                                        saveFirstTime(true)
+                                        removeStack(stackList[0])
                                         updateProgress(0)
                                         snackBarMessage(
                                             message = "Activity removed",
                                             scope = scope,
                                             snackBarHostState = snackBarHostState
                                         )
-
                                     }
 
                                     Text(
@@ -231,9 +236,11 @@ fun Container(
 
                                 }
                             }
+
                         }
                     }
                 }
+
                 Spacer(modifier = Modifier.weight(0.5f))
 
                 Row(
@@ -271,24 +278,38 @@ fun Container(
                                 )
                             )
                             if (it) {
-//                                startTimer(totalPlayedTime(), stackList[0].stackTime.toInt())
-//                                Timber.d("Timer started")
-//                                //start notification
-                                stackList[0].isPlaying = it
+                                Timber.d("Timer started")
+                                //use system time to update progress
+                                saveCurrentTime(System.currentTimeMillis())
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     val serviceIntent = Intent(context, TimerService::class.java)
                                     serviceIntent.putExtra("duration", stackList[0].stackTime)
                                     serviceIntent.putExtra("stackName", stackList[0].stackName)
-                                    context.startForegroundService(serviceIntent)
+                                    context.startService(serviceIntent)
                                 }
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    val serviceIntent = Intent(context, TimerService::class.java)
-                                    context.stopService(serviceIntent)
-                                    TimerService().stopProgressNotificationThread {
-                                        play = false
+
+                                if(stackList.isNotEmpty()){
+                                    val remainingTime = stackList[0].stackTime - getProgress()
+                                    TimerAlarmReceiver().setTimerAlarm(context, remainingTime)
+                                    if(getFirstTime()){
+                                        updateProgress(0)
                                     }
                                 }
+
+                                saveFirstTime(false)
+//                               //start notification
+                            } else {
+                                Timber.d("Timer paused")
+                                //stop notification
+                                val elapsed = (System.currentTimeMillis() - getStartTime()) + getProgress()
+                                updateProgress(elapsed)
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    val serviceIntent =
+                                        Intent(context, TimerService::class.java)
+                                    context.stopService(serviceIntent)
+                                }
+                                TimerAlarmReceiver().cancelTimerAlarm(context)
                             }
                         }
                     }
@@ -353,7 +374,7 @@ fun Container(
 
                         } else {
                             snackBarMessage(
-                                message = "Please enter the time for the activity before adding it",
+                                message = "Please enter activity time",
                                 scope = scope,
                                 snackBarHostState = snackBarHostState
                             )
@@ -404,6 +425,7 @@ fun Container(
                                     }
                                 }
                                 updateProgress(0)
+
                             }
 
                         }
@@ -414,6 +436,7 @@ fun Container(
                             snackBarHostState = snackBarHostState
                         )
                         openDialogRemove = false
+                        saveFirstTime(true)
                     },
                     onDismiss = { openDialogRemove = false },
                     selectedItems = selectedItems,

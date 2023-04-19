@@ -1,10 +1,10 @@
 package com.example.timestackarchitecture.service
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.media.*
 import android.os.*
@@ -13,17 +13,16 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.timestackarchitecture.MainActivity
 import com.example.timestackarchitecture.R
+import com.example.timestackarchitecture.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_CHANNEL_ID
 import com.example.timestackarchitecture.other.Constants.NOTIFICATION_ID
 import com.example.timestackarchitecture.ui.components.convertTime
-import com.example.timestackarchitecture.viewmodels.TimerViewModel
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 
 class TimerService : Service(){
     companion object {
-        @Volatile private var isThreadRunning = false
         private var duration: Long? = null
         private lateinit var ringtone: Ringtone
         private lateinit var NotificationRingtone: MediaPlayer
@@ -32,12 +31,11 @@ class TimerService : Service(){
         var convertedTime = ""
         var countDownTimer: CountDownTimer? = null
         private var isNotificationRingtonePlaying = false
-        @SuppressLint("StaticFieldLeak")
-        private lateinit var builder: NotificationCompat.Builder
+
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val progress = TimerViewModel(this).getTimer()
         duration = intent?.getLongExtra("duration", 0)
         stackName = intent?.getStringExtra("stackName") ?: ""
         val durationSeconds = duration?.div(1000)
@@ -48,15 +46,12 @@ class TimerService : Service(){
 
         convertedTime = convertTime(hours!!, minutes!!)
         Timber.d("service started duration = $duration")
-
          startForeground(NOTIFICATION_ID,  createNotification())
-
-        // Start the countdown timer after the first notification update
-            startCountdownTimer(progress, this)
         return START_STICKY
     }
 
     private fun createNotification(): Notification {
+
         val notificationIntent = Intent(this, MainActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -70,7 +65,7 @@ class TimerService : Service(){
         val defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(applicationContext, RingtoneManager.TYPE_ALARM)
         ringtone = RingtoneManager.getRingtone(applicationContext, defaultRingtoneUri)
         NotificationRingtone = MediaPlayer.create(applicationContext, R.raw.promise)
-        builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stack_noti)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
@@ -92,64 +87,28 @@ class TimerService : Service(){
         return null
     }
 
-    private fun startCountdownTimer(
-        progress: Int,
-        timerServiceContext: TimerService,
-    ){
-        var i = progress
-        var percentage: Int
-        val countRingtone = 0
-        isThreadRunning = true
-        val originalDuration = duration
-        duration = duration?.minus (progress * 1000L)
-        Timber.d("Duration before starting timer: $duration ${duration?.div(1000)}")
-        countDownTimer = object : CountDownTimer(duration!!, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                i++
-                TimerViewModel(timerServiceContext).saveTimer(i)
-                percentage = ((i.times(1000).toFloat() / (originalDuration!!.toFloat())) * 100).toInt()
-
-                if(originalDuration.div(millisUntilFinished).toFloat() == 2.0F){
-                    Timber.d("notification ringtone started")
-                    if (!isNotificationRingtonePlaying) {
-                        NotificationRingtone.start()
-                        isNotificationRingtonePlaying = true
-                    }
-
-                    countRingtone.plus(1)
-                }
-                if(percentage == 100 && isDeviceActive){
-                    NotificationRingtone.start()
-                }
-                Timber.d("i = $i duration $duration percentage $percentage%")
-            }
-
-            override fun onFinish() {
-                if(isDeviceActive){
-                    Timber.d("Notification ringtone started")
-                    NotificationRingtone.start()
-                } else {
-                    Timber.d("ringtone started")
-                    ringtone.play()
-                }
-                builder.setContentText("Timer stopped")
-                updateNotificationContent(builder)
-                stopProgressNotificationThread {
-
-                }
-            }
+    fun updateNotificationContent(context: Context) {
+        val notificationIntent = Intent(context, MainActivity::class.java)
+        notificationIntent.action = "ALARM_TRIGGERED"
+        notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        } else {
+            FLAG_UPDATE_CURRENT
         }
-        countDownTimer?.start()
-        NotificationRingtone.setOnCompletionListener {
-            isNotificationRingtonePlaying = false
-        }
-    }
+        val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, flags)
+        val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_stack_noti)
+            .setOngoing(true)
+            .setSilent(true)
+            .setContentIntent(pendingIntent)
+            .setOnlyAlertOnce(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setContentTitle(stackName)
+            .setContentText("Activity completed")
 
-    private fun updateNotificationContent(
-        builder: NotificationCompat.Builder,
-    ) {
-        builder.setContentText("Activity completed")
-        NotificationManagerCompat.from(this).apply {
+        NotificationManagerCompat.from(context).apply {
             notify(NOTIFICATION_ID, builder.build())
         }
     }
@@ -159,6 +118,7 @@ class TimerService : Service(){
         countDownTimer?.cancel()
         stopNotification()
     }
+
     fun stopRingtone(){
         try {
             if(ringtone.isPlaying) {
@@ -167,6 +127,22 @@ class TimerService : Service(){
             }
         } catch (e: Exception) {
             Timber.d("ringtone not playing")
+        }
+    }
+
+    fun startRingtone(context: Context){
+        if(!ringtone.isPlaying ) {
+            Timber.d("ringtone started")
+            ringtone.play()
+            SharedPreferencesProgressRepository(context).saveAlarmTriggered(true)
+        }
+    }
+
+    fun startNotificationRingtone(){
+        if(!isNotificationRingtonePlaying) {
+            Timber.d("notification ringtone started")
+            NotificationRingtone.start()
+            isNotificationRingtonePlaying = true
         }
     }
 }

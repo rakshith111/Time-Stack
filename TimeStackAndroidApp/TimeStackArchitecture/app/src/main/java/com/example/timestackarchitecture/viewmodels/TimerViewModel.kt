@@ -8,8 +8,17 @@ import com.example.timestackarchitecture.data.SharedPreferencesProgressRepositor
 class TimerViewModel(context : Context) : ViewModel(){
 
     private var sharedPreferencesManager = SharedPreferencesProgressRepository(context)
+    fun getProgress() = sharedPreferencesManager.getTimerProgress()
+    fun saveProgress(currentTime: Long) = sharedPreferencesManager.saveTimerProgress(currentTime)
+    fun getStartTime() = sharedPreferencesManager.getStartTime()
+    fun saveCurrentTime(currentTime: Long) = sharedPreferencesManager.saveCurrentTime(currentTime)
 
-    fun getTimer() = sharedPreferencesManager.getTimerProgress()
-    fun saveTimer(currentTime: Int) = sharedPreferencesManager.saveTimerProgress(currentTime)
+    fun firstTime() = sharedPreferencesManager.firstTime()
+
+    fun setFirstTime(firstTime: Boolean) = sharedPreferencesManager.saveFirstTime(firstTime)
+
+    fun getAlarmTriggered() = sharedPreferencesManager.getAlarmTriggered()
+
+    fun saveAlarmTriggered(isAlarmTriggered: Boolean) = sharedPreferencesManager.saveAlarmTriggered(isAlarmTriggered)
 
 }

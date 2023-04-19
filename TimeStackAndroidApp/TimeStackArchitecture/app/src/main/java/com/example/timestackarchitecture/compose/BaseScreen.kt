@@ -4,7 +4,6 @@ package com.example.timestackarchitecture.compose
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.timestackarchitecture.data.StackData
 import com.example.timestackarchitecture.viewmodels.*
 import timber.log.Timber
@@ -12,26 +11,26 @@ import timber.log.Timber
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BaseScreen(
-    stackViewModelFactory: StackViewModelFactory,
-    timerViewModelFactory: TimerViewModelFactory,
-    stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
-    timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory),
+    stackViewModel: StackViewModel,
+    timerViewModel: TimerViewModel
 ) {
     val stackList = stackViewModel.stackList
     val selectedItems = stackViewModel.selectedItems
 
-
-    Timber.d("timer: ${timerViewModel.getTimer()}")
+    Timber.d("timer: ${timerViewModel.getProgress()}")
 
     Container(
         stackList, selectedItems,
-        totalPlayedTime = { timerViewModel.getTimer() },
-            updateProgress = { playedTime: Int -> timerViewModel.saveTimer(playedTime)
+        getProgress = { timerViewModel.getProgress() },
+            updateProgress = { playedTime: Long -> timerViewModel.saveProgress(playedTime)
                          Timber.d("updateProgress: $playedTime") },
         insertStack = { stackData: StackData ->
             stackViewModel.insertStack(stackData) },
         updateStack = { stackData: StackData ->
-            stackViewModel.updateStack(stackData) }
-
-    ) { stackData: StackData -> stackViewModel.removeStack(stackData) }
+            stackViewModel.updateStack(stackData) },
+        removeStack = {stackData: StackData -> stackViewModel.removeStack(stackData)},
+        getStartTime = { timerViewModel.getStartTime() },
+        {startTime: Long -> timerViewModel.saveCurrentTime(startTime)},
+     { timerViewModel.firstTime() })
+        { firstTime: Boolean -> timerViewModel.setFirstTime(firstTime) }
 }

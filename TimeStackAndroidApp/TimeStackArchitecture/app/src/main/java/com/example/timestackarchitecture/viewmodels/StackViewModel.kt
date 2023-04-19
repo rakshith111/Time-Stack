@@ -1,6 +1,9 @@
 package com.example.timestackarchitecture.viewmodels
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.timestackarchitecture.data.StackData
@@ -9,8 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
-class StackViewModel(private val stackRepository: StackRepository) : ViewModel() {
+class StackViewModel constructor(private val stackRepository: StackRepository) : ViewModel() {
     var stackList: List<StackData> by mutableStateOf(listOf())
     init {
         viewModelScope.launch(Dispatchers.IO) {
