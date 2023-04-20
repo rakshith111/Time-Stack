@@ -50,7 +50,6 @@ fun Container(
     saveCurrentTime: (Long) -> Unit,
     getFirstTime: () -> Boolean,
     saveFirstTime: (Boolean) -> Unit,
-
     ) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }

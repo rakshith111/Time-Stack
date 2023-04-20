@@ -4,7 +4,11 @@ package com.example.timestackarchitecture.compose
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.window.Dialog
 import com.example.timestackarchitecture.data.StackData
+import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.viewmodels.*
 import timber.log.Timber
 
@@ -16,9 +20,35 @@ fun BaseScreen(
 ) {
     val stackList = stackViewModel.stackList
     val selectedItems = stackViewModel.selectedItems
+    val alertDialogTriggered = remember { mutableStateOf(false) }
 
     Timber.d("timer: ${timerViewModel.getProgress()}")
 
+    if (timerViewModel.getAlarmTriggered()) {
+        alertDialogTriggered.value = true
+    }
+
+    if (alertDialogTriggered.value) {
+        Dialog(onDismissRequest = {
+            alertDialogTriggered.value = false
+            timerViewModel.saveAlarmTriggered(false)
+        }) {
+            NewAlertDialogBox(
+                onConfirm = {
+                    alertDialogTriggered.value = false
+                    timerViewModel.saveAlarmTriggered(false)
+                },
+                onDismiss = {
+                    alertDialogTriggered.value = false
+                    timerViewModel.saveAlarmTriggered(false)
+                },
+                title = "Activity removed",
+                text = "Your activity was completed and has now been removed.",
+                confirmButton = "OK",
+                dismissButton = null,
+            )
+        }
+    }
     Container(
         stackList, selectedItems,
         getProgress = { timerViewModel.getProgress() },

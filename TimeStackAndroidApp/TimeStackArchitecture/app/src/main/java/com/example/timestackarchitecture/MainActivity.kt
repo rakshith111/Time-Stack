@@ -2,7 +2,6 @@ package com.example.timestackarchitecture
 
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -14,17 +13,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.example.timestackarchitecture.compose.BaseScreen
 import com.example.timestackarchitecture.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.service.TimerService
+import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
 import com.example.timestackarchitecture.viewmodels.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,8 +69,7 @@ class MainActivity : ComponentActivity()  {
         setContent {
             TimeStackArchitectureTheme {
                 val context = LocalContext.current
-                val snackBarHostState = remember { SnackbarHostState() }
-                val scope = rememberCoroutineScope()
+
                 when {
                     ContextCompat.checkSelfPermission(
                         context,
@@ -85,22 +80,18 @@ class MainActivity : ComponentActivity()  {
                     shouldShowRequestPermissionRationale(
                         Manifest.permission.POST_NOTIFICATIONS
                     ) -> {
-                        AlertDialog.Builder(context)
-                            .setTitle("Permission required")
-                            .setMessage("This permission is required to show notifications.")
-                            .setPositiveButton("OK") { _, _ ->
-                                // Request the permission
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    requestPermissionLauncher.launch(
-                                        Manifest.permission.POST_NOTIFICATIONS
-                                    )
-                                }
-                            }
-                            .setNegativeButton("Cancel") { dialog, _ ->
-                                // Dismiss the dialog and do nothing
-                                dialog.dismiss()
-                            }
-                            .show()
+                        NewAlertDialogBox(
+                            onConfirm = { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                requestPermissionLauncher.launch(
+                                    Manifest.permission.POST_NOTIFICATIONS
+                                )
+                            }},
+                            onDismiss = { /*do nothing*/ },
+                            title = "Permission required",
+                            text = "This permission is required to show notifications.",
+                            confirmButton = "OK",
+                            dismissButton = "Cancel"
+                        )
                     }
                     else -> {
                         // You can directly ask for the permission.
@@ -145,6 +136,7 @@ class MainActivity : ComponentActivity()  {
                                 Intent(context, TimerService::class.java)
                             context.stopService(serviceIntent)
                         }
+
                     }
                 }
 
@@ -177,7 +169,6 @@ class MainActivity : ComponentActivity()  {
         Timber.d("onResume")
         TimerService.isDeviceActive = true
         TimerService().stopRingtone()
-
         super.onResume()
     }
 
