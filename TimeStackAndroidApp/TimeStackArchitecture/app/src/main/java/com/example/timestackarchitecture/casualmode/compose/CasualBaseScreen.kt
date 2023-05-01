@@ -11,12 +11,11 @@ import com.example.timestackarchitecture.casualmode.data.StackData
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
-import com.example.timestackarchitecture.viewmodels.*
 import timber.log.Timber
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BaseScreen(
+fun CasualBaseScreen(
     stackViewModel: StackViewModel,
     timerViewModel: TimerViewModel
 ) {

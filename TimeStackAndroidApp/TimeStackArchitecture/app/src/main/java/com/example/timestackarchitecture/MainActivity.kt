@@ -17,16 +17,20 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import com.example.timestackarchitecture.casualmode.compose.BaseScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.timestackarchitecture.casualmode.compose.CasualBaseScreen
 import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.casualmode.service.TimerService
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
+import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
+import com.example.timestackarchitecture.home.compose.HomeScreen
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
-import com.example.timestackarchitecture.viewmodels.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -68,7 +72,6 @@ class MainActivity : ComponentActivity()  {
             Timber.plant(Timber.DebugTree())
         }
 
-
         setContent {
             TimeStackArchitectureTheme {
                 val context = LocalContext.current
@@ -107,6 +110,7 @@ class MainActivity : ComponentActivity()  {
                         }
                     }
                 }
+                
                 val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
                 val stackViewModel: StackViewModel by viewModels {
                     stackViewModelFactory
@@ -114,7 +118,6 @@ class MainActivity : ComponentActivity()  {
                 val timerViewModel: TimerViewModel by viewModels {
                     timerViewModelFactory
                 }
-
 
                 if(sharedPreferencesProgress.firstTime()) {
                     Timber.d("firstTime")
@@ -128,6 +131,7 @@ class MainActivity : ComponentActivity()  {
                         }
                     }
                 }
+                
                 if(timerViewModel.getAlarmTriggered()) {
                     if (stackViewModel.stackList.isNotEmpty()) {
                         stackViewModel.removeStack(stackViewModel.stackList[0])
@@ -142,17 +146,31 @@ class MainActivity : ComponentActivity()  {
 
                     }
                 }
-
+                val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    BaseScreen(stackViewModel = stackViewModel, timerViewModel = timerViewModel)
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home"
+                    ) {
+                    composable("home") {
+                        HomeScreen(navController)
+                    }
+
+                    composable("casualMode") {
+                        CasualBaseScreen(stackViewModel = stackViewModel, timerViewModel = timerViewModel)
+                    }
+                    composable("habitualMode") {
+                        HabitualBaseScreen()
+                    }
+                }
+
                 }
             }
         }
     }
-
     override fun onPause() {
         Timber.d("onPause")
         TimerService.isDeviceActive = false
@@ -174,7 +192,6 @@ class MainActivity : ComponentActivity()  {
         TimerService().stopRingtone()
         super.onResume()
     }
-
 }
 
 
