@@ -17,9 +17,13 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import com.example.timestackarchitecture.compose.BaseScreen
-import com.example.timestackarchitecture.data.SharedPreferencesProgressRepository
-import com.example.timestackarchitecture.service.TimerService
+import com.example.timestackarchitecture.casualmode.compose.BaseScreen
+import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
+import com.example.timestackarchitecture.casualmode.service.TimerService
+import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
+import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
+import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
+import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
 import com.example.timestackarchitecture.viewmodels.*
@@ -35,7 +39,6 @@ class MainActivity : ComponentActivity()  {
 
     @Inject
     lateinit var timerViewModelFactory: TimerViewModelFactory
-
 
     private val requestPermissionLauncher =
         registerForActivityResult(
