@@ -177,6 +177,7 @@ class MainActivity : ComponentActivity()  {
         TimerService.isDeviceActive = false
         super.onPause()
     }
+
     override fun onDestroy() {
         val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
 
