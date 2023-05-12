@@ -146,6 +146,7 @@ class MainActivity : ComponentActivity()  {
 
                     }
                 }
+
                 val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
