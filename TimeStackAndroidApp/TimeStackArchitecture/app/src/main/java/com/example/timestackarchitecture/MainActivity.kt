@@ -131,7 +131,7 @@ class MainActivity : ComponentActivity()  {
                         }
                     }
                 }
-                
+
                 if(timerViewModel.getAlarmTriggered()) {
                     if (stackViewModel.stackList.isNotEmpty()) {
                         stackViewModel.removeStack(stackViewModel.stackList[0])
@@ -171,6 +171,7 @@ class MainActivity : ComponentActivity()  {
             }
         }
     }
+
     override fun onPause() {
         Timber.d("onPause")
         TimerService.isDeviceActive = false
