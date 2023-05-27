@@ -2,7 +2,6 @@ package com.example.timestackarchitecture
 
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -10,22 +9,20 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.timestackarchitecture.casualmode.compose.CasualBaseScreen
 import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.casualmode.service.TimerService
-import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
-import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
 import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
 import com.example.timestackarchitecture.home.compose.HomeScreen
@@ -112,40 +109,6 @@ class MainActivity : ComponentActivity()  {
                 }
                 
                 val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
-                val stackViewModel: StackViewModel by viewModels {
-                    stackViewModelFactory
-                }
-                val timerViewModel: TimerViewModel by viewModels {
-                    timerViewModelFactory
-                }
-
-                if(sharedPreferencesProgress.firstTime()) {
-                    Timber.d("firstTime")
-                    sharedPreferencesProgress.saveTimerProgress(0)
-                } else {
-                    if(stackViewModel.stackList.isNotEmpty()) {
-                        if(stackViewModel.stackList[0].isPlaying) {
-                            val elapsed = (System.currentTimeMillis() - sharedPreferencesProgress.getStartTime()) + sharedPreferencesProgress.getTimerProgress()
-                            sharedPreferencesProgress.saveTimerProgress(elapsed)
-                            sharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
-                        }
-                    }
-                }
-
-                if(timerViewModel.getAlarmTriggered()) {
-                    if (stackViewModel.stackList.isNotEmpty()) {
-                        stackViewModel.removeStack(stackViewModel.stackList[0])
-                        Timber.d("removeStack 0 in MainActivity")
-                        timerViewModel.saveProgress(0)
-                        timerViewModel.saveAlarmTriggered(false)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            val serviceIntent =
-                                Intent(context, TimerService::class.java)
-                            context.stopService(serviceIntent)
-                        }
-
-                    }
-                }
 
                 val navController = rememberNavController()
                 Surface(
@@ -157,18 +120,16 @@ class MainActivity : ComponentActivity()  {
                         startDestination = "home"
                     ) {
                     composable("home") {
-                        HomeScreen(navController)
+                        HomeScreen(navController, stackViewModelFactory, timerViewModelFactory, sharedPreferencesProgress)
+                        Timber.d("back to home")
                     }
-
                     composable("casualMode") {
-                        CasualBaseScreen(stackViewModel = stackViewModel, timerViewModel = timerViewModel)
+                        CasualBaseScreen(stackViewModel = viewModel(factory = stackViewModelFactory), timerViewModel = viewModel(factory = timerViewModelFactory))
                     }
                     composable("habitualMode") {
                         HabitualBaseScreen()
                     }
-                }
-
-                }
+                } }
             }
         }
     }

@@ -70,7 +70,6 @@ fun Container(
         false
     }
 
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
@@ -120,7 +119,6 @@ fun Container(
                         .clip(shape = RoundedCornerShape(size = 12.dp))
                         .background(color = Color(0x3F82D8FF))
                         .border(5.dp, Color(0x3FFFFFFF), shape = RoundedCornerShape(12.dp))
-
                 ) {
                     Column(
                         Modifier
@@ -312,7 +310,6 @@ fun Container(
                             }
                         }
                     }
-
                     Spacer(modifier = Modifier.width(15.dp))
 
                     ElevatedButton(

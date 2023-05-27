@@ -7,18 +7,22 @@ class SharedPreferencesProgressRepository(context: Context) {
     private val currentTimePrefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
     private val alarmTriggered = context.getSharedPreferences( "MyPrefsAlarm", Context.MODE_PRIVATE)
 
+    //save the progress of the timer
     fun saveTimerProgress(progress: Long) {
         sharedPrefTimer.edit().putLong("progress", progress).apply()
     }
 
+    //get the progress of the timer
     fun getTimerProgress(): Long {
         return sharedPrefTimer.getLong("progress", 0L)
     }
 
+    //save the current time
     fun saveCurrentTime(currentTime: Long) {
         currentTimePrefs.edit().putLong("currentTime", currentTime).apply()
     }
 
+    //get the current time
     fun getStartTime(): Long {
         return currentTimePrefs.getLong("currentTime", 0L)
     }

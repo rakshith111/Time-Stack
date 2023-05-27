@@ -31,7 +31,6 @@ class TimerService : Service(){
         var convertedTime = ""
         var countDownTimer: CountDownTimer? = null
         private var isNotificationRingtonePlaying = false
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -96,6 +95,7 @@ class TimerService : Service(){
         } else {
             FLAG_UPDATE_CURRENT
         }
+
         val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, flags)
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stack_noti)
