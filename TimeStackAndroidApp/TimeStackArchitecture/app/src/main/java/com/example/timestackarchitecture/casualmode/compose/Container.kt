@@ -115,7 +115,7 @@ fun Container(
             ) {
                 BoxWithConstraints(
                     contentAlignment = Alignment.Center, modifier = Modifier
-                        .aspectRatio(0.84f)
+                        .aspectRatio(0.82f)
                         .clip(shape = RoundedCornerShape(size = 12.dp))
                         .background(color = Color(0x3F82D8FF))
                         .border(5.dp, Color(0x3FFFFFFF), shape = RoundedCornerShape(12.dp))
@@ -219,7 +219,7 @@ fun Container(
                                     Text(
                                         convertTime(hours, minutes),
                                         textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = Color.Black
                                     )
