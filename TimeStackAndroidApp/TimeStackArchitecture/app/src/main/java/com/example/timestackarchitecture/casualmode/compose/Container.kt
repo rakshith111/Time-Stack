@@ -410,6 +410,7 @@ fun Container(
                             ),
                             contentDescription = "Remove",
                             Modifier.size(24.dp, 24.dp),
+                            tint = Color.White
                         )
                     }
 

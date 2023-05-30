@@ -72,15 +72,18 @@ fun RemoveInputDialog(
             onDismiss()
         },
         title = {
-            if (selectedItems.size == 1){
-                Text(text = "Remove ${stackList[selectedItems[0]].stackName} activity?",
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            } else if (selectedItems.size == 0){
-                Text(text = "Remove top activity?", style = MaterialTheme.typography.titleLarge)
-            }
-            else {
-                Text(text = "Remove ${selectedItems.size} activities?", style = MaterialTheme.typography.titleLarge)
+            when (selectedItems.size) {
+                1 -> {
+                    Text(text = "Remove ${stackList[selectedItems[0]].stackName} activity?",
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
+                0 -> {
+                    Text(text = "Remove top activity?", style = MaterialTheme.typography.titleLarge)
+                }
+                else -> {
+                    Text(text = "Remove ${selectedItems.size} activities?", style = MaterialTheme.typography.titleLarge)
+                }
             }
         },
         confirmButton = {
