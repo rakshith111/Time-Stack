@@ -22,13 +22,14 @@ fun PlayPauseButton(
         onClick(!isPlaying)},
         shape = CircleShape,
         containerColor = Color(0xff000000),
-        modifier = Modifier.size(60.dp), ) {
+        modifier = Modifier.size(80.dp),) {
         if(isPlaying){
             Icon(painter = painterResource(id = R.drawable.baseline_stop_24),
-                contentDescription = "Stop", tint = Color.White)
+                contentDescription = "Stop",Modifier.size(40.dp, 40.dp), tint = Color.White)
         } else{
             Icon(imageVector = Icons.Filled.PlayArrow,
                 contentDescription = "Play",
+                Modifier.size(40.dp, 40.dp),
                 tint = Color.White)
         }
     }

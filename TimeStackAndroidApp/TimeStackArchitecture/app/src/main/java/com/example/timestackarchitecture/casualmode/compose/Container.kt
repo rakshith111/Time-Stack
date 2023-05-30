@@ -13,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,10 +27,12 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.casualmode.data.StackData
 import com.example.timestackarchitecture.casualmode.service.TimerAlarmReceiver
 import com.example.timestackarchitecture.casualmode.service.TimerService
@@ -50,7 +54,7 @@ fun Container(
     saveCurrentTime: (Long) -> Unit,
     getFirstTime: () -> Boolean,
     saveFirstTime: (Boolean) -> Unit,
-    ) {
+) {
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
     var activityName by remember { mutableStateOf("") }
@@ -58,14 +62,19 @@ fun Container(
     val activeStack by remember { mutableStateOf(true) }
     var play by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
+    var showEditMenu by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
+    var resetDialog by remember { mutableStateOf(false) }
+    var editDialog by remember { mutableStateOf(false) }
 
     Timber.d("timePlayed: ${getProgress()}")
     play = if (stackList.isNotEmpty()) {
         Timber.d("play")
+        Timber.d("stackList.size: ${stackList.size}")
         stackList[0].isPlaying
+
     } else {
         false
     }
@@ -76,7 +85,8 @@ fun Container(
     ) { paddingValues ->
         Timber.d("paddingValues: $paddingValues")
         Column(
-            Modifier.fillMaxSize()
+            Modifier
+                .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
@@ -89,7 +99,8 @@ fun Container(
         ) {
             Column(
                 horizontalAlignment = Alignment.Start,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 20.dp, start = 20.dp, bottom = 20.dp)
             ) {
                 Text(
@@ -108,6 +119,7 @@ fun Container(
                     modifier = Modifier.padding(start = 30.dp)
                 )
             }
+
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -165,6 +177,7 @@ fun Container(
                                                     Timber.d("pressed $index")
                                                     selectedItems.add(index)
                                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                                    showEditMenu = true
                                                 }
                                             },
                                             onTap = {
@@ -185,7 +198,6 @@ fun Container(
                                         stackList[index].isPlaying
                                     ) {
                                         Timber.d("outside ${getProgress()}")
-
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             val serviceIntent =
                                                 Intent(context, TimerService::class.java)
@@ -219,7 +231,9 @@ fun Container(
                                     Text(
                                         convertTime(hours, minutes),
                                         textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 10.dp, bottom = 10.dp),
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = Color.Black
                                     )
@@ -230,37 +244,72 @@ fun Container(
                                             modifier = Modifier.padding(top = 10.dp)
                                         )
                                     }
-
                                 }
                             }
-
                         }
                     }
                 }
 
-                Spacer(modifier = Modifier.weight(0.5f))
+                Spacer(modifier = Modifier.weight(1f))
 
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxWidth()
+
                 ) {
-                    ElevatedButton(
+                    IconButton(
                         onClick = {
-                            openDialogAdd = true
+                            if (stackList.isEmpty()) {
+                                snackBarMessage(
+                                    message = "No activities to reset",
+                                    scope = scope,
+                                    snackBarHostState = snackBarHostState
+                                )
+                                return@IconButton
+                            } else {
+                                resetDialog = true
+                            }
                         },
-                        Modifier.size(60.dp, 50.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Black)
+                        Modifier
+                            .size(60.dp, 70.dp)
+                            .padding(top = 15.dp)
+                            .clip(RoundedCornerShape(30.dp)),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.Black,
+                        ),
                     ) {
                         Icon(
-                            Icons.Filled.Add, "menu",
-                            Modifier.fillMaxSize(),
+                            Icons.Filled.Refresh, "refresh",
+                            Modifier.size(24.dp, 24.dp),
                             tint = Color.White
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(15.dp))
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    IconButton(
+                        onClick = {
+                            openDialogAdd = true
+                        },
+                        Modifier
+                            .size(60.dp, 70.dp)
+                            .padding(top = 15.dp)
+                            .clip(RoundedCornerShape(30.dp)),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.Black,
+                        )
+                    ) {
+                        Icon(
+                            Icons.Filled.Add, "menu",
+                            Modifier.size(24.dp, 24.dp),
+                            tint = Color.White
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
 
                     PlayPauseButton(isPlaying = play) {
+
                         if (stackList.isEmpty()) return@PlayPauseButton
                         else {
                             play = it
@@ -274,6 +323,7 @@ fun Container(
                                     it
                                 )
                             )
+
                             if (it) {
                                 Timber.d("Timer started")
                                 //use system time to update progress
@@ -285,10 +335,11 @@ fun Container(
                                     context.startService(serviceIntent)
                                 }
 
-                                if(stackList.isNotEmpty()){
+                                if (stackList.isNotEmpty()) {
                                     val remainingTime = stackList[0].stackTime - getProgress()
                                     TimerAlarmReceiver().setTimerAlarm(context, remainingTime)
-                                    if(getFirstTime()){
+                                    Timber.d("set alarm for $remainingTime")
+                                    if (getFirstTime()) {
                                         updateProgress(0)
                                     }
                                 }
@@ -298,7 +349,8 @@ fun Container(
                             } else {
                                 Timber.d("Timer paused")
                                 //stop notification
-                                val elapsed = (System.currentTimeMillis() - getStartTime()) + getProgress()
+                                val elapsed =
+                                    (System.currentTimeMillis() - getStartTime()) + getProgress()
                                 updateProgress(elapsed)
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -310,9 +362,9 @@ fun Container(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.width(15.dp))
+                    Spacer(modifier = Modifier.weight(1f))
 
-                    ElevatedButton(
+                    IconButton(
                         onClick = {
                             if (stackList.isEmpty()) {
                                 snackBarMessage(
@@ -320,32 +372,197 @@ fun Container(
                                     scope = scope,
                                     snackBarHostState = snackBarHostState
                                 )
-                                return@ElevatedButton
+                                return@IconButton
                             } else {
                                 openDialogRemove = true
                             }
                         },
-                        Modifier.size(60.dp, 50.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Black)
+                        Modifier
+                            .size(60.dp, 70.dp)
+                            .padding(top = 15.dp)
+                            .clip(RoundedCornerShape(30.dp)),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.Black,
+                        ),
                     ) {
-                        Text(
-                            text = "-", Modifier.fillMaxHeight(),
-                            Color.White,
-                            23.sp,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.bodyLarge,
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.minus
+                            ),
+                            contentDescription = "Remove",
+                            Modifier.size(24.dp, 24.dp),
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    IconButton(
+                        onClick = {
+                            if (stackList.isEmpty()) {
+                                snackBarMessage(
+                                    message = "No activity to edit, add a new activity",
+                                    scope = scope,
+                                    snackBarHostState = snackBarHostState
+                                )
+                                return@IconButton
+                            } else if (selectedItems.size > 1){
+                                snackBarMessage(
+                                    message = "Select only one activity to edit",
+                                    scope = scope,
+                                    snackBarHostState = snackBarHostState
+                                )
+                            }else {
+                                editDialog = true
+                            } },
+                        Modifier
+                            .size(60.dp, 70.dp)
+                            .padding(top = 15.dp)
+                            .clip(RoundedCornerShape(30.dp)),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.Black,
+                        ),
+                    ) {
+                        Icon(
+                            Icons.Filled.Settings, "settings",
+                            Modifier.size(24.dp, 24.dp),
+                            tint = Color.White
                         )
                     }
                 }
+                Spacer(modifier = Modifier.weight(1f))
             }
         }
-        when {
-            openDialogAdd -> {
-                AddInputDialog(
-                    onConfirm = {
-                        insertStack(
+    }
+    when {
+        openDialogAdd -> {
+            AddInputDialog(
+                onConfirm = {
+                    insertStack(
+                        StackData(
+                            0,
+                            activityName,
+                            activityTime.toLong(),
+                            activeStack,
+                            false
+                        )
+                    )
+                    snackBarMessage(
+                        message = "$activityName activity added",
+                        scope = scope,
+                        snackBarHostState = snackBarHostState
+                    )
+                    openDialogAdd = false
+                },
+
+                onDismiss = {
+                    openDialogAdd = false
+                    if (activityName.isBlank()) {
+                        snackBarMessage(
+                            message = "Please enter activity name",
+                            scope = scope,
+                            snackBarHostState = snackBarHostState
+                        )
+
+                    } else {
+                        snackBarMessage(
+                            message = "Please enter activity time",
+                            scope = scope,
+                            snackBarHostState = snackBarHostState
+                        )
+                    }
+                },
+                activityName = activityName,
+                onActivityNameChange = { activityName = it },
+                onActivityTimeChange = { activityTime = it }
+            )
+        }
+
+        openDialogRemove -> {
+            RemoveInputDialog(
+                onConfirm = {
+                    if (selectedItems.size > 0) {
+                        selectedItems.sortedDescending().forEach { index ->
+                            removeStack(stackList[index])
+                        }
+                        if (selectedItems.contains(0)) {
+                            Timber.d("contains 0")
+                            if (play) {
+                                //stop notification
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    val serviceIntent =
+                                        Intent(context, TimerService::class.java)
+                                    context.stopService(serviceIntent)
+                                    play = false
+
+                                }
+                            }
+                            updateProgress(0)
+                        }
+                        selectedItems.clear()
+                    } else {
+                        if (stackList.isNotEmpty()) {
+                            removeStack(stackList[0])
+                            if (play) {
+                                play = false
+                                //stop notification
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    val serviceIntent =
+                                        Intent(context, TimerService::class.java)
+                                    context.stopService(serviceIntent)
+                                }
+                            }
+                            updateProgress(0)
+
+                        }
+                    }
+                    snackBarMessage(
+                        message = if (selectedItems.size > 1) "${selectedItems.size} activities removed"
+                        else "activity removed",
+                        scope = scope,
+                        snackBarHostState = snackBarHostState
+                    )
+                    openDialogRemove = false
+                    saveFirstTime(true)
+                },
+                onDismiss = { openDialogRemove = false },
+                selectedItems = selectedItems,
+            )
+        }
+
+        resetDialog -> {
+            ResetDialogBox(
+                onConfirm = {
+                    if (stackList.isNotEmpty()) {
+                        //reset the progress
+                        updateProgress(0)
+                        //stop the timer service or notification
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val serviceIntent =
+                                Intent(context, TimerService::class.java)
+                            context.stopService(serviceIntent)
+                        }
+                        play = false
+                        saveFirstTime(true)
+                        stackList[0].isPlaying = false
+                        snackBarMessage(
+                            message = "Activity reset",
+                            scope = scope,
+                            snackBarHostState = snackBarHostState
+                        )
+                        resetDialog = false
+                    }
+                },
+                onDismiss = { resetDialog = false },
+            )
+        }
+
+        editDialog -> {
+            EditDialogBox(
+                onConfirm = {
+                    if (selectedItems.size > 0 && selectedItems.size == 1){
+                        updateStack(
                             StackData(
-                                0,
+                                stackList[selectedItems[0]].id,
                                 activityName,
                                 activityTime.toLong(),
                                 activeStack,
@@ -353,93 +570,48 @@ fun Container(
                             )
                         )
                         snackBarMessage(
-                            message = "$activityName activity added",
+                            message = "Activity updated",
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
-                        openDialogAdd = false
-                    },
-                    onDismiss = {
-                        openDialogAdd = false
-                        if (activityName.isBlank()) {
-                            snackBarMessage(
-                                message = "Please enter activity name",
-                                scope = scope,
-                                snackBarHostState = snackBarHostState
-                            )
-
-                        } else {
-                            snackBarMessage(
-                                message = "Please enter activity time",
-                                scope = scope,
-                                snackBarHostState = snackBarHostState
-                            )
-                        }
-                    },
-                    activityName = activityName,
-                    onActivityNameChange = { activityName = it },
-                    onActivityTimeChange = { activityTime = it }
-                )
-            }
-
-            openDialogRemove -> {
-                RemoveInputDialog(
-                    onConfirm = {
-                        if (selectedItems.size > 0) {
-                            selectedItems.sortedDescending().forEach { index ->
-                                removeStack(stackList[index])
-                            }
-                            if (selectedItems.contains(0)) {
-                                Timber.d("contains 0")
-                                if (play) {
-                                    //stop notification
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        val serviceIntent =
-                                            Intent(context, TimerService::class.java)
-                                        context.stopService(serviceIntent)
-                                        TimerService().stopProgressNotificationThread {
-                                            play = false
-                                        }
-                                    }
-                                }
-                                updateProgress(0)
-                            }
-                            selectedItems.clear()
-                        } else {
-                            if (stackList.isNotEmpty()) {
-                                removeStack(stackList[0])
-                                if (play) {
-                                    play = false
-                                    //stop notification
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        val serviceIntent =
-                                            Intent(context, TimerService::class.java)
-                                        context.stopService(serviceIntent)
-                                        TimerService().stopProgressNotificationThread {
-                                            play = false
-                                        }
-                                    }
-                                }
-                                updateProgress(0)
-
-                            }
-
-                        }
+                    } else if (stackList.isNotEmpty()) {
+                        stackList[0].stackName = activityName
+                        stackList[0].stackTime = activityTime.toLong()
+                        stackList[0].isPlaying = false
                         snackBarMessage(
-                            message = if (selectedItems.size > 1) "${selectedItems.size} activities removed"
-                            else "activity removed",
+                            message = "Activity updated",
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
-                        openDialogRemove = false
-                        saveFirstTime(true)
-                    },
-                    onDismiss = { openDialogRemove = false },
-                    selectedItems = selectedItems,
-                )
-            }
+                        updateStack(
+                            StackData(
+                                stackList[0].id,
+                                activityName,
+                                activityTime.toLong(),
+                                activeStack,
+                                false
+                            )
+                        )
+                    }
+                    if (activityTime != "0") {
+                        updateProgress(0)
+                    }
+                    editDialog = false
+                },
+                onDismiss = { editDialog = false
+                    if (activityName.isBlank()) {
+                        snackBarMessage(
+                            message = "Please enter activity name",
+                            scope = scope,
+                            snackBarHostState = snackBarHostState
+                        )
+                    } },
+                activityName = activityName,
+                onActivityNameChange = { activityName = it },
+                onActivityTimeChange = { activityTime = it },
+                selectedItems = selectedItems,
+                stackList = stackList
+            )
         }
     }
 }
-
-

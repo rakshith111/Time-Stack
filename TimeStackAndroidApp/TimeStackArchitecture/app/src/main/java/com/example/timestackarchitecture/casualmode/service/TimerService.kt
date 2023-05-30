@@ -29,8 +29,6 @@ class TimerService : Service(){
         var isDeviceActive = true
         var stackName = ""
         var convertedTime = ""
-        var countDownTimer: CountDownTimer? = null
-        private var isNotificationRingtonePlaying = false
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -113,11 +111,6 @@ class TimerService : Service(){
         }
     }
 
-    fun stopProgressNotificationThread(stopNotification: () -> Unit) {
-        Timber.d("notification thread stopped")
-        countDownTimer?.cancel()
-        stopNotification()
-    }
 
     fun stopRingtone(){
         try {
@@ -139,10 +132,7 @@ class TimerService : Service(){
     }
 
     fun startNotificationRingtone(){
-        if(!isNotificationRingtonePlaying) {
-            Timber.d("notification ringtone started")
-            NotificationRingtone.start()
-            isNotificationRingtonePlaying = true
-        }
+        Timber.d("notification ringtone started")
+        NotificationRingtone.start()
     }
 }

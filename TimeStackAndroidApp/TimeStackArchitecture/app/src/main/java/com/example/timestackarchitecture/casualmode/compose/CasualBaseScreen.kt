@@ -66,6 +66,7 @@ fun CasualBaseScreen(
             stackViewModel.updateStack(stackData) },
 
         removeStack = {stackData: StackData -> stackViewModel.removeStack(stackData)},
+
         getStartTime = { timerViewModel.getStartTime() },
 
         {startTime: Long -> timerViewModel.saveCurrentTime(startTime)},

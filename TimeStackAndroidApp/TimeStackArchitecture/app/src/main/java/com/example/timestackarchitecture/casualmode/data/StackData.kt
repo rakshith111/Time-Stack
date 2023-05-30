@@ -10,9 +10,9 @@ data class StackData(
     @ColumnInfo(name = "stack_id")
     val id: Int,
     @ColumnInfo(name = "stack_name")
-    val stackName: String,
+    var stackName: String,
     @ColumnInfo(name = "stack_time")
-    val stackTime: Long,
+    var stackTime: Long,
     @ColumnInfo(name = "stack_active")
     var activeStack: Boolean,
     @ColumnInfo(name = "stack_is_playing")
