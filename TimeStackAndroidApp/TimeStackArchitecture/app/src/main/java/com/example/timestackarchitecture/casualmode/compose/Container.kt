@@ -266,6 +266,24 @@ fun Container(
                                     snackBarHostState = snackBarHostState
                                 )
                                 return@IconButton
+                            } else if (selectedItems.isNotEmpty()) {
+                                if(!selectedItems.contains(0)){
+                                    snackBarMessage(
+                                        message = "Selected activity is not the first one",
+                                        scope = scope,
+                                        snackBarHostState = snackBarHostState
+                                    )
+                                    return@IconButton
+                                } else if (selectedItems.size == 1 && selectedItems.contains(0)) {
+                                    resetDialog = true
+                                } else {
+                                    snackBarMessage(
+                                        message = "Only the first activity can be reset",
+                                        scope = scope,
+                                        snackBarHostState = snackBarHostState
+                                    )
+                                    return@IconButton
+                                }
                             } else {
                                 resetDialog = true
                             }

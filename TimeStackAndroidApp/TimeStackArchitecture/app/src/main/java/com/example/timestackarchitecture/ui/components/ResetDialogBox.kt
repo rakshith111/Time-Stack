@@ -16,7 +16,7 @@ fun ResetDialogBox(
             onDismiss()
         },
         title = {
-            Text(text = "Confirm Reset", style = MaterialTheme.typography.titleLarge)
+            Text(text = " Reset First Activity", style = MaterialTheme.typography.titleLarge)
         },
         confirmButton = {
             TextButton(
