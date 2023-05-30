@@ -1,8 +1,13 @@
 package com.example.timestackarchitecture.ui.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import com.example.timestackarchitecture.casualmode.data.StackData
 
 @Composable
 fun AddInputDialog(
@@ -58,16 +63,23 @@ fun AddInputDialog(
 fun RemoveInputDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
-    selectedItems: MutableList<Int>
-){
+    selectedItems: MutableList<Int>,
+    stackList: List<StackData>,
+
+    ){
     AlertDialog(
         onDismissRequest = {
             onDismiss()
         },
         title = {
-            if (selectedItems.size == 1 || selectedItems.size == 0) {
+            if (selectedItems.size == 1){
+                Text(text = "Remove ${stackList[selectedItems[0]].stackName} activity?",
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            } else if (selectedItems.size == 0){
                 Text(text = "Remove top activity?", style = MaterialTheme.typography.titleLarge)
-            } else {
+            }
+            else {
                 Text(text = "Remove ${selectedItems.size} activities?", style = MaterialTheme.typography.titleLarge)
             }
         },

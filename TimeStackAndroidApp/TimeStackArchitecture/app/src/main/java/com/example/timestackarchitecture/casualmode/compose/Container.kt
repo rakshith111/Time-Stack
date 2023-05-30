@@ -190,6 +190,7 @@ fun Container(
                                         )
                                     }
                             ) {
+
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     InfiniteAnimation(play = stackList[index].isPlaying)
                                     Loader(
@@ -451,6 +452,7 @@ fun Container(
             }
         }
     }
+
     when {
         openDialogAdd -> {
             AddInputDialog(
@@ -511,7 +513,6 @@ fun Container(
                                         Intent(context, TimerService::class.java)
                                     context.stopService(serviceIntent)
                                     play = false
-
                                 }
                             }
                             updateProgress(0)
@@ -528,6 +529,7 @@ fun Container(
                                         Intent(context, TimerService::class.java)
                                     context.stopService(serviceIntent)
                                 }
+                                TimerAlarmReceiver().cancelTimerAlarm(context)
                             }
                             updateProgress(0)
 
@@ -544,6 +546,7 @@ fun Container(
                 },
                 onDismiss = { openDialogRemove = false },
                 selectedItems = selectedItems,
+                stackList = stackList
             )
         }
 
@@ -559,6 +562,7 @@ fun Container(
                                 Intent(context, TimerService::class.java)
                             context.stopService(serviceIntent)
                         }
+                        TimerAlarmReceiver().cancelTimerAlarm(context)
                         play = false
                         saveFirstTime(true)
                         stackList[0].isPlaying = false
@@ -614,6 +618,12 @@ fun Container(
                     if (activityTime != "0") {
                         updateProgress(0)
                     }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val serviceIntent =
+                            Intent(context, TimerService::class.java)
+                        context.stopService(serviceIntent)
+                    }
+                    TimerAlarmReceiver().cancelTimerAlarm(context)
                     editDialog = false
                 },
                 onDismiss = { editDialog = false
