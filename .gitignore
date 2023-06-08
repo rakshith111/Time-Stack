@@ -6,10 +6,8 @@ Server/
 # src/
 QTApp.log
 __pycache__
-#Android-app
-Android-app
+#Android-ap
 QTApp.log
-__pycache__
 #Android-app
 Android-app
 *.iml
