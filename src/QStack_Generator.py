@@ -26,8 +26,13 @@ class StackSpace(QtWidgets.QWidget):
         Args:
             parent (_type_, optional): Defaults to None.
         '''
+        
         super(StackSpace, self).__init__(parent=parent)
         self.stack_space_ui = Ui_stack_space()
+        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
+        print(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg'))
+        self.setWindowTitle('Stack Space')
+
         self.stack_space_ui.setupUi(self)
         self.stack_space_ui.start_btn.setIcon(
             QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'play-button.png')))
@@ -95,6 +100,7 @@ class StackGen(QtWidgets.QWidget):
         '''
         super(StackGen, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
+        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.stack_gen_ui.setupUi(self)
         logger.info('Stackgen UI initialized')
         self.stack_gen_ui.total_time_output.setText("00:00")
