@@ -10,15 +10,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.timestackarchitecture.casualmode.compose.CasualBaseScreen
 import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.casualmode.service.TimerService
@@ -28,6 +31,9 @@ import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
 import com.example.timestackarchitecture.home.compose.HomeScreen
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -61,6 +67,7 @@ class MainActivity : ComponentActivity()  {
             }
         }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,29 +114,58 @@ class MainActivity : ComponentActivity()  {
                         }
                     }
                 }
-                
+
                 val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
 
-                val navController = rememberNavController()
+                val navController = rememberAnimatedNavController()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    NavHost(
+                    AnimatedNavHost(
                         navController = navController,
-                        startDestination = "home"
+                        startDestination = "home",
                     ) {
-                    composable("home") {
-                        HomeScreen(navController, stackViewModelFactory, timerViewModelFactory, sharedPreferencesProgress)
-                        Timber.d("back to home")
+                        composable("home",
+                            enterTransition = {
+                            fadeIn(animationSpec = tween(300))},
+                            exitTransition = {
+                                fadeOut(animationSpec = tween(300))
+                            }){
+                            HomeScreen(navController, stackViewModelFactory, timerViewModelFactory, sharedPreferencesProgress)
+                            Timber.d("back to home")
+                        }
+                        composable("casualMode",
+                            enterTransition = {
+                                slideInHorizontally(
+                                    initialOffsetX = { 1000 },
+                                    animationSpec = tween(500)
+                                )},
+                            exitTransition = {
+                                slideOutHorizontally(
+                                    targetOffsetX = { -1000 },
+                                    animationSpec = tween(500)
+                                )}){
+                            CasualBaseScreen(stackViewModel = viewModel(factory = stackViewModelFactory), timerViewModel = viewModel(factory = timerViewModelFactory))
+                        }
+
+                        composable("habitualMode",
+                            enterTransition = {
+                            slideInHorizontally(
+                                initialOffsetX = { 1000 },
+                                animationSpec = tween(500)
+                            )},
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -1000 },
+                            animationSpec = tween(500)
+                        )}) {
+
+                            HabitualBaseScreen()
+                        }
                     }
-                    composable("casualMode") {
-                        CasualBaseScreen(stackViewModel = viewModel(factory = stackViewModelFactory), timerViewModel = viewModel(factory = timerViewModelFactory))
-                    }
-                    composable("habitualMode") {
-                        HabitualBaseScreen()
-                    }
-                } }
+                }
             }
         }
     }
@@ -157,7 +193,3 @@ class MainActivity : ComponentActivity()  {
         super.onResume()
     }
 }
-
-
-
-
