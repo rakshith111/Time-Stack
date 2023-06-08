@@ -8,13 +8,12 @@ from PyQt6.QtGui import QCloseEvent, QIcon
 from PyQt6.QtWidgets import QMessageBox
 from os import path
 
-from ui_modules.Stack_gen import Ui_stack_gen
-from ui_modules.Stack_space import Ui_stack_space
+from libs._base_logger import logger
+from libs._base_logger import BASE_DIR
+from ui_generated.stack_create import Ui_stack_gen
+from ui_generated.stack_space import Ui_stack_space
 
 from QStack_Manager import StackManager
-from _base_logger import logger
-from _base_logger import CURRENT_DIR
-
 
 class StackSpace(QtWidgets.QWidget):
 
@@ -22,44 +21,63 @@ class StackSpace(QtWidgets.QWidget):
         '''
         Initializes the Stackgen class and sets up the UI.
         Sets up the scroll area and the stack manager.
-        Adds icons to the buttons.        
+        Adds icons to the buttons.     
+
+        Args:
+            parent (_type_, optional): Defaults to None.
         '''
+        
         super(StackSpace, self).__init__(parent=parent)
-        self.stack_gen_space_ui = Ui_stack_space()
-        self.stack_gen_space_ui.setupUi(self)
-        self.stack_gen_space_ui.start_btn.setIcon(
-            QIcon(path.join(CURRENT_DIR, 'ui_files', 'icon', 'play-button.png')))
-        self.stack_gen_space_ui.pause_btn.setIcon(
-            QIcon(path.join(CURRENT_DIR, 'ui_files', 'icon', 'pause-button.png')))
-        self.stack_gen_space_ui.remove_btn.setIcon(
-            QIcon(path.join(CURRENT_DIR, 'ui_files', 'icon', 'remove.png')))
+        self.stack_space_ui = Ui_stack_space()
+        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
+        print(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg'))
+        self.setWindowTitle('Stack Space')
+
+        self.stack_space_ui.setupUi(self)
+        self.stack_space_ui.start_btn.setIcon(
+            QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'play-button.png')))
+        self.stack_space_ui.pause_btn.setIcon(
+            QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'pause-button.png')))
+        self.stack_space_ui.remove_btn.setIcon(
+            QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'remove.png')))
         scroll_layout = QtWidgets.QVBoxLayout()
         scroll_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignJustify)
-
-        self.vertical_scrollbar = self.stack_gen_space_ui.stack_area_scrollable.verticalScrollBar()
-
-        self.stack_gen_space_ui.stack_area_scrollable.widget().setLayout(scroll_layout)
+        self.vertical_scrollbar = self.stack_space_ui.stack_area_scrollable.verticalScrollBar()
+        self.stack_space_ui.stack_area_scrollable.widget().setLayout(scroll_layout)
 
         self.manager = StackManager(
-            self.stack_gen_space_ui.stack_area_scrollable.widget().layout())
+            self.stack_space_ui.stack_area_scrollable.widget().layout())
 
-        self.stack_gen_space_ui.start_btn.clicked.connect(
+        self.stack_space_ui.start_btn.clicked.connect(
             self.manager.start_thread)
-        self.stack_gen_space_ui.pause_btn.clicked.connect(
+        self.stack_space_ui.pause_btn.clicked.connect(
             self.manager.pause_thread)
-        self.stack_gen_space_ui.remove_btn.clicked.connect(
+        self.stack_space_ui.remove_btn.clicked.connect(
             self.manager.pop_top_stack)
 
-    def add_stack_bar(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
+    def closeEvent(self, event: QCloseEvent) -> None:
         '''
-        :param str name: Name of the stack
-        :param datetime.time dt_start_time: Start time of the stack
-        :param datetime.time dt_stop_time: End time of the stack
+        Overrides the closeEvent function to hide the window instead of closing it.
 
-        This function is called when the create stack button is clicked.
+        Args:
+            event (QCloseEvent): Close event object
+        '''
+        # Override the closeEvent and hide the window instead of closing it
+        event.ignore()
+        logger.info('StackSpace Hide event called')
+        self.hide()
+
+    def add_stack_activity(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
+        '''      
+        This function is called when the create button is clicked.
         Converts the start and end time to datetime.time objects and then calculates the total time.
         has to be done this way because the time objects are not compatible with the datetime module.
         delta: `datetime.timedelta` object used to get total seconds.
+
+        Args:
+            name (str): Name of the stack
+            dt_start_time (datetime.time): Start time of the stack
+            dt_stop_time (datetime.time): End time of the stack
         '''
         logger.debug(
             f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
@@ -70,24 +88,19 @@ class StackSpace(QtWidgets.QWidget):
         logger.info(
             f'Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}, ')
 
-    def closeEvent(self, event: QCloseEvent) -> None:
-        '''
-        Overrides the closeEvent function to hide the window instead of closing it.
-        '''
-        # Override the closeEvent and hide the window instead of closing it
-        event.ignore()
-        logger.info('StackSpace Hide event called')
-        self.hide()
-
 
 class StackGen(QtWidgets.QWidget):
 
     def __init__(self, parent=None) -> None:
         '''
         Initializes the Stackgen class and sets up the UI.
+
+        Args:
+            parent (_type_, optional):  Defaults to None.
         '''
         super(StackGen, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
+        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.stack_gen_ui.setupUi(self)
         logger.info('Stackgen UI initialized')
         self.stack_gen_ui.total_time_output.setText("00:00")
@@ -110,16 +123,25 @@ class StackGen(QtWidgets.QWidget):
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
         self.stack_space = StackSpace()
 
+    def closeEvent(self, event: QCloseEvent) -> None:
+        '''
+        Overrides the closeEvent function to close subwindows then close itself.
+
+        Args:
+            event (QCloseEvent): Close event object
+        '''
+        self.stack_space.close()
+        logger.info('Stackgen closed')
+
     def create_stack(self) -> None:
         '''
-
         This function is called when the create stack button is clicked.
         Converts the start and end time to datetime.time objects and then calculates the total time.
         has to be done this way because the time objects are not compatible with the datetime module.
         Calls the `add_stack` function in the `StackSpace` class to add the stack to the scroll area.
 
         '''
-        self.stack_name = self.stack_gen_ui.stack_name_input.toPlainText()
+        self.activity_stack_name = self.stack_gen_ui.stack_name_input.toPlainText()
         self.start_time_input = self.stack_gen_ui.start_time_input.time()
         self.end_time_input = self.stack_gen_ui.end_time_input.time()
         dt_start_time = datetime.datetime.now().replace(hour=self.start_time_input.hour(),
@@ -133,7 +155,7 @@ class StackGen(QtWidgets.QWidget):
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        if self.stack_name == "":
+        if self.activity_stack_name == "":
             self.warningmsg.setText("Please enter a stack name")
             self.warningmsg.exec()
             return
@@ -148,19 +170,11 @@ class StackGen(QtWidgets.QWidget):
             self.warningmsg.exec()
             return
         self.informationmsg.setText(
-            f"Stack {self.stack_name} created with start time {dt_start_time} and end time {dt_stop_time}")
+            f"Stack {self.activity_stack_name} created with start time {dt_start_time} and end time {dt_stop_time}")
         self.informationmsg.exec()
-        self.stack_space.add_stack_bar(
-            self.stack_name, dt_start_time, dt_stop_time)
+        self.stack_space.add_stack_activity(
+            self.activity_stack_name, dt_start_time, dt_stop_time)
         self.stack_space.show()
-
-    def closeEvent(self, event: QCloseEvent) -> None:
-        '''
-        Overrides the closeEvent function to close subwindows then close itself.
-        '''
-        self.stack_space.close()
-        logger.info('Stackgen closed')
-
 
 if __name__ == '__main__':
 

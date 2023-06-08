@@ -11,29 +11,34 @@ from PyQt6.QtGui import QAction
 from os import path
 from copy import copy
 
-from _base_logger import logger
-from _base_logger import CURRENT_DIR
+from libs._base_logger import logger
+from libs._base_logger import BASE_DIR
 
 
-qss_file = open(path.join(CURRENT_DIR, 'ui_files', 'stack.qss'), 'r').read()
+QSS_FILE = open(path.join(BASE_DIR, 'ui_files', 'stack.qss'), 'r').read()
 
 
 class Thread(QThread):
-    '''
+    '''   
     Thread class that handles the timer for the progress bar.
 
+    Args:
+        QThread (_type_): Inherits from QThread class.
     '''
+
     _signal = pyqtSignal(int)
 
     def __init__(self, maxsize: int, name: str) -> None:
         '''
-        :param int maxsize: The max size of the progress bar.
-        :param str name: The name of the thread.
-
+        Initializes the thread class. Sets the name of the thread, the maxsize of the progress bar, and the current value of the progress bar.
         _is_running: A boolean that determines if the thread is running.
         currentvalue: The current value of the progress bar. Starts at maxsize. Stores the value when paused and resumes from that value.
 
+        Args:
+            maxsize (int): The max size of the progress bar.
+            name (str): The name of the thread.
         '''
+
         super(Thread, self).__init__()
         self.name = name
         self.maxsize = maxsize
@@ -47,16 +52,16 @@ class Thread(QThread):
         self.terminate()
 
     def pause(self, value: int) -> None:
-        '''
-        :param int value: The current value of the progress bar.
-
+        '''    
         When the thread is paused, it will set the current value of the progress bar to the current_value attribute.
         It will also set the _is_running attribute to False to stop the thread from running.
+        Args:
+            value (int): The current value of the progress bar.
         '''
         self.current_value = value
         self._is_running = False
         logger.info(
-            f"Pause {self.name} @  {self.current_value} Is running? ={self._is_running}")
+            f"Pausing {self.name} @ {self.current_value} Is running?={self._is_running}")
 
     def resume(self) -> None:
         '''
@@ -66,7 +71,7 @@ class Thread(QThread):
         self._signal.emit(self.current_value)
         self._is_running = True
         logger.info(
-            f"Resume {self.name}@  {self.current_value}  Is running? ={self._is_running}")
+            f"Resuming  {self.name} @ {self.current_value} Is running?={self._is_running}")
 
     def run(self) -> None:
         '''
@@ -84,21 +89,18 @@ class Thread(QThread):
             time.sleep(1)
 
 
-class StackBar(QProgressBar):
+class StackActivityBar(QProgressBar):
     '''
-    StackBar class modifies the QProgressBar class to add a context menu and a thread to handle the timer.
+    StackActivityBar class modifies the QProgressBar class to add a context menu and a thread to handle the timer.
 
+    Args:
+        QProgressBar (_type_): Inherits from QProgressBar class.
     '''
+
     _remove_signal = QtCore.pyqtSignal()
 
     def __init__(self, name: str, progress_end: int, parent=None) -> None:
         '''
-        :param str name: The name of the progress bar.
-        :param int progress_end: The max size of the progress bar.
-
-        _thread: The thread that handles the timer for the progress bar.
-        _remove_signal: A signal that is emitted when the progress bar is removed.
-
         The QProgressBar class is initialized with the following parameters:
             - parent: The parent widget.
             - setFixedSize: Sets the fixed size of the progress bar. (Currently fixed But will be changed to dynamic in the future.)
@@ -110,10 +112,17 @@ class StackBar(QProgressBar):
             - setValue: Sets the value of the progress bar. (progress_end)
             - setObjectName: Sets the object name of the progress bar. (f"{name}")
             - setStyleSheet: Sets the stylesheet of the progress bar. (A basic stylesheet is used for now. Will be changed to a dynamic stylesheet in the future.)
+        _thread: The thread that handles the timer for the progress bar.
+        _remove_signal: A signal that is emitted when the progress bar is removed.
 
+
+        Args:
+            name (str): The name of the progress bar.
+            progress_end (int): The max size of the progress bar.
+            parent (_type_, optional): Defaults to None.
 
         '''
-        super(StackBar, self).__init__(parent)
+        super(StackActivityBar, self).__init__(parent)
         self.setFixedSize(180, 250)
         self.setOrientation(QtCore.Qt.Orientation.Vertical)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -122,7 +131,7 @@ class StackBar(QProgressBar):
         self.setRange(0, progress_end)
         self.setValue(progress_end)
         self.setObjectName(f"{name}")
-        self.setStyleSheet(qss_file)
+        self.setStyleSheet(QSS_FILE)
 
         self._thread = Thread(progress_end, f"Thread_{name}")
         self._thread._signal.connect(self.setValue)
@@ -158,11 +167,12 @@ class StackBar(QProgressBar):
 
     def setValue(self, value: int) -> None:
         '''
-        :param int value: The value of the progress bar.
-
         This is a modified version of the setValue method from the QProgressBar class.
         When the value of the progress bar is set, it will check if the value is 0.
         If the value is 0, it will emit the _remove_signal signal to remove the progress bar from the stack.
+
+        Args:
+            value (int): The value of the progress bar.
         '''
 
         super().setValue(value)
@@ -185,32 +195,34 @@ class StackManager():
 
     def __init__(self, layout: QtWidgets.QLayout) -> None:
         '''
-        :param QtWidgets.QLayout layout: The layout that the progress bars will be added to.
-
+        The layout is set to the layout that is passed to the class. i.e Stack Space layout.
         stack_bar: The progress bar that is currently being added to the stack.
         stack_top_item: The progress bar that is currently at the top of the stack.
         stack_items: A list of all the progress bars in the stack.
 
-        The layout is set to the layout that is passed to the class. i.e Stack Space
-        '''
 
+        Args:
+            layout (QtWidgets.QLayout): The layout that the progress bars will be added to.
+        '''
         self.layout = layout
         self.stack_top_item = None
         self.stack_items = []
 
-    def add_stack(self, name: str, progress_end: int) -> StackBar:
+    def add_stack(self, name: str, progress_end: int) -> StackActivityBar:
         '''
-        :param str name: The name of the progress bar.
-        :param int progress_end: The max size of the progress bar.
-        :return: The progress bar that is currently being added to the stack.
-        :rtype: StackBar
-
         This function creates a new progress bar and adds it to the stack. Also the signal is connected to the remove_top_stack function.
         The progress bar is added to the layout and the stack_items list.
         The stack_top_item is set to the progress bar that is currently at the top of the stack.
-        '''
 
-        self.stack_bar = StackBar(f"{name}", progress_end)
+        Args:
+            name (str): The name of the progress bar.
+            progress_end (int):  The max size of the progress bar.
+
+        Returns:
+            StackActivityBar (StackActivityBar): The progress bar that is currently being added to the stack.
+
+        '''
+        self.stack_bar = StackActivityBar(f"{name}", progress_end)
         self.stack_bar._remove_signal.connect(self.pop_top_stack)
         self.layout.addWidget(self.stack_bar)
         if self.stack_top_item is None:
@@ -222,6 +234,7 @@ class StackManager():
         '''
         Starts the thread of the top progress bar in the stack.
         '''
+        logger.info(f"Starting thread - {self.stack_top_item.objectName()}")
         if self.stack_top_item is not None:
             self.stack_top_item._thread.start()
         # Add error msg for if there is no stack bar in the stack
@@ -267,8 +280,12 @@ class StackManager():
 class Stack(QWidget):
     def __init__(self, parent=None):
         '''
+        :warning: This class is temporary and will be removed in the future. Only used for testing purposes.
         Initializes the Stack class and sets up the UI.
         Temporary class for testing the StackManager class.
+
+        Args:
+            parent (_type_, optional): Defaults to None.
         '''
         super().__init__(parent)
         self.stack_ui = QVBoxLayout()
@@ -293,19 +310,26 @@ class Stack(QWidget):
         self.debug_btn.clicked.connect(self.manager.printer)
 
     def add_stack_bar(self):
+        '''
+        Adds a progress bar to the stack.
+        '''
         rand = random.randint(1, 100)
         self.manager.add_stack(f"test_{rand}", self.progress_end)
 
     def start_thread(self):
+        '''
+        Starts the thread of the top progress bar in the stack.
+        '''
         self.manager.start_thread()
 
     def pop_top_active(self):
+        '''
+        Removes the top progress bar in the stack.
+        '''
         self.manager.pop_top_stack()
 
 
 if __name__ == '__main__':
-
-    from _base_logger import logger
 
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
