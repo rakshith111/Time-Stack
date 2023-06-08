@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>STACK SPACE</string>
+   <string extracomment="View your stack items">STACK SPACE</string>
   </property>
   <widget class="QScrollArea" name="stack_area_scrollable">
    <property name="geometry">
