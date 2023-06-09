@@ -48,8 +48,8 @@ val Typography = Typography(
     labelLarge = TextStyle(
         fontFamily = lato,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 24.sp,
+        fontSize = 25.sp,
+        lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),
 

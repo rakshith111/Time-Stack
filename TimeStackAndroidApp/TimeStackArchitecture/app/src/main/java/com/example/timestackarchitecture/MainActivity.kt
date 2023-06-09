@@ -14,8 +14,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
@@ -127,41 +125,26 @@ class MainActivity : ComponentActivity()  {
                         navController = navController,
                         startDestination = "home",
                     ) {
-                        composable("home",
-                            enterTransition = {
-                            fadeIn(animationSpec = tween(300))},
-                            exitTransition = {
-                                fadeOut(animationSpec = tween(300))
-                            }){
+                        composable("home"){
                             HomeScreen(navController, stackViewModelFactory, timerViewModelFactory, sharedPreferencesProgress)
                             Timber.d("back to home")
                         }
                         composable("casualMode",
                             enterTransition = {
-                                slideInHorizontally(
-                                    initialOffsetX = { 1000 },
-                                    animationSpec = tween(500)
-                                )},
+                                fadeIn(animationSpec = tween(500))},
                             exitTransition = {
-                                slideOutHorizontally(
-                                    targetOffsetX = { -1000 },
-                                    animationSpec = tween(500)
-                                )}){
+                                fadeOut(animationSpec = tween(500))
+                            }
+                        ){
                             CasualBaseScreen(stackViewModel = viewModel(factory = stackViewModelFactory), timerViewModel = viewModel(factory = timerViewModelFactory))
                         }
 
                         composable("habitualMode",
                             enterTransition = {
-                            slideInHorizontally(
-                                initialOffsetX = { 1000 },
-                                animationSpec = tween(500)
-                            )},
-                    exitTransition = {
-                        slideOutHorizontally(
-                            targetOffsetX = { -1000 },
-                            animationSpec = tween(500)
-                        )}) {
-
+                                fadeIn(animationSpec = tween(500))},
+                            exitTransition = {
+                                fadeOut(animationSpec = tween(500))
+                            }) {
                             HabitualBaseScreen()
                         }
                     }

@@ -96,13 +96,24 @@ fun HomeScreen(
 
     Scaffold(modifier = Modifier.fillMaxSize()) {
         println(it)
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(brush = backgroundGradient),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row{
+                Image(painter = painterResource(
+                    id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "brand logo",
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .aspectRatio(3f)
+                )
+
+            }
+            
+            Spacer(modifier = Modifier.height(50.dp))
             IconButton(
                 onClick = {
                     navController.navigate("casualMode") {
@@ -120,13 +131,16 @@ fun HomeScreen(
                         painter = painterResource(id = R.drawable.causal),
                         contentDescription = "causal",
                         modifier = Modifier
-                            .aspectRatio(1f).padding(start = 20.dp),
+                            .aspectRatio(1f)
+                            .padding(start = 20.dp),
                     )
 
                     Text(
                         text = "Casual Mode",
                         color = Color(0x6FFFFFFF),
-                        modifier = Modifier.align(Alignment.CenterVertically).padding(start = 20.dp),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 20.dp, end = 10.dp),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge
                     )
@@ -156,7 +170,9 @@ fun HomeScreen(
                     Text(
                         text = "Habitual Mode",
                         color = Color(0x6F000000),
-                        modifier = Modifier.align(Alignment.CenterVertically).padding(start = 20.dp),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 20.dp, end = 10.dp),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge
 
