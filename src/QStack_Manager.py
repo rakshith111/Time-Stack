@@ -5,8 +5,8 @@ import sys
 import PyQt6.QtCore as QtCore
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication, QProgressBar, QWidget, QVBoxLayout, QMenu, QPushButton
-from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import QApplication,QMessageBox, QProgressBar, QWidget, QVBoxLayout, QMenu, QPushButton
+from PyQt6.QtGui import QAction 
 
 from os import path
 from copy import copy
@@ -119,7 +119,7 @@ class StackActivityBar(QProgressBar):
         Args:
             name (str): The name of the progress bar.
             progress_end (int): The max size of the progress bar.
-            parent (_type_, optional): Defaults to None.
+            parent (optional):  Defaults to None.
 
         '''
         super(StackActivityBar, self).__init__(parent)
@@ -207,6 +207,10 @@ class StackManager():
         self.layout = layout
         self.stack_top_item = None
         self.stack_items = []
+        self.warningmsg = QMessageBox()
+        self.warningmsg.setIcon(QMessageBox.Icon.Warning)
+        self.warningmsg.setWindowTitle("Error")
+        self.warningmsg.setStandardButtons(QMessageBox.StandardButton.Close)
 
     def add_stack(self, name: str, progress_end: int) -> StackActivityBar:
         '''
@@ -234,10 +238,13 @@ class StackManager():
         '''
         Starts the thread of the top progress bar in the stack.
         '''
-        logger.info(f"Starting thread - {self.stack_top_item.objectName()}")
+        
         if self.stack_top_item is not None:
+            logger.info(f"Starting thread - {self.stack_top_item.objectName()}")
             self.stack_top_item._thread.start()
-        # Add error msg for if there is no stack bar in the stack
+        else :
+            self.warningmsg.setText("No stack bar in the stack")
+            self.warningmsg.exec()
 
     def pause_thread(self) -> None:
         if self.stack_top_item is not None:
@@ -261,7 +268,10 @@ class StackManager():
                 self.stack_top_item = self.stack_items[0]
             else:
                 self.stack_top_item = None
-        # Add error msg for if there is no stack bar in the stack
+        else:
+            self.warningmsg.setText("No stack bar in the stack")
+            self.warningmsg.exec()
+            
 
     def printer(self):
         '''
@@ -285,7 +295,7 @@ class Stack(QWidget):
         Temporary class for testing the StackManager class.
 
         Args:
-            parent (_type_, optional): Defaults to None.
+            parent (optional):  Defaults to None.
         '''
         super().__init__(parent)
         self.stack_ui = QVBoxLayout()

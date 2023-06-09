@@ -24,13 +24,12 @@ class StackSpace(QtWidgets.QWidget):
         Adds icons to the buttons.     
 
         Args:
-            parent (_type_, optional): Defaults to None.
+            parent (optional):  Defaults to None.
         '''
         
         super(StackSpace, self).__init__(parent=parent)
         self.stack_space_ui = Ui_stack_space()
         self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
-        print(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg'))
         self.setWindowTitle('Stack Space')
 
         self.stack_space_ui.setupUi(self)
@@ -91,18 +90,22 @@ class StackSpace(QtWidgets.QWidget):
 
 class StackGen(QtWidgets.QWidget):
 
-    def __init__(self, parent=None) -> None:
-        '''
-        Initializes the Stackgen class and sets up the UI.
+    def __init__(self,stack_space, parent=None) -> None:
+        ''' Initializes the Stackgen class and sets up the UI.
 
         Args:
-            parent (_type_, optional):  Defaults to None.
-        '''
+            stack_space (QtWidgets.QWidget): StackSpace object
+            parent (optional):  Defaults to None.
+        '''            
         super(StackGen, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
         self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.stack_gen_ui.setupUi(self)
         logger.info('Stackgen UI initialized')
+        self.stack_gen_ui.start_time_input.setTime(
+            QtCore.QTime.currentTime())
+        self.stack_gen_ui.end_time_input.setTime(
+            QtCore.QTime.currentTime())
         self.stack_gen_ui.total_time_output.setText("00:00")
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -118,10 +121,10 @@ class StackGen(QtWidgets.QWidget):
 
         self.informationmsg = QMessageBox()
         self.informationmsg.setIcon(QMessageBox.Icon.Information)
-        self.informationmsg.setGeometry(QtCore.QRect(800, 600, 651, 300))
+        self.informationmsg.setGeometry(QtCore.QRect(800, 600, 650, 300))
         self.informationmsg.setWindowTitle("Information")
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        self.stack_space = StackSpace()
+        self.stack_space = stack_space
 
     def closeEvent(self, event: QCloseEvent) -> None:
         '''
@@ -130,8 +133,9 @@ class StackGen(QtWidgets.QWidget):
         Args:
             event (QCloseEvent): Close event object
         '''
-        self.stack_space.close()
-        logger.info('Stackgen closed')
+        event.ignore()
+        logger.info('StackGen Hide event called')
+        self.hide()
 
     def create_stack(self) -> None:
         '''
@@ -179,7 +183,8 @@ class StackGen(QtWidgets.QWidget):
 if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
-    window = StackGen()
+    stack_space=StackSpace()
+    window = StackGen(stack_space)
     app.setStyle('Fusion')
     window.show()
     sys.exit(app.exec())
