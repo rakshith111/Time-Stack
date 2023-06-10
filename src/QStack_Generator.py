@@ -53,7 +53,7 @@ class StackSpace(QtWidgets.QWidget):
             self.manager.pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(
             self.manager.pop_top_stack)
-
+   
     def closeEvent(self, event: QCloseEvent) -> None:
         '''
         Overrides the closeEvent function to hide the window instead of closing it.
@@ -88,7 +88,7 @@ class StackSpace(QtWidgets.QWidget):
             f'Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}, ')
 
 
-class StackGen(QtWidgets.QWidget):
+class StackGenerator(QtWidgets.QWidget):
 
     def __init__(self,stack_space, parent=None) -> None:
         ''' Initializes the Stackgen class and sets up the UI.
@@ -97,15 +97,14 @@ class StackGen(QtWidgets.QWidget):
             stack_space (QtWidgets.QWidget): StackSpace object
             parent (optional):  Defaults to None.
         '''            
-        super(StackGen, self).__init__(parent=parent)
+        super(StackGenerator, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
         self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.stack_gen_ui.setupUi(self)
         logger.info('Stackgen UI initialized')
         self.stack_gen_ui.start_time_input.setTime(
             QtCore.QTime.currentTime())
-        self.stack_gen_ui.end_time_input.setTime(
-            QtCore.QTime.currentTime())
+        self.stack_gen_ui.end_time_input.setTime(QtCore.QTime.currentTime().addSecs(60))
         self.stack_gen_ui.total_time_output.setText("00:00")
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -125,17 +124,6 @@ class StackGen(QtWidgets.QWidget):
         self.informationmsg.setWindowTitle("Information")
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
         self.stack_space = stack_space
-
-    def closeEvent(self, event: QCloseEvent) -> None:
-        '''
-        Overrides the closeEvent function to close subwindows then close itself.
-
-        Args:
-            event (QCloseEvent): Close event object
-        '''
-        event.ignore()
-        logger.info('StackGen Hide event called')
-        self.hide()
 
     def create_stack(self) -> None:
         '''
@@ -184,7 +172,7 @@ if __name__ == '__main__':
 
     app = QtWidgets.QApplication(sys.argv)
     stack_space=StackSpace()
-    window = StackGen(stack_space)
+    window = StackGenerator(stack_space)
     app.setStyle('Fusion')
     window.show()
     sys.exit(app.exec())
