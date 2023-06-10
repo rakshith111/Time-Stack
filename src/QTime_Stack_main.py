@@ -6,7 +6,7 @@ from ui_generated.main_menu import Ui_MainMenu
 
 from QStack_Manager import StackManager
 from QStack_Generator import StackSpace
-from QStack_Generator import StackGen
+from QStack_Generator import StackGenerator
 
 class QTimeStackMain(QtWidgets.QMainWindow):
     def __init__(self, parent=None) -> None:
@@ -32,8 +32,9 @@ class QTimeStackMain(QtWidgets.QMainWindow):
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_white.png')))
         self.main_menu_ui.view_stack_m.setIconSize(QtCore.QSize(40, 40))
         self.stack_space = StackSpace()
-        self.stack_gen = StackGen(self.stack_space)
-        self.main_menu_ui.add_activity_m.clicked.connect(self.stack_gen.show)
+        self.stack_generator = StackGenerator(self.stack_space)
+        self.stack_space.stack_space_ui.add_btn.clicked.connect(self.stack_generator.show)
+        self.main_menu_ui.add_activity_m.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.view_stack_m.clicked.connect(self.stack_space.show)      
 
 if __name__ == '__main__':
