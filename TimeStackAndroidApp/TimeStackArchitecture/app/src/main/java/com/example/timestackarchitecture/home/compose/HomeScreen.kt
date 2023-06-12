@@ -18,8 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.timestackarchitecture.R
@@ -102,15 +105,24 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(brush = backgroundGradient),
         ) {
-            Row{
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(top = 70.dp)){
+                Spacer(modifier = Modifier.weight(1f))
                 Image(painter = painterResource(
-                    id = R.drawable.ic_launcher_foreground),
+                    id = R.drawable.ic_stack_noti),
                     contentDescription = "brand logo",
                     modifier = Modifier
-                        .padding(top = 20.dp)
-                        .aspectRatio(3f)
-                )
+                        .size(50.dp)
 
+                )
+                Text(text = " TIME STACK",
+                    color = Color.Black,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center,
+                    fontSize = 25.sp,
+                    fontFamily = FontFamily(Font(R.font.lato_regular))
+                )
+                Spacer(modifier = Modifier.weight(1f))
             }
             
             Spacer(modifier = Modifier.height(50.dp))
