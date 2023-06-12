@@ -1,4 +1,5 @@
 from PyQt6 import QtGui, QtWidgets, QtCore
+from PyQt6.QtGui import QCloseEvent
 from os import path
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
@@ -36,6 +37,13 @@ class QTimeStackMain(QtWidgets.QMainWindow):
         self.stack_space.stack_space_ui.add_btn.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.add_activity_m.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.view_stack_m.clicked.connect(self.stack_space.show)      
+
+    def closeEvent(self, a0: QCloseEvent) -> None:
+        # Close all windows, subwindows and stop all threads before closing the application  
+        self.stack_space.close()
+        self.stack_generator.close()
+        a0.accept()
+    
 
 if __name__ == '__main__':
     import sys

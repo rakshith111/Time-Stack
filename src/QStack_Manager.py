@@ -253,7 +253,8 @@ class StackManager():
 
     def pause_thread(self) -> None:
         if self.stack_top_item is not None:
-            self.stack_top_item._thread.pause(self.stack_top_item.value())
+            if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value!=self.stack_top_item._thread.maxsize:
+                self.stack_top_item._thread.pause(self.stack_top_item.value())
     
     def pop_top_stack(self) -> None:
         '''
