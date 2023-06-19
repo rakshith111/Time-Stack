@@ -8,12 +8,14 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QAction 
+from PyQt6.QtCore import Qt
 
 from os import path
 from copy import copy
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
+from libs.color import Color
 
 
 QSS_FILE = open(path.join(BASE_DIR, 'ui_files', 'stack.qss'), 'r').read()
@@ -237,7 +239,7 @@ class StackManager():
         if self.stack_top_item is not None :
             logger.info(f"{self.stack_top_item._thread._is_running=}")
             if self.stack_top_item._thread.maxsize==self.stack_top_item._thread.current_value:
-                logger.info(f"Starting thread - {self.stack_top_item.objectName()}")
+                logger.info(f"Starting Timer - {self.stack_top_item.objectName()}")
                 self.stack_top_item._thread.start()
             else:
                 self.resume_thread()
@@ -285,16 +287,20 @@ class StackManager():
 
         '''
         if len(self.stack_items) > 0:
-            logger.debug("Current top is " + self.stack_top_item.objectName())
-            logger.debug("Stack Items")
-            for item in self.stack_items:
-                logger.debug(f"Item - {item.objectName()}")
-                logger.debug(f"Thread - {item._thread.objectName()}")
-                # logger.debug(f"Thread pos - {dir(item)}")
-                logger.debug(f"Thread maxsize - {item._thread.maxsize}")
-                logger.debug(f"Thread value - {item._thread.current_value}")
-                logger.debug(f"Thread is running - {item._thread.isRunning()}")
+            logger.debug(f"{Color.HEADER}Stack STATS{Color.ENDC}")
 
+            logger.debug(f"{Color.BLUE}[+] Stack size - {len(self.stack_items)}{Color.ENDC}")
+            logger.debug(f"{Color.BLUE}[+] Stack items - {self.stack_items}{Color.ENDC}")
+            logger.debug(f"{Color.RED}[+] Stack ITMES{Color.ENDC}")
+            logger.debug(f"{Color.RED}------------------{Color.ENDC}")
+            for item in self.stack_items:
+
+                logger.debug(f"{Color.BLUE}[+] Item - {item.objectName()}{Color.ENDC}")
+                logger.debug(f"{Color.BLUE}[+] Thread - {item._thread.objectName()}{Color.ENDC}")
+                logger.debug(f"{Color.BLUE}[+] Thread maxsize - {item._thread.maxsize}{Color.ENDC}")
+                logger.debug(f"{Color.BLUE}[+] Thread value - {item._thread.current_value}{Color.ENDC}")
+                logger.debug(f"{Color.BLUE}[+] Thread is running - {item._thread.isRunning()}{Color.ENDC}")
+                logger.debug(f"{Color.GREEN} ------------------------{Color.ENDC}")
 
 class Stack(QWidget):
     def __init__(self, parent=None):
@@ -323,11 +329,26 @@ class Stack(QWidget):
         self.add_btn.clicked.connect(self.add_stack_bar)
         self.remove_btn.clicked.connect(self.pop_top_active)
         self.start_btn.clicked.connect(self.start_thread)
-        
+       
+        self.scroll_layout = QVBoxLayout()
+        self.scroll_layout.setContentsMargins(0, 0, 0, 0)
+        self.scroll_layout.setSpacing(10)
+        self.scroll_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.scroll_layout.setSizeConstraint(QLayout.SizeConstraint.SetMinAndMaxSize)
 
+        self.scroll_widget = QWidget()
+        self.scroll_widget.setFixedHeight(1000)
+        self.scroll_widget.setLayout(self.scroll_layout)
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setFixedSize(500, 500)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setWidget(self.scroll_widget)
+        self.stack_ui.addWidget(self.scroll_area)
+        self.stack_ui.addStretch()
         self.setLayout(self.stack_ui)
-
-        self.manager = StackManager(self.layout())
+        # Pass the new scroll layout to the StackManager class
+        self.manager = StackManager(self.scroll_layout)
+       
         self.progress_end = 30
         self.debug_btn.clicked.connect(self.manager.printer)
         self.pause_btn.clicked.connect(self.manager.pause_thread)
