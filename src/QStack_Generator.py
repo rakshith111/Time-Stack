@@ -3,15 +3,21 @@ import sys
 import random
 
 import PyQt6.QtCore as QtCore
+from PyQt6.QtCore import Qt
 from PyQt6 import QtWidgets
 from PyQt6.QtGui import QCloseEvent, QIcon
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QVBoxLayout, QScrollBar
 from os import path
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
+from libs.color import Color
+
 from ui_generated.stack_create import Ui_stack_gen
 from ui_generated.stack_space import Ui_stack_space
+
+from libs.QClasses.QDragWidget import DragWidget
+from libs.QClasses.QScrollArea import DragScrollArea
 
 from QStack_Manager import StackManager
 
@@ -31,28 +37,34 @@ class StackSpace(QtWidgets.QWidget):
         self.stack_space_ui = Ui_stack_space()
         self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.setWindowTitle('Stack Space')
+        self.setAcceptDrops(True)
 
         self.stack_space_ui.setupUi(self)
-        self.stack_space_ui.start_btn.setIcon(
-            QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'play-button.png')))
-        self.stack_space_ui.pause_btn.setIcon(
-            QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'pause-button.png')))
-        self.stack_space_ui.remove_btn.setIcon(
-            QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'remove.png')))
-        scroll_layout = QtWidgets.QVBoxLayout()
-        scroll_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignJustify)
-        self.vertical_scrollbar = self.stack_space_ui.stack_area_scrollable.verticalScrollBar()
-        self.stack_space_ui.stack_area_scrollable.widget().setLayout(scroll_layout)
+        self.stack_space_ui.start_btn.setIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'play-button.png')))
+        self.stack_space_ui.pause_btn.setIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'pause-button.png')))
+        self.stack_space_ui.remove_btn.setIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'remove.png')))
 
-        self.manager = StackManager(
-            self.stack_space_ui.stack_area_scrollable.widget().layout())
+        # Create DragWidget and DragScrollArea
+        self.drag_widget = DragWidget()
+        self.drag_scroll_area = DragScrollArea()
+        self.drag_scroll_area.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.drag_scroll_area.setWidgetResizable(True)
+        self.drag_scroll_area.setWidget(self.drag_widget)
+        # Remove existing scrollbar
+        self.stack_space_ui.stack_area_scrollable.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
-        self.stack_space_ui.start_btn.clicked.connect(
-            self.manager.start_thread)
-        self.stack_space_ui.pause_btn.clicked.connect(
-            self.manager.pause_thread)
-        self.stack_space_ui.remove_btn.clicked.connect(
-            self.manager.pop_top_stack)
+        # Set DragScrollArea directly to the layout
+        layout = QVBoxLayout(self.stack_space_ui.stack_area_scrollable)
+        layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.drag_scroll_area)
+
+        # Create StackManager and pass the layout of DragWidget
+        self.manager = StackManager(self.drag_widget.layout())
+
+        # Connect button signals to respective slots
+        self.stack_space_ui.start_btn.clicked.connect(self.manager.start_thread)
+        self.stack_space_ui.pause_btn.clicked.connect(self.manager.pause_thread)
+        self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
    
     def closeEvent(self, event: QCloseEvent) -> None:
         '''
@@ -63,7 +75,7 @@ class StackSpace(QtWidgets.QWidget):
         '''
         # Override the closeEvent and hide the window instead of closing it
         event.ignore()
-        logger.info('StackSpace Hide event called')
+        logger.info(f"{Color.HEADER}Stack Space closed.{Color.ENDC}")
         self.hide()
 
     def add_stack_activity(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
@@ -78,15 +90,15 @@ class StackSpace(QtWidgets.QWidget):
             dt_start_time (datetime.time): Start time of the stack
             dt_stop_time (datetime.time): End time of the stack
         '''
-        logger.debug(
-            f'Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}')
+        # logger.debug(
+        #     f"{Color.GREEN} Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}{Color.ENDC}"
+        # )
         delta = dt_stop_time-dt_start_time
         total_seconds = int(delta.total_seconds())
         rand = random.randint(1, 100)
         self.manager.add_stack(f"{name}_{rand}", total_seconds)
         logger.info(
-            f'Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}, ')
-
+            f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
 
 class StackGenerator(QtWidgets.QWidget):
 
@@ -99,9 +111,10 @@ class StackGenerator(QtWidgets.QWidget):
         '''            
         super(StackGenerator, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
+        self.setAcceptDrops(True)
         self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.stack_gen_ui.setupUi(self)
-        logger.info('Stackgen UI initialized')
+        logger.info(f"{Color.HEADER}Stack Generator initialized.{Color.ENDC}")
         self.stack_gen_ui.start_time_input.setTime(
             QtCore.QTime.currentTime())
         self.stack_gen_ui.end_time_input.setTime(QtCore.QTime.currentTime().addSecs(60))

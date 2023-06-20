@@ -28,10 +28,10 @@ class QTimeStackMain(QtWidgets.QMainWindow):
         self.main_menu_ui.logo_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.main_menu_ui.add_activity_m.setIcon(
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'add.png')))
-
         self.main_menu_ui.view_stack_m.setIcon(
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_white.png')))
         self.main_menu_ui.view_stack_m.setIconSize(QtCore.QSize(40, 40))
+        
         self.stack_space = StackSpace()
         self.stack_generator = StackGenerator(self.stack_space)
         self.stack_space.stack_space_ui.add_btn.clicked.connect(self.stack_generator.show)
