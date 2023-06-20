@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ApiViewModel : ViewModel(){
+class ApiViewModel : ViewModel() {
     private var _dashboardData = MutableStateFlow<Map<String, Any>>(mapOf())
 
     val dashboardData: MutableStateFlow<Map<String, Any>> = _dashboardData
