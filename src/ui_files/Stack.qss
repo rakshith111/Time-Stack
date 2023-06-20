@@ -10,7 +10,7 @@ QProgressBar {
     x2: 1,
     y2: 0,
     stop: 0 #fff,
-    stop: 0.4999 #eee,
+    stop: 0.4999 #fff,
     stop: 0.5 #ddd,
     stop: 1 #eee
   );
