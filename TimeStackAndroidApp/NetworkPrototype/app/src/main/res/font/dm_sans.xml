@@ -4,5 +4,6 @@
     <font
         app:fontStyle="normal"
         app:fontWeight="400"
-        app:font="@font/lato_regular" />
+        app:font="@font/dm_sans_regular"
+        />
 </font-family>
