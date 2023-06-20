@@ -1,2 +1,5 @@
 Server/__pycache__/
 TimeStackAndroidApp
+src
+*.log
+Test
