@@ -28,10 +28,11 @@ fun HomeScreen(
     Text(text = "Home Screen")
 
     LaunchedEffect( key1 = Unit){
-        ApiViewModel.makeGetApiRequestFake()
+        ApiViewModel.makePostApiRequest()
+
     }
-    val array: FakeData = ApiViewModel.dashboardFakeData.collectAsState().value
-    println("array: $array")
+    val message = ApiViewModel.dashboardData.collectAsState().value
+    println("array: $message")
     Scaffold(
         topBar = {
             TopAppBar(
@@ -52,14 +53,15 @@ fun HomeScreen(
                     .padding(20.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize().padding(10.dp)
-            ) {
-                items(array.size) {
-                    Text(text = array[it].body, style = MaterialTheme.typography.bodyLarge)
-                }
-            }
+//            LazyColumn(
+//                modifier = Modifier
+//                    .fillMaxSize().padding(10.dp)
+//            ) {
+//                items(array.size) {
+//                    Text(text = array[it].body, style = MaterialTheme.typography.bodyLarge)
+//                }
+//            }
+            Text(text = message.toString(), style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

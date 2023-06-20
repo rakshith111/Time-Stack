@@ -9,11 +9,11 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface TimeStackInterface {
-    @GET("/dump")
+    @GET("send_req")
     fun getMessage(): Call<Map<String, Any>>
 
-    @POST("/receive")
-    fun postMessage(@Body messageData: TimeStackData):Call<TimeStackData>
+    @POST("/webhook")
+    fun postMessage(@Body messageData: TimeStackData):Call<Void>
 
 }
 
