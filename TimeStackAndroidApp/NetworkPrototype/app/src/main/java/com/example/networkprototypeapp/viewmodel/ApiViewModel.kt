@@ -2,8 +2,10 @@ package com.example.networkprototypeapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.networkprototypeapp.data.FakeData
+import com.example.networkprototypeapp.data.TimeStackData
 import com.example.networkprototypeapp.network.GetService
 import com.example.networkprototypeapp.network.GetServiceFake
+import com.example.networkprototypeapp.network.PostService
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,8 +20,9 @@ class ApiViewModel : ViewModel() {
 
     val dashboardFakeData: MutableStateFlow<FakeData> = _dashboardFakeData
 
+
     fun makeGetApiRequest() {
-        GetService().getApiInterface("").getMessage()
+        GetService().getApiInterface("http://localhost:8000").getMessage()
             .enqueue(object : Callback<Map<String, Any>> {
                 override fun onResponse(
                     call: Call<Map<String, Any>>,
@@ -36,6 +39,25 @@ class ApiViewModel : ViewModel() {
                     // Handle the error here
                 }
             })
+    }
+
+    fun makePostApiRequest(){
+        PostService().makePostApiRequest().postMessage(TimeStackData("Hello World", "2021-09-01"))
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    println("Response: ${response.body()}")
+                    println("Response: ${response.raw()}")
+                    // Process the response data here
+                    println("Success")
+                }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    println("Error: ${t.message}")
+                    // Handle the error here
+                }
+
+
+            }
+            )
     }
 
     fun makeGetApiRequestFake(){
