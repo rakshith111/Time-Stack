@@ -12,14 +12,14 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainMenu(object):
     def setupUi(self, MainMenu):
         MainMenu.setObjectName("MainMenu")
-        MainMenu.resize(900, 500)
+        MainMenu.resize(950, 500)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainMenu.sizePolicy().hasHeightForWidth())
         MainMenu.setSizePolicy(sizePolicy)
-        MainMenu.setMinimumSize(QtCore.QSize(900, 400))
-        MainMenu.setMaximumSize(QtCore.QSize(900, 500))
+        MainMenu.setMinimumSize(QtCore.QSize(950, 500))
+        MainMenu.setMaximumSize(QtCore.QSize(950, 500))
         self.centralwidget = QtWidgets.QWidget(parent=MainMenu)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
