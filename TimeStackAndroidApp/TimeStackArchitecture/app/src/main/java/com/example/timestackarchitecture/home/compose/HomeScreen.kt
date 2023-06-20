@@ -96,7 +96,6 @@ fun HomeScreen(
         }
     }
 
-
     Scaffold(modifier = Modifier.fillMaxSize()) {
         println(it)
 

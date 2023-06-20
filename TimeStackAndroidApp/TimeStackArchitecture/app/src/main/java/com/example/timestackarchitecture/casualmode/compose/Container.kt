@@ -42,6 +42,7 @@ import timber.log.Timber
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 fun Container(
     stackList: List<StackData>,
     selectedItems: MutableList<Int>,
@@ -74,7 +75,6 @@ fun Container(
         Timber.d("play")
         Timber.d("stackList.size: ${stackList.size}")
         stackList[0].isPlaying
-
     } else {
         false
     }
@@ -256,7 +256,6 @@ fun Container(
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
-
                 ) {
                     IconButton(
                         onClick = {
@@ -289,6 +288,7 @@ fun Container(
                                 resetDialog = true
                             }
                         },
+
                         Modifier
                             .size(60.dp, 70.dp)
                             .padding(top = 15.dp)
@@ -328,7 +328,6 @@ fun Container(
                     Spacer(modifier = Modifier.weight(1f))
 
                     PlayPauseButton(isPlaying = play) {
-
                         if (stackList.isEmpty()) return@PlayPauseButton
                         else {
                             play = it

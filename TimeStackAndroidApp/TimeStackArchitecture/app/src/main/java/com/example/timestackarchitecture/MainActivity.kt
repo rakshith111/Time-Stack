@@ -11,26 +11,18 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.timestackarchitecture.casualmode.compose.CasualBaseScreen
 import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.casualmode.service.TimerService
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
-import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
-import com.example.timestackarchitecture.home.compose.HomeScreen
+import com.example.timestackarchitecture.navigation.NavGraph
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -121,32 +113,13 @@ class MainActivity : ComponentActivity()  {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surface
                 ) {
-                    AnimatedNavHost(
-                        navController = navController,
-                        startDestination = "home",
-                    ) {
-                        composable("home"){
-                            HomeScreen(navController, stackViewModelFactory, timerViewModelFactory, sharedPreferencesProgress)
-                            Timber.d("back to home")
-                        }
-                        composable("casualMode",
-                            enterTransition = {
-                                fadeIn(animationSpec = tween(500))},
-                            exitTransition = {
-                                fadeOut(animationSpec = tween(500))
-                            }
-                        ){
-                            CasualBaseScreen(stackViewModel = viewModel(factory = stackViewModelFactory), timerViewModel = viewModel(factory = timerViewModelFactory))
-                        }
-
-                        composable("habitualMode",
-                            enterTransition = {
-                                fadeIn(animationSpec = tween(500))},
-                            exitTransition = {
-                                fadeOut(animationSpec = tween(500))
-                            }) {
-                            HabitualBaseScreen()
-                        }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        NavGraph(
+                            navController = navController,
+                            stackViewModelFactory = stackViewModelFactory,
+                            timerViewModelFactory = timerViewModelFactory,
+                            sharedPreferencesProgress = sharedPreferencesProgress
+                        )
                     }
                 }
             }
