@@ -2,8 +2,6 @@ package com.example.networkprototypeapp.data
 
 import com.google.gson.annotations.SerializedName
 
-data class PrototypeData(
+data class PostData(
     @SerializedName("message") val message: String,
-    @SerializedName("data")val data: String
-
 )

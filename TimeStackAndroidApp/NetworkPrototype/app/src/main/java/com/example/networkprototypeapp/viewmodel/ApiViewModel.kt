@@ -2,6 +2,7 @@ package com.example.networkprototypeapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.networkprototypeapp.data.FakeData
+import com.example.networkprototypeapp.data.PostData
 import com.example.networkprototypeapp.data.TimeStackData
 import com.example.networkprototypeapp.network.GetService
 import com.example.networkprototypeapp.network.GetServiceFake
@@ -43,19 +44,18 @@ class ApiViewModel : ViewModel() {
 
     fun makePostApiRequest(){
         PostService().makePostApiRequest().postMessage(TimeStackData("Hello World", "2021-09-01"))
-            .enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+            .enqueue(object : Callback<PostData> {
+
+                override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
                     println("Response: ${response.body()}")
                     println("Response: ${response.raw()}")
                     // Process the response data here
                     println("Success")
                 }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                override fun onFailure(call: Call<PostData>, t: Throwable) {
                     println("Error: ${t.message}")
-                    // Handle the error here
                 }
-
-
             }
             )
     }

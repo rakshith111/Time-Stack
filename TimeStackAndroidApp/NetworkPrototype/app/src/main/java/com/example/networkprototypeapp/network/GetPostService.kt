@@ -26,7 +26,7 @@ class PostService{
     private val client = OkHttpClient.Builder().build()
     fun makePostApiRequest(): TimeStackInterface {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:5000/")
+            .baseUrl("http://192.168.0.101:8000")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

@@ -27,9 +27,9 @@ def send_payload():
     # ... your logic here ...
 
     # Send the payload to the webhook endpoint
-    response = requests.post('http://localhost:5000/webhook', json={'message': payload})
+    response = requests.post('http://192.168.0.104', json={'message': payload})
 
     return jsonify({'success': True, 'response': response.json()})
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=8000)
