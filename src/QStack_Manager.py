@@ -11,7 +11,7 @@ from libs.QClasses.QDragWidget import DragWidget
 from libs.QClasses.QProgressBar import StackActivityBar
 from libs.QClasses.QScrollArea import DragScrollArea
 from PyQt6.QtCore import Qt
-
+from PyQt6 import QtCore
 class StackManager():
     '''
     StackManager class manages the stack of progress bars.
@@ -115,6 +115,23 @@ class StackManager():
         else:
             self.warningmsg.setText("No stack bar in the stack")
             self.warningmsg.exec()
+
+    def update_top_item(self, new_order):
+        '''
+        This function is used to update the top item in the stack.
+        The stack_top_item is set to the progress bar that is currently at the top of the stack.
+
+        Args:
+            new_order (int): The new order of the progress bar that is currently at the top of the stack.
+
+        '''
+        if self.stack_items is not None:
+            # If top stack is running then pause it
+            if self.stack_top_item._thread._is_running:
+                self.stack_top_item._thread.pause(self.stack_top_item.value())
+            self.stack_items=new_order
+            self.stack_top_item = self.stack_items[0]
+            logger.info(f"{Color.GREEN}Updating Stack Top Item - {self.stack_top_item.objectName()}{Color.ENDC}")
             
 
     def printer(self):
