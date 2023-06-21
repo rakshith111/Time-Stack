@@ -157,10 +157,12 @@ class DragWidget(QWidget):
                 # Dragged item should be inserted at the top position
                 logger.debug(f"{Color.GREEN} Dropped at the top position{Color.ENDC}")
                 self.drag_layout.insertWidget(0, current_widget)
+                self.orderChanged.emit(self.get_item_data())
             elif target_position.y() >= last_widget.y() + last_widget.size().height() // 2:
                 # Dragged item should be inserted at the bottom position
                 logger.debug(f"{Color.GREEN} Dropped at the bottom position{Color.ENDC}")
                 self.drag_layout.insertWidget(self.drag_layout.count() - 1, current_widget)
+                self.orderChanged.emit(self.get_item_data())
             else:
                 for n in range(self.drag_layout.count()):
                     # Get the widget at each index in turn.
@@ -196,7 +198,7 @@ class DragWidget(QWidget):
       
         for n in range(self.drag_layout.count()):
             loop_widget = self.drag_layout.itemAt(n).widget()
-            data.append(loop_widget.objectName())
+            data.append(loop_widget)
             logger.debug(f"{Color.GREEN} Widget {loop_widget.objectName()} at index {n} pos {loop_widget.pos()}{Color.ENDC}")
          
      
