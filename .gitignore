@@ -4,11 +4,8 @@ Test
 #Prototype
 Server/
 # src/
-QTApp.log
+*.log
 __pycache__
-#Android-ap
-QTApp.log
-#Android-app
 Android-app
 *.iml
 .gradle
