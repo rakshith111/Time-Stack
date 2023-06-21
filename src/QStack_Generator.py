@@ -35,18 +35,20 @@ class StackSpace(QtWidgets.QWidget):
         
         super(StackSpace, self).__init__(parent=parent)
         self.stack_space_ui = Ui_stack_space()
-        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
         self.setWindowTitle('Stack Space')
+        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'window_icon_wob_s.png')))
         self.setAcceptDrops(True)
+        self.stack_space_ui.setupUi(self)   
 
-        self.stack_space_ui.setupUi(self)
-        self.stack_space_ui.start_btn.setIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'play-button.png')))
-        self.stack_space_ui.pause_btn.setIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'pause-button.png')))
-        self.stack_space_ui.remove_btn.setIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'remove.png')))
+        self.stack_space_ui.start_btn.setIconSize(QtCore.QSize(25,25))
+        self.stack_space_ui.remove_btn.setIconSize(QtCore.QSize(25,25))
+        self.stack_space_ui.pause_btn.setIconSize(QtCore.QSize(25,25))
 
         # Create DragWidget and DragScrollArea
         self.drag_widget = DragWidget()
+        
         self.drag_scroll_area = DragScrollArea()
+        
         self.drag_scroll_area.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.drag_scroll_area.setWidgetResizable(True)
         self.drag_scroll_area.setWidget(self.drag_widget)
@@ -60,23 +62,24 @@ class StackSpace(QtWidgets.QWidget):
 
         # Create StackManager and pass the layout of DragWidget
         self.manager = StackManager(self.drag_widget.layout())
+        self.drag_widget.orderChanged.connect(self.manager.update_top_item)
 
         # Connect button signals to respective slots
         self.stack_space_ui.start_btn.clicked.connect(self.manager.start_thread)
         self.stack_space_ui.pause_btn.clicked.connect(self.manager.pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
    
-    def closeEvent(self, event: QCloseEvent) -> None:
-        '''
-        Overrides the closeEvent function to hide the window instead of closing it.
+    # def closeEvent(self, event: QCloseEvent) -> None:
+    #     '''
+    #     Overrides the closeEvent function to hide the window instead of closing it.
 
-        Args:
-            event (QCloseEvent): Close event object
-        '''
-        # Override the closeEvent and hide the window instead of closing it
-        event.ignore()
-        logger.info(f"{Color.HEADER}Stack Space closed.{Color.ENDC}")
-        self.hide()
+    #     Args:
+    #         event (QCloseEvent): Close event object
+    #     '''
+    #     # Override the closeEvent and hide the window instead of closing it
+    #     event.ignore()
+    #     logger.info(f"{Color.HEADER}Stack Space closed.{Color.ENDC}")
+    #     self.hide()
 
     def add_stack_activity(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
         '''      
@@ -112,7 +115,7 @@ class StackGenerator(QtWidgets.QWidget):
         super(StackGenerator, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
         self.setAcceptDrops(True)
-        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_blackw.jpg')))
+        self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'window_icon_wob_s.png')))
         self.stack_gen_ui.setupUi(self)
         logger.info(f"{Color.HEADER}Stack Generator initialized.{Color.ENDC}")
         self.stack_gen_ui.start_time_input.setTime(
