@@ -127,12 +127,12 @@ class StackManager():
         '''
         if self.stack_items is not None:
             # If top stack is running then pause it
-            if self.stack_top_item._thread._is_running:
+            if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value!=self.stack_top_item._thread.maxsize:
                 self.stack_top_item._thread.pause(self.stack_top_item.value())
             self.stack_items=new_order
             self.stack_top_item = self.stack_items[0]
             logger.info(f"{Color.GREEN}Updating Stack Top Item - {self.stack_top_item.objectName()}{Color.ENDC}")
-            
+
 
     def printer(self):
         '''
