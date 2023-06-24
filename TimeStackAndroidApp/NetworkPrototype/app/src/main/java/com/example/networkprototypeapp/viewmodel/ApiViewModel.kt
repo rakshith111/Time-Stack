@@ -5,9 +5,9 @@ import com.example.networkprototypeapp.data.FakeData
 import com.example.networkprototypeapp.data.PostData
 import com.example.networkprototypeapp.data.ReceiveData
 import com.example.networkprototypeapp.data.TimeStackData
-import com.example.networkprototypeapp.network.GetService
-import com.example.networkprototypeapp.network.GetServiceFake
-import com.example.networkprototypeapp.network.PostService
+import com.example.networkprototypeapp.httpclient.GetService
+import com.example.networkprototypeapp.httpclient.GetServiceFake
+import com.example.networkprototypeapp.httpclient.PostService
 import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +28,7 @@ class ApiViewModel : ViewModel() {
 
 
     fun makeGetApiRequest() {
-        GetService().getApiInterface("").getMessage()
+        GetService().getApiInterface("http://192.168.0.108:8000").getMessage()
             .enqueue(object : Callback<ReceiveData> {
                 override fun onResponse(call: Call<ReceiveData>, response: Response<ReceiveData>) {
                     println("Response: ${response.body()}")

@@ -33,4 +33,4 @@ def get_data():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(host='', port=8000)
+    app.run(host='192.168.0.108', port=8000)
