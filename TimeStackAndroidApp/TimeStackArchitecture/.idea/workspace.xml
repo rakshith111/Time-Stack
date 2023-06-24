@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2eb23689-466d-425f-8c4a-5fa3f3501993" name="Changes" comment="separated into new file for Navigation">
+      <change afterPath="$PROJECT_DIR$/../NetworkPrototype/app/src/main/res/font/dm_sans.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../NetworkPrototype/app/src/main/res/font/dm_sans_regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NetworkPrototype/app/src/main/java/com/example/networkprototypeapp/presentation/HomeScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../NetworkPrototype/app/src/main/java/com/example/networkprototypeapp/presentation/HomeScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NetworkPrototype/app/src/main/java/com/example/networkprototypeapp/ui/theme/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../NetworkPrototype/app/src/main/java/com/example/networkprototypeapp/ui/theme/Type.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/font-v26/lato.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/font-v26/lato.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/font/lato.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/font/lato.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-2B191JEGR02490-SjbDMs._adb-tls-connect._tcp]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TimeStackArchitecture" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TimeStackArchitecture" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TimeStackArchitecture" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="TimeStackArchitecture" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Data Class" />
+        <option value="layoutResourceFile_vertical" />
+        <option value="valueResourceFile" />
+        <option value="resourceFile" />
+        <option value="Kotlin Object" />
+        <option value="Class" />
+        <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../.." value="mvvm_arch" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="KotlinCodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2MN8UBnlRDz0a0VD1Mn2DazWsPQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "AnalyzeApkAction.lastApkPath": "E:/Time-Stack/TimeStackAndroidApp/TimeStackArchitecture/app/build/intermediates/apk/debug/app-debug.apk",
+    "PROJECT_TRUSTED_KEY": "true",
+    "ResourceManagerPrefKey.ResourceType": "FONT",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "ToolWindowRun.ShowToolbar": "false",
+    "android-custom-viewC:/Users/Dell/AppData/Local/Android/Sdk/sources/android-33/android/widget/Button.java_SELECTED": "Button",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_directory_selection": "E:/Time-Stack/TimeStackAndroidApp/TimeStackArchitecture/app/src/main/res/drawable",
+    "last_opened_file_path": "D:/Time-Stack/TimeStackAndroidApp/TimeStackArchitecture",
+    "project.structure.last.edited": "SDK Location",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
+  },
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "module",
+      "directory"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\drawable" />
+      <recent name="D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\raw" />
+      <recent name="E:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\drawable" />
+      <recent name="E:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\mipmap-anydpi-v26" />
+      <recent name="E:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\mipmap-xxxhdpi" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\font" />
+      <recent name="E:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\res\drawable" />
+    </key>
+    <key name="android.template.-1332392817">
+      <recent name="com.example.timestackarchitecture" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="TimeStackArchitecture.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="TimeStackArchitecture.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="TimeStackArchitecture.app.main" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2eb23689-466d-425f-8c4a-5fa3f3501993" name="Changes" comment="" />
+      <created>1677596692500</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677596692500</updated>
+    </task>
+    <task id="LOCAL-00015" summary="snackbar added">
+      <created>1678987488541</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1678987488541</updated>
+    </task>
+    <task id="LOCAL-00016" summary="foreground service debugging">
+      <created>1679324823729</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679324823729</updated>
+    </task>
+    <task id="LOCAL-00017" summary="few changes">
+      <created>1679398129310</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1679398129310</updated>
+    </task>
+    <task id="LOCAL-00018" summary="notification font changed">
+      <created>1679673329495</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1679673329495</updated>
+    </task>
+    <task id="LOCAL-00019" summary="indentation error">
+      <created>1679675580105</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1679675580105</updated>
+    </task>
+    <task id="LOCAL-00020" summary="indentation error">
+      <created>1679680948281</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1679680948281</updated>
+    </task>
+    <task id="LOCAL-00021" summary="updated snackbar and notification UI">
+      <created>1679931690255</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1679931690255</updated>
+    </task>
+    <task id="LOCAL-00022" summary="added timber">
+      <created>1680078364471</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1680078364471</updated>
+    </task>
+    <task id="LOCAL-00023" summary="added timber">
+      <created>1680083258699</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1680083258699</updated>
+    </task>
+    <task id="LOCAL-00024" summary="UI changes to the border of the animation">
+      <created>1680121624285</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1680121624286</updated>
+    </task>
+    <task id="LOCAL-00025" summary="UI changes to the border of the animation">
+      <created>1680121720930</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1680121720930</updated>
+    </task>
+    <task id="LOCAL-00026" summary="added legacy adaptive launcher icons">
+      <created>1680265721624</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1680265721624</updated>
+    </task>
+    <task id="LOCAL-00027" summary="UI changes and notifications icons">
+      <created>1680290820883</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1680290820883</updated>
+    </task>
+    <task id="LOCAL-00028" summary="lato fontfamily">
+      <created>1680290893766</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1680290893766</updated>
+    </task>
+    <task id="LOCAL-00029" summary="added progress bar into the animation">
+      <created>1680359869064</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1680359869064</updated>
+    </task>
+    <task id="LOCAL-00030" summary="adding spacing">
+      <created>1680360157599</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1680360157599</updated>
+    </task>
+    <task id="LOCAL-00031" summary="tier 0 to 100">
+      <created>1680360660112</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1680360660112</updated>
+    </task>
+    <task id="LOCAL-00032" summary="new animations">
+      <created>1680360770994</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1680360770994</updated>
+    </task>
+    <task id="LOCAL-00033" summary="removed hardcoded notification text">
+      <created>1680364774806</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1680364774806</updated>
+    </task>
+    <task id="LOCAL-00034" summary="removed colorized property in notifications">
+      <created>1680417540074</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1680417540074</updated>
+    </task>
+    <task id="LOCAL-00035" summary="removed colorized property in notifications">
+      <created>1680417633228</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1680417633228</updated>
+    </task>
+    <task id="LOCAL-00036" summary="removed colorized property in notifications">
+      <created>1680417662789</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1680417662789</updated>
+    </task>
+    <task id="LOCAL-00037" summary="removed colorized property in notifications">
+      <created>1680417694217</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1680417694217</updated>
+    </task>
+    <task id="LOCAL-00038" summary="removed colorized property in notifications">
+      <created>1680417923074</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1680417923074</updated>
+    </task>
+    <task id="LOCAL-00039" summary="added countdowntimer isntead of executor and some chnages in the timerservice using only one thread for the timer">
+      <created>1681067307050</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1681067307050</updated>
+    </task>
+    <task id="LOCAL-00040" summary="added countdowntimer isntead of executor and some chnages in the timerservice using only one thread for the timer">
+      <created>1681067317564</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1681067317564</updated>
+    </task>
+    <task id="LOCAL-00041" summary="changed the notification text and debugging">
+      <created>1681396046259</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1681396046259</updated>
+    </task>
+    <task id="LOCAL-00042" summary="changed the notification text and debugging">
+      <created>1681402622285</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1681402622285</updated>
+    </task>
+    <task id="LOCAL-00043" summary="changed the notification text and debugging">
+      <created>1681402818402</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1681402818402</updated>
+    </task>
+    <task id="LOCAL-00044" summary="changed the notification text and debugging">
+      <created>1681406182159</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1681406182159</updated>
+    </task>
+    <task id="LOCAL-00045" summary="debugged multiple activity removal">
+      <created>1681909663274</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1681909663274</updated>
+    </task>
+    <task id="LOCAL-00046" summary="added dialog box">
+      <created>1682005398226</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1682005398227</updated>
+    </task>
+    <task id="LOCAL-00047" summary="new modes and homescreen added">
+      <created>1682935474157</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1682935474158</updated>
+    </task>
+    <task id="LOCAL-00048" summary="new modes and homescreen added">
+      <created>1682935796886</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1682935796887</updated>
+    </task>
+    <task id="LOCAL-00049" summary="new UI designs">
+      <created>1682949973535</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1682949973537</updated>
+    </task>
+    <task id="LOCAL-00050" summary="time stack arch">
+      <created>1683867094292</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1683867094293</updated>
+    </task>
+    <task id="LOCAL-00051" summary="time stack arch">
+      <created>1683867264278</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1683867264278</updated>
+    </task>
+    <task id="LOCAL-00052" summary="time stack arch">
+      <created>1683867301711</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1683867301711</updated>
+    </task>
+    <task id="LOCAL-00053" summary="time stack arch">
+      <created>1683867354807</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1683867354807</updated>
+    </task>
+    <task id="LOCAL-00054" summary="time stack arch">
+      <created>1683867410409</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1683867410409</updated>
+    </task>
+    <task id="LOCAL-00055" summary="checking the progress from main to HomeScreen.kt">
+      <created>1685178469616</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1685178469616</updated>
+    </task>
+    <task id="LOCAL-00056" summary="to and bottom padding for the name of the stack">
+      <created>1685182197058</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1685182197058</updated>
+    </task>
+    <task id="LOCAL-00057" summary="added editdialogbox, and refreshbutton">
+      <created>1685431055454</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1685431055455</updated>
+    </task>
+    <task id="LOCAL-00058" summary="changes in reset button">
+      <created>1685431683876</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1685431683876</updated>
+    </task>
+    <task id="LOCAL-00059" summary="resetting the timer and notification when activity is edited">
+      <created>1685453213677</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1685453213678</updated>
+    </task>
+    <task id="LOCAL-00060" summary="added tint to minus icon button">
+      <created>1685453434141</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1685453434141</updated>
+    </task>
+    <task id="LOCAL-00061" summary="experimental transitions">
+      <created>1686249587356</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1686249587356</updated>
+    </task>
+    <task id="LOCAL-00062" summary="added title name">
+      <created>1686299768977</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1686299768978</updated>
+    </task>
+    <task id="LOCAL-00063" summary="separated into new file for Navigation">
+      <created>1687243086446</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1687243086447</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="UI changes and notifications icons" />
+    <MESSAGE value="lato fontfamily" />
+    <MESSAGE value="added progress bar into the animation" />
+    <MESSAGE value="adding spacing" />
+    <MESSAGE value="tier 0 to 100" />
+    <MESSAGE value="new animations" />
+    <MESSAGE value="removed hardcoded notification text" />
+    <MESSAGE value="removed colorized property in notifications" />
+    <MESSAGE value="added countdowntimer isntead of executor and some chnages in the timerservice using only one thread for the timer" />
+    <MESSAGE value="changed the notificatiom text and debugging" />
+    <MESSAGE value="changed the notification text and debugging" />
+    <MESSAGE value="debugged multiple activity removal" />
+    <MESSAGE value="added dialog box" />
+    <MESSAGE value="new modes and homescreen added" />
+    <MESSAGE value="new UI designs" />
+    <MESSAGE value="time stack arch" />
+    <MESSAGE value="checking the progress from main to HomeScreen.kt" />
+    <MESSAGE value="to and bottom padding for the name of the stack" />
+    <MESSAGE value="added editdialogbox, and refreshbutton" />
+    <MESSAGE value="changes in reset button" />
+    <MESSAGE value="resetting the timer and notification when activity is edited" />
+    <MESSAGE value="added tint to minus icon button" />
+    <MESSAGE value="experimental transitions" />
+    <MESSAGE value="added title name" />
+    <MESSAGE value="separated into new file for Navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="separated into new file for Navigation" />
+  </component>
+</project>

@@ -1,0 +1,626 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+MERGED from [androidx.constraintlayout:constraintlayout-compose:1.0.1] C:\Users\Dell\.gradle\caches\transforms-3\269e7ef2a86c3a07ce3da33ec58ed6e4\transformed\constraintlayout-compose-1.0.1\AndroidManifest.xml:17:1-24:12
+MERGED from [com.airbnb.android:lottie-compose:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\9b17c95358b140608596b6344e96ab1e\transformed\lottie-compose-5.2.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.accompanist:accompanist-navigation-animation:0.31.3-beta] C:\Users\Dell\.gradle\caches\transforms-3\bfe559d19f0f387c94530efd53fe1fb5\transformed\accompanist-navigation-animation-0.31.3-beta\AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.room:room-ktx:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\7aeeda473ab5671ad9f6d2df17be7bed\transformed\room-ktx-2.5.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.compose.material3:material3:1.0.0-alpha11] C:\Users\Dell\.gradle\caches\transforms-3\b6f234a1bb16135b2a5bf4885233552e\transformed\material3-1.0.0-alpha11\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\108f8e84ed945b88d072ac197fdd6dbf\transformed\navigation-ui-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\a91d7bf22bceded9c9c436ef6319294a\transformed\navigation-common-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\b7de6935b847e82d4aa1f54052181e48\transformed\navigation-fragment-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\387e3baca7ed7f000b209fef4e2292e7\transformed\navigation-common-ktx-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\b3431590ce3126cd5fa590c5a0610e98\transformed\navigation-ui-ktx-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\91f33abbf62fdf3936c0a0cf27d4d969\transformed\navigation-runtime-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\421642659983bd836b2ccefed85e291e\transformed\navigation-fragment-ktx-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\2a74400c937315b0bdcabfe5a7696015\transformed\navigation-runtime-ktx-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-compose:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\ba90a21bab65e08bc79ae846b4bda1ac\transformed\navigation-compose-2.6.0-rc02\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-ripple-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\175bc8b8efb17b25c74c496e198e38cd\transformed\material-ripple-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\30560d5b0baea472b4f792957d696098\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\29e0cd2f34becf3d894da56ec79d2adb\transformed\foundation-layout-release\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.dagger:hilt-android:2.44] C:\Users\Dell\.gradle\caches\transforms-3\12313c9e12bf04323f8de7fcb92139c7\transformed\hilt-android-2.44\AndroidManifest.xml:16:1-19:12
+MERGED from [com.google.android.material:material:1.9.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6689c7439e2e2ab8dd4b6e3833fad5cc\transformed\material-1.9.0-beta01\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Dell\.gradle\caches\transforms-3\11cddda74db0bd81ad138e5bfce95a75\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
+MERGED from [com.airbnb.android:lottie:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\33d056a2b5aaa2f73159d51eec5babf9\transformed\lottie-5.2.0\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat-resources:1.5.0] C:\Users\Dell\.gradle\caches\transforms-3\b0a34bbd0a649b2bed3469b0588c347a\transformed\appcompat-resources-1.5.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat:1.5.0] C:\Users\Dell\.gradle\caches\transforms-3\0c7b6888809716bc468ab5e9a52ee00b\transformed\appcompat-1.5.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\2bd342c2e37562f53593dc01bd768f67\transformed\play-services-tagmanager-v4-impl-18.0.1\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:17:1-31:12
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.android.gms:play-services-stats:17.0.3] C:\Users\Dell\.gradle\caches\transforms-3\4ba86db2e2e86fe13d7a9ee18cf7e70e\transformed\play-services-stats-17.0.3\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\71a09cc2922f3d1e210d6cf08d6e15a2\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\a133104cf9b044a3f4154d0231bdc16a\transformed\viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.6.0-rc01] C:\Users\Dell\.gradle\caches\transforms-3\3a0980a7f14d416f8ccedc91e27b8b0a\transformed\fragment-1.6.0-rc01\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment-ktx:1.6.0-rc01] C:\Users\Dell\.gradle\caches\transforms-3\42af5964e50708893ec43c22aa62f8f1\transformed\fragment-ktx-1.6.0-rc01\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-ktx:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\04f53f99edecaca8bb0fb0ae98c25348\transformed\activity-ktx-1.7.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\3dd4e95eacaa60e65c2f291336d7f3c7\transformed\ui-tooling-data-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\f9be2be9c74df5cc546b245484c56cce\transformed\ui-tooling-preview-release\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0937b78bfa2259b2850bec0fb2300844\transformed\ui-graphics-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0acee390432738a5d604477fe87b5f4b\transformed\ui-unit-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-text-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6e647a9fc80b8c5e16ccceab720d29f6\transformed\ui-text-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\e62fe1f7c94569cfe76b3627f96d13a1\transformed\ui-geometry-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.activity:activity:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\12f9588679a999281b56e2ecd7fbdfeb\transformed\activity-1.7.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity-compose:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\4d940c2475a3745f85e42d17fd11a2a7\transformed\activity-compose-1.7.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\e49ac31cadf87677bd13e13279aed137\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\597323bd4ba8767b1b286e00fec821cc\transformed\drawerlayout-1.1.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\2c8edc9c844ffed8db29d02db2d5361b\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\e3d758fda63e7837a31521ad2698df35\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\ebbe676c242e9a14db723869cf763a0d\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\4145ce741862622bfac83e038dde9fe5\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\d3734164125714aa5cf8cc2761b8f281\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\22d5b9b160c6b324a3a7b34be550a7c3\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\Dell\.gradle\caches\transforms-3\865e92205e5061efe2c0392db8ebfd5d\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\40f5dea61927c6b78a9a84fa42a4db5d\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\c29979e8074227c24b4376c5932c53cf\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\ea366d30dee595e5ac406027b474f6d7\transformed\emoji2-views-helper-1.4.0-beta04\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\Dell\.gradle\caches\transforms-3\28bec66f1bdc12325eb126a4c44956ee\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\Dell\.gradle\caches\transforms-3\36e9d5ef705a7fae29629e4d88980c5e\transformed\savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\0ecb1c908f78a2d200c597125b09dc7b\transformed\lifecycle-livedata-core-ktx-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\78504b3baaf6476c4e0eb883d8bd3303\transformed\lifecycle-runtime-ktx-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\ffe1748cc75c5f96112d1ea70f82b964\transformed\lifecycle-livedata-core-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\419e151625694c1f0a090d4d6f50b3a2\transformed\lifecycle-livedata-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\1a90bef8f4d5349165df9faecada7b40\transformed\lifecycle-viewmodel-ktx-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\50159de3bc25c8eeebf79b988acf11cd\transformed\lifecycle-viewmodel-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\d9200d65c9ca36a463e24c3a751ada1f\transformed\lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\f198d7a47e93fcb05c9d73f5842954d4\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\667c7bc2bcda4745ead1a118b998cac1\transformed\core-ktx-1.11.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\50fd3d9fb62a5e693e48f0eb8bd8d584\transformed\autofill-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.4.1] C:\Users\Dell\.gradle\caches\transforms-3\2858e423ed817802627f5b417f9c3242\transformed\transition-1.4.1\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\34864fa01c5f176f13c6b9c32668f86e\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\e9c4144b9acc0276b72537390ea6d122\transformed\lifecycle-viewmodel-compose-2.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0045bf5464f7b296f4a07dad32ffb197\transformed\ui-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-util-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\3ab8f340c07630a9cab98ebc842972d5\transformed\ui-util-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.compose.material:material-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\523962dd3472dcd1aa548e45c18aac73\transformed\material-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\5188757555f93ec3d416c9aebb5f0a02\transformed\foundation-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\ac19cdc66d72a145c7ffb7c380da2882\transformed\animation-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\03b07c8e767bcbb51ae5d1831b9e215f\transformed\animation-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\24589ad39b63e6ca8042cd0d4b60d61d\transformed\runtime-saveable-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0c39eb306453a110271e2ac83fddb8bb\transformed\runtime-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core-splashscreen:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\dbe0ebf2707c9362ee8f98cabf1a25ec\transformed\core-splashscreen-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Dell\.gradle\caches\transforms-3\fd736fe153e88c7658876f9d7542ee40\transformed\timber-5.0.1\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.sqlite:sqlite-framework:2.3.0] C:\Users\Dell\.gradle\caches\transforms-3\4211900ae3d2397833bba626efc93ad7\transformed\sqlite-framework-2.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite:2.3.0] C:\Users\Dell\.gradle\caches\transforms-3\93606538fe48d89190b10f73e54c5016\transformed\sqlite-2.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\5772304740afe75e3819548422731678\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\f05bd306ebbe8540d65c34da73eeefbc\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\d7941535c172cd9b49e6650b824c1022\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\a5ae0594561a38f0f39274790c409008\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\2b322deca27e0e5ceffe02032396e228\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\22f250263d8e203b606ee6b273561ecd\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\59349afbc5a5353986e01da4612384b3\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\7e67a26c625dae9ab5e8c603a529d8fd\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Dell\.gradle\caches\transforms-3\61e9e31c905d5be23d2aac1e40cfe377\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\09765080e0aa8ed477d1e838af1f32fb\transformed\tracing-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.dagger:dagger-lint-aar:2.44] C:\Users\Dell\.gradle\caches\transforms-3\39a75b30d0382720e179843827c69001\transformed\dagger-lint-aar-2.44\AndroidManifest.xml:16:1-19:12
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+	package
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:1-47:12
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:5:5-77
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:5:22-74
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:6:5-77
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:6:22-74
+uses-permission#android.permission.SCHEDULE_EXACT_ALARM
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.VIBRATE
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:8:5-66
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:8:22-63
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.WAKE_LOCK
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:10:5-68
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:27:5-68
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:27:5-68
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:10:22-65
+application
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:13:5-45:19
+MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:23:5-29:19
+MERGED from [com.google.android.material:material:1.9.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6689c7439e2e2ab8dd4b6e3833fad5cc\transformed\material-1.9.0-beta01\AndroidManifest.xml:24:5-20
+MERGED from [com.google.android.material:material:1.9.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6689c7439e2e2ab8dd4b6e3833fad5cc\transformed\material-1.9.0-beta01\AndroidManifest.xml:24:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Dell\.gradle\caches\transforms-3\11cddda74db0bd81ad138e5bfce95a75\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Dell\.gradle\caches\transforms-3\11cddda74db0bd81ad138e5bfce95a75\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
+MERGED from [com.airbnb.android:lottie:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\33d056a2b5aaa2f73159d51eec5babf9\transformed\lottie-5.2.0\AndroidManifest.xml:9:5-20
+MERGED from [com.airbnb.android:lottie:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\33d056a2b5aaa2f73159d51eec5babf9\transformed\lottie-5.2.0\AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\2bd342c2e37562f53593dc01bd768f67\transformed\play-services-tagmanager-v4-impl-18.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\2bd342c2e37562f53593dc01bd768f67\transformed\play-services-tagmanager-v4-impl-18.0.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:29:5-20
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:29:5-20
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.3] C:\Users\Dell\.gradle\caches\transforms-3\4ba86db2e2e86fe13d7a9ee18cf7e70e\transformed\play-services-stats-17.0.3\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.3] C:\Users\Dell\.gradle\caches\transforms-3\4ba86db2e2e86fe13d7a9ee18cf7e70e\transformed\play-services-stats-17.0.3\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\71a09cc2922f3d1e210d6cf08d6e15a2\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\71a09cc2922f3d1e210d6cf08d6e15a2\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:28:5-89
+MERGED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Dell\.gradle\caches\transforms-3\fd736fe153e88c7658876f9d7542ee40\transformed\timber-5.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Dell\.gradle\caches\transforms-3\fd736fe153e88c7658876f9d7542ee40\transformed\timber-5.0.1\AndroidManifest.xml:7:5-20
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\d7941535c172cd9b49e6650b824c1022\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\d7941535c172cd9b49e6650b824c1022\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:21:9-35
+	android:label
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:19:9-41
+	android:launchMode
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:20:9-40
+	android:fullBackupContent
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:17:9-54
+	tools:targetApi
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:23:9-29
+	android:icon
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:18:9-43
+	android:allowBackup
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:15:9-35
+	android:theme
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:22:9-59
+	android:dataExtractionRules
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:16:9-65
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:14:9-41
+activity#com.example.timestackarchitecture.MainActivity
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:24:9-36:20
+	android:screenOrientation
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:27:13-49
+	android:exported
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:26:13-36
+	tools:ignore
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:29:13-53
+	android:theme
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:28:13-63
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:25:13-41
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:30:13-35:29
+action#android.intent.action.MAIN
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:31:17-69
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:31:25-66
+action#android.intent.action.BOOT_COMPLETED
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:32:17-79
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:32:25-76
+category#android.intent.category.LAUNCHER
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:34:17-77
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:34:27-74
+service#com.example.timestackarchitecture.casualmode.service.TimerService
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:38:9-68
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:38:18-65
+meta-data#preloaded_fonts
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:40:9-42:57
+	android:resource
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:42:13-54
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:41:13-43
+receiver#com.example.timestackarchitecture.casualmode.service.TimerAlarmReceiver
+ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:44:9-75
+	android:name
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml:44:19-72
+uses-sdk
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+MERGED from [androidx.constraintlayout:constraintlayout-compose:1.0.1] C:\Users\Dell\.gradle\caches\transforms-3\269e7ef2a86c3a07ce3da33ec58ed6e4\transformed\constraintlayout-compose-1.0.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.constraintlayout:constraintlayout-compose:1.0.1] C:\Users\Dell\.gradle\caches\transforms-3\269e7ef2a86c3a07ce3da33ec58ed6e4\transformed\constraintlayout-compose-1.0.1\AndroidManifest.xml:20:5-22:41
+MERGED from [com.airbnb.android:lottie-compose:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\9b17c95358b140608596b6344e96ab1e\transformed\lottie-compose-5.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.airbnb.android:lottie-compose:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\9b17c95358b140608596b6344e96ab1e\transformed\lottie-compose-5.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.accompanist:accompanist-navigation-animation:0.31.3-beta] C:\Users\Dell\.gradle\caches\transforms-3\bfe559d19f0f387c94530efd53fe1fb5\transformed\accompanist-navigation-animation-0.31.3-beta\AndroidManifest.xml:21:5-23:42
+MERGED from [com.google.accompanist:accompanist-navigation-animation:0.31.3-beta] C:\Users\Dell\.gradle\caches\transforms-3\bfe559d19f0f387c94530efd53fe1fb5\transformed\accompanist-navigation-animation-0.31.3-beta\AndroidManifest.xml:21:5-23:42
+MERGED from [androidx.room:room-ktx:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\7aeeda473ab5671ad9f6d2df17be7bed\transformed\room-ktx-2.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\7aeeda473ab5671ad9f6d2df17be7bed\transformed\room-ktx-2.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.compose.material3:material3:1.0.0-alpha11] C:\Users\Dell\.gradle\caches\transforms-3\b6f234a1bb16135b2a5bf4885233552e\transformed\material3-1.0.0-alpha11\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.material3:material3:1.0.0-alpha11] C:\Users\Dell\.gradle\caches\transforms-3\b6f234a1bb16135b2a5bf4885233552e\transformed\material3-1.0.0-alpha11\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-ui:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\108f8e84ed945b88d072ac197fdd6dbf\transformed\navigation-ui-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\108f8e84ed945b88d072ac197fdd6dbf\transformed\navigation-ui-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\a91d7bf22bceded9c9c436ef6319294a\transformed\navigation-common-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\a91d7bf22bceded9c9c436ef6319294a\transformed\navigation-common-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\b7de6935b847e82d4aa1f54052181e48\transformed\navigation-fragment-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\b7de6935b847e82d4aa1f54052181e48\transformed\navigation-fragment-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\387e3baca7ed7f000b209fef4e2292e7\transformed\navigation-common-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\387e3baca7ed7f000b209fef4e2292e7\transformed\navigation-common-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\b3431590ce3126cd5fa590c5a0610e98\transformed\navigation-ui-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\b3431590ce3126cd5fa590c5a0610e98\transformed\navigation-ui-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\91f33abbf62fdf3936c0a0cf27d4d969\transformed\navigation-runtime-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\91f33abbf62fdf3936c0a0cf27d4d969\transformed\navigation-runtime-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\421642659983bd836b2ccefed85e291e\transformed\navigation-fragment-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\421642659983bd836b2ccefed85e291e\transformed\navigation-fragment-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\2a74400c937315b0bdcabfe5a7696015\transformed\navigation-runtime-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\2a74400c937315b0bdcabfe5a7696015\transformed\navigation-runtime-ktx-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-compose:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\ba90a21bab65e08bc79ae846b4bda1ac\transformed\navigation-compose-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-compose:2.6.0-rc02] C:\Users\Dell\.gradle\caches\transforms-3\ba90a21bab65e08bc79ae846b4bda1ac\transformed\navigation-compose-2.6.0-rc02\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\175bc8b8efb17b25c74c496e198e38cd\transformed\material-ripple-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\175bc8b8efb17b25c74c496e198e38cd\transformed\material-ripple-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\30560d5b0baea472b4f792957d696098\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\30560d5b0baea472b4f792957d696098\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\29e0cd2f34becf3d894da56ec79d2adb\transformed\foundation-layout-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\29e0cd2f34becf3d894da56ec79d2adb\transformed\foundation-layout-release\AndroidManifest.xml:5:5-44
+MERGED from [com.google.dagger:hilt-android:2.44] C:\Users\Dell\.gradle\caches\transforms-3\12313c9e12bf04323f8de7fcb92139c7\transformed\hilt-android-2.44\AndroidManifest.xml:18:3-42
+MERGED from [com.google.dagger:hilt-android:2.44] C:\Users\Dell\.gradle\caches\transforms-3\12313c9e12bf04323f8de7fcb92139c7\transformed\hilt-android-2.44\AndroidManifest.xml:18:3-42
+MERGED from [com.google.android.material:material:1.9.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6689c7439e2e2ab8dd4b6e3833fad5cc\transformed\material-1.9.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.material:material:1.9.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6689c7439e2e2ab8dd4b6e3833fad5cc\transformed\material-1.9.0-beta01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Dell\.gradle\caches\transforms-3\11cddda74db0bd81ad138e5bfce95a75\transformed\constraintlayout-2.1.4\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Dell\.gradle\caches\transforms-3\11cddda74db0bd81ad138e5bfce95a75\transformed\constraintlayout-2.1.4\AndroidManifest.xml:5:5-7:41
+MERGED from [com.airbnb.android:lottie:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\33d056a2b5aaa2f73159d51eec5babf9\transformed\lottie-5.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.airbnb.android:lottie:5.2.0] C:\Users\Dell\.gradle\caches\transforms-3\33d056a2b5aaa2f73159d51eec5babf9\transformed\lottie-5.2.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat-resources:1.5.0] C:\Users\Dell\.gradle\caches\transforms-3\b0a34bbd0a649b2bed3469b0588c347a\transformed\appcompat-resources-1.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.5.0] C:\Users\Dell\.gradle\caches\transforms-3\b0a34bbd0a649b2bed3469b0588c347a\transformed\appcompat-resources-1.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.5.0] C:\Users\Dell\.gradle\caches\transforms-3\0c7b6888809716bc468ab5e9a52ee00b\transformed\appcompat-1.5.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.5.0] C:\Users\Dell\.gradle\caches\transforms-3\0c7b6888809716bc468ab5e9a52ee00b\transformed\appcompat-1.5.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\2bd342c2e37562f53593dc01bd768f67\transformed\play-services-tagmanager-v4-impl-18.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\2bd342c2e37562f53593dc01bd768f67\transformed\play-services-tagmanager-v4-impl-18.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.3] C:\Users\Dell\.gradle\caches\transforms-3\4ba86db2e2e86fe13d7a9ee18cf7e70e\transformed\play-services-stats-17.0.3\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.3] C:\Users\Dell\.gradle\caches\transforms-3\4ba86db2e2e86fe13d7a9ee18cf7e70e\transformed\play-services-stats-17.0.3\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\71a09cc2922f3d1e210d6cf08d6e15a2\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\71a09cc2922f3d1e210d6cf08d6e15a2\transformed\play-services-tasks-18.0.1\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:18:5-43
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\a133104cf9b044a3f4154d0231bdc16a\transformed\viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\a133104cf9b044a3f4154d0231bdc16a\transformed\viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.6.0-rc01] C:\Users\Dell\.gradle\caches\transforms-3\3a0980a7f14d416f8ccedc91e27b8b0a\transformed\fragment-1.6.0-rc01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.6.0-rc01] C:\Users\Dell\.gradle\caches\transforms-3\3a0980a7f14d416f8ccedc91e27b8b0a\transformed\fragment-1.6.0-rc01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.6.0-rc01] C:\Users\Dell\.gradle\caches\transforms-3\42af5964e50708893ec43c22aa62f8f1\transformed\fragment-ktx-1.6.0-rc01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment-ktx:1.6.0-rc01] C:\Users\Dell\.gradle\caches\transforms-3\42af5964e50708893ec43c22aa62f8f1\transformed\fragment-ktx-1.6.0-rc01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-ktx:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\04f53f99edecaca8bb0fb0ae98c25348\transformed\activity-ktx-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-ktx:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\04f53f99edecaca8bb0fb0ae98c25348\transformed\activity-ktx-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\3dd4e95eacaa60e65c2f291336d7f3c7\transformed\ui-tooling-data-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\3dd4e95eacaa60e65c2f291336d7f3c7\transformed\ui-tooling-data-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\f9be2be9c74df5cc546b245484c56cce\transformed\ui-tooling-preview-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\f9be2be9c74df5cc546b245484c56cce\transformed\ui-tooling-preview-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0937b78bfa2259b2850bec0fb2300844\transformed\ui-graphics-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0937b78bfa2259b2850bec0fb2300844\transformed\ui-graphics-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0acee390432738a5d604477fe87b5f4b\transformed\ui-unit-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0acee390432738a5d604477fe87b5f4b\transformed\ui-unit-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6e647a9fc80b8c5e16ccceab720d29f6\transformed\ui-text-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\6e647a9fc80b8c5e16ccceab720d29f6\transformed\ui-text-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\e62fe1f7c94569cfe76b3627f96d13a1\transformed\ui-geometry-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\e62fe1f7c94569cfe76b3627f96d13a1\transformed\ui-geometry-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\12f9588679a999281b56e2ecd7fbdfeb\transformed\activity-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\12f9588679a999281b56e2ecd7fbdfeb\transformed\activity-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-compose:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\4d940c2475a3745f85e42d17fd11a2a7\transformed\activity-compose-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-compose:1.7.0] C:\Users\Dell\.gradle\caches\transforms-3\4d940c2475a3745f85e42d17fd11a2a7\transformed\activity-compose-1.7.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\e49ac31cadf87677bd13e13279aed137\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\e49ac31cadf87677bd13e13279aed137\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\597323bd4ba8767b1b286e00fec821cc\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\597323bd4ba8767b1b286e00fec821cc\transformed\drawerlayout-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\2c8edc9c844ffed8db29d02db2d5361b\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\2c8edc9c844ffed8db29d02db2d5361b\transformed\dynamicanimation-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\e3d758fda63e7837a31521ad2698df35\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\e3d758fda63e7837a31521ad2698df35\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\ebbe676c242e9a14db723869cf763a0d\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\ebbe676c242e9a14db723869cf763a0d\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\4145ce741862622bfac83e038dde9fe5\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\4145ce741862622bfac83e038dde9fe5\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\d3734164125714aa5cf8cc2761b8f281\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\d3734164125714aa5cf8cc2761b8f281\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\22d5b9b160c6b324a3a7b34be550a7c3\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\22d5b9b160c6b324a3a7b34be550a7c3\transformed\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\Dell\.gradle\caches\transforms-3\865e92205e5061efe2c0392db8ebfd5d\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.2.0] C:\Users\Dell\.gradle\caches\transforms-3\865e92205e5061efe2c0392db8ebfd5d\transformed\slidingpanelayout-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\40f5dea61927c6b78a9a84fa42a4db5d\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\40f5dea61927c6b78a9a84fa42a4db5d\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\c29979e8074227c24b4376c5932c53cf\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] C:\Users\Dell\.gradle\caches\transforms-3\c29979e8074227c24b4376c5932c53cf\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.emoji2:emoji2-views-helper:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\ea366d30dee595e5ac406027b474f6d7\transformed\emoji2-views-helper-1.4.0-beta04\AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\ea366d30dee595e5ac406027b474f6d7\transformed\emoji2-views-helper-1.4.0-beta04\AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:21:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\Dell\.gradle\caches\transforms-3\28bec66f1bdc12325eb126a4c44956ee\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\Dell\.gradle\caches\transforms-3\28bec66f1bdc12325eb126a4c44956ee\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\Dell\.gradle\caches\transforms-3\36e9d5ef705a7fae29629e4d88980c5e\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\Dell\.gradle\caches\transforms-3\36e9d5ef705a7fae29629e4d88980c5e\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\0ecb1c908f78a2d200c597125b09dc7b\transformed\lifecycle-livedata-core-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\0ecb1c908f78a2d200c597125b09dc7b\transformed\lifecycle-livedata-core-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\78504b3baaf6476c4e0eb883d8bd3303\transformed\lifecycle-runtime-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\78504b3baaf6476c4e0eb883d8bd3303\transformed\lifecycle-runtime-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\ffe1748cc75c5f96112d1ea70f82b964\transformed\lifecycle-livedata-core-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\ffe1748cc75c5f96112d1ea70f82b964\transformed\lifecycle-livedata-core-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\419e151625694c1f0a090d4d6f50b3a2\transformed\lifecycle-livedata-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\419e151625694c1f0a090d4d6f50b3a2\transformed\lifecycle-livedata-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\1a90bef8f4d5349165df9faecada7b40\transformed\lifecycle-viewmodel-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\1a90bef8f4d5349165df9faecada7b40\transformed\lifecycle-viewmodel-ktx-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\50159de3bc25c8eeebf79b988acf11cd\transformed\lifecycle-viewmodel-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\50159de3bc25c8eeebf79b988acf11cd\transformed\lifecycle-viewmodel-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\d9200d65c9ca36a463e24c3a751ada1f\transformed\lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\d9200d65c9ca36a463e24c3a751ada1f\transformed\lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\f198d7a47e93fcb05c9d73f5842954d4\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\f198d7a47e93fcb05c9d73f5842954d4\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\667c7bc2bcda4745ead1a118b998cac1\transformed\core-ktx-1.11.0-beta01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\667c7bc2bcda4745ead1a118b998cac1\transformed\core-ktx-1.11.0-beta01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\50fd3d9fb62a5e693e48f0eb8bd8d584\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\50fd3d9fb62a5e693e48f0eb8bd8d584\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] C:\Users\Dell\.gradle\caches\transforms-3\2858e423ed817802627f5b417f9c3242\transformed\transition-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.4.1] C:\Users\Dell\.gradle\caches\transforms-3\2858e423ed817802627f5b417f9c3242\transformed\transition-1.4.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\34864fa01c5f176f13c6b9c32668f86e\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\34864fa01c5f176f13c6b9c32668f86e\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\e9c4144b9acc0276b72537390ea6d122\transformed\lifecycle-viewmodel-compose-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\e9c4144b9acc0276b72537390ea6d122\transformed\lifecycle-viewmodel-compose-2.6.1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0045bf5464f7b296f4a07dad32ffb197\transformed\ui-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0045bf5464f7b296f4a07dad32ffb197\transformed\ui-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\3ab8f340c07630a9cab98ebc842972d5\transformed\ui-util-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\3ab8f340c07630a9cab98ebc842972d5\transformed\ui-util-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\523962dd3472dcd1aa548e45c18aac73\transformed\material-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\523962dd3472dcd1aa548e45c18aac73\transformed\material-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\5188757555f93ec3d416c9aebb5f0a02\transformed\foundation-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\5188757555f93ec3d416c9aebb5f0a02\transformed\foundation-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\ac19cdc66d72a145c7ffb7c380da2882\transformed\animation-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\ac19cdc66d72a145c7ffb7c380da2882\transformed\animation-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\03b07c8e767bcbb51ae5d1831b9e215f\transformed\animation-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\03b07c8e767bcbb51ae5d1831b9e215f\transformed\animation-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\24589ad39b63e6ca8042cd0d4b60d61d\transformed\runtime-saveable-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\24589ad39b63e6ca8042cd0d4b60d61d\transformed\runtime-saveable-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0c39eb306453a110271e2ac83fddb8bb\transformed\runtime-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\0c39eb306453a110271e2ac83fddb8bb\transformed\runtime-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-splashscreen:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\dbe0ebf2707c9362ee8f98cabf1a25ec\transformed\core-splashscreen-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-splashscreen:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\dbe0ebf2707c9362ee8f98cabf1a25ec\transformed\core-splashscreen-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Dell\.gradle\caches\transforms-3\fd736fe153e88c7658876f9d7542ee40\transformed\timber-5.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.jakewharton.timber:timber:5.0.1] C:\Users\Dell\.gradle\caches\transforms-3\fd736fe153e88c7658876f9d7542ee40\transformed\timber-5.0.1\AndroidManifest.xml:5:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.3.0] C:\Users\Dell\.gradle\caches\transforms-3\4211900ae3d2397833bba626efc93ad7\transformed\sqlite-framework-2.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.3.0] C:\Users\Dell\.gradle\caches\transforms-3\4211900ae3d2397833bba626efc93ad7\transformed\sqlite-framework-2.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.3.0] C:\Users\Dell\.gradle\caches\transforms-3\93606538fe48d89190b10f73e54c5016\transformed\sqlite-2.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.3.0] C:\Users\Dell\.gradle\caches\transforms-3\93606538fe48d89190b10f73e54c5016\transformed\sqlite-2.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\5772304740afe75e3819548422731678\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\5772304740afe75e3819548422731678\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\f05bd306ebbe8540d65c34da73eeefbc\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\f05bd306ebbe8540d65c34da73eeefbc\transformed\cardview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\d7941535c172cd9b49e6650b824c1022\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\d7941535c172cd9b49e6650b824c1022\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\a5ae0594561a38f0f39274790c409008\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\a5ae0594561a38f0f39274790c409008\transformed\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\2b322deca27e0e5ceffe02032396e228\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\2b322deca27e0e5ceffe02032396e228\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\22f250263d8e203b606ee6b273561ecd\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\22f250263d8e203b606ee6b273561ecd\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\59349afbc5a5353986e01da4612384b3\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\59349afbc5a5353986e01da4612384b3\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\7e67a26c625dae9ab5e8c603a529d8fd\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\7e67a26c625dae9ab5e8c603a529d8fd\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Dell\.gradle\caches\transforms-3\61e9e31c905d5be23d2aac1e40cfe377\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\Dell\.gradle\caches\transforms-3\61e9e31c905d5be23d2aac1e40cfe377\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\09765080e0aa8ed477d1e838af1f32fb\transformed\tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\09765080e0aa8ed477d1e838af1f32fb\transformed\tracing-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.dagger:dagger-lint-aar:2.44] C:\Users\Dell\.gradle\caches\transforms-3\39a75b30d0382720e179843827c69001\transformed\dagger-lint-aar-2.44\AndroidManifest.xml:18:3-42
+MERGED from [com.google.dagger:dagger-lint-aar:2.44] C:\Users\Dell\.gradle\caches\transforms-3\39a75b30d0382720e179843827c69001\transformed\dagger-lint-aar-2.44\AndroidManifest.xml:18:3-42
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+	tools:ignore
+		ADDED from [com.google.accompanist:accompanist-navigation-animation:0.31.3-beta] C:\Users\Dell\.gradle\caches\transforms-3\bfe559d19f0f387c94530efd53fe1fb5\transformed\accompanist-navigation-animation-0.31.3-beta\AndroidManifest.xml:23:9-39
+	android:minSdkVersion
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		ADDED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+		INJECTED from D:\Time-Stack\TimeStackAndroidApp\TimeStackArchitecture\app\src\main\AndroidManifest.xml
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\Dell\.gradle\caches\transforms-3\bd4af41940e2b4bce31c3057cc717257\transformed\room-runtime-2.5.0\AndroidManifest.xml:25:13-74
+uses-permission#android.permission.INTERNET
+ADDED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:23:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:24:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-analytics-impl:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\aee838249c01f81ff2f7ea56c61dc83e\transformed\play-services-analytics-impl-18.0.1\AndroidManifest.xml:24:22-76
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\18e4a84a5e26bc420763b840821810d9\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+uses-permission#com.google.android.gms.permission.AD_ID
+ADDED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:23:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-identifier:18.0.1] C:\Users\Dell\.gradle\caches\transforms-3\82c99543375b10e627ab0dd298bd0ce4\transformed\play-services-ads-identifier-18.0.1\AndroidManifest.xml:23:22-76
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dell\.gradle\caches\transforms-3\6de8b29b0285f9207986b383a4929bc1\transformed\play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
+activity#androidx.activity.ComponentActivity
+ADDED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-test-manifest:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\921a6a58efbd86fd88189bc7fa1ed517\transformed\ui-test-manifest-1.5.0-beta01\AndroidManifest.xml:24:13-63
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Dell\.gradle\caches\transforms-3\409dc48aeda085c84c924413ce65db5d\transformed\startup-runtime-1.1.1\AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.4.0-beta04] C:\Users\Dell\.gradle\caches\transforms-3\6a7e36e6e7d5535a85fd22b0492ac56f\transformed\emoji2-1.4.0-beta04\AndroidManifest.xml:30:17-75
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\Dell\.gradle\caches\transforms-3\acf9e828cc3f2b74ed3ccb764471773d\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:30:17-78
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:25:9-27:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:26:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:28:9-30:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0] C:\Users\Dell\.gradle\caches\transforms-3\408d898382c71dd1b82581d576a0480e\transformed\window-1.0.0\AndroidManifest.xml:29:13-51
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:23:9-81
+permission#com.example.timestackarchitecture.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:26:22-94
+uses-permission#com.example.timestackarchitecture.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.11.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\41d43b03b4a1a74c77158b603233c075\transformed\core-1.11.0-beta01\AndroidManifest.xml:26:22-94
+activity#androidx.compose.ui.tooling.PreviewActivity
+ADDED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.5.0-beta01] C:\Users\Dell\.gradle\caches\transforms-3\1df2d83fac34b132bce89402aceb0f1e\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Dell\.gradle\caches\transforms-3\35fee34362d18f04c02ede549781ed33\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92

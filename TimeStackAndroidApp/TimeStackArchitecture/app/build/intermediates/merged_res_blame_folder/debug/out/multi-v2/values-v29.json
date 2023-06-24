@@ -1,0 +1,39 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.timestackarchitecture.app-mergeDebugResources-77:/values-v29/values-v29.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\transforms-3\\dbe0ebf2707c9362ee8f98cabf1a25ec\\transformed\\core-splashscreen-1.0.0\\res\\values-v29\\values-v29.xml",
+                    "from": {
+                        "startLines": "2,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,374",
+                        "endLines": "6,8",
+                        "endColumns": "12,12",
+                        "endOffsets": "369,464"
+                    }
+                },
+                {
+                    "source": "D:\\Time-Stack\\TimeStackAndroidApp\\TimeStackArchitecture\\app\\src\\main\\res\\values-v29\\themes.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "2",
+                        "startOffsets": "61",
+                        "endLines": "6",
+                        "endColumns": "10",
+                        "endOffsets": "435"
+                    },
+                    "to": {
+                        "startLines": "9",
+                        "startColumns": "4",
+                        "startOffsets": "469",
+                        "endLines": "14",
+                        "endColumns": "10",
+                        "endOffsets": "793"
+                    }
+                }
+            ]
+        }
+    ]
+}

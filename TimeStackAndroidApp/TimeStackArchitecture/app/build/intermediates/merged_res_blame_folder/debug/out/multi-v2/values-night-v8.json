@@ -1,0 +1,72 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.timestackarchitecture.app-mergeDebugResources-77:/values-night-v8/values-night-v8.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\transforms-3\\dbe0ebf2707c9362ee8f98cabf1a25ec\\transformed\\core-splashscreen-1.0.0\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "85",
+                        "endOffsets": "136"
+                    }
+                },
+                {
+                    "source": "D:\\Time-Stack\\TimeStackAndroidApp\\TimeStackArchitecture\\app\\src\\main\\res\\values-night\\themes.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "2",
+                        "startOffsets": "96",
+                        "endLines": "5",
+                        "endColumns": "10",
+                        "endOffsets": "314"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "141",
+                        "endLines": "6",
+                        "endColumns": "10",
+                        "endOffsets": "255"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\transforms-3\\6689c7439e2e2ab8dd4b6e3833fad5cc\\transformed\\material-1.9.0-beta01\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,130,241,330,431,538,645,744,851,954,1042,1166,1268,1370,1486,1588,1702,1830,1946,2068,2204,2324,2458,2578,2690,2816,2933,3057,3187,3309,3447,3581,3697",
+                        "endColumns": "74,110,88,100,106,106,98,106,102,87,123,101,101,115,101,113,127,115,121,135,119,133,119,111,125,116,123,129,121,137,133,115,119",
+                        "endOffsets": "125,236,325,426,533,640,739,846,949,1037,1161,1263,1365,1481,1583,1697,1825,1941,2063,2199,2319,2453,2573,2685,2811,2928,3052,3182,3304,3442,3576,3692,3812"
+                    },
+                    "to": {
+                        "startLines": "14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,41,42,43,44,45,46,47",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "892,967,1078,1167,1268,1375,1482,1581,1688,1791,1879,2003,2105,2207,2323,2425,2539,2667,2783,2905,3041,3161,3295,3415,3527,3742,3859,3983,4113,4235,4373,4507,4623",
+                        "endColumns": "74,110,88,100,106,106,98,106,102,87,123,101,101,115,101,113,127,115,121,135,119,133,119,111,125,116,123,129,121,137,133,115,119",
+                        "endOffsets": "962,1073,1162,1263,1370,1477,1576,1683,1786,1874,1998,2100,2202,2318,2420,2534,2662,2778,2900,3036,3156,3290,3410,3522,3648,3854,3978,4108,4230,4368,4502,4618,4738"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\transforms-3\\0c7b6888809716bc468ab5e9a52ee00b\\transformed\\appcompat-1.5.0\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,125,209,293,389,491,593,687",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "120,204,288,384,486,588,682,771"
+                    },
+                    "to": {
+                        "startLines": "7,8,9,10,11,12,13,39",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "260,330,414,498,594,696,798,3653",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "325,409,493,589,691,793,887,3737"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,5 +1,7 @@
 Server/__pycache__/
-TimeStackAndroidApp
 src
 *.log
 Test
+TimeStackAndroidApp/Server Prototype/node_modules
+TimeStackAndroidApp/Server Prototype/package-lock.json
+TimeStackAndroidApp/Server Prototype/package.json
