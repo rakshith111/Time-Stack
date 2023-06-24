@@ -14,22 +14,23 @@ def webhook():
 
     # Send the response message
     # ... your code to send the message ...
+    data = {
+        'message':'success'
+    }
     print(response_message)
-    return jsonify({'success': True})
+    return jsonify(data)
 
-@app.route('/send_req', methods=['GET'])
-def send_payload():
-    # Retrieve data from the query parameters or other sources
-    event = request.args.get('event')
-    payload = request.args.get('payload')
-
-    # Perform any additional processing or actions based on the event and payload
-    # ... your logic here ...
-
-    # Send the payload to the webhook endpoint
-    response = requests.post('http://192.168.0.104', json={'message': payload})
-
-    return jsonify({'success': True, 'response': response.json()})
+@app.route('/data', methods=['GET'])
+def get_data():
+    # Retrieve data from a source (e.g., database, file, API)
+    data = {
+        'name': 'John Doe',
+        'age': 30,
+        'city': 'New York'
+    }
+    
+    # Return the data as a JSON response
+    return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000)
+    app.run(host='', port=8000)

@@ -28,10 +28,12 @@ fun HomeScreen(
     Text(text = "Home Screen")
 
     LaunchedEffect( key1 = Unit){
+        ApiViewModel.makeGetApiRequest()
         ApiViewModel.makePostApiRequest()
-
     }
+
     val message = ApiViewModel.dashboardData.collectAsState().value
+    val postMessage = ApiViewModel.postData.collectAsState().value
     println("array: $message")
     Scaffold(
         topBar = {
@@ -45,12 +47,11 @@ fun HomeScreen(
             .fillMaxSize()
     ){
         paddingValues ->
-        Column(modifier = Modifier.fillMaxSize()){
+        Column(modifier = Modifier.fillMaxSize().padding(20.dp)){
             Text(
                 text = "Network Prototype Application",
                 color = Color.White, modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(20.dp),
+                    .padding(paddingValues),
                 style = MaterialTheme.typography.bodyLarge
             )
 //            LazyColumn(
@@ -61,7 +62,9 @@ fun HomeScreen(
 //                    Text(text = array[it].body, style = MaterialTheme.typography.bodyLarge)
 //                }
 //            }
-            Text(text = message.toString(), style = MaterialTheme.typography.bodyLarge)
+            Text(text = message.toString(), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top =20.dp))
+            Text(text = "Post Message", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top =20.dp))
+            Text(text = postMessage?.message.toString(), style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

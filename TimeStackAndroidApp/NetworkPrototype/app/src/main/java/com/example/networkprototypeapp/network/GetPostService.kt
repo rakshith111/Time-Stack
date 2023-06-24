@@ -23,12 +23,14 @@ class GetService {
 
 class PostService{
     private lateinit var apiInterface: TimeStackInterface
-    private val client = OkHttpClient.Builder().build()
+
     fun makePostApiRequest(): TimeStackInterface {
+        val okHttpClient = OkHttpClient.Builder()
+            .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.0.101:8000")
+            .baseUrl("")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
+            .client(okHttpClient)
             .build()
 
         apiInterface = retrofit.create(TimeStackInterface::class.java)

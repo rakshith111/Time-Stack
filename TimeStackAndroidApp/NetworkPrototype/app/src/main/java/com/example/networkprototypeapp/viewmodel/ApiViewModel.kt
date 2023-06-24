@@ -3,6 +3,7 @@ package com.example.networkprototypeapp.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.networkprototypeapp.data.FakeData
 import com.example.networkprototypeapp.data.PostData
+import com.example.networkprototypeapp.data.ReceiveData
 import com.example.networkprototypeapp.data.TimeStackData
 import com.example.networkprototypeapp.network.GetService
 import com.example.networkprototypeapp.network.GetServiceFake
@@ -13,9 +14,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ApiViewModel : ViewModel() {
-    private var _dashboardData = MutableStateFlow<Map<String, Any>>(mapOf())
+    private var _dashboardData = MutableStateFlow<ReceiveData?>(null)
 
-    val dashboardData: MutableStateFlow<Map<String, Any>> = _dashboardData
+    val dashboardData: MutableStateFlow<ReceiveData?> = _dashboardData
+
+    private var _postData = MutableStateFlow<PostData?>(null)
+
+    val postData: MutableStateFlow<PostData?> = _postData
 
     private var _dashboardFakeData = MutableStateFlow(FakeData())
 
@@ -23,21 +28,17 @@ class ApiViewModel : ViewModel() {
 
 
     fun makeGetApiRequest() {
-        GetService().getApiInterface("http://localhost:8000").getMessage()
-            .enqueue(object : Callback<Map<String, Any>> {
-                override fun onResponse(
-                    call: Call<Map<String, Any>>,
-                    response: Response<Map<String, Any>>
-                ) {
+        GetService().getApiInterface("").getMessage()
+            .enqueue(object : Callback<ReceiveData> {
+                override fun onResponse(call: Call<ReceiveData>, response: Response<ReceiveData>) {
                     println("Response: ${response.body()}")
                     println("Response: ${response.raw()}")
                     // Process the response data here
-                    _dashboardData.value = response.body() ?: mapOf()
+                    _dashboardData.value = response.body()
                 }
 
-                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                override fun onFailure(call: Call<ReceiveData>, t: Throwable) {
                     println("Error: ${t.message}")
-                    // Handle the error here
                 }
             })
     }
@@ -49,6 +50,7 @@ class ApiViewModel : ViewModel() {
                 override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
                     println("Response: ${response.body()}")
                     println("Response: ${response.raw()}")
+                    _postData.value = response.body()
                     // Process the response data here
                     println("Success")
                 }

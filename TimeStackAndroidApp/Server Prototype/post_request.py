@@ -1,6 +1,6 @@
 import requests
 
-webhook_url = 'http://localhost:8000/webhook'  # Replace with your server's URL
+webhook_url = ''  # Replace with your server's URL
 
 payload = {
     'message': 'Some action happened',
