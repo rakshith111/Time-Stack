@@ -11,7 +11,6 @@ def socketio_route():
     # handle the WebSocket connection here
     pass
 
-
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
