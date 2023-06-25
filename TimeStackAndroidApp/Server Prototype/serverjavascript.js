@@ -5,14 +5,12 @@ const app = express();
 var PORT = 8000;
 const server = app.listen(PORT); //tells to host server on localhost:3000
 
-
 //Playing variables:
 app.use(express.static('public')); //show static files in 'public' directory
 console.log('Server is running');
 const io = socket(server);
 
 var count = 0;
-
 
 //Socket.io Connection------------------
 io.on('connection', (socket) => {
