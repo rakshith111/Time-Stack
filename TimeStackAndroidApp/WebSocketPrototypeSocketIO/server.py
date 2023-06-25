@@ -1,23 +1,23 @@
+import eventlet
 import socketio
 
-# create a Socket.IO server
 sio = socketio.Server()
-
-# wrap with a WSGI application
 app = socketio.WSGIApp(sio)
-  # a Flask, Django, etc. application
-app = socketio.WSGIApp(sio, app)
 
-static_files = {
-    '/': {'filename': 'latency.html', 'content_type': 'text/plain'},
-}
-
-sio = socketio.Server()
-app = socketio.WSGIApp(sio, static_files=static_files)
 @sio.event
-def my_event(sid, data):
-    pass
+def connect(sid, environ):
+    sio.emit('my_message', {'data': 'Server response 1'}, room=sid)
+    print('connect', sid)
 
-@sio.on('my custom event')
-def another_event(sid, data):
-    pass
+@sio.event
+def my_message(sid, data):
+    print('message', data)
+    if data['data'] == 'Hello Server':
+        sio.emit('my_message', {'data': 'Server response 2'}, room=sid)
+
+@sio.event
+def disconnect(sid):
+    print('disconnect', sid)
+
+if __name__ == '__main__':
+    eventlet.wsgi.server(eventlet.listen(('192.168.0.108', 8000)), app)
