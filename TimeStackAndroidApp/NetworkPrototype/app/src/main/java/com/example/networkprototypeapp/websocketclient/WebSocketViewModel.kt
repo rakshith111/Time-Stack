@@ -1,4 +1,4 @@
-package com.example.networkprototypeapp.viewmodel
+package com.example.networkprototypeapp.websocketclient
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

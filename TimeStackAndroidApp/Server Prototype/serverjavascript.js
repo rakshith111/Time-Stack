@@ -14,12 +14,15 @@ var count = 0;
 
 //Socket.io Connection------------------
 io.on('connection', (socket) => {
-
     console.log("New socket connection: " + socket.id)
 
     socket.on('counter', () => {
         count++;
         console.log(count)
         io.emit('counter', count);
+    })
+
+    socket.on('hello', () => {
+        console.log("hello");
     })
 })

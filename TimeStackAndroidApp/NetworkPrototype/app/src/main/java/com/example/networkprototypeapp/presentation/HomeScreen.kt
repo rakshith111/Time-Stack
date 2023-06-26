@@ -19,11 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.networkprototypeapp.httpclient.WebSocketClientNew
 import com.example.networkprototypeapp.viewmodel.ApiViewModel
 import io.socket.client.Socket
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,11 +80,19 @@ fun HomeScreen(
                         counter = args[0] as Int
                     }
                 }
+                mSocket.emit("hello")
             }, modifier = Modifier.padding(top = 20.dp)) {
                 Text(text = "Increment Counter")
             }
 
             Text(text = counter.toString(), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top =20.dp))
+
+            Button(onClick = { WebSocketClientNew().connect() }) {
+                Text(text = "Connect")
+            }
+            Button(onClick = { WebSocketClientNew().hello() }) {
+                Text(text = "Hello")
+            }
         }
     }
 }
