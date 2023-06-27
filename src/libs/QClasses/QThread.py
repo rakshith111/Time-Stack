@@ -11,7 +11,6 @@ from libs._base_logger import logger
 from libs.color import Color
 
 
-
 class TimerThread(QThread):
     '''   
     Thread class that handles the timer for the progress bar.
@@ -56,7 +55,7 @@ class TimerThread(QThread):
             self.current_value = value
             self._is_running = False
 
-            logger.info(f"{Color.YELLOW} Pausing {self.name} value@{self.current_value} Is running?={self._is_running} {Color.ENDC}")
+            logger.info(f"{Color.YELLOW} Pausing {self.name} | value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
 
     def resume(self) -> None:
         '''
@@ -69,21 +68,8 @@ class TimerThread(QThread):
             self._is_running = True
             # logger.info(
             #     f"Resuming  {self.name} value@{self.current_value} Is running?={self._is_running}")
-            logger.info(f"{Color.YELLOW} Resuming {self.name} value@{self.current_value} Is running?={self._is_running} {Color.ENDC}")
-    # def run(self) -> None:
-    #     '''
-    #     Private method that runs the thread. This function is called when the start() method is invoked, it will subtract 1 from the current_value attribute.
-    #     It will emit the current_value attribute to the progress bar. So the progress bar will update.
-    #     If the current_value attribute is less than or equal to 0, it will set the current_value attribute to 0 and set the _is_running attribute to False to stop the thread.
-    #     '''
-        
-    #     while self.current_value > 0:
-    #         if self._is_running:
-    #             self.current_value -= 1
-    #             self._signal.emit(self.current_value)
-    #             time.sleep(1)
-    #         else:
-    #             time.sleep(1)
+            logger.info(f"{Color.YELLOW} Resuming {self.name} | value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
+            
     def run(self):
         '''
         Private method that runs the thread. This function is called when the start() method is invoked, it will subtract 1 from the current_value attribute.

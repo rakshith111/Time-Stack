@@ -42,13 +42,13 @@ class QTimeStackMain(QtWidgets.QMainWindow):
         self.stack_space.close()
         self.stack_generator.close()
         a0.accept()
+        
     def toggle_theme(self)-> None:
         '''
         Toggles the theme of the application.
         
         '''
         if self.current_theme == "dark":
-            #self.setStyleSheet("QMainWindow::titleBar { background-color: black; }")
             logger.info(f"{Color.GREEN}Current theme is dark switching to light {Color.ENDC}")
             light_palette = QtGui.QPalette()
             light_palette.setColor(QtGui.QPalette.ColorRole.Window, QtGui.QColor(240, 240, 240))
@@ -86,8 +86,8 @@ class QTimeStackMain(QtWidgets.QMainWindow):
 
             
         elif self.current_theme == "light":
-            #self.setStyleSheet("QMainWindow::titleBar { background-color: light; }")
-            logger.info(f"{Color.GREEN}Current theme is light switching to light {Color.ENDC}")
+           
+            logger.info(f"{Color.GREEN}Current theme is light switching to dark {Color.ENDC}")
             dark_palette = QtGui.QPalette()
             dark_palette.setColor(QtGui.QPalette.ColorRole.Window, QtGui.QColor(53, 53, 53))
             dark_palette.setColor(QtGui.QPalette.ColorRole.WindowText, QtCore.Qt.GlobalColor.white)

@@ -1,12 +1,11 @@
 import datetime
 import sys
-import random
 
 import PyQt6.QtCore as QtCore
 from PyQt6.QtCore import Qt
 from PyQt6 import QtWidgets
-from PyQt6.QtGui import QCloseEvent, QIcon
-from PyQt6.QtWidgets import QMessageBox, QVBoxLayout, QScrollBar
+from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QMessageBox, QVBoxLayout
 from os import path
 
 from libs._base_logger import logger
@@ -33,7 +32,7 @@ class StackSpace(QtWidgets.QWidget):
             parent (optional):  Defaults to None.
         '''
         
-        super(StackSpace, self).__init__(parent=parent)
+        super(StackSpace, self).__init__(parent=parent)                
         self.stack_space_ui = Ui_stack_space()
         self.setWindowTitle('Stack Space')
         self.setWindowIcon(QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'window_icon_wob_s.png')))
@@ -69,18 +68,6 @@ class StackSpace(QtWidgets.QWidget):
         self.stack_space_ui.pause_btn.clicked.connect(self.manager.pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
    
-    # def closeEvent(self, event: QCloseEvent) -> None:
-    #     '''
-    #     Overrides the closeEvent function to hide the window instead of closing it.
-
-    #     Args:
-    #         event (QCloseEvent): Close event object
-    #     '''
-    #     # Override the closeEvent and hide the window instead of closing it
-    #     event.ignore()
-    #     logger.info(f"{Color.HEADER}Stack Space closed.{Color.ENDC}")
-    #     self.hide()
-
     def add_stack_activity(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
         '''      
         This function is called when the create button is clicked.
@@ -93,15 +80,13 @@ class StackSpace(QtWidgets.QWidget):
             dt_start_time (datetime.time): Start time of the stack
             dt_stop_time (datetime.time): End time of the stack
         '''
-        # logger.debug(
-        #     f"{Color.GREEN} Scrollbar Status  is  {self.vertical_scrollbar.isVisible()}{Color.ENDC}"
-        # )
+
         delta = dt_stop_time-dt_start_time
         total_seconds = int(delta.total_seconds())
-        rand = random.randint(1, 100)
-        self.manager.add_stack(f"{name}_{rand}", total_seconds)
+        self.manager.add_stack(name=f"{name}",start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
         logger.info(
             f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
+        
 
 class StackGenerator(QtWidgets.QWidget):
 

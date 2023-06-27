@@ -46,7 +46,19 @@ def randomize_progress_bar_colors(qss_content: str) -> str:
 
     return qss_content
 
+def get_name_from_text(text: str) -> str:
+    '''
+    Gets the name from the text.
 
+    Args:
+        text (str): Input text.
+
+    Returns:
+        str: Cleaned text for label.
+    '''     
+    temp=text.split("_")
+    temp.pop()
+    return " ".join(temp)
 
 class StackActivityBar(QProgressBar):
     '''
@@ -79,10 +91,11 @@ class StackActivityBar(QProgressBar):
         self.setOrientation(QtCore.Qt.Orientation.Vertical)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.setTextVisible(True)
-        self.setFormat(f"{name} task @ %p%")
-        self.setRange(0, progress_end)
-        self.setValue(progress_end)
         self.setObjectName(f"{name}")
+        name=get_name_from_text(name)
+        self.setFormat(f"{name} |  %p%")
+        self.setRange(0, progress_end)
+        self.setValue(progress_end)        
         # Randomize the colors in the QSS content
         self.setStyleSheet(randomize_progress_bar_colors(QSS_FILE))
 
@@ -157,4 +170,4 @@ class StackActivityBar(QProgressBar):
         super().setValue(value)
         if value == 0:
             self._remove_signal.emit()
-            logger.info(f"{Color.GREEN}Progress bar {self.objectName()} has been removed due to timer expire.{Color.ENDC}")
+            logger.info(f"{Color.MAGENTA} Progress bar {self.objectName()} has been removed.{Color.ENDC}")

@@ -1,7 +1,12 @@
-import random
+import os
+import re
 import sys
+import datetime
+import sqlite3
+import random
 
 from PyQt6.QtWidgets import *
+from PyQt6.QtCore import Qt
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
@@ -10,8 +15,9 @@ from libs.color import Color
 from libs.QClasses.QDragWidget import DragWidget
 from libs.QClasses.QProgressBar import StackActivityBar
 from libs.QClasses.QScrollArea import DragScrollArea
-from PyQt6.QtCore import Qt
-from PyQt6 import QtCore
+
+MONTH_YEAR = datetime.datetime.now().strftime("%B_%Y")
+SAVE_FILE=os.path.join(BASE_DIR, 'user_data', f'{MONTH_YEAR}_stack.db')
 class StackManager():
     '''
     StackManager class manages the stack of progress bars.
@@ -44,8 +50,82 @@ class StackManager():
         self.warningmsg.setStandardButtons(QMessageBox.StandardButton.Close)
         # Align items to horizontal center
         self.layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.check_db()
+        # self.load_stack()
+        # self.print_stack()
 
-    def add_stack(self, name: str, progress_end: int) -> StackActivityBar:
+    def generate_random_number(self)->int:
+        '''
+        This function generates a random number between 1 and 10000.
+
+        Returns:
+            int:A random number between 1 and 10000. 
+        '''        
+        rand_no = random.randint(1, 10000)
+        return rand_no
+
+    def clean_input_name(self,name:str)->str:
+        '''
+        A Clean function to clean the name of the activity.
+
+        Args:
+            name (str): A string that is to be cleaned.
+
+        Returns:
+            str: A cleaned string.
+        ''' 
+        cleaned_name = name.strip()
+        cleaned_name = re.sub(r'[^a-zA-Z0-9_]', '_', cleaned_name)
+        cleaned_name = cleaned_name[:50]
+        return cleaned_name
+    
+    def connect_db(self)->tuple:
+        '''
+        This function connects to the database and returns the connection and cursor objects.
+
+        Returns:
+            tuple: (connection, cursor)
+        '''              
+        connection = sqlite3.connect(SAVE_FILE)
+        cursor = connection.cursor()
+        return connection, cursor
+    
+    def disconnect_db(self,connection:sqlite3.Connection,cursor:sqlite3.Cursor)->None:
+        '''
+        This function disconnects from the database.
+
+        Args:
+            connection (sqlite3.Connection): A connection object to the database.
+            cursor (sqlite3.Cursor): A cursor object to the database.
+        '''        
+        connection.commit()
+        connection.close()         
+
+    def check_db(self)->None:
+        '''
+        This function checks if the database file exists. If it does not exist, it creates a new database file.
+        '''        
+        logger.info(f'{Color.GREEN}Checking if {SAVE_FILE} exists{Color.ENDC}')
+        if not os.path.exists(SAVE_FILE):
+            logger.info(f'{Color.RED}File {SAVE_FILE} does not exist{Color.ENDC}')
+            logger.info(f'{Color.GREEN}Creating file {SAVE_FILE}{Color.ENDC}')
+            os.makedirs(os.path.join(BASE_DIR, 'user_data'), exist_ok=True)
+            connection,cursor=self.connect_db()
+            cursor.execute(f'''CREATE TABLE {MONTH_YEAR}_stack
+                            (activity_name TEXT PRIMARY KEY NOT NULL,
+                            activity_mode TEXT NOT NULL,
+                            activity_start DATETIME  NOT NULL,
+                            activity_stop DATETIME  NOT NULL,
+                            activity_completed INT NOT NULL,
+                            position INT NOT NULL,
+                            activity_latest_delta INT NOT NULL);''')
+            self.disconnect_db(connection,cursor)
+        else:
+            logger.info(f'{Color.GREEN}File {SAVE_FILE} exists{Color.ENDC}')
+
+
+    def add_stack(self, name: str,start_time:datetime.time,stop_time:datetime.time, max_size: int) -> StackActivityBar:
+        
         '''
         This function creates a new progress bar and adds it to the stack. Also the signal is connected to the remove_top_stack function.
         The progress bar is added to the layout and the stack_items list.
@@ -53,17 +133,35 @@ class StackManager():
 
         Args:
             name (str): The name of the progress bar.
-            progress_end (int):  The max size of the progress bar.
+            start_time (datetime.time): Start time of the progress bar.
+            stop_time (datetime.time): Stop time of the progress bar.
+            max_size (int):  The max size of the progress bar.
 
         Returns:
             StackActivityBar (StackActivityBar): The progress bar that is currently being added to the stack.
 
         '''
-        self.stack_bar = StackActivityBar(f"{name}", progress_end)
+        connection,cursor=self.connect_db()
+        name=self.clean_input_name(name)
+        name=f'{name}_{self.generate_random_number()}'
+        my_stack_items=cursor.execute("SELECT * FROM {}_stack WHERE activity_name=?".format(MONTH_YEAR), (name,)).fetchall()
+        while len(my_stack_items)!=0:
+            name=f'{name}_{self.generate_random_number()}'
+            my_stack_items=cursor.execute("SELECT * FROM {}_stack WHERE activity_name=?".format(MONTH_YEAR), (name,)).fetchall()
+            if len(my_stack_items)==0:
+                break
+        self.stack_bar = StackActivityBar(f"{name}", max_size)
         self.stack_bar._remove_signal.connect(self.pop_top_stack)
         self.layout.addWidget(self.stack_bar)
+        
         if self.stack_top_item is None:
             self.stack_top_item = self.stack_bar
+            connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?)",
+                   (name, 'casual', start_time, stop_time, 0, 0, max_size))
+        else:
+            connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?)",
+                     (name, 'casual', start_time, stop_time, 0, len(self.stack_items), max_size))
+        self.disconnect_db(connection,cursor)
         self.stack_items.append(self.stack_bar)
         return self.stack_bar
 
@@ -83,27 +181,45 @@ class StackManager():
             logger.info(f"{Color.RED}No stack bar in the stack{Color.ENDC}")
             self.warningmsg.setText("No stack bar in the stack")
             self.warningmsg.exec()
+
     def resume_thread(self) -> None:
         '''
         Resumes the thread of the top progress bar in the stack.
         '''
         if self.stack_top_item is not None:
-            logger.info(f"{Color.GREEN}Resuming Thread - {self.stack_top_item.objectName()}{Color.ENDC}")
             self.stack_top_item._thread.resume()
 
     def pause_thread(self) -> None:
         if self.stack_top_item is not None:
             if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value!=self.stack_top_item._thread.maxsize:
-                logger.info(f"{Color.RED}Pausing Thread - {self.stack_top_item.objectName()}{Color.ENDC}")
                 self.stack_top_item._thread.pause(self.stack_top_item.value())
-    
+                connection,cursor=self.connect_db()
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_latest_delta=? WHERE activity_name=?",
+                   (self.stack_top_item.value(), self.stack_top_item.objectName()))   
+                self.disconnect_db(connection,cursor)
+                   
+
     def pop_top_stack(self) -> None:
         '''
         Removes the top progress bar in the stack.
         The progress bar is removed from the layout and the stack_items list.
         The stack_top_item is set to the progress bar that is currently at the top of the stack.
         '''
+     
         if self.stack_top_item is not None:
+            logger.info(f"{Color.RED}Removing Thread - {self.stack_top_item.objectName()}{Color.ENDC}")
+            connection,cursor=self.connect_db()
+            # If the activity is not completed then set the activity completed to -1
+            if self.stack_top_item._thread.current_value!=0:
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_completed=?,position=? WHERE activity_name=?",
+                     (-1,-1, self.stack_top_item.objectName()))
+                logger.info(f"{Color.YELLOW}Activity forcefully removed - {self.stack_top_item.objectName()}{Color.ENDC}")
+            # If the activity is completed then set the activity completed to 1
+            elif self.stack_top_item._thread.current_value==0:
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_completed=?,activity_latest_delta=?,position=? WHERE activity_name=?",
+                     (1,0,-1,self.stack_top_item.objectName()))
+                logger.info(f"{Color.YELLOW}Activity completed - {self.stack_top_item.objectName()}{Color.ENDC}")
+
             self.layout.removeWidget(self.stack_top_item)
             self.stack_top_item.deleteLater()
             self.stack_top_item._thread.terminate()
@@ -112,6 +228,11 @@ class StackManager():
                 self.stack_top_item = self.stack_items[0]
             else:
                 self.stack_top_item = None
+            
+            for index,stack_item in enumerate(self.stack_items):
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET position=? WHERE activity_name=?",
+                     (index, stack_item.objectName()))
+            self.disconnect_db(connection,cursor)
         else:
             self.warningmsg.setText("No stack bar in the stack")
             self.warningmsg.exec()
@@ -132,8 +253,13 @@ class StackManager():
             self.stack_items=new_order
             self.stack_top_item = self.stack_items[0]
             logger.info(f"{Color.GREEN}Updating Stack Top Item - {self.stack_top_item.objectName()}{Color.ENDC}")
-
-
+            connection,cursor=self.connect_db()
+            # Update the position of the stack items in the database
+            for index,stack_item in enumerate(self.stack_items):
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET position=? WHERE activity_name=?",
+                     (index, stack_item.objectName()))
+            self.disconnect_db(connection,cursor)
+            
     def printer(self):
         '''
         This function is used for debugging purposes.
@@ -221,7 +347,12 @@ class Stack(QWidget):
         Adds a progress bar to the stack.
         '''
         rand = random.randint(1, 100)
-        self.manager.add_stack(f"mygenerictask_{rand}", self.progress_end)
+        # date.time object for the start time of the progress bar
+        start_time = datetime.datetime.now()
+        # date.time object for the end time of the progress bar
+        end_time = start_time + datetime.timedelta(seconds=self.progress_end)
+ 
+        self.manager.add_stack(f"mygenerictask_{rand}", start_time=start_time, end_time=end_time, max_size=self.progress_end)
 
     def start_thread(self):
         '''
