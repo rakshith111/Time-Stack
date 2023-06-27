@@ -9,6 +9,7 @@ __pycache__
 Android-app
 *.iml
 .gradle
+*.db
 .idea
 /local.properties
 /.idea/caches
