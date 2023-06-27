@@ -1,5 +1,6 @@
 package com.example.timestackarchitecture.casualmode.service
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
@@ -47,6 +48,7 @@ class TimerService : Service(){
         return START_STICKY
     }
 
+    @SuppressLint("MissingPermission")
     private fun createNotification(): Notification {
 
         val notificationIntent = Intent(this, MainActivity::class.java)
@@ -84,6 +86,7 @@ class TimerService : Service(){
         return null
     }
 
+    @SuppressLint("MissingPermission")
     fun updateNotificationContent(context: Context) {
         val notificationIntent = Intent(context, MainActivity::class.java)
         notificationIntent.action = "ALARM_TRIGGERED"
