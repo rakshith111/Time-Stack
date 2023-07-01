@@ -61,17 +61,10 @@ def get_name_from_text(text: str) -> str:
     return " ".join(temp)
 
 class StackActivityBar(QProgressBar):
-    '''
-    StackActivityBar class modifies the QProgressBar class to add a context menu and a thread to handle the timer.
-
-    Args:
-        QProgressBar (_type_): Inherits from QProgressBar class.
-    '''
 
     _remove_signal = pyqtSignal()
 
-    def __init__(self, name: str, progress_end: int, parent=None) -> None:
-        
+    def __init__(self, name: str, progress_bar_size: int,set_time:int=0, parent=None) -> None:
         '''
         The QProgressBar class is initialized with the following parameters:
             - parent: The parent widget.
@@ -82,10 +75,10 @@ class StackActivityBar(QProgressBar):
 
         Args:
             name (str): The name of the progress bar.
-            progress_end (int): The max size of the progress bar.
-            parent (optional):  Defaults to None.
-
-        '''
+            progress_bar_size (int): The max size of the progress bar.
+            set_time (int, optional):  Sets previous progress, only used for the progress bar that is created from the saved data. Defaults to 0.
+            parent (_type_, optional):  Defaults to None.
+        '''        
         super(StackActivityBar, self).__init__(parent)
         self.setFixedSize(180, 250)
         self.setOrientation(QtCore.Qt.Orientation.Vertical)
@@ -94,13 +87,16 @@ class StackActivityBar(QProgressBar):
         self.setObjectName(f"{name}")
         name=get_name_from_text(name)
         self.setFormat(f"{name} |  %p%")
-        self.setRange(0, progress_end)
-        self.setValue(progress_end)        
+        self.setRange(0, progress_bar_size)
+        if set_time:
+            self.setValue(set_time)
+        else:
+            self.setValue(progress_bar_size)        
         # Randomize the colors in the QSS content
         self.setStyleSheet(randomize_progress_bar_colors(QSS_FILE))
 
-        self._thread = TimerThread(progress_end, f"Thread_{name}")
-        self._thread._signal.connect(self.setValue)
+        self._thread = TimerThread(progress_bar_size, f"Thread_{name}")
+        self._thread._set_progress_signal.connect(self.setValue)
         self._remove_signal.connect(self.deleteLater)
 
     def closeEvent(self, event: QEvent) -> None:
