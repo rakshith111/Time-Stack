@@ -12,15 +12,11 @@ from libs.color import Color
 
 
 class DragScrollArea(QScrollArea):
-    '''
-    DragScrollArea class inherits from QScrollArea class and adds the ability to scroll the content by dragging the mouse.
-
-    Args:
-        QScrollArea (_type_): Inherits from QScrollArea class.
-    '''    
+ 
     def __init__(self,):
         '''
-        Initializes the class.
+        DragScrollArea class inherits from QScrollArea class and adds the ability to scroll the content by dragging the mouse.
+        Inherits from QScrollArea class.
         '''        
         super().__init__()
         self.setAcceptDrops(True)

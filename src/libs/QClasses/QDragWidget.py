@@ -12,21 +12,14 @@ from libs.color import Color
 
 
 class DragWidget(QWidget):
-    '''
-    Class for the drag widget that is used to drag and drop the progress bars.
 
-    Args:
-        QWidget (QWidget): Inherits from QWidget.
+    _order_changed_singal = pyqtSignal(list)
 
-    Returns:
-       None
-    '''    
-
-    orderChanged = pyqtSignal(list)
-
-    def __init__(self ):
+    def __init__(self):
         '''
+        Class for the drag widget that is used to drag and drop the progress bars.
         Initializes the class and sets the layout to a vertical layout.
+        _order_changed_singal is a signal that is emitted when the order of the progress bars is changed.
         '''        
         super().__init__()
         self.setAcceptDrops(True)
@@ -157,12 +150,12 @@ class DragWidget(QWidget):
                 # Dragged item should be inserted at the top position
                 logger.debug(f"{Color.GREEN} Dropped at the top position{Color.ENDC}")
                 self.drag_layout.insertWidget(0, current_widget)
-                self.orderChanged.emit(self.get_item_data())
+                self._order_changed_singal.emit(self.get_item_data())
             elif target_position.y() >= last_widget.y() + last_widget.size().height() // 2:
                 # Dragged item should be inserted at the bottom position
                 logger.debug(f"{Color.GREEN} Dropped at the bottom position{Color.ENDC}")
                 self.drag_layout.insertWidget(self.drag_layout.count() - 1, current_widget)
-                self.orderChanged.emit(self.get_item_data())
+                self._order_changed_singal.emit(self.get_item_data())
             else:
                 for n in range(self.drag_layout.count()):
                     # Get the widget at each index in turn.
@@ -178,7 +171,7 @@ class DragWidget(QWidget):
                         else:
                             logger.debug(f"{Color.GREEN} Dropping from above {n-1=}{Color.ENDC}")
                             self.drag_layout.insertWidget(n-1, current_widget)
-                        self.orderChanged.emit(self.get_item_data())
+                        self._order_changed_singal.emit(self.get_item_data())
                         # Update the top in manager [here]
                         break
         except Exception as E:

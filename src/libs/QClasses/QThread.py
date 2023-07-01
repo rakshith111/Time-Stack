@@ -12,19 +12,15 @@ from libs.color import Color
 
 
 class TimerThread(QThread):
-    '''   
-    Thread class that handles the timer for the progress bar.
 
-    Args:
-        QThread (_type_): Inherits from QThread class.
-    '''
-
-    _signal = pyqtSignal(int)
+    _set_progress_signal = pyqtSignal(int)
 
     def __init__(self, maxsize: int, name: str) -> None:
         '''
-        Initializes the thread class. Sets the name of the thread, the maxsize of the progress bar, and the current value of the progress bar.
+        Thread class that handles the timer for the progress bar.
+        Inherits from QThread class. Sets the name of the thread, the maxsize of the progress bar, and the current value of the progress bar.
         _is_running: A boolean that determines if the thread is running.
+        _set_progress_signal: A signal that emits the current value of the progress bar.
         currentvalue: The current value of the progress bar. Starts at maxsize. Stores the value when paused and resumes from that value.
 
         Args:
@@ -64,7 +60,7 @@ class TimerThread(QThread):
         After that, it will set the _is_running attribute to True to start the thread.
         '''
         if not self._is_running:
-            self._signal.emit(self.current_value)
+            self._set_progress_signal.emit(self.current_value)
             self._is_running = True
             # logger.info(
             #     f"Resuming  {self.name} value@{self.current_value} Is running?={self._is_running}")
@@ -80,7 +76,7 @@ class TimerThread(QThread):
         while self.current_value > 0:
             if self._is_running:
                 self.current_value -= 1
-                self._signal.emit(self.current_value)
+                self._set_progress_signal.emit(self.current_value)
                 self.sleep(1)
             else:
                 self.sleep(1)

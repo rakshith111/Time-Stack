@@ -61,11 +61,11 @@ class StackSpace(QtWidgets.QWidget):
 
         # Create StackManager and pass the layout of DragWidget
         self.manager = StackManager(self.drag_widget.layout())
-        self.drag_widget.orderChanged.connect(self.manager.update_top_item)
+        self.drag_widget._order_changed_singal.connect(self.manager.update_top_item)
 
         # Connect button signals to respective slots
-        self.stack_space_ui.start_btn.clicked.connect(self.manager.start_thread)
-        self.stack_space_ui.pause_btn.clicked.connect(self.manager.pause_thread)
+        self.stack_space_ui.start_btn.clicked.connect(self.manager._start_thread)
+        self.stack_space_ui.pause_btn.clicked.connect(self.manager._pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
    
     def add_stack_activity(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
