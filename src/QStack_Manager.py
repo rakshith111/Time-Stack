@@ -289,18 +289,18 @@ class StackManager():
             logger.info(f"{Color.RED}------------------{Color.ENDC}")
             logger.info(f"{Color.RED}------------------{Color.ENDC}")
             logger.info(f"\t {Color.HEADER}\nStack STATS\n{Color.ENDC}")
-            logger.info(f"{Color.BLUE} Stack size - {len(self.stack_items)}{Color.ENDC}")
+            logger.info(f"{Color.CBLUE} Stack size - {len(self.stack_items)}{Color.ENDC}")
             logger.info(f"{Color.GREEN} Stack top item - {self.stack_top_item.objectName()}{Color.ENDC}")
             logger.info(f"{Color.RED} Stack ITMES{Color.ENDC}")
             logger.info(f"{Color.RED}------------------{Color.ENDC}")
 
             for item in self.stack_items:
 
-                logger.info(f"{Color.BLUE} Item - {item.objectName()}{Color.ENDC}")
-                logger.info(f"{Color.BLUE} Thread - {item._thread.objectName()}{Color.ENDC}")
-                logger.info(f"{Color.BLUE} Thread maxsize - {item._thread.maxsize}{Color.ENDC}")
-                logger.info(f"{Color.BLUE} Thread value - {item._thread.current_value}{Color.ENDC}")
-                logger.info(f"{Color.BLUE} Thread is running - {item._thread.isRunning()}{Color.ENDC}")
+                logger.info(f"{Color.CBLUE} Item - {item.objectName()}{Color.ENDC}")
+                logger.info(f"{Color.CBLUE} Thread - {item._thread.objectName()}{Color.ENDC}")
+                logger.info(f"{Color.CBLUE} Thread maxsize - {item._thread.maxsize}{Color.ENDC}")
+                logger.info(f"{Color.CBLUE} Thread value - {item._thread.current_value}{Color.ENDC}")
+                logger.info(f"{Color.CBLUE} Thread is running - {item._thread.isRunning()}{Color.ENDC}")
                 logger.info(f"{Color.GREEN} ------------------------{Color.ENDC}")
 
 class Stack(QWidget):

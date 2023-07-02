@@ -27,6 +27,7 @@ class QTimeStackMain(QtWidgets.QMainWindow):
    
         self.current_theme = None
         self.close_to_tray=True
+        self.notifications_enabled = True
         self.settings_window = SettingsWindow(None,self) 
         self.main_menu_ui.settings_m.clicked.connect(self.settings_window.show)
         QtWidgets.QApplication.setStyle('Fusion')
@@ -41,6 +42,7 @@ class QTimeStackMain(QtWidgets.QMainWindow):
         self.stack_space.stack_space_ui.add_btn.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.add_activity_m.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.view_stack_m.clicked.connect(self.stack_space.show)
+
         # Create the system tray icon
         self.tray_icon = QSystemTrayIcon(self)     
         self.tray_menu = QMenu(self)
@@ -111,7 +113,11 @@ class QTimeStackMain(QtWidgets.QMainWindow):
             dark_palette.setColor(QtGui.QPalette.ColorRole.HighlightedText, QtCore.Qt.GlobalColor.black)
             self.setPalette(dark_palette)
             self.settings_window.settings_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'sun.png')))
-            self.settings_window.settings_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'tray_white.png')))
+            self.settings_window.settings_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'to_tray_white.png')))
+            if self.settings_window.toggle_notification_btn.isChecked():
+                self.settings_window.settings_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'active_notif_white.png')))
+            else:
+                self.settings_window.settings_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'inactive_notif_white.png')))
             self.main_menu_ui.logo_label.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'time_stack_white_small.png')))
             self.main_menu_ui.view_stack_m.setIcon(
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_white.png')))
@@ -119,6 +125,7 @@ class QTimeStackMain(QtWidgets.QMainWindow):
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'settings_white.png')))
             self.main_menu_ui.add_activity_m.setIcon(
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'add_white.png')))
+            self.settings_window.settings_ui.theme_icon_placeholder.alignment=QtCore.Qt.AlignmentFlag.AlignLeft
 
        
             
@@ -127,9 +134,9 @@ class QTimeStackMain(QtWidgets.QMainWindow):
                     child.setPalette(dark_palette)
                 except Exception as E:
                     logger.error(f"{Color.RED}Error setting palette for {child} {E}{Color.ENDC}")
-            logger.debug(f"{Color.BLUE} Updating toggle colors {Color.ENDC}")
+            logger.debug(f"{Color.CBLUE} Updating toggle colors {Color.ENDC}")
 
-            for toggle in [self.settings_window.toggle_close_to_tray_btn, self.settings_window.toggle_theme_btn]: #self.settings_window.toggle_notification_btn
+            for toggle in [self.settings_window.toggle_close_to_tray_btn, self.settings_window.toggle_theme_btn,self.settings_window.toggle_notification_btn]: 
            
                 toggle.setBarColor(Qt.GlobalColor.darkGray)
                 toggle.setHandleColor(Qt.GlobalColor.lightGray)
@@ -163,7 +170,12 @@ class QTimeStackMain(QtWidgets.QMainWindow):
             light_palette.setColor(QtGui.QPalette.ColorRole.HighlightedText, QtCore.Qt.GlobalColor.black)
             self.setPalette(light_palette)
             self.settings_window.settings_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'moon.png')))
-            self.settings_window.settings_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'tray_black.png')))
+            self.settings_window.settings_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'to_tray_black.png')))
+            if self.settings_window.toggle_notification_btn.isChecked():
+                self.settings_window.settings_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'active_notif_black.png')))
+            else:
+                self.settings_window.settings_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'inactive_notif_black.png')))
+            
             self.main_menu_ui.logo_label.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'time_stack_white_black.png')))
             self.main_menu_ui.view_stack_m.setIcon(
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'hourglass_black.png')))
@@ -175,12 +187,12 @@ class QTimeStackMain(QtWidgets.QMainWindow):
            
             for child in [self.stack_space, self.stack_generator, self.settings_window]:
                 try:
-                    child.setPalette(light_palette)
+                    child.setPalette(light_palette) 
                 except Exception as E:
                     logger.error(f"{Color.RED}Error setting palette for {child} {E}{Color.ENDC}")
-            logger.debug(f"{Color.BLUE} Updating toggle colors {Color.ENDC}")
+            logger.debug(f"{Color.CBLUE} Updating toggle colors {Color.ENDC}")
           
-            for toggle in [self.settings_window.toggle_close_to_tray_btn, self.settings_window.toggle_theme_btn]: #self.settings_window.toggle_notification_btn
+            for toggle in [self.settings_window.toggle_close_to_tray_btn, self.settings_window.toggle_theme_btn,self.settings_window.toggle_notification_btn]: 
             
                 toggle.setBarColor(Qt.GlobalColor.lightGray)
                 toggle.setHandleColor(Qt.GlobalColor.white)

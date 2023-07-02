@@ -1,18 +1,20 @@
 import json
 from os import path
 
-from PyQt6 import QtGui, QtWidgets, QtCore
-from PyQt6.QtGui import QCloseEvent,QAction
-from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QWidget
+from PyQt6 import QtGui, QtWidgets
+from PyQt6.QtGui import QCloseEvent
+
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
 from libs.color import Color
 from ui_generated.settings import Ui_settings
 from libs.QClasses.QToggle import AnimatedToggle
+
 DEFAULT_SETTINGS = {
     "theme": "dark",
-    "close_to_tray": True
+    "close_to_tray": True,
+    "notification": True
 }
 SETTINGS=path.join(BASE_DIR,"user_data" ,"settings.json")
 
@@ -24,13 +26,13 @@ class SettingsManager:
     def save_settings(self):
         with open(self.filename, "w") as file:
             json.dump(self.settings, file)
-        logger.info(f'{Color.GREEN}Settings saved{Color.ENDC}')
+        logger.info(f'{Color.CVIOLET}Settings saved{Color.ENDC}')
 
     def load_settings(self):
         if path.exists(self.filename):
             with open(self.filename, "r") as file:
                 self.settings = json.load(file)
-            logger.info(f'{Color.GREEN}Settings loaded{Color.ENDC}')
+            logger.info(f'{Color.CVIOLET}Settings loaded{Color.ENDC}')
         else:
             logger.info(f'{Color.RED}Settings file not found, creating new one{Color.ENDC}')
             self.save_settings()
@@ -49,11 +51,12 @@ class SettingsWindow(QtWidgets.QWidget):
         self.local_settings = SettingsManager(SETTINGS)
         self.local_settings.load_settings()
         self.settings_ui.tab_widget.setTabPosition(QtWidgets.QTabWidget.TabPosition.West)
-        logger.info(f'{Color.GREEN}Setting up local settings{Color.ENDC}')
+        logger.info(f'{Color.CVIOLET}Setting up local settings{Color.ENDC}')
         # Theme btn
         self.toggle_theme_btn=AnimatedToggle()
         self.toggle_theme_btn.setFixedSize(self.toggle_theme_btn.sizeHint())
         self.toggle_theme_btn.setObjectName("toggle_theme_btn")
+        
         
         self.settings_ui.main_app_layout.replaceWidget(self.settings_ui.theme_toggle_placeholder,self.toggle_theme_btn)
         self.settings_ui.theme_toggle_placeholder.deleteLater()
@@ -73,7 +76,18 @@ class SettingsWindow(QtWidgets.QWidget):
         self.manipulate_window.close_to_tray = self.local_settings.settings["close_to_tray"]
         # change bool value of close_to_tray on state change
         self.toggle_close_to_tray_btn.stateChanged.connect(self.toggle_close_to_tray_update)
-        self.toggle_close_to_tray_btn.bar_color="#44FFB000"
+
+        # Notification btn
+        self.toggle_notification_btn=AnimatedToggle()
+        self.toggle_notification_btn.setFixedSize(self.toggle_notification_btn.sizeHint())
+        self.toggle_notification_btn.setObjectName("toggle_notification_btn")
+
+        self.settings_ui.main_app_layout.replaceWidget(self.settings_ui.notification_placeholder,self.toggle_notification_btn)
+        self.settings_ui.notification_placeholder.deleteLater()
+        self.toggle_notification_btn.setChecked(self.local_settings.settings["notification"])
+        self.manipulate_window.notifications_enabled = self.local_settings.settings["notification"]
+        # change bool value of notification on state change
+        self.toggle_notification_btn.stateChanged.connect(self.toggle_notification_update)
        
         
 
@@ -81,7 +95,7 @@ class SettingsWindow(QtWidgets.QWidget):
        
         self.local_settings.settings["close_to_tray"] = self.toggle_close_to_tray_btn.isChecked()
         self.manipulate_window.close_to_tray =self.local_settings.settings["close_to_tray"]
-        logger.info(f'{Color.GREEN}Close to tray set to {self.local_settings.settings["close_to_tray"]}{Color.ENDC}')
+        logger.info(f'{Color.CVIOLET}Close to tray set to {self.local_settings.settings["close_to_tray"]}{Color.ENDC}')
         self.local_settings.save_settings()
 
     def update_theme(self):
@@ -89,9 +103,16 @@ class SettingsWindow(QtWidgets.QWidget):
         self.local_settings.settings["theme"] = "dark" if self.toggle_theme_btn.isChecked() else "light"
         self.manipulate_window.current_theme =  self.local_settings.settings["theme"]
         self.manipulate_window.toggle_theme()
-        logger.info(f'{Color.GREEN}Theme set to {self.local_settings.settings["theme"]}{Color.ENDC}')
+        logger.info(f'{Color.CVIOLET}Theme set to {self.local_settings.settings["theme"]}{Color.ENDC}')
         self.local_settings.save_settings()
+    
+    def toggle_notification_update(self):
         
+        self.local_settings.settings["notification"] = self.toggle_notification_btn.isChecked()
+        self.manipulate_window.notifications_enabled = self.local_settings.settings["notification"]
+        logger.info(f'{Color.CVIOLET}Notification set to {self.local_settings.settings["notification"]}{Color.ENDC}')
+        self.local_settings.save_settings()
+        self.manipulate_window.toggle_theme()
         
     def closeEvent(self, a0: QCloseEvent) -> None:
         self.hide()

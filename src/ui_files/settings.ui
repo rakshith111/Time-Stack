@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
+    <width>600</width>
     <height>560</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>450</width>
+    <width>600</width>
     <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>460</width>
+    <width>600</width>
     <height>560</height>
    </size>
   </property>
@@ -38,13 +38,13 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>430</width>
+     <width>550</width>
      <height>540</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>430</width>
+     <width>550</width>
      <height>540</height>
     </size>
    </property>
@@ -66,11 +66,11 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>401</width>
+       <width>501</width>
        <height>481</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="main_app_layout" rowstretch="10,0">
+     <layout class="QGridLayout" name="main_app_layout" rowstretch="10,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
@@ -92,26 +92,6 @@
       <property name="verticalSpacing">
        <number>20</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="theme_toggle_label">
-        <property name="text">
-         <string>TOGGLE THEME</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="close_icon_placeholder">
-        <property name="layoutDirection">
-         <enum>Qt::RightToLeft</enum>
-        </property>
-        <property name="text">
-         <string>theme_icon</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="close_to_tray_placeholder"/>
-      </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="theme_toggle_placeholder">
         <property name="layoutDirection">
@@ -122,6 +102,23 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="close_icon_placeholder">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>close_tray_icon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="theme_toggle_label">
+        <property name="text">
+         <string>TOGGLE THEME</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="close_to_tray_label">
         <property name="text">
@@ -129,13 +126,36 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="close_to_tray_placeholder"/>
+      </item>
       <item row="0" column="2">
        <widget class="QLabel" name="theme_icon_placeholder">
         <property name="layoutDirection">
-         <enum>Qt::RightToLeft</enum>
+         <enum>Qt::LeftToRight</enum>
         </property>
         <property name="text">
          <string>theme_icon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="notification_label">
+        <property name="text">
+         <string>ENABLE NOTIFICATION </string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="notification_placeholder"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="notification_icon_placeholder">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Notification_icon</string>
         </property>
        </widget>
       </item>
