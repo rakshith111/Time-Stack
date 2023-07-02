@@ -1,5 +1,4 @@
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import  pyqtSignal,QThread,QTimer
+from PyQt6.QtCore import  pyqtSignal,QThread
 
 from copy import copy
 

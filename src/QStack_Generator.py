@@ -68,20 +68,21 @@ class StackSpace(QtWidgets.QWidget):
         self.stack_space_ui.pause_btn.clicked.connect(self.manager._pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
    
-    def add_stack_activity(self, name: str, dt_start_time: datetime.time, dt_stop_time: datetime.time) -> None:
+    def add_stack_activity(self, name: str, dt_start_time: datetime.datetime, dt_stop_time: datetime.datetime) -> None:
         '''      
         This function is called when the create button is clicked.
-        Converts the start and end time to datetime.time objects and then calculates the total time.
+        Converts the start and end time to datetime.datetime objects and then calculates the total time.
         has to be done this way because the time objects are not compatible with the datetime module.
         delta: `datetime.timedelta` object used to get total seconds.
 
         Args:
             name (str): Name of the stack
-            dt_start_time (datetime.time): Start time of the stack
-            dt_stop_time (datetime.time): End time of the stack
+            dt_start_time (datetime.datetime): Start time of the stack
+            dt_stop_time (datetime.datetime): End time of the stack
         '''
 
         delta = dt_stop_time-dt_start_time
+        print(f"type of delta: {type(dt_start_time)}")
         total_seconds = int(delta.total_seconds())
         self.manager.add_stack(name=f"{name}",start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
         logger.info(
@@ -129,7 +130,7 @@ class StackGenerator(QtWidgets.QWidget):
     def create_stack(self) -> None:
         '''
         This function is called when the create stack button is clicked.
-        Converts the start and end time to datetime.time objects and then calculates the total time.
+        Converts the start and end time to datetime.datetimeobjects and then calculates the total time.
         has to be done this way because the time objects are not compatible with the datetime module.
         Calls the `add_stack` function in the `StackSpace` class to add the stack to the scroll area.
 

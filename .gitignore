@@ -3,6 +3,7 @@ oldie_ref
 Test
 #Prototype
 Server/
+user_data/
 # src/
 *.log
 __pycache__

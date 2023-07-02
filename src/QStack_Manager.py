@@ -1,12 +1,13 @@
-import os
 import re
 import sys
 import datetime
 import sqlite3
 import random
 
-from PyQt6.QtWidgets import *
+from PyQt6.QtWidgets import QMessageBox, QWidget, QPushButton, QLayout, QVBoxLayout,QApplication
 from PyQt6.QtCore import Qt
+from os import path
+from os import makedirs
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
@@ -17,7 +18,7 @@ from libs.QClasses.QProgressBar import StackActivityBar
 from libs.QClasses.QScrollArea import DragScrollArea
 
 MONTH_YEAR = datetime.datetime.now().strftime("%B_%Y")
-SAVE_FILE=os.path.join(BASE_DIR, 'user_data', f'{MONTH_YEAR}_stack.db')
+SAVE_FILE=path.join(BASE_DIR, 'user_data','db', f'{MONTH_YEAR}_stack.db')
 class StackManager():
 
     def __init__(self, layout: QLayout) -> None:
@@ -33,6 +34,7 @@ class StackManager():
             layout (QLayout): The layout that the progress bars will be managed in.
         '''
         self.layout = layout
+        # Define the top item of the stack by enforcing type
         self.stack_top_item = None
         self.stack_items = []
         self.warningmsg = QMessageBox()
@@ -114,10 +116,10 @@ class StackManager():
         This function checks if the database file exists. If it does not exist, it creates a new database file.
         '''        
         logger.info(f'{Color.GREEN}Checking if {SAVE_FILE} exists{Color.ENDC}')
-        if not os.path.exists(SAVE_FILE):
+        if not path.exists(SAVE_FILE):
             logger.info(f'{Color.RED}File {SAVE_FILE} does not exist{Color.ENDC}')
             logger.info(f'{Color.GREEN}Creating file {SAVE_FILE}{Color.ENDC}')
-            os.makedirs(os.path.join(BASE_DIR, 'user_data'), exist_ok=True)
+            makedirs(path.join(BASE_DIR, 'user_data','db'), exist_ok=True)
             connection,cursor=self.connect_db()
             cursor.execute(f'''CREATE TABLE {MONTH_YEAR}_stack
                             (activity_name TEXT PRIMARY KEY NOT NULL,
@@ -165,7 +167,7 @@ class StackManager():
                    (self.stack_top_item.value(), self.stack_top_item.objectName()))   
                 self.disconnect_db(connection,cursor)
                    
-    def add_stack(self, name: str,start_time:datetime.time,stop_time:datetime.time, max_size: int,load:bool=False,load_progress:int=0) -> StackActivityBar:
+    def add_stack(self, name: str,start_time:datetime.datetime,stop_time:datetime.datetime, max_size: int,load:bool=False,load_progress:int=0) -> StackActivityBar:
         '''
         This function creates a new progress bar and adds it to the stack. Also the signal is connected to the remove_top_stack function.
         The progress bar is added to the layout and the stack_items list.
@@ -173,8 +175,8 @@ class StackManager():
 
         Args:
             name (str): The name of the progress bar.
-            start_time (datetime.time): Start time of the progress bar.
-            stop_time (datetime.time): Stop time of the progress bar.
+            start_time (datetime.datetime): Start time of the progress bar.
+            stop_time (datetime.datetime): Stop time of the progress bar.
             max_size (int):  The max size of the progress bar.
             load (bool, optional): _description_.If the progress bar is being loaded from the database.Defaults to False.
             load_progress (int, optional): _description_. The progress of the progress bar that is being loaded from the database.Defaults to 0.
@@ -264,13 +266,10 @@ class StackManager():
 
         '''
         if self.stack_items is not None:
-            self.stack_items=new_order
-            self.stack_top_item = self.stack_items[0]
-            # If dragged item is top then pause
             if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value!=self.stack_top_item._thread.maxsize:
                 self.stack_top_item._thread.pause(self.stack_top_item.value())
-            # self.stack_items=new_order
-            # self.stack_top_item = self.stack_items[0]
+            self.stack_items=new_order
+            self.stack_top_item = self.stack_items[0]
             logger.info(f"{Color.GREEN}Updating Stack Top Item - {self.stack_top_item.objectName()}{Color.ENDC}")
             connection,cursor=self.connect_db()
             # Update the position of the stack items in the database
@@ -366,12 +365,9 @@ class Stack(QWidget):
         Adds a progress bar to the stack.
         '''
         rand = random.randint(1, 100)
-        # date.time object for the start time of the progress bar
         start_time = datetime.datetime.now()
-        # date.time object for the end time of the progress bar
         end_time = start_time + datetime.timedelta(seconds=self.progress_end)
- 
-        self.manager.add_stack(f"mygenerictask_{rand}", start_time=start_time, end_time=end_time, max_size=self.progress_end)
+        self.manager.add_stack(f"mygenerictask_{rand}", start_time=start_time, stop_time=end_time, max_size=self.progress_end)
 
     def start_thread(self):
         '''
