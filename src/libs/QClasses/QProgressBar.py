@@ -1,17 +1,18 @@
 import sys
-import os
-from os import path
-from random import randint
-from PyQt6 import QtCore
+import datetime
 from PyQt6.QtGui import QDrag, QPixmap,QAction 
 from PyQt6.QtCore import Qt, QMimeData, pyqtSignal,QEvent
-from PyQt6.QtWidgets import *
+from PyQt6.QtWidgets import QProgressBar,QMenu
 from PyQt6.QtGui import QColor
+from PyQt6 import QtCore
+from os import path
+from random import randint
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.append(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
 
 from libs._base_logger import logger,BASE_DIR
 from libs.color import Color
+
 try:
     from .QThread import TimerThread
 except ImportError:
@@ -46,25 +47,27 @@ def randomize_progress_bar_colors(qss_content: str) -> str:
 
     return qss_content
 
-def get_name_from_text(text: str) -> str:
+def get_name_from_text(text: str) -> tuple:
     '''
-    Gets the name from the text.
+    Gets the name and idfrom the text.
 
     Args:
         text (str): Input text.
 
     Returns:
-        str: Cleaned text for label.
+        tuple(str,str): Cleaned text for label.
     '''     
-    temp=text.split("_")
-    temp.pop()
-    return " ".join(temp)
+    full_name=text.split("_")
+    id,name=full_name[-1],full_name[:-1]
+    return (id," ".join(name))
 
 class StackActivityBar(QProgressBar):
 
     _remove_signal = pyqtSignal()
 
-    def __init__(self, name: str, progress_bar_size: int,set_time:int=0, parent=None) -> None:
+    def __init__(self, name: str, progress_bar_size: int,mode:str,
+                 activity_start:datetime.datetime,activity_stop:datetime.datetime,
+                 set_time:int=0, parent=None) -> None:
         '''
         The QProgressBar class is initialized with the following parameters:
             - parent: The parent widget.
@@ -76,29 +79,47 @@ class StackActivityBar(QProgressBar):
         Args:
             name (str): The name of the progress bar.
             progress_bar_size (int): The max size of the progress bar.
-            set_time (int, optional):  Sets previous progress, only used for the progress bar that is created from the saved data. Defaults to 0.
-            parent (_type_, optional):  Defaults to None.
-        '''        
+            mode (str): Casual or Habit
+            activity_start (datetime.datetime): Start time of the progress bar.
+            activity_stop (datetime.datetime): Stop time of the progress bar.
+            set_time (int, optional):Sets previous progress, only used for the progress bar that is created from the saved data. Defaults to 0.
+            parent (_type_, optional): Defaults to None.
+        '''    
+   
+               
         super(StackActivityBar, self).__init__(parent)
         self.setFixedSize(180, 250)
         self.setOrientation(QtCore.Qt.Orientation.Vertical)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.setTextVisible(True)
         self.setObjectName(f"{name}")
-        name=get_name_from_text(name)
+        set_time=int(set_time)
+        self.name=name
+        self.activity_mode=mode
+        self.activity_start=activity_start
+        self.activity_stop=activity_stop
+        self.activity_id,name=get_name_from_text(name)
         self.setFormat(f"{name} |  %p%")
         self.setRange(0, progress_bar_size)
+        
         if set_time:
+            if type(activity_start)==str:
+                activity_start=datetime.datetime.strptime(activity_start,"%Y-%m-%d %H:%M:%S")
+                activity_stop=datetime.datetime.strptime(activity_stop,"%Y-%m-%d %H:%M:%S")
             self.setValue(set_time)
+            self.activity_original_size=int((activity_stop-activity_start).total_seconds())
+            self._thread = TimerThread(progress_bar_size, f"Thread_{name}",set_progress=set_time)
+            self._thread.current_value=set_time
+            self._thread._set_progress_signal.connect(self.setValue)
         else:
+            self._thread = TimerThread(progress_bar_size, f"Thread_{name}")
+            self.activity_original_size=progress_bar_size
             self.setValue(progress_bar_size)        
+            self._thread._set_progress_signal.connect(self.setValue)
         # Randomize the colors in the QSS content
         self.setStyleSheet(randomize_progress_bar_colors(QSS_FILE))
-
-        self._thread = TimerThread(progress_bar_size, f"Thread_{name}")
-        self._thread._set_progress_signal.connect(self.setValue)
         self._remove_signal.connect(self.deleteLater)
-
+                
     def closeEvent(self, event: QEvent) -> None:
         '''
         When the progress bar is closed, it will terminate the thread.

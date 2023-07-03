@@ -1,8 +1,10 @@
+from os import path
+
+from PyQt6.QtCore import Qt
 from PyQt6 import QtGui, QtWidgets, QtCore
 from PyQt6.QtGui import QCloseEvent,QAction
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
-from PyQt6.QtCore import Qt
-from os import path
+
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
 from libs.color import Color
@@ -27,7 +29,7 @@ class QTimeStackMain(QtWidgets.QMainWindow):
    
         self.current_theme = None
         self.close_to_tray=True
-        self.notifications_enabled = True
+
         self.settings_window = SettingsWindow(None,self) 
         self.main_menu_ui.settings_m.clicked.connect(self.settings_window.show)
         QtWidgets.QApplication.setStyle('Fusion')
@@ -80,14 +82,14 @@ class QTimeStackMain(QtWidgets.QMainWindow):
     
     def quitApplication(self):
         # Quit the application when the "Quit" action is triggered
-        self.tray_icon.hide()
+        self.tray_icon.deleteLater()
+        self.stack_space.manager.save_stack()
         self.stack_space.close()
         self.stack_generator.close()
         self.settings_window.close()
         QApplication.quit()
     
         
-
     def toggle_theme(self)-> None:
         '''
         Toggles the theme of the application.

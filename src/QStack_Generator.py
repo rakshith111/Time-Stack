@@ -3,9 +3,10 @@ import sys
 
 import PyQt6.QtCore as QtCore
 from PyQt6.QtCore import Qt
-from PyQt6 import QtWidgets
-from PyQt6.QtGui import QIcon
+from PyQt6 import  QtWidgets
+from PyQt6.QtGui import QIcon,QCloseEvent
 from PyQt6.QtWidgets import QMessageBox, QVBoxLayout
+
 from os import path
 
 from libs._base_logger import logger
@@ -67,6 +68,10 @@ class StackSpace(QtWidgets.QWidget):
         self.stack_space_ui.start_btn.clicked.connect(self.manager._start_thread)
         self.stack_space_ui.pause_btn.clicked.connect(self.manager._pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
+        # Pass arguments to the notification
+        # self.stack_space_ui.extra_btn.clicked.connect(lambda: self.manager.notification())
+        # self.stack_space_ui.extra_btn.clicked.connect(self.manager.printer)
+        
    
     def add_stack_activity(self, name: str, dt_start_time: datetime.datetime, dt_stop_time: datetime.datetime) -> None:
         '''      
@@ -82,9 +87,8 @@ class StackSpace(QtWidgets.QWidget):
         '''
 
         delta = dt_stop_time-dt_start_time
-        print(f"type of delta: {type(dt_start_time)}")
         total_seconds = int(delta.total_seconds())
-        self.manager.add_stack(name=f"{name}",start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
+        self.manager.add_stack(activity_name=f"{name}",mode='Casual',start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
         logger.info(
             f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
         

@@ -1,9 +1,9 @@
-from PyQt6.QtCore import  pyqtSignal,QThread
-
-from copy import copy
-
 import sys
 import os
+from copy import copy
+
+from PyQt6.QtCore import  pyqtSignal,QThread
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from libs._base_logger import logger
@@ -14,7 +14,7 @@ class TimerThread(QThread):
 
     _set_progress_signal = pyqtSignal(int)
 
-    def __init__(self, maxsize: int, name: str) -> None:
+    def __init__(self, maxsize: int, name: str,set_progress:int=0) -> None:
         '''
         Thread class that handles the timer for the progress bar.
         Inherits from QThread class. Sets the name of the thread, the maxsize of the progress bar, and the current value of the progress bar.
@@ -25,13 +25,17 @@ class TimerThread(QThread):
         Args:
             maxsize (int): The max size of the progress bar.
             name (str): The name of the thread.
+            set_progress (int, optional): The current value of the progress bar. Defaults to 0.
         '''
 
         super(TimerThread, self).__init__()
         self.name = name
         self.maxsize = maxsize
         self._is_running = True
-        self.current_value = copy(self.maxsize)
+        if set_progress:
+            self.current_value = set_progress
+        else:
+            self.current_value = copy(self.maxsize)
 
     def __del__(self) -> None:
         '''
@@ -49,7 +53,6 @@ class TimerThread(QThread):
         if self._is_running:
             self.current_value = value
             self._is_running = False
-
             logger.info(f"{Color.YELLOW} Pausing {self.name} | value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
 
     def resume(self) -> None:
@@ -61,10 +64,8 @@ class TimerThread(QThread):
         if not self._is_running:
             self._set_progress_signal.emit(self.current_value)
             self._is_running = True
-            # logger.info(
-            #     f"Resuming  {self.name} value@{self.current_value} Is running?={self._is_running}")
             logger.info(f"{Color.YELLOW} Resuming {self.name} | value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
-            
+    
     def run(self):
         '''
         Private method that runs the thread. This function is called when the start() method is invoked, it will subtract 1 from the current_value attribute.
