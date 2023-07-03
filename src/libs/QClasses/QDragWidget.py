@@ -1,9 +1,10 @@
-import sys
 import os
-from PyQt6.QtWidgets import *
+import sys
 from PyQt6.QtGui import QColor
-from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtCore import QEvent
+from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QSizePolicy, QLabel
+
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 

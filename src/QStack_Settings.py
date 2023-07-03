@@ -4,10 +4,10 @@ from os import path
 from PyQt6 import QtGui, QtWidgets
 from PyQt6.QtGui import QCloseEvent
 
-
+from libs.color import Color
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
-from libs.color import Color
+
 from ui_generated.settings import Ui_settings
 from libs.QClasses.QToggle import AnimatedToggle
 
@@ -16,6 +16,7 @@ DEFAULT_SETTINGS = {
     "close_to_tray": True,
     "notification": True
 }
+
 SETTINGS=path.join(BASE_DIR,"user_data" ,"settings.json")
 
 class SettingsManager:
@@ -25,7 +26,7 @@ class SettingsManager:
 
     def save_settings(self):
         with open(self.filename, "w") as file:
-            json.dump(self.settings, file)
+            json.dump(self.settings, file,indent=4)
         logger.info(f'{Color.CVIOLET}Settings saved{Color.ENDC}')
 
     def load_settings(self):
@@ -35,6 +36,10 @@ class SettingsManager:
             logger.info(f'{Color.CVIOLET}Settings loaded{Color.ENDC}')
         else:
             logger.info(f'{Color.RED}Settings file not found, creating new one{Color.ENDC}')
+            if not path.exists((path.join(BASE_DIR,"user_data"))):
+                logger.info(f'{Color.RED}user_data folder not found, creating new one{Color.ENDC}')
+                from os import mkdir
+                mkdir(path.join(BASE_DIR,"user_data" ))
             self.save_settings()
 
 
@@ -63,6 +68,7 @@ class SettingsWindow(QtWidgets.QWidget):
         self.toggle_theme_btn.setChecked(self.local_settings.settings["theme"]=="dark")
         self.toggle_theme_btn.stateChanged.connect(self.update_theme)
         self.manipulate_window.current_theme = self.local_settings.settings["theme"]
+        
 
 
         # Close to tray btn
@@ -111,6 +117,7 @@ class SettingsWindow(QtWidgets.QWidget):
         self.local_settings.settings["notification"] = self.toggle_notification_btn.isChecked()
         self.manipulate_window.notifications_enabled = self.local_settings.settings["notification"]
         logger.info(f'{Color.CVIOLET}Notification set to {self.local_settings.settings["notification"]}{Color.ENDC}')
+        self.manipulate_window.stack_space.manager.notifications_enabled = self.local_settings.settings["notification"]
         self.local_settings.save_settings()
         self.manipulate_window.toggle_theme()
         

@@ -1,6 +1,6 @@
-import sys
 import os
-from PyQt6.QtWidgets import *
+import sys
+from PyQt6.QtWidgets import QScrollArea
 from PyQt6.QtCore import QTimer,  QEvent,QObject
 from PyQt6.QtWidgets import QScrollArea
 

@@ -1,6 +1,6 @@
-from PyQt6.QtCore import Qt, QSize, QPoint, QPointF, QRectF, QEasingCurve, QPropertyAnimation, QSequentialAnimationGroup, pyqtSlot, pyqtProperty
 from PyQt6.QtWidgets import QCheckBox
 from PyQt6.QtGui import QColor, QBrush, QPaintEvent, QPen, QPainter
+from PyQt6.QtCore import Qt, QSize, QPoint, QPointF, QRectF, QEasingCurve, QPropertyAnimation, QSequentialAnimationGroup, pyqtSlot, pyqtProperty
 # credits to https://www.pythonguis.com/tutorials/pyqt6-animated-widgets/ 
 class AnimatedToggle(QCheckBox):
 
