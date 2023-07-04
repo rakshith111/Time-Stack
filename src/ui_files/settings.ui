@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>660</width>
     <height>560</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>600</width>
-    <height>550</height>
+    <width>630</width>
+    <height>560</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>600</width>
+    <width>660</width>
     <height>560</height>
    </size>
   </property>
@@ -38,19 +38,19 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>550</width>
+     <width>640</width>
      <height>540</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>550</width>
+     <width>610</width>
      <height>540</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>430</width>
+     <width>640</width>
      <height>540</height>
     </size>
    </property>
@@ -66,11 +66,11 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>501</width>
+       <width>649</width>
        <height>481</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="main_app_layout" rowstretch="10,0,0">
+     <layout class="QGridLayout" name="main_app_layout" rowstretch="10,0,0,0,0,0,0">
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
@@ -92,6 +92,53 @@
       <property name="verticalSpacing">
        <number>20</number>
       </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="theme_toggle_label">
+        <property name="text">
+         <string>TOGGLE THEME</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="close_to_tray_label">
+        <property name="text">
+         <string>CLOSE TO TRAY</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="notification_label">
+        <property name="text">
+         <string>ENABLE NOTIFICATION </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="theme_icon_placeholder">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>theme_icon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="close_to_tray_placeholder"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="notification_placeholder"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="notification_icon_placeholder">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Notification_icon</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="theme_toggle_placeholder">
         <property name="layoutDirection">
@@ -112,50 +159,101 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="theme_toggle_label">
+      <item row="3" column="0">
+       <widget class="QLabel" name="general_notification_label">
         <property name="text">
-         <string>TOGGLE THEME</string>
+         <string>GENERAL SOUND</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="close_to_tray_label">
+      <item row="5" column="0">
+       <widget class="QLabel" name="quarterly_notification_label">
         <property name="text">
-         <string>CLOSE TO TRAY</string>
+         <string>STACK QUARTERWAY SOUND</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="close_to_tray_placeholder"/>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="theme_icon_placeholder">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+      <item row="5" column="1">
+       <widget class="QComboBox" name="quarterly_notification_sound">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
         </property>
-        <property name="text">
-         <string>theme_icon</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="notification_label">
-        <property name="text">
-         <string>ENABLE NOTIFICATION </string>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QCheckBox" name="notification_placeholder"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="notification_icon_placeholder">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="general_notification_sound">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="midway_notification_sound">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="midway_notification_label">
         <property name="text">
-         <string>Notification_icon</string>
+         <string>STACK MIDWAY SOUND</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="end_notification_label">
+        <property name="text">
+         <string>STACK COMPLETION SOUND</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QComboBox" name="end_notification_sound">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
         </property>
        </widget>
       </item>
