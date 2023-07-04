@@ -1,10 +1,10 @@
-import datetime
 import sys
+import datetime
 
 import PyQt6.QtCore as QtCore
 from PyQt6.QtCore import Qt
 from PyQt6 import  QtWidgets
-from PyQt6.QtGui import QIcon,QCloseEvent
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMessageBox, QVBoxLayout
 
 from os import path
@@ -167,11 +167,18 @@ class StackGenerator(QtWidgets.QWidget):
                 "End time cannot be the same as start time")
             self.warningmsg.exec()
             return
-        self.informationmsg.setText(
-            f"Stack {self.activity_stack_name} created with start time {dt_start_time} and end time {dt_stop_time}")
-        self.informationmsg.exec()
+
         self.stack_space.add_stack_activity(
             self.activity_stack_name, dt_start_time, dt_stop_time)
+        self.stack_gen_ui.stack_name_input.clear()
+        self.stack_gen_ui.start_time_input.setTime(
+            QtCore.QTime.currentTime())
+        self.stack_gen_ui.end_time_input.setTime(
+            QtCore.QTime.currentTime().addSecs(60))
+        self.stack_gen_ui.total_time_output.setText("00:00")
+        self.stack_gen_ui.total_time_output.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.stack_space.manager.notification(title="Stack Generator",message=f'Stack {self.activity_stack_name} created with {temp.strftime("%H:%M")}')
         self.stack_space.show()
 
 if __name__ == '__main__':
