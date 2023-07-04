@@ -94,11 +94,11 @@ class StackActivityBar(QProgressBar):
         self.setTextVisible(True)
         self.setObjectName(f"{name}")
         set_time=int(set_time)
-        self.name=name
         self.activity_mode=mode
         self.activity_start=activity_start
         self.activity_stop=activity_stop
         self.activity_id,name=get_name_from_text(name)
+        self.name=name
         self.setFormat(f"{name} |  %p%")
         self.setRange(0, progress_bar_size)
         

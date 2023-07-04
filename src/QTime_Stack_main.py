@@ -30,8 +30,6 @@ class QTimeStackMain(QtWidgets.QMainWindow):
         self.current_theme = None
         self.close_to_tray=True
 
-        self.settings_window = SettingsWindow(None,self) 
-        self.main_menu_ui.settings_m.clicked.connect(self.settings_window.show)
         QtWidgets.QApplication.setStyle('Fusion')
         self.setWindowIcon(QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'window_icon_wob_s.png')))
   
@@ -44,6 +42,9 @@ class QTimeStackMain(QtWidgets.QMainWindow):
         self.stack_space.stack_space_ui.add_btn.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.add_activity_m.clicked.connect(self.stack_generator.show)
         self.main_menu_ui.view_stack_m.clicked.connect(self.stack_space.show)
+        self.settings_window = SettingsWindow(None,self) 
+        self.main_menu_ui.settings_m.clicked.connect(self.settings_window.show)
+        
 
         # Create the system tray icon
         self.tray_icon = QSystemTrayIcon(self)     

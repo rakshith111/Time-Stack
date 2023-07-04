@@ -13,6 +13,11 @@ from libs.color import Color
 class TimerThread(QThread):
 
     _set_progress_signal = pyqtSignal(int)
+    # Signal that emits when the progress bar is midway done.
+    _midway_signal = pyqtSignal()
+    # Signal that emits when the progress bar is 1/4 done.
+    _quarter_signal = pyqtSignal()
+
 
     def __init__(self, maxsize: int, name: str,set_progress:int=0) -> None:
         '''
@@ -35,7 +40,7 @@ class TimerThread(QThread):
         if set_progress:
             self.current_value = set_progress
         else:
-            self.current_value = copy(self.maxsize)
+            self.current_value = copy(self.maxsize)    
 
     def __del__(self) -> None:
         '''
@@ -73,10 +78,19 @@ class TimerThread(QThread):
         If the current_value attribute is less than or equal to 0, it will set the current_value attribute to 0 and set the _is_running attribute to False to stop the thread.
         Now using QThread.sleep() instead of time.sleep()
         '''        
+        midway = self.maxsize // 2
+        quarter = self.maxsize // 4
+
         while self.current_value > 0:
             if self._is_running:
                 self.current_value -= 1
                 self._set_progress_signal.emit(self.current_value)
+                if self.current_value == midway:
+                    self._midway_signal.emit()
+                    logger.info(f"{Color.RED} Midway {self.name} | {Color.YELLOW}value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
+                elif self.current_value == quarter:
+                    logger.info(f"{Color.RED} Quarter {self.name} | {Color.YELLOW}value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
+                    self._quarter_signal.emit()
                 self.sleep(1)
             else:
                 self.sleep(1)
