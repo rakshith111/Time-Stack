@@ -95,8 +95,6 @@ class StackActivityBar(QProgressBar):
         self.setObjectName(f"{name}")
         set_time=int(set_time)
         self.activity_mode=mode
-        self.activity_start=activity_start
-        self.activity_stop=activity_stop
         self.activity_id,name=get_name_from_text(name)
         self.name=name
         self.setFormat(f"{name} |  %p%")
@@ -104,8 +102,8 @@ class StackActivityBar(QProgressBar):
         
         if set_time:
             if type(activity_start)==str:
-                activity_start=datetime.datetime.strptime(activity_start,"%Y-%m-%d %H:%M:%S")
-                activity_stop=datetime.datetime.strptime(activity_stop,"%Y-%m-%d %H:%M:%S")
+                self.activity_stop=datetime.datetime.strptime(activity_stop,"%Y-%m-%d %H:%M:%S")
+                self.activity_start=datetime.datetime.strptime(activity_start,"%Y-%m-%d %H:%M:%S")
             self.setValue(set_time)
             self.activity_original_size=int((activity_stop-activity_start).total_seconds())
             self._thread = TimerThread(progress_bar_size, f"Thread_{name}",set_progress=set_time)
@@ -116,6 +114,8 @@ class StackActivityBar(QProgressBar):
             self.activity_original_size=progress_bar_size
             self.setValue(progress_bar_size)        
             self._thread._set_progress_signal.connect(self.setValue)
+            self.activity_start=activity_start
+            self.activity_stop=activity_stop
         # Randomize the colors in the QSS content
         self.setStyleSheet(randomize_progress_bar_colors(QSS_FILE))
         self._remove_signal.connect(self.deleteLater)

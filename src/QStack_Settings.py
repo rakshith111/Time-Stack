@@ -14,7 +14,7 @@ from libs._base_logger import BASE_DIR
 from ui_generated.settings import Ui_settings
 from libs.QClasses.QToggle import AnimatedToggle
 
-from QTime_Stack_main import QTimeStackMain
+
 
 DEFAULT_SETTINGS = {
     "theme": "dark",
@@ -69,7 +69,7 @@ class SettingsManager:
 
 
 class SettingsWindow(QtWidgets.QWidget):
-    def __init__(self, parent,manipulate_window:QTimeStackMain ) -> None:
+    def __init__(self, parent,manipulate_window:'QTimeStackMain' ) -> None: # type: ignore
         '''
         Base class for the settings window
 

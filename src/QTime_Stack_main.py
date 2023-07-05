@@ -14,6 +14,7 @@ from QStack_Generator import StackSpace
 from QStack_Generator import StackGenerator
 from QStack_Settings import SettingsWindow
 
+
 class QTimeStackMain(QtWidgets.QMainWindow):
     def __init__(self, parent=None) -> None:
         '''
@@ -129,8 +130,6 @@ class QTimeStackMain(QtWidgets.QMainWindow):
             self.main_menu_ui.add_activity_m.setIcon(
             QtGui.QIcon(path.join(BASE_DIR, 'ui_files', 'icon', 'add_white.png')))
             self.settings_window.settings_ui.theme_icon_placeholder.alignment=QtCore.Qt.AlignmentFlag.AlignLeft
-
-       
             
             for child in [self.stack_space, self.stack_generator, self.settings_window]:
                 try:
@@ -178,6 +177,7 @@ class QTimeStackMain(QtWidgets.QMainWindow):
                 self.settings_window.settings_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'active_notif_black.png')))
             else:
                 self.settings_window.settings_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'inactive_notif_black.png')))
+            self.settings_window.settings_ui.theme_icon_placeholder.alignment=QtCore.Qt.AlignmentFlag.AlignLeft
             
             self.main_menu_ui.logo_label.setPixmap(QtGui.QPixmap(path.join(BASE_DIR, 'ui_files', 'icon', 'time_stack_white_black.png')))
             self.main_menu_ui.view_stack_m.setIcon(

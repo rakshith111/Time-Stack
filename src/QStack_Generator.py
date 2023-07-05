@@ -68,10 +68,7 @@ class StackSpace(QtWidgets.QWidget):
         self.stack_space_ui.start_btn.clicked.connect(self.manager._start_thread)
         self.stack_space_ui.pause_btn.clicked.connect(self.manager._pause_thread)
         self.stack_space_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
-        # Pass arguments to the notification
-        # self.stack_space_ui.extra_btn.clicked.connect(lambda: self.manager.notification())
-        # self.stack_space_ui.extra_btn.clicked.connect(self.manager.printer)
-        
+
    
     def add_stack_activity(self, name: str, dt_start_time: datetime.datetime, dt_stop_time: datetime.datetime) -> None:
         '''      
@@ -95,13 +92,14 @@ class StackSpace(QtWidgets.QWidget):
 
 class StackGenerator(QtWidgets.QWidget):
 
-    def __init__(self,stack_space, parent=None) -> None:
-        ''' Initializes the Stackgen class and sets up the UI.
+    def __init__(self,stack_space:'StackSpace', parent=None) -> None:
+        '''
+        Initializes the Stackgen class and sets up the UI.
 
         Args:
-            stack_space (QtWidgets.QWidget): StackSpace object
-            parent (optional):  Defaults to None.
-        '''            
+            stack_space (StackSpace): StackSpace object
+            parent (_type_, optional): Defaults to None.
+        '''                   
         super(StackGenerator, self).__init__(parent=parent)
         self.stack_gen_ui = Ui_stack_gen()
         self.setAcceptDrops(True)
