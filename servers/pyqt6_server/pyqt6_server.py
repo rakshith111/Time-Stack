@@ -32,7 +32,8 @@ class WebSocketServer(QWebSocketServer):
         socket.textMessageReceived.connect(self.process_text_message)
         socket.disconnected.connect(self.client_disconnected)
         self.clients.append(socket)
-        self.text_edit.append("New client connected")
+        client_address = socket.peerAddress().toString()
+        self.text_edit.append(f"New client connected {client_address}")
 
     def process_text_message(self, message):
         sender = self.sender()
