@@ -176,8 +176,8 @@ class StackGenerator(QtWidgets.QWidget):
         self.stack_gen_ui.total_time_output.setText("00:00")
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.stack_space.manager.notification(title="Stack Generator",message=f'Stack {self.activity_stack_name} created with {temp.strftime("%H:%M")}')
         self.stack_space.show()
+        self.stack_space.manager.notification(title="Stack Generator",message=f'Stack {self.activity_stack_name} created with {temp.strftime("%H:%M")}')
 
 if __name__ == '__main__':
 

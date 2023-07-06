@@ -105,7 +105,7 @@ class StackActivityBar(QProgressBar):
                 self.activity_stop=datetime.datetime.strptime(activity_stop,"%Y-%m-%d %H:%M:%S")
                 self.activity_start=datetime.datetime.strptime(activity_start,"%Y-%m-%d %H:%M:%S")
             self.setValue(set_time)
-            self.activity_original_size=int((activity_stop-activity_start).total_seconds())
+            self.activity_original_size=int((self.activity_stop-self.activity_start).total_seconds())
             self._thread = TimerThread(progress_bar_size, f"Thread_{name}",set_progress=set_time)
             self._thread.current_value=set_time
             self._thread._set_progress_signal.connect(self.setValue)
