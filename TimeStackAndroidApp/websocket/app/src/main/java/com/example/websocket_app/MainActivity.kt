@@ -24,8 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.websocket_app.data.TimeData
 import com.example.websocket_app.ui.theme.Websocket_appTheme
 import com.example.websocket_app.websocket_app.MyWebSocketClient
+import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import okhttp3.*
 import kotlinx.coroutines.launch
@@ -37,6 +39,8 @@ class MainActivity : ComponentActivity() {
     private var connectionStatus by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val json = Gson().toJson(TimeData("Hello", "Android"))
+        json.encodeToByteArray()
         super.onCreate(savedInstanceState)
         setContent {
             // Set ip here >>>>>>>>>>>>>>>>>>>>
