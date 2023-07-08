@@ -321,6 +321,8 @@ class StackManager():
             self.stack_bar = StackActivityBar(name=f"{activity_name}", progress_bar_size=max_size,mode=mode,activity_start=start_time,activity_stop=stop_time)
             self.stack_bar._remove_signal.connect(self.pop_top_stack)
             self.layout.addWidget(self.stack_bar)
+    
+            self.notification(title="Stack Generator",message=f'Stack {self.stack_bar.objectName()} created successfully',type_notify="general")
             if self.stack_top_item is None:
                 self.stack_top_item = self.stack_bar
                 connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?,?,?)",

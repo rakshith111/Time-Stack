@@ -88,6 +88,7 @@ class StackSpace(QtWidgets.QWidget):
         self.manager.add_stack(activity_name=f"{name}",mode='Casual',start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
         logger.info(
             f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
+
         
 
 class StackGenerator(QtWidgets.QWidget):
@@ -177,7 +178,6 @@ class StackGenerator(QtWidgets.QWidget):
         self.stack_gen_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
         self.stack_space.show()
-        self.stack_space.manager.notification(title="Stack Generator",message=f'Stack {self.activity_stack_name} created with {temp.strftime("%H:%M")}')
 
 if __name__ == '__main__':
 
