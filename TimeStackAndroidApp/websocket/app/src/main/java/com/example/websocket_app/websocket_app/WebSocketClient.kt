@@ -24,7 +24,7 @@ class MyWebSocketClient(serverUri: URI) : WebSocketClient(serverUri) {
 
     override fun onError(ex: Exception?) {
         println("Error: ${ex?.message}")
-        Log.d("WebSocket onError", "Connected to WebSocket server")
+        Log.d("WebSocket onError", "Not Connected to WebSocket server")
         Log.d("WebSocket onError", "Server Address: ${uri.host}:${uri.port}")
         Log.d("WebSocket onError", "Local Address: ${localSocketAddress?.hostName}:${localSocketAddress?.port}")
     }

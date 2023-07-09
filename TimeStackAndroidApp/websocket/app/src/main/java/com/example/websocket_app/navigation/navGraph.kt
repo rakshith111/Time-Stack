@@ -11,22 +11,23 @@ import com.example.websocket_app.presentation.HomeScreen
 import com.example.websocket_app.presentation.QrScanner
 import com.example.websocket_app.viewmodel.QrViewModel
 import com.google.common.util.concurrent.ListenableFuture
+import org.java_websocket.client.WebSocketClient
 
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    connectionStatus: String,
     hasCamPermission: Boolean,
     cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     lifecycleOwner: LifecycleOwner,
     qrViewModel: QrViewModel,
     ) {
+    var sendCode = false
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
         composable(route = Screen.HomeScreen.route){
             HomeScreen(navController = navController,
-                connectionStatus = connectionStatus,
-                qrViewModel = qrViewModel
+                qrViewModel = qrViewModel,
+                sendCode = sendCode
             )
         }
         composable(route = Screen.QRScannerScreen.route){
@@ -34,7 +35,11 @@ fun NavGraph(
                 hasCamPermission = hasCamPermission,
                 cameraProviderFuture = cameraProviderFuture,
                 lifecycleOwner = lifecycleOwner,
-                qrViewModel = qrViewModel
+                qrViewModel = qrViewModel,
+                sendCode = {
+                    navController.navigate(Screen.HomeScreen.route)
+                    sendCode = true
+                }
             )
         }
     }

@@ -7,9 +7,11 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,6 +38,7 @@ fun QrScanner(
     cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     lifecycleOwner: LifecycleOwner,
     qrViewModel: QrViewModel,
+    sendCode: () -> Unit
 ){
     var code by remember {
         mutableStateOf("")
@@ -88,15 +91,24 @@ Column(
                 },
                 modifier = Modifier.weight(1f)
             )
-            Text(
-                text = code,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(32.dp),
-                color = androidx.compose.ui.graphics.Color.White
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = code,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .weight(1f)  // Assign a weight
+                        .padding(32.dp),
+                    color = androidx.compose.ui.graphics.Color.White
+                )
+                Button(onClick = {
+                    sendCode()
+                }) {
+                    Text(text = "Send", style = androidx.compose.material3.MaterialTheme.typography.bodyLarge)
+                }
+            }
         }
     }
 }

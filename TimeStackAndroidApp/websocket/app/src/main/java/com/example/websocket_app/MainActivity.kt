@@ -3,6 +3,7 @@ package com.example.websocket_app
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -29,14 +30,9 @@ import com.example.websocket_app.data.TimeData
 import com.example.websocket_app.navigation.NavGraph
 import com.example.websocket_app.ui.theme.Websocket_appTheme
 import com.example.websocket_app.viewmodel.QrViewModel
-import com.example.websocket_app.websocket_app.MyWebSocketClient
-import com.google.gson.Gson
-import kotlinx.coroutines.delay
-import java.net.URI
+
 
 class MainActivity : ComponentActivity() {
-    private lateinit var webSocketClient: MyWebSocketClient
-    private var connectionStatus by mutableStateOf("")
     private lateinit var navController : NavHostController
     private val qrViewModel by viewModels<QrViewModel> ()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,22 +42,7 @@ class MainActivity : ComponentActivity() {
             navController = rememberNavController()
 
             // Set ip here >>>>>>>>>>>>>>>>>>>>
-            val serverUri = URI("ws://192.168.0.108:8000")
-            webSocketClient = MyWebSocketClient(serverUri)
 
-            LaunchedEffect(Unit) {
-                webSocketClient.connect()
-                connectionStatus = "Connecting..."
-                delay(1000) // Optional delay for the connection to establish
-                if (webSocketClient.connection.isOpen) {
-                    connectionStatus = "Connected"
-                    val json = Gson().toJson(TimeData("Hello", "Android"))
-                    webSocketClient.send(json.toString())
-                    println("Sent message: $json")
-                } else {
-                    connectionStatus = "Connection failed"
-                }
-            }
             Websocket_appTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -90,7 +71,6 @@ class MainActivity : ComponentActivity() {
                         launcher.launch(Manifest.permission.CAMERA)
                     }
                     NavGraph(navController = navController,
-                        connectionStatus = connectionStatus,
                         hasCamPermission = true,
                         cameraProviderFuture = cameraProviderFuture,
                         lifecycleOwner = lifecycleOwner,
