@@ -65,13 +65,15 @@ class WebSocketServer(QWebSocketServer):
 
         if sender in self.new_clients:
             challenge_code = self.new_clients[sender]
-            received_challenge_code = json_data["challenge_code"]
-            if received_challenge_code == challenge_code:
-                self.text_edit.append("Challenge code verified")
-                self.text_edit.append("Client authenticated")
-                self.text_edit.append("Client IP: " + sender.peerAddress().toString())
+            if "challenge_code" in json_data.keys():
 
-              
+                received_challenge_code = json_data["challenge_code"]
+                if received_challenge_code == challenge_code:
+                    self.text_edit.append("Challenge code verified")
+                    self.text_edit.append("Client authenticated")
+                    self.text_edit.append("Client IP: " + sender.peerAddress().toString())
+                else:
+                    self.text_edit.append("Challenge code not found")              
             else:
                 self.text_edit.append("Invalid challenge code")
         else:
