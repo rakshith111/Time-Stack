@@ -1,6 +1,8 @@
 package com.example.websocket_app.websocket_app
 
 import android.util.Log
+import com.example.websocket_app.data.TimeData
+import com.google.gson.Gson
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.handshake.ServerHandshake
 import java.net.URI
@@ -28,6 +30,7 @@ class MyWebSocketClient(serverUri: URI) : WebSocketClient(serverUri) {
     }
 
     override fun onMessage(message: String?) {
+
         println("Received message: $message")
         Log.d("WebSocket onMessage", "Connected to WebSocket server")
         Log.d("WebSocket onMessage", "Server Address: ${uri.host}:${uri.port}")

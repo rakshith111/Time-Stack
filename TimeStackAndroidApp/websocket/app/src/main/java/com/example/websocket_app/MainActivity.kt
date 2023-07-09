@@ -1,50 +1,52 @@
 package com.example.websocket_app
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.websocket_app.components.Screen
 import com.example.websocket_app.data.TimeData
+import com.example.websocket_app.navigation.NavGraph
 import com.example.websocket_app.ui.theme.Websocket_appTheme
+import com.example.websocket_app.viewmodel.QrViewModel
 import com.example.websocket_app.websocket_app.MyWebSocketClient
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import okhttp3.*
-import kotlinx.coroutines.launch
 import java.net.URI
-import okio.ByteString
 
 class MainActivity : ComponentActivity() {
     private lateinit var webSocketClient: MyWebSocketClient
     private var connectionStatus by mutableStateOf("")
-
+    private lateinit var navController : NavHostController
+    private val qrViewModel by viewModels<QrViewModel> ()
     override fun onCreate(savedInstanceState: Bundle?) {
-        val json = Gson().toJson(TimeData("Hello", "Android"))
-        json.encodeToByteArray()
+
         super.onCreate(savedInstanceState)
         setContent {
+            navController = rememberNavController()
+
             // Set ip here >>>>>>>>>>>>>>>>>>>>
-    val serverUri = URI("ws://192.168.1.3:8888")
+            val serverUri = URI("ws://192.168.0.108:8000")
             webSocketClient = MyWebSocketClient(serverUri)
 
             LaunchedEffect(Unit) {
@@ -53,25 +55,48 @@ class MainActivity : ComponentActivity() {
                 delay(1000) // Optional delay for the connection to establish
                 if (webSocketClient.connection.isOpen) {
                     connectionStatus = "Connected"
-                    webSocketClient.send("HOOOOOOO")
+                    val json = Gson().toJson(TimeData("Hello", "Android"))
+                    webSocketClient.send(json.toString())
+                    println("Sent message: $json")
                 } else {
                     connectionStatus = "Connection failed"
                 }
             }
-
-
             Websocket_appTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "Connection Status: $connectionStatus", fontWeight = FontWeight.Bold)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Greeting("Android")
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val context = LocalContext.current
+                    val lifecycleOwner = LocalLifecycleOwner.current
+                    val cameraProviderFuture = remember {
+                        ProcessCameraProvider.getInstance(context)
+                    }
+                    var hasCamPermission by remember {
+                        mutableStateOf(
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.CAMERA
+                            ) == PackageManager.PERMISSION_GRANTED
+                        )
+                    }
+                    val launcher = rememberLauncherForActivityResult(
+                        contract = ActivityResultContracts.RequestPermission(),
+                        onResult = { granted ->
+                            hasCamPermission = granted
+                        }
+                    )
+                    LaunchedEffect(key1 = true) {
+                        launcher.launch(Manifest.permission.CAMERA)
+                    }
+                    NavGraph(navController = navController,
+                        connectionStatus = connectionStatus,
+                        hasCamPermission = true,
+                        cameraProviderFuture = cameraProviderFuture,
+                        lifecycleOwner = lifecycleOwner,
+                        qrViewModel = qrViewModel,
+                    )
+                    navController.navigate(Screen.HomeScreen.route){
                     }
                 }
             }
@@ -79,18 +104,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Websocket_appTheme {
-        Greeting("Android")
-    }
-}
+
