@@ -76,20 +76,17 @@ class WebSocketServer(QWebSocketServer):
             self.socket = self.nextPendingConnection()
             self.socket.textMessageReceived.connect(self.process_text_message)
             self.socket.disconnected.connect(self.client_disconnected)
-            self.any_client_connected.append(self.socket)
-
+            self.any_client_connected.append(self.socket)        
+            for i in self.any_client_connected:
+                print(i.peerAddress().toString())
             self.save_authed_clients()
         else:
-           
-           
+            print("Disconnecting client")
             # Disconnect the client after sending error message
             self.socket = self.nextPendingConnection()
-            sender_ip = self.socket.peerAddress().toString()
-            print("Unkown client connected", sender_ip)
             self.socket.disconnect()
             self.socket.deleteLater()
             self.socket = None
-            print("Client disconnected")
 
 
     def process_auth_text_message(self, message):
@@ -116,9 +113,9 @@ class WebSocketServer(QWebSocketServer):
         sender = self.sender()
         json_data = self.convert_str_to_json(message)
         sender_ip = sender.peerAddress().toString()
-        print("Processing new client verification")
-        print(json_data)
+        print(self.authed_clients)
         # Verify if "challenge_code" key is present in the json_data
+        
         if "challenge_code" in json_data.keys():
             received_challenge_code = json_data["challenge_code"]
             if received_challenge_code == self.challenge_code:
@@ -155,7 +152,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("WebSocket Server")
-        self.setGeometry(100, 100,800, 800)
+        self.setGeometry(100, 100,700, 700)
         self.box_layout = QVBoxLayout()
         self.text_edit = QTextEdit(self)
         self.text_edit.setReadOnly(True)
