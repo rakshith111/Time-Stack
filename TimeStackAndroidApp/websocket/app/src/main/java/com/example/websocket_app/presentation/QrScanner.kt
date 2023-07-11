@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavHostController
 import com.example.websocket_app.components.QrCodeAnalyzer
 import com.example.websocket_app.viewmodel.QrViewModel
 import com.google.common.util.concurrent.ListenableFuture
@@ -38,7 +40,7 @@ fun QrScanner(
     cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     lifecycleOwner: LifecycleOwner,
     qrViewModel: QrViewModel,
-    sendCode: () -> Unit
+    sendCode: () -> Unit,
 ){
     var code by remember {
         mutableStateOf("")
@@ -101,12 +103,13 @@ Column(
                     modifier = Modifier
                         .weight(1f)  // Assign a weight
                         .padding(32.dp),
-                    color = androidx.compose.ui.graphics.Color.White
+                    color = androidx.compose.ui.graphics.Color.White,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Button(onClick = {
                     sendCode()
                 }) {
-                    Text(text = "Send", style = androidx.compose.material3.MaterialTheme.typography.bodyLarge)
+                    Text(text = "Send", style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }

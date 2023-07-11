@@ -16,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.BuildConfig
 import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.casualmode.service.TimerService
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory

@@ -11,7 +11,6 @@ import com.example.websocket_app.presentation.HomeScreen
 import com.example.websocket_app.presentation.QrScanner
 import com.example.websocket_app.viewmodel.QrViewModel
 import com.google.common.util.concurrent.ListenableFuture
-import org.java_websocket.client.WebSocketClient
 
 
 @Composable
