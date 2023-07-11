@@ -77,6 +77,7 @@ Column(
                         QrCodeAnalyzer { result ->
                             code = result
                             qrViewModel.qrCode = result
+                            sendCode()
                         }
                     )
                     try {
@@ -106,11 +107,6 @@ Column(
                     color = androidx.compose.ui.graphics.Color.White,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                Button(onClick = {
-                    sendCode()
-                }) {
-                    Text(text = "Send", style = MaterialTheme.typography.bodyLarge)
-                }
             }
         }
     }

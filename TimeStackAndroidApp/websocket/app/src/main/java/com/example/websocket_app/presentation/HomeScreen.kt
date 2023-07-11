@@ -1,5 +1,6 @@
 package com.example.websocket_app.presentation
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,8 @@ import org.json.JSONObject
 import timber.log.Timber
 import java.net.URI
 
+
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -46,23 +49,17 @@ fun HomeScreen(
     val context = LocalContext.current
     var connectionStatus by remember { mutableStateOf("Not Connected") }
     var buttonClicked by remember { mutableStateOf(true) }
+    Timber.d("HomeScreen: sendCode: ${qrViewModel.qrCode} $sendCode")
 
 
     if (sendCode) {
-        try {
-//            webSocketClient.connect()
-            val jsonObject = JSONObject(qrViewModel.qrCode)
-            val secret = jsonObject["challenge_code"].toString()
-            val secretJsonObject = JSONObject()
-            secretJsonObject.put("challenge_code", secret)
-            val secretString = secretJsonObject.toString()
-            Timber.d("Sending message: $secretString")
-            webSocketClient.send(secretString)
-            Timber.d("Sent message: ${qrViewModel.qrCode}")
-        } catch (e: Exception) {
-            Timber.d("Error sending message: ${e.message}")
-            Toast.makeText(context, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
+        CoroutineScope(Dispatchers.IO).launch {
+            connectToQrServer(webSocketClient, qrViewModel){
+                connectionStatus = it
+                Toast.makeText(context, "Connected to Websocket", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
     Column(
@@ -98,6 +95,32 @@ fun HomeScreen(
 
     }
 }
+
+suspend fun connectToQrServer(webSocketClient: MyWebSocketClient, qrViewModel: QrViewModel, connectionStatus: (String) -> Unit) {
+    try {
+        webSocketClient.connect()
+        delay(1000)
+        if (webSocketClient.isOpen) {
+            val jsonObject = JSONObject(qrViewModel.qrCode)
+            val secret = jsonObject["Secret"].toString()
+            Timber.d("Sending message: $secret")
+            val secretJsonObject = JSONObject()
+            secretJsonObject.put("challenge_code", secret)
+            val secretString = secretJsonObject.toString()
+            Timber.d("Sending message: $secretString")
+            webSocketClient.send(secretString)
+            Timber.d("Sent message: ${qrViewModel.qrCode}")
+            connectionStatus("Connected")
+        } else {
+            Timber.d("Error sending message: WebSocket is not open")
+//            Toast.makeText(context, "Error sending message: WebSocket is not open", Toast.LENGTH_SHORT).show()
+        }
+    } catch (e: Exception) {
+        Timber.d("Error sending message: ${e.message}")
+//        Toast.makeText(context, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
+    }
+}
+
 suspend fun connectToServer(
     webSocketClient: MyWebSocketClient,
     serverUri: URI,
@@ -125,7 +148,6 @@ suspend fun connectToServer(
         webSocketClient.send(json.toString())
         Timber.d("Sent message: $json")
     } else {
-//        Toast.makeText(context, "Connection failed", Toast.LENGTH_SHORT).show()
         webSocketClient.onError(Exception("Connection failed"))
         Timber.d("Connecting to server failed")
     }
