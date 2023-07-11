@@ -42,10 +42,10 @@ import java.net.URI
 fun HomeScreen(
     navController: NavHostController,
     qrViewModel: QrViewModel,
-    sendCode: Boolean
+    sendCode: Boolean,
+    webSocketClient: MyWebSocketClient,
 ) {
-    val serverUri = URI("ws://192.168.0.108:8000")
-    val webSocketClient = remember { MyWebSocketClient(serverUri) }
+    val serverUri = "ij"
     val context = LocalContext.current
     var connectionStatus by remember { mutableStateOf("Not Connected") }
     var buttonClicked by remember { mutableStateOf(true) }
@@ -119,7 +119,7 @@ suspend fun connectToQrServer(webSocketClient: MyWebSocketClient, qrViewModel: Q
 
 suspend fun connectToServer(
     webSocketClient: MyWebSocketClient,
-    serverUri: URI,
+    serverUri: String,
     context: Context,
     connectionStatus: (String) -> Unit
 ) {

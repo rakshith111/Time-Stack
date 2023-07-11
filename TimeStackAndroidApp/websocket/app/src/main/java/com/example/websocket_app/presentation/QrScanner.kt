@@ -41,7 +41,11 @@ fun QrScanner(
     lifecycleOwner: LifecycleOwner,
     qrViewModel: QrViewModel,
     sendCode: () -> Unit,
+    scanCount: Int = 0
 ){
+    var scanCounter = remember {
+        mutableStateOf(scanCount)
+    }
     var code by remember {
         mutableStateOf("")
     }
@@ -77,7 +81,10 @@ Column(
                         QrCodeAnalyzer { result ->
                             code = result
                             qrViewModel.qrCode = result
-                            sendCode()
+                            if(scanCounter.value == 0){
+                                scanCounter.value = 1
+                                sendCode()
+                            }
                         }
                     )
                     try {
