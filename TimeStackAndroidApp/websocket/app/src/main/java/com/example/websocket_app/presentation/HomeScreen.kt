@@ -42,10 +42,10 @@ import java.net.URI
 fun HomeScreen(
     navController: NavHostController,
     qrViewModel: QrViewModel,
-    sendCode: Boolean
+    sendCode: Boolean,
+    webSocketClient: MyWebSocketClient,
 ) {
-    val serverUri = URI("ws://192.168.0.108:8000")
-    val webSocketClient = remember { MyWebSocketClient(serverUri) }
+    val serverUri = "ij"
     val context = LocalContext.current
     var connectionStatus by remember { mutableStateOf("Not Connected") }
     var buttonClicked by remember { mutableStateOf(true) }
@@ -101,29 +101,25 @@ suspend fun connectToQrServer(webSocketClient: MyWebSocketClient, qrViewModel: Q
         webSocketClient.connect()
         delay(1000)
         if (webSocketClient.isOpen) {
-            val jsonObject = JSONObject(qrViewModel.qrCode)
-            val secret = jsonObject["Secret"].toString()
-            Timber.d("Sending message: $secret")
-            val secretJsonObject = JSONObject()
-            secretJsonObject.put("challenge_code", secret)
-            val secretString = secretJsonObject.toString()
-            Timber.d("Sending message: $secretString")
-            webSocketClient.send(secretString)
+            val secret = JSONObject(qrViewModel.qrCode)["Secret"].toString()
+            val secretJsonObject = JSONObject().apply {
+                put("challenge_code", secret)
+            }.toString()
+            Timber.d("Sending message: $secretJsonObject")
+            webSocketClient.send(secretJsonObject)
             Timber.d("Sent message: ${qrViewModel.qrCode}")
             connectionStatus("Connected")
         } else {
-            Timber.d("Error sending message: WebSocket is not open")
-//            Toast.makeText(context, "Error sending message: WebSocket is not open", Toast.LENGTH_SHORT).show()
+            Timber.e("Error sending message: WebSocket is not open")
         }
     } catch (e: Exception) {
-        Timber.d("Error sending message: ${e.message}")
-//        Toast.makeText(context, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
+        Timber.e("Error sending message: ${e.message}")
     }
 }
 
 suspend fun connectToServer(
     webSocketClient: MyWebSocketClient,
-    serverUri: URI,
+    serverUri: String,
     context: Context,
     connectionStatus: (String) -> Unit
 ) {

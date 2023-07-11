@@ -3,7 +3,6 @@ package com.example.websocket_app
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -25,24 +24,27 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.websocket_app.components.Screen
-import com.example.websocket_app.data.TimeData
 import com.example.websocket_app.navigation.NavGraph
 import com.example.websocket_app.ui.theme.Websocket_appTheme
 import com.example.websocket_app.viewmodel.QrViewModel
+import com.example.websocket_app.websocket_app.MyWebSocketClient
+import org.java_websocket.client.WebSocketClient
 import timber.log.Timber
+import java.net.URI
 
 
 class MainActivity : ComponentActivity() {
     private lateinit var navController : NavHostController
     private val qrViewModel by viewModels<QrViewModel> ()
+    private lateinit var webSocketClient: MyWebSocketClient
     override fun onCreate(savedInstanceState: Bundle?) {
 
         Timber.d("onCreate")
         super.onCreate(savedInstanceState)
         setContent {
             navController = rememberNavController()
-
+            val serverUri = URI("ws://192.168.0.108:8000")
+            webSocketClient = remember { MyWebSocketClient(serverUri) }
             Websocket_appTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -75,10 +77,17 @@ class MainActivity : ComponentActivity() {
                         cameraProviderFuture = cameraProviderFuture,
                         lifecycleOwner = lifecycleOwner,
                         qrViewModel = qrViewModel,
+                        webSocketClient = webSocketClient
                     )
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("onDestroy")
+        webSocketClient.close()
     }
 }
 
