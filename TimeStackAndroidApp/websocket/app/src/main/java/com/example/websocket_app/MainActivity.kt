@@ -30,6 +30,7 @@ import com.example.websocket_app.data.TimeData
 import com.example.websocket_app.navigation.NavGraph
 import com.example.websocket_app.ui.theme.Websocket_appTheme
 import com.example.websocket_app.viewmodel.QrViewModel
+import timber.log.Timber
 
 
 class MainActivity : ComponentActivity() {
@@ -37,11 +38,10 @@ class MainActivity : ComponentActivity() {
     private val qrViewModel by viewModels<QrViewModel> ()
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        Timber.d("onCreate")
         super.onCreate(savedInstanceState)
         setContent {
             navController = rememberNavController()
-
-            // Set ip here >>>>>>>>>>>>>>>>>>>>
 
             Websocket_appTheme {
                 Surface(
@@ -76,8 +76,6 @@ class MainActivity : ComponentActivity() {
                         lifecycleOwner = lifecycleOwner,
                         qrViewModel = qrViewModel,
                     )
-                    navController.navigate(Screen.HomeScreen.route){
-                    }
                 }
             }
         }
