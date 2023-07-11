@@ -59,11 +59,7 @@ class WebSocketServer(QWebSocketServer):
         sender = self.sender()
         sender_ip = sender.peerAddress().toString()
         # previously authed client
-        print(sender_ip)
-        print(self.authed_clients)
-        print(self.authed_clients.values())
-        print(sender_ip in self.authed_clients.values())
-        print(True if self.challenge_code else False)
+
         if sender_ip in self.authed_clients.values():
             print("Processing previously authed client")
             self.socket = self.nextPendingConnection()
@@ -81,7 +77,7 @@ class WebSocketServer(QWebSocketServer):
                 print(i.peerAddress().toString())
             self.save_authed_clients()
         else:
-            print("Disconnecting client")
+            print("Disconnecting client as no challenge code is set")
             # Disconnect the client after sending error message
             self.socket = self.nextPendingConnection()
             self.socket.disconnect()
@@ -94,7 +90,7 @@ class WebSocketServer(QWebSocketServer):
         json_data = self.convert_str_to_json(message)
         sender_ip = sender.peerAddress().toString()
         if sender_ip in self.authed_clients.values():
-            print("Processing previously authed client verification")
+            print("Verifying previously authed client ")
             # Reverse lookup key from value
             key = list(self.authed_clients.keys())[list(self.authed_clients.values()).index(sender_ip)]
             if key== json_data["challenge_code"]:
@@ -107,18 +103,19 @@ class WebSocketServer(QWebSocketServer):
                 self.text_edit.append("Client not authenticated")
                 self.text_edit.append("Client disconnected")
                 sender.close()
+                print("Client disconnected as challenge code did not match")
            
 
     def process_text_message(self, message):
         sender = self.sender()
         json_data = self.convert_str_to_json(message)
         sender_ip = sender.peerAddress().toString()
-        print(self.authed_clients)
         # Verify if "challenge_code" key is present in the json_data
         
         if "challenge_code" in json_data.keys():
             received_challenge_code = json_data["challenge_code"]
             if received_challenge_code == self.challenge_code:
+                print("Challenge code matched for new client")
                 self.text_edit.append("Challenge code matched")
                 self.authed_clients[received_challenge_code] = sender_ip
                 self.text_edit.append("New Client authenticated")
@@ -127,18 +124,20 @@ class WebSocketServer(QWebSocketServer):
                 self.save_authed_clients()
                 self.socket.textMessageReceived.connect(self.process_auth_text_message)
             else:
+                print("Challenge code did not match for new client")
                 self.text_edit.append("Challenge code did not match")
                 self.text_edit.append("Client not authenticated")
                 self.text_edit.append("Client disconnected")
                 sender.close()
         else:
+            print("Challenge code not found in json data")
             self.text_edit.append("Client not authenticated")
             self.text_edit.append("Client disconnected")
             sender.close()
 
     
     def client_disconnected(self):
-        print("Client disconnected")
+        print("Client disconnected from server")
 
     def convert_str_to_json(self, data):
         try:
