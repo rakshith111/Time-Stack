@@ -80,8 +80,10 @@ class WebSocketServer(QWebSocketServer):
             print("Disconnecting client as no challenge code is set")
             # Disconnect the client after sending error message
             self.socket = self.nextPendingConnection()
+            self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"No challenge code is set"}))
             self.socket.disconnect()
             self.socket.deleteLater()
+
             self.socket = None
 
 
@@ -98,11 +100,12 @@ class WebSocketServer(QWebSocketServer):
                     self.text_edit.append("Challenge code matched")
                     self.text_edit.append("welcome old user")
                     self.text_edit.append("Client connected")
-                    # Further processing --------- for send and receive add enpoints here
+                    
             else:
                 self.text_edit.append("Challenge code did not match")
                 self.text_edit.append("Client not authenticated")
                 self.text_edit.append("Client disconnected")
+                self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"Challenge code did not match for previously authed client"}))
                 sender.close()
                 print("Client disconnected as challenge code did not match")
            
@@ -140,11 +143,13 @@ class WebSocketServer(QWebSocketServer):
                 self.text_edit.append("Challenge code did not match")
                 self.text_edit.append("Client not authenticated")
                 self.text_edit.append("Client disconnected")
+                self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"Challenge code did not match for new client"}))
                 sender.close()
         else:
             print("Challenge code not found in json data")
             self.text_edit.append("Client not authenticated")
             self.text_edit.append("Client disconnected")
+            self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"Challenge code not found in json data"}))
             sender.close()
 
     
