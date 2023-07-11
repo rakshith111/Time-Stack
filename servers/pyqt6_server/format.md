@@ -11,7 +11,7 @@
     "challenge_code":"Key from qr",
     "challenge_code_accepted":True,
 }
-}
+
 ```
 # If the challenge code is not accepted, the server will send the following data then close the connection
 ```json
