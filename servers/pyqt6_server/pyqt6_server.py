@@ -92,12 +92,13 @@ class WebSocketServer(QWebSocketServer):
         if sender_ip in self.authed_clients.values():
             print("Verifying previously authed client ")
             # Reverse lookup key from value
-            key = list(self.authed_clients.keys())[list(self.authed_clients.values()).index(sender_ip)]
-            if key== json_data["challenge_code"]:
-                self.text_edit.append("Challenge code matched")
-                self.text_edit.append("welcome old user")
-                self.text_edit.append("Client connected")
-                # Further processing --------- for send and receive
+            if self.check_key(json_data):
+                key = list(self.authed_clients.keys())[list(self.authed_clients.values()).index(sender_ip)]
+                if key== json_data["challenge_code"]:
+                    self.text_edit.append("Challenge code matched")
+                    self.text_edit.append("welcome old user")
+                    self.text_edit.append("Client connected")
+                    # Further processing --------- for send and receive add enpoints here
             else:
                 self.text_edit.append("Challenge code did not match")
                 self.text_edit.append("Client not authenticated")
@@ -105,14 +106,25 @@ class WebSocketServer(QWebSocketServer):
                 sender.close()
                 print("Client disconnected as challenge code did not match")
            
+    def check_key(self,json_data):
+        try:
+            if json_data["challenge_code"]:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print(e)
+            return False
+
 
     def process_text_message(self, message):
         sender = self.sender()
         json_data = self.convert_str_to_json(message)
         sender_ip = sender.peerAddress().toString()
-        # Verify if "challenge_code" key is present in the json_data
+        correct_challenge_code=self.check_key(json_data)
         
-        if "challenge_code" in json_data.keys():
+        
+        if correct_challenge_code:
             received_challenge_code = json_data["challenge_code"]
             if received_challenge_code == self.challenge_code:
                 print("Challenge code matched for new client")
@@ -146,6 +158,7 @@ class WebSocketServer(QWebSocketServer):
     
         except Exception as e:
             print(e)
+            return None
 
 class MainWindow(QMainWindow):
     def __init__(self):
