@@ -80,8 +80,10 @@ class WebSocketServer(QWebSocketServer):
             print("Disconnecting client as no challenge code is set")
             # Disconnect the client after sending error message
             self.socket = self.nextPendingConnection()
+            self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"No challenge code is set"}))
             self.socket.disconnect()
             self.socket.deleteLater()
+
             self.socket = None
 
 
@@ -98,11 +100,24 @@ class WebSocketServer(QWebSocketServer):
                     self.text_edit.append("Challenge code matched")
                     self.text_edit.append("welcome old user")
                     self.text_edit.append("Client connected")
-                    # Further processing --------- for send and receive add enpoints here
+                try:
+                    if json_data["endpoint"]:
+                        endpoint=True
+                except  Exception as e:
+                    endpoint=False
+                if endpoint:
+                    self.text_edit.append("endpoint received")
+                    self.text_edit.append("Client connected")
+                    self.text_edit.append(f"Client address: {sender_ip}")
+                    self.text_edit.append(f"endpoint: {json_data['endpoint']}")
+                    self.socket.sendTextMessage(json.dumps({"challenge_code":  self.challenge_code,
+                                                            "challenge_code_accepted":True}))
+                    
             else:
                 self.text_edit.append("Challenge code did not match")
                 self.text_edit.append("Client not authenticated")
                 self.text_edit.append("Client disconnected")
+                self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"Challenge code did not match for previously authed client"}))
                 sender.close()
                 print("Client disconnected as challenge code did not match")
            
@@ -133,6 +148,8 @@ class WebSocketServer(QWebSocketServer):
                 self.text_edit.append("New Client authenticated")
                 self.text_edit.append("Client connected")
                 self.text_edit.append(f"Client address: {sender_ip}")
+                self.socket.sendTextMessage(json.dumps({"challenge_code":  self.challenge_code,
+                                                        "challenge_code_accepted":True}))
                 self.save_authed_clients()
                 self.socket.textMessageReceived.connect(self.process_auth_text_message)
             else:
@@ -140,11 +157,13 @@ class WebSocketServer(QWebSocketServer):
                 self.text_edit.append("Challenge code did not match")
                 self.text_edit.append("Client not authenticated")
                 self.text_edit.append("Client disconnected")
+                self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"Challenge code did not match for new client"}))
                 sender.close()
         else:
             print("Challenge code not found in json data")
             self.text_edit.append("Client not authenticated")
             self.text_edit.append("Client disconnected")
+            self.socket.sendTextMessage(json.dumps({"challenge_code_accepted":False,"error":"Challenge code not found in json data"}))
             sender.close()
 
     
