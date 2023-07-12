@@ -9,4 +9,8 @@ import java.net.URI
 
 class QrViewModel:ViewModel() {
     var qrCode by mutableStateOf("")
+    var serverUI by mutableStateOf(URI(""))
+   companion object {
+         var webSocketClient: MyWebSocketClient? = null
+   }
 }

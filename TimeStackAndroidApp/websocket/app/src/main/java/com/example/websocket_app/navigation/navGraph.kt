@@ -21,7 +21,6 @@ fun NavGraph(
     cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     lifecycleOwner: LifecycleOwner,
     qrViewModel: QrViewModel,
-    webSocketClient: MyWebSocketClient,
     ) {
     var sendCode = false
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route){
@@ -29,7 +28,6 @@ fun NavGraph(
             HomeScreen(navController = navController,
                 qrViewModel = qrViewModel,
                 sendCode = sendCode,
-                webSocketClient = webSocketClient
             )
         }
         composable(route = Screen.QRScannerScreen.route){

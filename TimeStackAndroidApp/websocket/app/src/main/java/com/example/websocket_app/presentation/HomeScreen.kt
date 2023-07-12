@@ -43,7 +43,6 @@ fun HomeScreen(
     navController: NavHostController,
     qrViewModel: QrViewModel,
     sendCode: Boolean,
-    webSocketClient: MyWebSocketClient,
 ) {
     val serverUri = "ij"
     val context = LocalContext.current
@@ -54,9 +53,8 @@ fun HomeScreen(
 
     if (sendCode) {
         CoroutineScope(Dispatchers.IO).launch {
-            connectToQrServer(webSocketClient, qrViewModel){
+            connectToQrServer(qrViewModel){
                 connectionStatus = it
-                Toast.makeText(context, "Connected to Websocket", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -77,7 +75,7 @@ fun HomeScreen(
 
         Button(onClick = {
             CoroutineScope(Dispatchers.IO).launch {
-                connectToServer(webSocketClient, serverUri, context){
+                connectToServer(serverUri, context){
                     connectionStatus = it
                 }
             }
@@ -96,16 +94,21 @@ fun HomeScreen(
     }
 }
 
-suspend fun connectToQrServer(webSocketClient: MyWebSocketClient, qrViewModel: QrViewModel, connectionStatus: (String) -> Unit) {
+suspend fun connectToQrServer(qrViewModel: QrViewModel, connectionStatus: (String) -> Unit) {
     try {
+        val (Secret, IP, Port) = JSONObject(qrViewModel.qrCode).run {
+            Triple(getString("Secret"), getString("IP"), getString("Port"))
+        }
+        val secretJsonObject = JSONObject().apply {
+            put("challenge_code", Secret)
+        }.toString()
+        val serverUri = "ws://$IP:$Port"
+        qrViewModel.serverUI = URI(serverUri)
+        Timber.d("Connecting to : $serverUri")
+        val webSocketClient = MyWebSocketClient.getInstance(qrViewModel.serverUI)
         webSocketClient.connect()
         delay(1000)
         if (webSocketClient.isOpen) {
-            val secret = JSONObject(qrViewModel.qrCode)["Secret"].toString()
-            val secretJsonObject = JSONObject().apply {
-                put("challenge_code", secret)
-            }.toString()
-            Timber.d("Sending message: $secretJsonObject")
             webSocketClient.send(secretJsonObject)
             Timber.d("Sent message: ${qrViewModel.qrCode}")
             connectionStatus("Connected")
@@ -118,33 +121,42 @@ suspend fun connectToQrServer(webSocketClient: MyWebSocketClient, qrViewModel: Q
 }
 
 suspend fun connectToServer(
-    webSocketClient: MyWebSocketClient,
     serverUri: String,
     context: Context,
     connectionStatus: (String) -> Unit
 ) {
+    try {
+        val webSocketClient = MyWebSocketClient.getInstance(URI(serverUri))
+        Timber.d("Connecting to : $serverUri")
+        webSocketClient.connect()
+        delay(1000) // give some time for the connection to establish
 
-    Timber.d("Connecting to : $serverUri")
-    webSocketClient.connect()
-    delay(1000) // give some time for the connection to establish
-
-    when {
-        webSocketClient.isOpen -> {
-            connectionStatus("Connected")
+        when {
+            webSocketClient.isOpen -> {
+                connectionStatus("Connected")
+            }
+            webSocketClient.isClosed -> {
+                connectionStatus("Closed")
+            }
+            else -> {
+                connectionStatus("Error")
+            }
         }
-        webSocketClient.isClosed -> {
-            connectionStatus("Closed")
-        }
-        else -> {
-            connectionStatus("Error")
+        if (webSocketClient.isOpen) {
+            val json = Gson().toJson(TimeData("Hello", "Android"))
+            webSocketClient.send(json.toString())
+            Timber.d("Sent message: $json")
+        } else {
+            webSocketClient.onError(Exception("Connection failed"))
+            Timber.d("Connecting to server failed")
         }
     }
-    if (webSocketClient.isOpen) {
-        val json = Gson().toJson(TimeData("Hello", "Android"))
-        webSocketClient.send(json.toString())
-        Timber.d("Sent message: $json")
-    } else {
-        webSocketClient.onError(Exception("Connection failed"))
-        Timber.d("Connecting to server failed")
+    catch (
+        e: Exception
+    ) {
+        Timber.e("Error sending message: ${e.message}")
+        connectionStatus("Error")
     }
+
+
 }

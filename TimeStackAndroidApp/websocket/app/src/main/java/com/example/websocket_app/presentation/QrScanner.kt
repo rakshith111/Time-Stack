@@ -42,8 +42,8 @@ fun QrScanner(
     qrViewModel: QrViewModel,
     sendCode: () -> Unit,
     scanCount: Int = 0
-){
-    var scanCounter = remember {
+) {
+    val scanCounter = remember {
         mutableStateOf(scanCount)
     }
     var code by remember {
@@ -60,7 +60,7 @@ fun QrScanner(
             Toast.makeText(context, "Scanned QR Code: $code", Toast.LENGTH_LONG).show()
         }
     }
-Column(
+    Column(
         modifier = Modifier.fillMaxSize()
     ) {
         if (hasCamPermission) {
@@ -81,7 +81,7 @@ Column(
                         QrCodeAnalyzer { result ->
                             code = result
                             qrViewModel.qrCode = result
-                            if(scanCounter.value == 0){
+                            if (scanCounter.value == 0) {
                                 scanCounter.value = 1
                                 sendCode()
                             }

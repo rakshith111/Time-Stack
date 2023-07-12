@@ -36,15 +36,12 @@ import java.net.URI
 class MainActivity : ComponentActivity() {
     private lateinit var navController : NavHostController
     private val qrViewModel by viewModels<QrViewModel> ()
-    private lateinit var webSocketClient: MyWebSocketClient
     override fun onCreate(savedInstanceState: Bundle?) {
 
         Timber.d("onCreate")
         super.onCreate(savedInstanceState)
         setContent {
             navController = rememberNavController()
-            val serverUri = URI("ws://192.168.0.108:8000")
-            webSocketClient = remember { MyWebSocketClient(serverUri) }
             Websocket_appTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -77,7 +74,6 @@ class MainActivity : ComponentActivity() {
                         cameraProviderFuture = cameraProviderFuture,
                         lifecycleOwner = lifecycleOwner,
                         qrViewModel = qrViewModel,
-                        webSocketClient = webSocketClient
                     )
                 }
             }
@@ -87,7 +83,7 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Timber.d("onDestroy")
-        webSocketClient.close()
+
     }
 }
 
