@@ -22,7 +22,10 @@ class TimeStack(QtWidgets.QMainWindow):
         super().__init__(parent=parent)                
         self.time_stack_ui = Ui_MainWindow()
         self.time_stack_ui.setupUi(self)
-
+        self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(r"src\ui_files\icon\horizontal_white.png"))
+        # Fit the image to the label
+        self.time_stack_ui.logo_placeholder.setScaledContents(True)
+        self.time_stack_ui.tabWidget.setTabPosition(QtWidgets.QTabWidget.TabPosition.West)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

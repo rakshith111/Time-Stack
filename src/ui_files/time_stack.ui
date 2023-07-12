@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>900</height>
+    <width>700</width>
+    <height>920</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>900</height>
+    <width>700</width>
+    <height>920</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
-    <height>900</height>
+    <width>700</width>
+    <height>920</height>
    </size>
   </property>
   <property name="font">
@@ -33,13 +33,13 @@
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
     <size>
-     <width>800</width>
+     <width>700</width>
      <height>900</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>800</width>
+     <width>700</width>
      <height>900</height>
     </size>
    </property>
@@ -47,9 +47,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>70</y>
-      <width>781</width>
-      <height>821</height>
+      <y>160</y>
+      <width>671</width>
+      <height>741</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -98,74 +98,95 @@
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>570</x>
       <y>10</y>
-      <width>191</width>
-      <height>52</height>
+      <width>130</width>
+      <height>70</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>10</number>
+     </property>
      <property name="sizeConstraint">
       <enum>QLayout::SetMinimumSize</enum>
      </property>
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <property name="topMargin">
+      <number>10</number>
+     </property>
+     <property name="rightMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>10</number>
+     </property>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="minimize_btn">
        <property name="minimumSize">
         <size>
          <width>50</width>
-         <height>50</height>
+         <height>20</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>50</width>
-         <height>50</height>
+         <height>20</height>
         </size>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>Minimize</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="close_btn">
        <property name="minimumSize">
         <size>
          <width>50</width>
-         <height>50</height>
+         <height>20</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>50</width>
-         <height>50</height>
+         <height>20</height>
         </size>
        </property>
        <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
+        <string>Close</string>
        </property>
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="logo_placeholder">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>40</y>
+      <width>490</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>490</width>
+      <height>120</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>490</width>
+      <height>120</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>logo</string>
+    </property>
    </widget>
   </widget>
  </widget>
