@@ -322,7 +322,7 @@ class StackManager():
             self.stack_bar._remove_signal.connect(self.pop_top_stack)
             self.layout.addWidget(self.stack_bar)
     
-            self.notification(title="Stack Generator",message=f'Stack {self.stack_bar.objectName()} created successfully',type_notify="general")
+            # self.notification(title="Stack Generator",message=f'Stack {self.stack_bar.objectName()} created successfully',type_notify="general")
             if self.stack_top_item is None:
                 self.stack_top_item = self.stack_bar
                 connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?,?,?)",

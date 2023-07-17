@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtWidgets import QMainWindow
 import sys
+import pathlib
+from PyQt6.QtWidgets import QApplication,QMainWindow
 from PyQt6 import QtGui
 
 class ThemeManager:
@@ -16,7 +16,8 @@ class ThemeManager:
         self.time_stack_ui = time_stack_ui
         self.set_theme()
         self.BASE_DIR_RESC = self.resource_path()
-        self.load_items()
+        self.current_theme =self.parent.current_theme
+        self.toggle_theme()
 
     def set_theme(self):
         '''
@@ -35,13 +36,15 @@ class ThemeManager:
             # Bundled with PyInstaller
             BASE_DIR_RESC = sys._MEIPASS
         else:
-            from libs._base_logger import BASE_DIR
-            BASE_DIR_RESC = BASE_DIR
+            # Normal Python development mode
+            BASE_DIR_RESC = pathlib.Path(__file__).parent.parent.absolute()
         return BASE_DIR_RESC
 
-    def load_items(self):
+    def toggle_theme(self):
         '''
         Loads the items in the application.
         '''        
-        print(self.BASE_DIR_RESC)
-        self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap( r"src\ui_files\icon\horizontal_dark.png"))
+        self.time_stack_ui.logo_placeholder.setScaledContents(True)
+        self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'horizontal_dark.png')))
+        
+        
