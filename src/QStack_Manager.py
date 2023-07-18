@@ -57,7 +57,19 @@ class StackManager():
         self.load_stack()
         self.notification_obj = Notify(default_notification_application_name = "Time Stack",default_notification_icon =path.join(BASE_DIR, 'ui_files', 'icon', 'window_icon_wob_s.png'))
         
-
+    def welcome(self)->None:
+        if self.notifications_enabled:
+            self.notification_obj.application_name = "Time Stack"
+            self.notification_obj.title = ""
+            self.notification_obj.message="Welcome to Time Stack"
+            self.notification_obj.audio = path.join(PATH_TO_SOUNDS, self.notification_sound_general)
+            self.notification_obj.send()         
+        else:
+            self.notification_obj.application_name = "Time Stack"
+            self.notification_obj.title = ""
+            self.notification_obj.message="Welcome to Time Stack"
+            self.notification_obj.send()
+        
     def notification(self, title: str='Your activity name', message: str='Good job the progress is',type_notify:str='general') -> None:
         '''
         This function is used to send notifications to the user.
@@ -124,9 +136,6 @@ class StackManager():
         
         self.disconnect_db(connection,cursor)
         path_to_sound = path.join(BASE_DIR, 'ui_files', 'sounds')
-        print(path_to_sound)
-        print(path.join(path_to_sound, self.notification_sound_general))
-
     def generate_random_number(self)->int:
         '''
         This function generates a random number between 1 and 10000.
