@@ -12,7 +12,7 @@ from ui_generated.main_menu import Ui_MainMenu
 
 from QStack_Generator import StackSpace
 from QStack_Generator import StackGenerator
-from QStack_Settings import SettingsWindow
+from QStack_Settings_old import SettingsWindow
 
 
 class QTimeStackMain(QtWidgets.QMainWindow):
