@@ -7,7 +7,6 @@ from PyQt6.QtGui import QCloseEvent,QAction
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox, QVBoxLayout
 
 from ui_generated.time_stack import Ui_MainWindow
-from QTheme_Manager import ThemeManager
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
@@ -17,9 +16,13 @@ from libs.QClasses.QScrollArea import DragScrollArea
 
 from QStack_Generator import StackSpace
 from QStack_Generator import StackGenerator
-from QStack_Settings import SettingsWindow
+from QStack_Settings_old import SettingsWindow
 from QStack_Manager import StackManager
+from QStack_Settings import ThemeManager
 
+# from qttheem import ThemeManager
+
+from libs.QClasses.QToggle import AnimatedToggle
 class TimeStack(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None) -> None:
@@ -38,13 +41,54 @@ class TimeStack(QtWidgets.QMainWindow):
         self.setAcceptDrops(True)
         self.current_theme = "dark"
         self.close_to_tray=True
+        self.tray_icon = QSystemTrayIcon(self)     
+        self.tray_menu = QMenu(self)
+        self.show_action = QAction("Show", self)
+        self.quit_action = QAction("Quit", self)
+        self.show_action.triggered.connect(self.showWindow)
+        self.quit_action.triggered.connect(self.quitApplication)
+        self.tray_menu.addAction(self.show_action)
+        self.tray_menu.addAction(self.quit_action)
+        self.tray_icon.setContextMenu(self.tray_menu)
+        self.tray_icon.show()
         self.setWindowIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
-  
-        self.theme_manager = ThemeManager(time_stack_ui=self.time_stack_ui, parent=self)
-
         self._init_stack_space()
         self._init_stack_generator()
+        self.theme_manager = ThemeManager( time_stack_ui=self.time_stack_ui, parent=self)
+        self.welcome_timer = QtCore.QTimer()
+        self.welcome_timer.singleShot(100, self.manager.welcome)
+
+        self.time_stack_ui.logo_placeholder.setScaledContents(True)
+        self.time_stack_ui.start_btn.setFixedSize(50, 50)
+        self.time_stack_ui.pause_btn.setFixedSize(50, 50)
+        self.time_stack_ui.remove_btn.setFixedSize(50, 50)
+        self.time_stack_ui.start_btn.setIconSize(QtCore.QSize(50, 50))
+        self.time_stack_ui.pause_btn.setIconSize(QtCore.QSize(50, 50))
+        self.time_stack_ui.remove_btn.setIconSize(QtCore.QSize(50, 50))
+
+        self.time_stack_ui.add_btn.setFixedSize(70, 30)
+        self.time_stack_ui.settings_btn.setFixedSize(70, 30)
+        self.time_stack_ui.add_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(1))
+        self.time_stack_ui.settings_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(2))
+
+    def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
+        # Ctrl + C to quit the application
+        if event.modifiers() == QtCore.Qt.KeyboardModifier.ControlModifier and event.key() == QtCore.Qt.Key.Key_C:
+            self.quitApplication()
+
+        # Esc to hide the application
+        elif event.key() == QtCore.Qt.Key.Key_Escape:
+            self.hide()
+
+    def showWindow(self):
+        self.show()
     
+    def quitApplication(self):
+        # Quit the application when the "Quit" action is triggered
+        self.tray_icon.deleteLater()
+        self.manager.save_stack()
+        QApplication.quit()
+   
     def _init_stack_generator(self) -> None:
         logger.info(f"{Color.HEADER}Stack Generator initializing.{Color.ENDC}")
         self.time_stack_ui.start_time_input.setTime(QtCore.QTime.currentTime())
@@ -67,6 +111,15 @@ class TimeStack(QtWidgets.QMainWindow):
         self.informationmsg.setGeometry(QtCore.QRect(800, 600, 650, 300))
         self.informationmsg.setWindowTitle("Information")
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
+        
+    def closeEvent(self, event: QCloseEvent) -> None:
+        print("close event")
+        print("State: ", self.close_to_tray)
+        if self.close_to_tray:
+            event.ignore()  
+            self.hide()
+        else:
+            self.quitApplication()
 
     def create_stack(self) -> None:
         '''
@@ -116,7 +169,7 @@ class TimeStack(QtWidgets.QMainWindow):
         self.time_stack_ui.total_time_output.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignCenter)
         #  switch tab to stack space
-        self.time_stack_ui.main_tab_widget.setCurrentIndex(1)
+        self.time_stack_ui.main_tab_widget.setCurrentIndex(0)
 
     def _init_stack_space(self) -> None:
             # STACK SPACE
