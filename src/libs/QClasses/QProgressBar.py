@@ -1,5 +1,6 @@
 import sys
 import datetime
+import pathlib
 from PyQt6.QtGui import QDrag, QPixmap,QAction 
 from PyQt6.QtCore import Qt, QMimeData, pyqtSignal,QEvent
 from PyQt6.QtWidgets import QProgressBar,QMenu
@@ -8,7 +9,7 @@ from PyQt6 import QtCore
 from os import path
 from random import randint
 
-sys.path.append(path.dirname(path.dirname(path.dirname(path.abspath(__file__)))))
+sys.path.append(pathlib.Path(__file__).parent.parent.parent.absolute())
 
 from libs._base_logger import logger,BASE_DIR
 from libs.color import Color
@@ -17,8 +18,7 @@ try:
     from .QThread import TimerThread
 except ImportError:
     from QThread import TimerThread
-
-QSS_FILE = open(path.join(BASE_DIR, 'ui_files', 'stack.qss'), 'r').read()
+QSS_FILE = open(pathlib.Path(BASE_DIR, 'src', 'ui_files', 'stack.qss'), 'r').read()
 
 def generate_random_gradient_colors() -> list:
    
@@ -117,7 +117,7 @@ class StackActivityBar(QProgressBar):
             self.activity_start=activity_start
             self.activity_stop=activity_stop
         # Randomize the colors in the QSS content
-        self.setStyleSheet(randomize_progress_bar_colors(QSS_FILE))
+        self.setStyleSheet(randomize_progress_bar_colors(str(QSS_FILE)))
         self._remove_signal.connect(self.deleteLater)
                 
     def closeEvent(self, event: QEvent) -> None:

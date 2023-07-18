@@ -4,7 +4,7 @@ import datetime
 from PyQt6.QtCore import Qt
 from PyQt6 import QtGui, QtWidgets, QtCore
 from PyQt6.QtGui import QCloseEvent,QAction
-from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox
 
 from ui_generated.time_stack import Ui_MainWindow
 
@@ -14,9 +14,7 @@ from libs.color import Color
 from libs.QClasses.QDragWidget import DragWidget
 from libs.QClasses.QScrollArea import DragScrollArea
 
-from QStack_Generator import StackSpace
-from QStack_Generator import StackGenerator
-from QStack_Settings_old import SettingsWindow
+
 from QStack_Manager import StackManager
 from QStack_Settings import ThemeManager
 
@@ -51,7 +49,7 @@ class TimeStack(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.quit_action)
         self.tray_icon.setContextMenu(self.tray_menu)
         self.tray_icon.show()
-        self.setWindowIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
+        self.setWindowIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
         self._init_stack_space()
         self._init_stack_generator()
         self.theme_manager = ThemeManager( time_stack_ui=self.time_stack_ui, parent=self)
@@ -113,8 +111,7 @@ class TimeStack(QtWidgets.QMainWindow):
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
         
     def closeEvent(self, event: QCloseEvent) -> None:
-        print("close event")
-        print("State: ", self.close_to_tray)
+
         if self.close_to_tray:
             event.ignore()  
             self.hide()

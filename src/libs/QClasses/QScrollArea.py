@@ -1,12 +1,12 @@
-import os
+import pathlib
 import sys
 from PyQt6.QtWidgets import QScrollArea
 from PyQt6.QtCore import QTimer,  QEvent,QObject
 from PyQt6.QtWidgets import QScrollArea
 
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+sys.path.append(pathlib.Path(__file__).parent.parent.parent.absolute())
 from libs._base_logger import logger
 from libs.color import Color
 

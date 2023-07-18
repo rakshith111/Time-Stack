@@ -1,12 +1,12 @@
 import re
 import sys
 import random
+import pathlib
 import sqlite3
 import datetime
 
-from PyQt6.QtCore import Qt
-from os import path
-from os import makedirs
+from PyQt6.QtCore import Qt, QStandardPaths
+
 from notifypy import Notify
 
 from PyQt6.QtWidgets import QApplication
@@ -21,8 +21,9 @@ from libs.QClasses.QProgressBar import StackActivityBar
 from libs.QClasses.QScrollArea import DragScrollArea
 
 MONTH_YEAR = datetime.datetime.now().strftime("%B_%Y")
-SAVE_FILE=path.join(BASE_DIR, 'user_data','db', f'{MONTH_YEAR}_stack.db')
-PATH_TO_SOUNDS = path.join(BASE_DIR, 'ui_files', 'sounds')
+
+SAVE_FILE=pathlib.Path(QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation),'TIME_STACK','user_data','db', f'{MONTH_YEAR}_stack.db')
+PATH_TO_SOUNDS = pathlib.Path(BASE_DIR, 'src', 'ui_files', 'sounds')
 
 class StackManager():
 
@@ -55,14 +56,17 @@ class StackManager():
         self.layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         self.check_db()
         self.load_stack()
-        self.notification_obj = Notify(default_notification_application_name = "Time Stack",default_notification_icon =path.join(BASE_DIR, 'ui_files', 'icon', 'window_icon_wob_s.png'))
+        self.notification_obj = Notify(default_notification_application_name = "Time Stack",
+                                       default_notification_icon=pathlib.Path(BASE_DIR,'src', 'ui_files', 'icon', 'window_icon_wob_s.png'))
+             
         
     def welcome(self)->None:
         if self.notifications_enabled:
             self.notification_obj.application_name = "Time Stack"
             self.notification_obj.title = ""
             self.notification_obj.message="Welcome to Time Stack"
-            self.notification_obj.audio = path.join(PATH_TO_SOUNDS, self.notification_sound_general)
+
+            self.notification_obj.audio =str(PATH_TO_SOUNDS / self.notification_sound_general)
             self.notification_obj.send()         
         else:
             self.notification_obj.application_name = "Time Stack"
@@ -84,19 +88,19 @@ class StackManager():
             if type_notify=="midway":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
-                self.notification_obj.audio = path.join(PATH_TO_SOUNDS, self.notification_sound_midway)
+                self.notification_obj.audio =str(PATH_TO_SOUNDS / self.notification_sound_midway)
             elif type_notify=="quarter":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
-                self.notification_obj.audio = path.join(PATH_TO_SOUNDS, self.notification_sound_quarterly)
+                self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_quarterly)
             elif type_notify=="end":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
-                self.notification_obj.audio = path.join(PATH_TO_SOUNDS, self.notification_sound_end)
+                self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_end)
             elif type_notify=="general":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
-                self.notification_obj.audio = path.join(PATH_TO_SOUNDS, self.notification_sound_general)
+                self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_general)
             self.notification_obj.send()
             logger.info(f"{Color.CGREEN} NOTIFICATION SENT, Audio used {self.notification_obj.audio}{Color.CEND}")
       
@@ -135,7 +139,7 @@ class StackManager():
                                load_progress=insert_map[i]['activity_latest_delta'])
         
         self.disconnect_db(connection,cursor)
-        path_to_sound = path.join(BASE_DIR, 'ui_files', 'sounds')
+
     def generate_random_number(self)->int:
         '''
         This function generates a random number between 1 and 10000.
@@ -220,10 +224,11 @@ class StackManager():
             # 6 - activity_original_size , 7 - activity_latest_delta , 8 - position
         '''        
         logger.info(f'{Color.GREEN}Checking if {SAVE_FILE} exists{Color.ENDC}')
-        if not path.exists(SAVE_FILE):
+        if not pathlib.Path(SAVE_FILE).exists():
             logger.info(f'{Color.RED}File {SAVE_FILE} does not exist{Color.ENDC}')
             logger.info(f'{Color.GREEN}Creating file {SAVE_FILE}{Color.ENDC}')
-            makedirs(path.join(BASE_DIR, 'user_data','db'), exist_ok=True)
+
+            pathlib.Path(SAVE_FILE).parent.mkdir(parents=True, exist_ok=True)
             connection,cursor=self.connect_db()
             cursor.execute(f'''CREATE TABLE {MONTH_YEAR}_stack
                             ( activity_id INTEGER PRIMARY KEY , 

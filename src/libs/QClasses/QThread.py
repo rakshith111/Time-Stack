@@ -1,11 +1,9 @@
 import sys
-import os
+import pathlib
 from copy import copy
 
 from PyQt6.QtCore import  pyqtSignal,QThread
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-
+pathlib.Path(__file__).parent.parent.parent.absolute()
 from libs._base_logger import logger
 from libs.color import Color
 

@@ -1,4 +1,4 @@
-import sys
+
 import pathlib
 from PyQt6.QtWidgets import QApplication,QMainWindow
 from PyQt6 import QtGui
@@ -8,13 +8,11 @@ from libs.color import Color
 from libs._base_logger import logger
 from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
-from os import path, listdir
 from libs._base_logger import BASE_DIR
 
 import json
-from PyQt6.QtCore import QUrl
-from PyQt6 import QtGui, QtWidgets
-from PyQt6.QtGui import QCloseEvent
+from PyQt6.QtCore import QUrl ,QStandardPaths
+
 from PyQt6.QtMultimedia import QSoundEffect
 
 DEFAULT_SETTINGS = {
@@ -27,7 +25,7 @@ DEFAULT_SETTINGS = {
     "notification_sound_end": "strong-minded(Default_end).wav",
 }
 
-SETTINGS=path.join(BASE_DIR,"user_data" ,"settings.json")
+SETTINGS=pathlib.Path(QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation),'TIME_STACK','user_data','settings.json')
 
 class SettingsManager:
 
@@ -56,16 +54,17 @@ class SettingsManager:
         Performs the loading of the settings from the settings file
         Also creates a new settings file if not found.
         '''        
-        if path.exists(self.filename):
+        if pathlib.Path(self.filename).exists():
             with open(self.filename, "r") as file:
                 self.settings = json.load(file)
             logger.info(f'{Color.CVIOLET}Settings loaded{Color.ENDC}')
         else:
             logger.info(f'{Color.RED}Settings file not found, creating new one{Color.ENDC}')
-            if not path.exists((path.join(BASE_DIR,"user_data"))):
+           
+            if not pathlib.Path(pathlib.Path(self.filename).parent).exists():
                 logger.info(f'{Color.RED}user_data folder not found, creating new one{Color.ENDC}')
-                from os import mkdir
-                mkdir(path.join(BASE_DIR,"user_data" ))
+                pathlib.Path(pathlib.Path(self.filename).parent).mkdir(parents=True, exist_ok=True)
+
             self.save_settings()
 
 class ThemeManager:
@@ -81,7 +80,7 @@ class ThemeManager:
         self.time_stack_ui = time_stack_ui
    
         self.set_theme()
-        self.BASE_DIR_RESC = self.resource_path()
+
         self._init_settings()
         self.toggle_theme()
 
@@ -134,8 +133,8 @@ class ThemeManager:
         Populates the notification sounds in the settings window
         '''        
         self.notification_sounds = []
-        for sound in listdir(path.join(BASE_DIR, "ui_files", "sounds")):
-            self.notification_sounds.append(sound)
+        for sounds in pathlib.Path(BASE_DIR,"src","ui_files", "sounds").iterdir():
+            self.notification_sounds.append(sounds.name)
         self.time_stack_ui.general_notification_sound.addItems(self.notification_sounds)
         self.time_stack_ui.midway_notification_sound.addItems(self.notification_sounds)
         self.time_stack_ui.quarterly_notification_sound.addItems(self.notification_sounds)
@@ -197,7 +196,8 @@ class ThemeManager:
         '''        
 
         self.sound = QSoundEffect()
-        self.sound.setSource(QUrl.fromLocalFile(path.join(BASE_DIR, "ui_files", "sounds", sound)))
+
+        self.sound.setSource(QUrl.fromLocalFile(str(pathlib.Path(BASE_DIR,"src","ui_files", "sounds", sound))))
         self.sound.setVolume(1)
         self.sound.play()
 
@@ -272,19 +272,7 @@ class ThemeManager:
         app = QApplication.instance()
         app.setStyle("Fusion")
 
-    def resource_path(self):
-        '''
-        Gets the resource path. 
-        Looks for the resource path in the sys._MEIPASS variable. When the program is bundled with PyInstaller, sys._MEIPASS is set to the path of the extracted data.
 
-        '''        
-        if hasattr(sys, '_MEIPASS'):
-            # Bundled with PyInstaller
-            BASE_DIR_RESC = sys._MEIPASS
-        else:
-            # Normal Python development mode
-            BASE_DIR_RESC = pathlib.Path(__file__).parent.parent.absolute()
-        return BASE_DIR_RESC
     
     def toggle_theme(self):
         '''
@@ -312,17 +300,17 @@ class ThemeManager:
 
             self.parent.setPalette(dark_palette)
           
-            self.time_stack_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'sun.png')))
-            self.time_stack_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'to_tray_white.png')))
+            self.time_stack_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'sun.png')))
+            self.time_stack_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'to_tray_white.png')))
 
             if self.time_stack_ui.toggle_notification_btn.isChecked():
-                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'active_notif_white.png')))
+                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'active_notif_white.png')))
             else:
-                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'inactive_notif_white.png')))
-            self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'horizontal_white.png')))
+                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'inactive_notif_white.png')))
+            self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'horizontal_white.png')))
             self.time_stack_ui.theme_icon_placeholder.alignment=QtCore.Qt.AlignmentFlag.AlignLeft
 
-            self.parent.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'window_icon_bow_s.png')))
+            self.parent.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'window_icon_bow_s.png')))
 
             for toggle in [self.time_stack_ui.toggle_close_to_tray_btn, self.time_stack_ui.toggle_theme_btn,self.time_stack_ui.toggle_notification_btn]: 
 
@@ -332,9 +320,9 @@ class ThemeManager:
                 toggle.setPulseUncheckedColor(QtGui.QColor("#ff7675"))
                 toggle.setPulseCheckedColor(QtGui.QColor("#ff7675"))
 
-            self.time_stack_ui.start_btn.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'play_white.png')))
-            self.time_stack_ui.remove_btn.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'remove_white.png')))
-            self.time_stack_ui.pause_btn.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'pause_white.png')))
+            self.time_stack_ui.start_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'play_white.png')))
+            self.time_stack_ui.remove_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'remove_white.png')))
+            self.time_stack_ui.pause_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'pause_white.png')))
             
 
         elif self.parent.current_theme == "light":
@@ -355,17 +343,17 @@ class ThemeManager:
             light_palette.setColor(QtGui.QPalette.ColorRole.Highlight, QtGui.QColor(42, 130, 218))
             light_palette.setColor(QtGui.QPalette.ColorRole.HighlightedText, QtCore.Qt.GlobalColor.black)
             self.parent.setPalette(light_palette)
-            self.time_stack_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'moon.png')))
-            self.time_stack_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'to_tray_black.png')))
+            self.time_stack_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'moon.png')))
+            self.time_stack_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'to_tray_black.png')))
 
             if self.time_stack_ui.toggle_notification_btn.isChecked():
-                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'active_notif_black.png')))
+                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'active_notif_black.png')))
             else:
-                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'inactive_notif_black.png')))
+                self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'inactive_notif_black.png')))
 
             self.time_stack_ui.theme_icon_placeholder.alignment=QtCore.Qt.AlignmentFlag.AlignLeft
-            self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'horizontal_black.png')))
-            self.parent.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
+            self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'horizontal_black.png')))
+            self.parent.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
 
             for toggle in [self.time_stack_ui.toggle_close_to_tray_btn, self.time_stack_ui.toggle_theme_btn,self.time_stack_ui.toggle_notification_btn]: 
             
@@ -375,6 +363,6 @@ class ThemeManager:
                 toggle.setPulseUncheckedColor(QtGui.QColor('#AFAFAF'))
                 toggle.setPulseCheckedColor(QtGui.QColor('#AFAFAF'))
                 
-            self.time_stack_ui.start_btn.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'play_black.png')))
-            self.time_stack_ui.remove_btn.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'remove_black.png')))
-            self.time_stack_ui.pause_btn.setIcon(QtGui.QIcon(str(pathlib.Path(self.BASE_DIR_RESC) / 'src' / 'ui_files' / 'icon' / 'pause_black.png')))
+            self.time_stack_ui.start_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'play_black.png')))
+            self.time_stack_ui.remove_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'remove_black.png')))
+            self.time_stack_ui.pause_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'pause_black.png')))
