@@ -36,6 +36,13 @@ a = Analysis(
             ('src\\ui_files\\icon\\horizontal_white.png','src\\ui_files\\icon'),
             ('src\\ui_files\\icon\\inactive_notif_black.png','src\\ui_files\\icon'),
             ('src\\ui_files\\icon\\inactive_notif_white.png','src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\close_black.png', 'src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\close_white.png', 'src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\device_black.png', 'src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\device_white.png', 'src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\minimize_black.png', 'src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\minimize_white.png', 'src\\ui_files\\icon'),
+            
 
             ('src\\ui_files\\Stack.qss','src\\ui_files'),
             # Sounds
@@ -69,12 +76,13 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='QTime_Stack_app',
+    name='Time Stack',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     upx_exclude=[],
+    icon='src\\ui_files\\icon\\base.ico',
     runtime_tmpdir=None,
     console=False,
     disable_windowed_traceback=False,
