@@ -32,18 +32,33 @@ class TimeStack(QtWidgets.QMainWindow):
         self.time_stack_ui = Ui_MainWindow()
         self.time_stack_ui.setupUi(self)
         self.setAcceptDrops(True)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.FramelessWindowHint)
         self.current_theme = "dark"
         self.close_to_tray=True
+        self.showed_notification = False
         #Tray Icon
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'window_icon_wob_s.png')))     
         self.tray_menu = QMenu(self)
         self.show_action = QAction("Show", self)
         self.quit_action = QAction("Quit", self)
+        self.add_stack=QAction("Add Stack",self)
+        self.stack_space=QAction("Stack Space",self)
+        self.settings=QAction("Settings",self)
+        self.network=QAction("Network",self)
+        self.tray_menu.addAction(self.show_action)
+        self.tray_menu.addAction(self.add_stack)
+        self.tray_menu.addAction(self.stack_space)
+        self.tray_menu.addAction(self.settings)
+        self.tray_menu.addAction(self.network)        
+        self.tray_menu.addAction(self.quit_action)
         self.show_action.triggered.connect(self.showWindow)
         self.quit_action.triggered.connect(self.quitApplication)
-        self.tray_menu.addAction(self.show_action)
-        self.tray_menu.addAction(self.quit_action)
+        self.add_stack.triggered.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(1))
+        self.stack_space.triggered.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(0))
+        self.settings.triggered.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(2))
+        self.network.triggered.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(3))
+
         self.tray_icon.setContextMenu(self.tray_menu)
         self.tray_icon.show()
 
@@ -54,7 +69,11 @@ class TimeStack(QtWidgets.QMainWindow):
         self.welcome_timer = QtCore.QTimer()
         self.welcome_timer.singleShot(100, self.manager.welcome)
 
+        self.time_stack_ui.main_tab_widget.setIconSize(QtCore.QSize(20,20))
+        self.time_stack_ui.add_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(1))
+        self.time_stack_ui.settings_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(2))
         self.time_stack_ui.logo_placeholder.setScaledContents(True)
+
         self.time_stack_ui.start_btn.setFixedSize(50, 50)
         self.time_stack_ui.pause_btn.setFixedSize(50, 50)
         self.time_stack_ui.remove_btn.setFixedSize(50, 50)
@@ -62,10 +81,23 @@ class TimeStack(QtWidgets.QMainWindow):
         self.time_stack_ui.pause_btn.setIconSize(QtCore.QSize(50, 50))
         self.time_stack_ui.remove_btn.setIconSize(QtCore.QSize(50, 50))
 
-        self.time_stack_ui.add_btn.setFixedSize(70, 30)
-        self.time_stack_ui.settings_btn.setFixedSize(70, 30)
-        self.time_stack_ui.add_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(1))
-        self.time_stack_ui.settings_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(2))
+        self.time_stack_ui.minimize_btn.clicked.connect(self.showMinimized)
+        self.time_stack_ui.close_btn.clicked.connect(self.closeEvent)
+        self.time_stack_ui.close_btn.setFixedSize(30, 30)
+        self.time_stack_ui.minimize_btn.setFixedSize(30, 30)
+        self.time_stack_ui.minimize_btn.setText("")
+        self.time_stack_ui.close_btn.setText("")
+        
+
+    def mousePressEvent(self, event):
+        # Capture the initial position of the mouse when clicked
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.offset = event.pos()
+
+    def mouseMoveEvent(self, event):
+        # Move the window based on the mouse movement
+        if event.buttons() == Qt.MouseButton.LeftButton:
+            self.move(self.pos() + event.pos() - self.offset)
 
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         '''
@@ -163,8 +195,18 @@ class TimeStack(QtWidgets.QMainWindow):
             event (QCloseEvent): The close event.
         '''
         if self.close_to_tray:
-            event.ignore()  
-            self.hide()
+            if self.tray_icon.isVisible():
+                self.hide()
+                if not self.showed_notification:
+                    self.showed_notification = True
+                    self.manager.notification(
+                        title="TimeStack",
+                        message="The application will keep running in the system tray. To quit the application, select Quit in the menu shown by right-clicking the icon.",
+                        type_notify="general")
+                try:
+                    event.ignore()
+                except:
+                    pass
         else:
             self.quitApplication()
 

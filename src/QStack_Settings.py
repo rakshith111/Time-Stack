@@ -260,7 +260,7 @@ class ThemeManager:
         '''
         self.local_settings.settings["theme"] = "dark" if self.time_stack_ui.toggle_theme_btn.isChecked() else "light"
         self.parent.current_theme =  self.local_settings.settings["theme"]
-        self.toggle_theme()
+
         logger.info(f'{Color.CVIOLET}Theme set to {self.local_settings.settings["theme"]}{Color.ENDC}')
         self.local_settings.save_settings()
 
@@ -320,6 +320,15 @@ class ThemeManager:
             self.time_stack_ui.start_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'play_white.png')))
             self.time_stack_ui.remove_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'remove_white.png')))
             self.time_stack_ui.pause_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'pause_white.png')))
+
+            self.time_stack_ui.main_tab_widget.setTabIcon(1,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'add_white.png')))
+            self.time_stack_ui.main_tab_widget.setTabIcon(2,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'settings_white.png')))
+            self.time_stack_ui.main_tab_widget.setTabIcon(0,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'hourglass_white.png')))
+            self.time_stack_ui.main_tab_widget.setTabIcon(3,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'device_white.png')))
+
+            self.time_stack_ui.minimize_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'minimize_white.png')))
+            self.time_stack_ui.close_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'close_white.png')))
+           
             
 
         elif self.parent.current_theme == "light":
@@ -363,3 +372,12 @@ class ThemeManager:
             self.time_stack_ui.start_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'play_black.png')))
             self.time_stack_ui.remove_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'remove_black.png')))
             self.time_stack_ui.pause_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'pause_black.png')))
+
+            self.time_stack_ui.main_tab_widget.setTabIcon(1,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'add_black.png')))
+            self.time_stack_ui.main_tab_widget.setTabIcon(2,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'settings_black.png')))
+            self.time_stack_ui.main_tab_widget.setTabIcon(0,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'hourglass_black.png')))
+            self.time_stack_ui.main_tab_widget.setTabIcon(3,QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'device_black.png')))
+
+            self.time_stack_ui.minimize_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'minimize_black.png')))
+            self.time_stack_ui.close_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'close_black.png')))
+            print(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'close_black.png'))

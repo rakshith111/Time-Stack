@@ -119,7 +119,7 @@
            <x>10</x>
            <y>10</y>
            <width>601</width>
-           <height>70</height>
+           <height>80</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="btn_layout_h">
@@ -145,19 +145,19 @@
            <widget class="QPushButton" name="add_btn">
             <property name="minimumSize">
              <size>
-              <width>70</width>
-              <height>30</height>
+              <width>100</width>
+              <height>40</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>60</width>
-              <height>16777215</height>
+              <width>100</width>
+              <height>40</height>
              </size>
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -169,19 +169,19 @@
            <widget class="QPushButton" name="settings_btn">
             <property name="minimumSize">
              <size>
-              <width>70</width>
-              <height>30</height>
+              <width>100</width>
+              <height>40</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>60</width>
-              <height>30</height>
+              <width>100</width>
+              <height>40</height>
              </size>
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -193,19 +193,19 @@
            <widget class="QPushButton" name="extra_btn">
             <property name="minimumSize">
              <size>
-              <width>70</width>
-              <height>30</height>
+              <width>100</width>
+              <height>40</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>70</width>
-              <height>30</height>
+              <width>100</width>
+              <height>40</height>
              </size>
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -219,9 +219,9 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>100</y>
+           <y>99</y>
            <width>601</width>
-           <height>70</height>
+           <height>71</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="btn_layout_h_4">
@@ -435,19 +435,19 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>100</width>
+                <width>120</width>
                 <height>50</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
+                <width>120</width>
                 <height>50</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>12</pointsize>
+                <pointsize>14</pointsize>
                </font>
               </property>
               <property name="text">
@@ -517,19 +517,19 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>50</width>
+                <width>60</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>50</width>
+                <width>60</width>
                 <height>30</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>12</pointsize>
+                <pointsize>14</pointsize>
                </font>
               </property>
               <property name="text">
@@ -583,7 +583,7 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>12</pointsize>
+                <pointsize>14</pointsize>
                </font>
               </property>
               <property name="text">
@@ -659,7 +659,7 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>12</pointsize>
+                <pointsize>14</pointsize>
                </font>
               </property>
               <property name="text">
@@ -729,7 +729,7 @@ p, li { white-space: pre-wrap; }
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -761,7 +761,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>667</width>
+           <width>677</width>
            <height>701</height>
           </rect>
          </property>
@@ -872,13 +872,13 @@ p, li { white-space: pre-wrap; }
            <widget class="QComboBox" name="quarterly_notification_sound">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
@@ -888,13 +888,13 @@ p, li { white-space: pre-wrap; }
            <widget class="QComboBox" name="general_notification_sound">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
@@ -904,13 +904,13 @@ p, li { white-space: pre-wrap; }
            <widget class="QComboBox" name="midway_notification_sound">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
@@ -940,13 +940,13 @@ p, li { white-space: pre-wrap; }
            <widget class="QComboBox" name="end_notification_sound">
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>120</width>
+              <width>130</width>
               <height>30</height>
              </size>
             </property>
@@ -955,9 +955,9 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_4">
+       <widget class="QWidget" name="network_tab">
         <attribute name="title">
-         <string>Page</string>
+         <string>Network</string>
         </attribute>
        </widget>
       </widget>
