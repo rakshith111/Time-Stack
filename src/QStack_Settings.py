@@ -1,19 +1,17 @@
-
+import json
 import pathlib
-from PyQt6.QtWidgets import QApplication,QMainWindow
-from PyQt6 import QtGui
 
 from libs.QClasses.QToggle import AnimatedToggle
 from libs.color import Color
 from libs._base_logger import logger
-from PyQt6 import QtCore
-from PyQt6.QtCore import Qt
 from libs._base_logger import BASE_DIR
 
-import json
-from PyQt6.QtCore import QUrl ,QStandardPaths
-
+from PyQt6 import QtCore
+from PyQt6 import QtGui
 from PyQt6.QtMultimedia import QSoundEffect
+from PyQt6.QtCore import Qt,QUrl ,QStandardPaths
+from PyQt6.QtWidgets import QApplication,QMainWindow
+
 
 DEFAULT_SETTINGS = {
     "theme": "dark",
@@ -78,13 +76,17 @@ class ThemeManager:
         '''        
         self.parent = parent
         self.time_stack_ui = time_stack_ui
-   
+       
+        self._init_settings()
         self.set_theme()
 
-        self._init_settings()
-        self.toggle_theme()
-
     def _init_settings(self):
+        '''
+        Initializes the settings  page of the application. 
+        Replaces the placeholders with the actual widgets.
+        Populates items with the settings data.
+        Loads the settings from the settings file and updates the UI.
+        '''        
    
         self.local_settings=SettingsManager(SETTINGS)
         self.local_settings.load_settings()
@@ -109,7 +111,7 @@ class ThemeManager:
       
         self.time_stack_ui.toggle_close_to_tray_btn.setChecked(self.local_settings.settings["close_to_tray"])
         self.parent.close_to_tray=self.local_settings.settings["close_to_tray"]
-            # change bool value of close_to_tray on state change
+        # change bool value of close_to_tray on state change
         self.time_stack_ui.toggle_close_to_tray_btn.stateChanged.connect(self.toggle_close_to_tray_update)
         
 
@@ -187,6 +189,7 @@ class ThemeManager:
             self.time_stack_ui.midway_notification_sound.show()
             self.time_stack_ui.quarterly_notification_sound.show()
             self.time_stack_ui.end_notification_sound.show()
+
     def play_sound(self,sound:str)->None:
         '''
         This function plays the sound passed to it
@@ -202,20 +205,20 @@ class ThemeManager:
         self.sound.play()
 
     def update_general_notification_sound(self):
+
         '''
         This function is called when the user changes the general notification sound, it updates the settings and plays the sound
-        '''        
-
+        '''
         self.local_settings.settings["notification_sound_general"] = self.time_stack_ui.general_notification_sound.currentText()
         self.parent.manager.notification_sound_general = self.local_settings.settings["notification_sound_general"]
         logger.info(f'{Color.CVIOLET}General notification sound set to {self.local_settings.settings["notification_sound_general"]}{Color.ENDC}')
         self.local_settings.save_settings()
-        self.play_sound(self.local_settings.settings["notification_sound_general"])         
+        self.play_sound(self.local_settings.settings["notification_sound_general"])        
+
     def update_midway_notification_sound(self):
         '''
         This function is called when the user changes the midway notification sound, it updates the settings and plays the sound
-        '''        
-            
+        '''
         self.local_settings.settings["notification_sound_midway"] = self.time_stack_ui.midway_notification_sound.currentText()
         self.parent.manager.notification_sound_midway = self.local_settings.settings["notification_sound_midway"]
         logger.info(f'{Color.CVIOLET}Midway notification sound set to {self.local_settings.settings["notification_sound_midway"]}{Color.ENDC}')
@@ -225,8 +228,7 @@ class ThemeManager:
     def update_quarterly_notification_sound(self):
         '''
         This function is called when the user changes the quarterly notification sound, it updates the settings and plays the sound
-        '''        
-                
+        '''
         self.local_settings.settings["notification_sound_quarterly"] = self.time_stack_ui.quarterly_notification_sound.currentText()
         self.parent.manager.notification_sound_quarterly = self.local_settings.settings["notification_sound_quarterly"]
         logger.info(f'{Color.CVIOLET}Quarterly notification sound set to {self.local_settings.settings["notification_sound_quarterly"]}{Color.ENDC}')
@@ -236,8 +238,7 @@ class ThemeManager:
     def update_end_notification_sound(self):
         '''
         This function is called when the user changes the end notification sound, it updates the settings and plays the sound
-        '''        
-                    
+        '''
         self.local_settings.settings["notification_sound_end"] = self.time_stack_ui.end_notification_sound.currentText()
         self.parent.manager.notification_sound_end = self.local_settings.settings["notification_sound_end"]
         logger.info(f'{Color.CVIOLET}End notification sound set to {self.local_settings.settings["notification_sound_end"]}{Color.ENDC}')
@@ -247,8 +248,7 @@ class ThemeManager:
     def toggle_close_to_tray_update(self):
         '''
         This function is called when the user toggles the close to tray button
-        '''        
-       
+        '''
         self.local_settings.settings["close_to_tray"] =self.time_stack_ui.toggle_close_to_tray_btn.isChecked()
         self.parent.close_to_tray =self.local_settings.settings["close_to_tray"]
         logger.info(f'{Color.CVIOLET}Close to tray set to {self.local_settings.settings["close_to_tray"]}{Color.ENDC}')
@@ -257,8 +257,7 @@ class ThemeManager:
     def update_theme(self):
         '''
         This function is called when the user toggles the theme button
-        '''        
-        
+        '''
         self.local_settings.settings["theme"] = "dark" if self.time_stack_ui.toggle_theme_btn.isChecked() else "light"
         self.parent.current_theme =  self.local_settings.settings["theme"]
         self.toggle_theme()
@@ -271,15 +270,13 @@ class ThemeManager:
         '''        
         app = QApplication.instance()
         app.setStyle("Fusion")
-
+        self.toggle_theme()
 
     
     def toggle_theme(self):
         '''
         Loads the items in the application.
-        '''        
-      
-        
+        '''
         if self.parent.current_theme == "dark":
 
             logger.info(f"{Color.GREEN}Setting theme to dark {Color.ENDC}")

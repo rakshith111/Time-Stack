@@ -6,21 +6,16 @@ from PyQt6 import QtGui, QtWidgets, QtCore
 from PyQt6.QtGui import QCloseEvent,QAction
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox
 
-from ui_generated.time_stack import Ui_MainWindow
-
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
 from libs.color import Color
 from libs.QClasses.QDragWidget import DragWidget
 from libs.QClasses.QScrollArea import DragScrollArea
 
-
 from QStack_Manager import StackManager
 from QStack_Settings import ThemeManager
+from ui_generated.time_stack import Ui_MainWindow
 
-# from qttheem import ThemeManager
-
-from libs.QClasses.QToggle import AnimatedToggle
 class TimeStack(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None) -> None:
@@ -39,7 +34,9 @@ class TimeStack(QtWidgets.QMainWindow):
         self.setAcceptDrops(True)
         self.current_theme = "dark"
         self.close_to_tray=True
-        self.tray_icon = QSystemTrayIcon(self)     
+        #Tray Icon
+        self.tray_icon = QSystemTrayIcon(self)
+        self.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'window_icon_wob_s.png')))     
         self.tray_menu = QMenu(self)
         self.show_action = QAction("Show", self)
         self.quit_action = QAction("Quit", self)
@@ -49,6 +46,7 @@ class TimeStack(QtWidgets.QMainWindow):
         self.tray_menu.addAction(self.quit_action)
         self.tray_icon.setContextMenu(self.tray_menu)
         self.tray_icon.show()
+
         self.setWindowIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
         self._init_stack_space()
         self._init_stack_generator()
@@ -70,6 +68,12 @@ class TimeStack(QtWidgets.QMainWindow):
         self.time_stack_ui.settings_btn.clicked.connect(lambda:self.time_stack_ui.main_tab_widget.setCurrentIndex(2))
 
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
+        '''
+        Function to handle key press events.
+
+        Args:
+            event (QtGui.QKeyEvent): The key press event.
+        '''        
         # Ctrl + C to quit the application
         if event.modifiers() == QtCore.Qt.KeyboardModifier.ControlModifier and event.key() == QtCore.Qt.Key.Key_C:
             self.quitApplication()
@@ -79,15 +83,56 @@ class TimeStack(QtWidgets.QMainWindow):
             self.hide()
 
     def showWindow(self):
+        '''
+        Function to show the application window.
+        '''        
         self.show()
     
     def quitApplication(self):
-        # Quit the application when the "Quit" action is triggered
+        '''
+        Function to quit the application.
+        '''        
         self.tray_icon.deleteLater()
         self.manager.save_stack()
         QApplication.quit()
+    
+    def _init_stack_space(self) -> None:
+        '''
+        Function to initialize the stack space.
+        Creates a DragWidget and DragScrollArea. 
+        Sets the DragScrollArea to the layout.
+        Connects the DragWidget to the StackManager.
+        Connects the DragWidget to the DragScrollArea.
+        '''        
+        # Create DragWidget and DragScrollArea
+        logger.info(f"{Color.HEADER}Stack Space initializing.{Color.ENDC}")
+        self.drag_widget = DragWidget()
+        self.drag_scroll_area = DragScrollArea()
+        
+        self.drag_scroll_area.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.drag_scroll_area.setWidgetResizable(True)
+        self.drag_scroll_area.setWidget(self.drag_widget)
+        self.time_stack_ui.stack_area_scrollable.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+
+        # Set DragScrollArea directly to the layout
+        layout = QtWidgets.QVBoxLayout(self.time_stack_ui.stack_area_scrollable)
+        layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.drag_scroll_area)
+
+        self.manager=StackManager(self.drag_widget.layout())
+        self.drag_widget._order_changed_singal.connect(self.manager.update_top_item)
+
+        self.time_stack_ui.start_btn.clicked.connect(self.manager._start_thread)
+        self.time_stack_ui.pause_btn.clicked.connect(self.manager._pause_thread)
+        self.time_stack_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
    
     def _init_stack_generator(self) -> None:
+        '''
+        Function to initialize the stack generator.
+        Populates the start and end time inputs with the current time.
+        Sets the total time output to 00:00.
+        Connects the create stack button to the create_stack function.
+        '''    
         logger.info(f"{Color.HEADER}Stack Generator initializing.{Color.ENDC}")
         self.time_stack_ui.start_time_input.setTime(QtCore.QTime.currentTime())
         self.time_stack_ui.end_time_input.setTime(QtCore.QTime.currentTime().addSecs(60))
@@ -111,7 +156,12 @@ class TimeStack(QtWidgets.QMainWindow):
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
         
     def closeEvent(self, event: QCloseEvent) -> None:
+        '''
+        Function to handle the close event.
 
+        Args:
+            event (QCloseEvent): The close event.
+        '''
         if self.close_to_tray:
             event.ignore()  
             self.hide()
@@ -124,7 +174,6 @@ class TimeStack(QtWidgets.QMainWindow):
         Converts the start and end time to datetime.datetimeobjects and then calculates the total time.
         has to be done this way because the time objects are not compatible with the datetime module.
         Calls the `add_stack` function in the `StackSpace` class to add the stack to the scroll area.
-
         '''
         self.activity_stack_name = self.time_stack_ui.stack_name_input.toPlainText()
         self.start_time_input = self.time_stack_ui.start_time_input.time()
@@ -168,50 +217,28 @@ class TimeStack(QtWidgets.QMainWindow):
         #  switch tab to stack space
         self.time_stack_ui.main_tab_widget.setCurrentIndex(0)
 
-    def _init_stack_space(self) -> None:
-            # STACK SPACE
-            # Create DragWidget and DragScrollArea
-            logger.info(f"{Color.HEADER}Stack Space initializing.{Color.ENDC}")
-            self.drag_widget = DragWidget()
-            self.drag_scroll_area = DragScrollArea()
-            
-            self.drag_scroll_area.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-            self.drag_scroll_area.setWidgetResizable(True)
-            self.drag_scroll_area.setWidget(self.drag_widget)
-            self.time_stack_ui.stack_area_scrollable.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-
-            # Set DragScrollArea directly to the layout
-            layout = QtWidgets.QVBoxLayout(self.time_stack_ui.stack_area_scrollable)
-            layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-            layout.addWidget(self.drag_scroll_area)
-
-            self.manager=StackManager(self.drag_widget.layout())
-            self.drag_widget._order_changed_singal.connect(self.manager.update_top_item)
-
-            self.time_stack_ui.start_btn.clicked.connect(self.manager._start_thread)
-            self.time_stack_ui.pause_btn.clicked.connect(self.manager._pause_thread)
-            self.time_stack_ui.remove_btn.clicked.connect(self.manager.pop_top_stack)
+    
 
         
     def add_stack_activity(self, name: str, dt_start_time: datetime.datetime, dt_stop_time: datetime.datetime) -> None:
-            '''      
-            This function is called when the create button is clicked.
-            Converts the start and end time to datetime.datetime objects and then calculates the total time.
-            has to be done this way because the time objects are not compatible with the datetime module.
-            delta: `datetime.timedelta` object used to get total seconds.
+        '''      
+        This function is called when the create button is clicked.
+        Converts the start and end time to datetime.datetime objects and then calculates the total time.
+        has to be done this way because the time objects are not compatible with the datetime module.
+        delta: `datetime.timedelta` object used to get total seconds.
 
-            Args:
-                name (str): Name of the stack
-                dt_start_time (datetime.datetime): Start time of the stack
-                dt_stop_time (datetime.datetime): End time of the stack
-            '''
+        Args:
+            name (str): Name of the stack
+            dt_start_time (datetime.datetime): Start time of the stack
+            dt_stop_time (datetime.datetime): End time of the stack
+        '''
 
-            delta = dt_stop_time-dt_start_time
-            total_seconds = int(delta.total_seconds())
-            self.manager.add_stack(activity_name=f"{name}",mode='Casual',start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
-            logger.info(
-                f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
-        
+        delta = dt_stop_time-dt_start_time
+        total_seconds = int(delta.total_seconds())
+        self.manager.add_stack(activity_name=f"{name}",mode='Casual',start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
+        logger.info(
+            f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
+    
 
 
 if __name__ == "__main__":
