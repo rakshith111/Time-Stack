@@ -17,10 +17,10 @@ DEFAULT_SETTINGS = {
     "theme": "dark",
     "close_to_tray": True,
     "notification": True,
-    "notification_sound_general": "upset(Default_gen).wav",
-    "notification_sound_midway": "that-was-quick(Default_mid).wav",
-    "notification_sound_quarterly": "good-news(Default_quat).wav",
-    "notification_sound_end": "strong-minded(Default_end).wav",
+    "notification_sound_general": "upset_(Default_gen).wav",
+    "notification_sound_midway": "that_was_quick_(Default_midway).wav",
+    "notification_sound_quarterly": "good_news_(Default_quat).wav",
+    "notification_sound_end": "strong_minded_(Default_end).wav",
 }
 
 SETTINGS=pathlib.Path(QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation),'TIME_STACK','user_data','settings.json')
@@ -380,4 +380,3 @@ class ThemeManager:
 
             self.time_stack_ui.minimize_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'minimize_black.png')))
             self.time_stack_ui.close_btn.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'close_black.png')))
-            print(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'close_black.png'))

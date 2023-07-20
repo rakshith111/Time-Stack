@@ -195,9 +195,6 @@ class DragWidget(QWidget):
             loop_widget = self.drag_layout.itemAt(n).widget()
             data.append(loop_widget)
             logger.debug(f"{Color.GREEN} Widget {loop_widget.objectName()} at index {n} pos {loop_widget.pos()}{Color.ENDC}")
-         
-     
-        logger.debug(f"{Color.GREEN} {data=}{Color.ENDC}")
         return data
 
 
