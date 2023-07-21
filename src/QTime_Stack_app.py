@@ -90,15 +90,18 @@ class TimeStack(QtWidgets.QMainWindow):
         
 
     def mousePressEvent(self, event):
-        # Capture the initial position of the mouse when clicked
-        if event.button() == Qt.MouseButton.LeftButton:
-            self.offset = event.pos()
+        try:
+            if event.button() == Qt.MouseButton.LeftButton:
+                self.offset = event.pos()
+        except Exception as e:
+            logger.error(f"{Color.RED}Error in mousePressEvent: {e}{Color.ENDC}")
 
     def mouseMoveEvent(self, event):
-        # Move the window based on the mouse movement
-        if event.buttons() == Qt.MouseButton.LeftButton:
-            self.move(self.pos() + event.pos() - self.offset)
-
+        try:
+            if event.buttons() == Qt.MouseButton.LeftButton:
+                self.move(self.pos() + event.pos() - self.offset)
+        except Exception as e:
+            logger.error(f"{Color.RED}Error in mouseMoveEvent: {e}{Color.ENDC}")
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         '''
         Function to handle key press events.

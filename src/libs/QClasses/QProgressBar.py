@@ -1,13 +1,13 @@
 import sys
+import re
 import datetime
 import pathlib
+from random import randint
+
+from PyQt6 import QtCore
+from PyQt6.QtWidgets import QProgressBar,QMenu
 from PyQt6.QtGui import QDrag, QPixmap,QAction 
 from PyQt6.QtCore import Qt, QMimeData, pyqtSignal,QEvent
-from PyQt6.QtWidgets import QProgressBar,QMenu
-from PyQt6.QtGui import QColor
-from PyQt6 import QtCore
-from os import path
-from random import randint
 
 sys.path.append(pathlib.Path(__file__).parent.parent.parent.absolute())
 
@@ -18,19 +18,71 @@ try:
     from .QThread import TimerThread
 except ImportError:
     from QThread import TimerThread
-QSS_FILE = open(pathlib.Path(BASE_DIR, 'src', 'ui_files', 'stack.qss'), 'r').read()
 
-def generate_random_gradient_colors() -> list:
-   
+QSS_FILE = open(pathlib.Path(BASE_DIR, 'src', 'ui_files', 'stack.qss'), 'r').read()
+PAT_BG=r'stop: 0.0000 #e3938c,\nstop: 0.3333 #714946,\nstop: 0.6667 #714946,\nstop: 1.0000 #e3938c'
+PAT_STACK=r' stop: 0.0000 #e7b5e7,\nstop: 0.3333 #735a73,\nstop: 0.6667 #735a73,\nstop: 1.0000 #e7b5e7'
+STEPS = 4
+
+def generate_random_color()->tuple:
     '''
-    Generates a list of random colors.
+    Generates a random RGB color (brighter colors)
 
     Returns:
-        list: A list of random colors.
+        tuple: A tuple of RGB values.
     '''    
-    colors = [QColor(randint(0, 255), randint(0, 255), randint(0, 255)) for _ in range(4)]
-    return colors
+    r = randint(100, 255)
+    g = randint(100, 255)
+    b = randint(100, 255)
+    return r, g, b
 
+def generate_gradient_hex(color:tuple, steps:int)->list:
+    '''
+    Generates a gradient of colors from the given color.
+
+    Args:
+        color (tuple): A tuple of RGB values.
+        steps (int): The number of colors to generate.
+
+    Returns:
+        list: A list of hex color strings.
+    '''    
+
+    # Calculate the middle color by averaging the start and end colors
+    middle_color = tuple(c // 2 for c in color)
+    # Initialize the list to hold gradient colors
+    gradient_colors = []
+    
+    # Generate steps/2 colors towards the middle
+    for i in range(steps // 2):
+        ratio = i / ((steps // 2) - 1)
+        grad_color = tuple(int(color[j] * (1 - ratio) + middle_color[j] * ratio) for j in range(3))
+        gradient_colors.append(grad_color)
+    
+    # Generate steps/2 colors away from the middle
+    for i in range(steps // 2):
+        ratio = i / ((steps // 2) - 1)
+        grad_color = tuple(int(middle_color[j] * (1 - ratio) + color[j] * ratio) for j in range(3))
+        gradient_colors.append(grad_color)
+    
+    # Convert RGB tuples to hex color strings
+    gradient_hex = ['#' + ''.join(f'{c:02x}' for c in color) for color in gradient_colors]
+    
+    return gradient_hex
+
+def string_content(colors:list)->str:
+    '''
+    Makes a string of the colors for the QSS content.
+    Args:
+        colors (list): A list of hex color strings. 
+
+    Returns:
+        str: A string of the colors for the QSS content.
+    '''    
+    text_colors=''
+    for i, color in enumerate(colors):
+        text_colors+=f"stop: {i / (len(colors) - 1):.4f} {color},\n"
+    return text_colors[:-2]
 
 def randomize_progress_bar_colors(qss_content: str) -> str:
     '''
@@ -42,9 +94,10 @@ def randomize_progress_bar_colors(qss_content: str) -> str:
     Returns:
         str: Altered QSS content.
     '''    
-    colors = generate_random_gradient_colors()
-    qss_content = qss_content.replace("#78d", colors[0].name()).replace("#46a", colors[1].name()).replace("#45a", colors[2].name()).replace("#238", colors[3].name())
-
+    progress_bar_colors=generate_gradient_hex(generate_random_color(), STEPS)
+    background_color=generate_gradient_hex(generate_random_color(), STEPS)
+    qss_content=re.sub(PAT_BG,string_content(background_color),qss_content)
+    qss_content=re.sub(PAT_STACK,string_content(progress_bar_colors),qss_content)
     return qss_content
 
 def get_name_from_text(text: str) -> tuple:

@@ -9,10 +9,10 @@ QProgressBar {
     y1: 0,
     x2: 1,
     y2: 0,
-    stop: 0 #fff,
-    stop: 0.4999 #fff,
-    stop: 0.5 #ddd,
-    stop: 1 #eee
+   stop: 0.0000 #e3938c,
+stop: 0.3333 #714946,
+stop: 0.6667 #714946,
+stop: 1.0000 #e3938c
   );
   width: 15px;
 }
@@ -23,10 +23,10 @@ QProgressBar::chunk {
     y1: 0,
     x2: 1,
     y2: 0,
-    stop: 0 #78d,
-    stop: 0.4999 #46a,
-    stop: 0.5 #45a,
-    stop: 1 #238
+ stop: 0.0000 #e7b5e7,
+stop: 0.3333 #735a73,
+stop: 0.6667 #735a73,
+stop: 1.0000 #e7b5e7
   );
   border-bottom-right-radius: 7px;
   border-bottom-left-radius: 7px;
