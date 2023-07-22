@@ -3,8 +3,9 @@ import pathlib
 import datetime
 from PyQt6.QtCore import Qt
 from PyQt6 import QtGui, QtWidgets, QtCore
-from PyQt6.QtGui import QCloseEvent,QAction
+from PyQt6.QtGui import QCloseEvent,QAction,QMouseEvent
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox
+
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
@@ -36,6 +37,8 @@ class TimeStack(QtWidgets.QMainWindow):
         self.current_theme = "dark"
         self.close_to_tray=True
         self.showed_notification = False
+        self.dragging = False
+        self.offset = None
         #Tray Icon
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'window_icon_wob_s.png')))     
@@ -89,19 +92,31 @@ class TimeStack(QtWidgets.QMainWindow):
         self.time_stack_ui.close_btn.setText("")
         
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event: QMouseEvent):
         try:
             if event.button() == Qt.MouseButton.LeftButton:
+                self.dragging = True
                 self.offset = event.pos()
         except Exception as e:
-            logger.error(f"{Color.RED}Error in mousePressEvent: {e}{Color.ENDC}")
+            print(f"Error in mousePressEvent: {e}")
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event: QMouseEvent):
         try:
-            if event.buttons() == Qt.MouseButton.LeftButton:
-                self.move(self.pos() + event.pos() - self.offset)
+            if event.buttons() & Qt.MouseButton.LeftButton and self.dragging:
+                new_pos = self.pos() + event.pos() - self.offset
+                # Restrict the new position within the available screen geometry
+                screen = QApplication.screens()[0]  # Get the first screen
+                available_rect = screen.availableGeometry()
+                new_pos.setX(max(available_rect.left(), min(new_pos.x(), available_rect.right() - self.width())))
+                new_pos.setY(max(available_rect.top(), min(new_pos.y(), available_rect.bottom() - self.height())))
+                self.move(new_pos)
         except Exception as e:
-            logger.error(f"{Color.RED}Error in mouseMoveEvent: {e}{Color.ENDC}")
+            print(f"Error in mouseMoveEvent: {e}")
+
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        self.dragging = False
+
+
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         '''
         Function to handle key press events.
@@ -126,7 +141,8 @@ class TimeStack(QtWidgets.QMainWindow):
     def quitApplication(self):
         '''
         Function to quit the application.
-        '''        
+        '''
+        logger.info(f"{Color.HEADER}Quitting application.{Color.ENDC}")
         self.tray_icon.deleteLater()
         self.manager.save_stack()
         QApplication.quit()
@@ -287,7 +303,12 @@ class TimeStack(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = TimeStack()
-    window.show()
-    sys.exit(app.exec())
+    try:
+        logger.info(f"{Color.HEADER}TimeStack initializing.{Color.ENDC}")
+        app = QApplication(sys.argv)
+        window = TimeStack()
+        window.show()
+        sys.exit(app.exec())
+    except Exception as e:
+        logger.error(f"{Color.RED}Error in main: {e}{Color.ENDC}")
+        
