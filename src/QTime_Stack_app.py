@@ -6,7 +6,6 @@ from PyQt6 import QtGui, QtWidgets, QtCore
 from PyQt6.QtGui import QCloseEvent,QAction,QMouseEvent
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox
 
-
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
 from libs.color import Color
@@ -116,7 +115,6 @@ class TimeStack(QtWidgets.QMainWindow):
     def mouseReleaseEvent(self, event: QMouseEvent):
         self.dragging = False
 
-
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         '''
         Function to handle key press events.
@@ -146,6 +144,30 @@ class TimeStack(QtWidgets.QMainWindow):
         self.tray_icon.deleteLater()
         self.manager.save_stack()
         QApplication.quit()
+    
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        '''
+        Function to handle the close event.
+
+        Args:
+            event (QCloseEvent): The close event.
+        '''
+        if self.close_to_tray:
+            if self.tray_icon.isVisible():
+                self.hide()
+                if not self.showed_notification:
+                    self.showed_notification = True
+                    self.manager.notification(
+                        title="TimeStack",
+                        message="The application will keep running in the system tray. To quit the application, select Quit in the menu shown by right-clicking the icon.",
+                        type_notify="general")
+                try:
+                    event.ignore()
+                except:
+                    pass
+        else:
+            self.quitApplication()
     
     def _init_stack_space(self) -> None:
         '''
@@ -206,28 +228,6 @@ class TimeStack(QtWidgets.QMainWindow):
         self.informationmsg.setWindowTitle("Information")
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
         
-    def closeEvent(self, event: QCloseEvent) -> None:
-        '''
-        Function to handle the close event.
-
-        Args:
-            event (QCloseEvent): The close event.
-        '''
-        if self.close_to_tray:
-            if self.tray_icon.isVisible():
-                self.hide()
-                if not self.showed_notification:
-                    self.showed_notification = True
-                    self.manager.notification(
-                        title="TimeStack",
-                        message="The application will keep running in the system tray. To quit the application, select Quit in the menu shown by right-clicking the icon.",
-                        type_notify="general")
-                try:
-                    event.ignore()
-                except:
-                    pass
-        else:
-            self.quitApplication()
 
     def create_stack(self) -> None:
         '''
@@ -296,7 +296,7 @@ class TimeStack(QtWidgets.QMainWindow):
 
         delta = dt_stop_time-dt_start_time
         total_seconds = int(delta.total_seconds())
-        self.manager.add_stack(activity_name=f"{name}",mode='Casual',start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
+        self.manager.add_stack(activity_name=f"{name}",mode='Habit',start_time=dt_start_time, stop_time=dt_stop_time, max_size=total_seconds)
         logger.info(
             f"{Color.GREEN} Contents stack_name: {name},total_seconds: {total_seconds} start_time_input: {dt_start_time}, end_time_input: {dt_stop_time}{Color.ENDC}")
     

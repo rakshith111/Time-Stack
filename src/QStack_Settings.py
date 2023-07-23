@@ -260,9 +260,9 @@ class ThemeManager:
         '''
         self.local_settings.settings["theme"] = "dark" if self.time_stack_ui.toggle_theme_btn.isChecked() else "light"
         self.parent.current_theme =  self.local_settings.settings["theme"]
-
         logger.info(f'{Color.CVIOLET}Theme set to {self.local_settings.settings["theme"]}{Color.ENDC}')
         self.local_settings.save_settings()
+        self.toggle_theme()
 
     def set_theme(self):
         '''
@@ -277,6 +277,7 @@ class ThemeManager:
         '''
         Loads the items in the application.
         '''
+        print(f"Current_theme={self.parent.current_theme}")
         if self.parent.current_theme == "dark":
 
             logger.info(f"{Color.GREEN}Setting theme to dark {Color.ENDC}")
