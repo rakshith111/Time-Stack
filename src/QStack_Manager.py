@@ -1,33 +1,31 @@
-import re
-import sys
-import random
 import pathlib
-import sqlite3
+import random
+import sys
 import datetime
 
-from PyQt6.QtCore import Qt, QStandardPaths
-
 from notifypy import Notify
-
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication
-from PyQt6.QtWidgets import QMessageBox, QWidget, QPushButton, QLayout, QVBoxLayout,QApplication
+from PyQt6.QtWidgets import QMessageBox, QWidget, QPushButton, QVBoxLayout,QApplication
+
+from libs.QClasses.QDragWidget import DragWidget
+from libs.QClasses.QScrollArea import DragScrollArea
+from libs.QClasses.QProgressBar import StackActivityBar
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
 from libs.color import Color
+from libs.util import rng_gen, clean_input_name
+from db_manager import connect_db, disconnect_db, check_db
 
-from libs.QClasses.QDragWidget import DragWidget
-from libs.QClasses.QProgressBar import StackActivityBar
-from libs.QClasses.QScrollArea import DragScrollArea
 
+PATH_TO_SOUNDS = pathlib.Path(BASE_DIR, 'src', 'ui_files', 'sounds')
 MONTH_YEAR = datetime.datetime.now().strftime("%B_%Y")
 
-SAVE_FILE=pathlib.Path(QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation),'TIME_STACK','user_data','db', f'{MONTH_YEAR}_stack.db')
-PATH_TO_SOUNDS = pathlib.Path(BASE_DIR, 'src', 'ui_files', 'sounds')
 
-class StackManager():
+class StackManager:
 
-    def __init__(self, layout: QLayout) -> None:
+    def __init__(self, layout):
         '''
         StackManager class manages the stack of progress bars.
         The layout is set to the layout that is passed to the class. i.e Stack Space layout.
@@ -40,41 +38,41 @@ class StackManager():
             layout (QLayout): The layout that the progress bars will be managed in.
         '''
         self.layout = layout
-        # Define the top item of the stack by enforcing type
         self.stack_top_item = None
         self.stack_items = []
         self.notifications_enabled = True
-        self.notification_sound_general=""
-        self.notification_sound_midway=""
-        self.notification_sound_quarterly=""
-        self.notification_sound_end=""
+        self.notification_sound_general = ""
+        self.notification_sound_midway = ""
+        self.notification_sound_quarterly = ""
+        self.notification_sound_end = ""
         self.warningmsg = QMessageBox()
         self.warningmsg.setIcon(QMessageBox.Icon.Warning)
         self.warningmsg.setWindowTitle("Error")
         self.warningmsg.setStandardButtons(QMessageBox.StandardButton.Close)
-        # Align items to horizontal center
         self.layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        self.check_db()
+        check_db()
         self.load_stack()
-        self.notification_obj = Notify(default_notification_application_name = "Time Stack",
-                                       default_notification_icon=pathlib.Path(BASE_DIR,'src', 'ui_files', 'icon', 'window_icon_wob_s.png'))
-             
-        
-    def welcome(self)->None:
-        if self.notifications_enabled:
-            self.notification_obj.application_name = "Time Stack"
-            self.notification_obj.title = ""
-            self.notification_obj.message="Welcome to Time Stack"
+        self.notification_obj = Notify(default_notification_application_name="Time Stack",
+                                       default_notification_icon=pathlib.Path(BASE_DIR, 'src', 'ui_files', 'icon',
+                                                                             'window_icon_wob_s.png'))
 
-            self.notification_obj.audio =str(PATH_TO_SOUNDS / self.notification_sound_general)
-            self.notification_obj.send()         
-        else:
-            self.notification_obj.application_name = "Time Stack"
-            self.notification_obj.title = ""
-            self.notification_obj.message="Welcome to Time Stack"
+    def welcome(self):
+        '''
+        Sends a welcome notification when the application starts.
+        Also initializes the notification object.
+
+        '''        
+        self.notification_obj.application_name = "Time Stack"
+        self.notification_obj.title = ""
+        self.notification_obj.message = "Welcome to Time Stack"
+        if self.notifications_enabled:
+            self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_general)
             self.notification_obj.send()
+        else:
+            self.notification_obj.send()
+
+    def notification(self, title='Your activity name', message='Good job the progress is', type_notify='general'):
         
-    def notification(self, title: str='Your activity name', message: str='Good job the progress is',type_notify:str='general') -> None:
         '''
         This function is used to send notifications to the user.
 
@@ -83,205 +81,121 @@ class StackManager():
             message (str, optional): Message to be displayed in the notification. Defaults to 'Good job the progress is'.
             type (str, optional): Type of the notification. Defaults to 'general'.
         '''
-   
         if self.notifications_enabled:
-            if type_notify=="midway":
+            if type_notify == "midway":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
-                self.notification_obj.audio =str(PATH_TO_SOUNDS / self.notification_sound_midway)
-            elif type_notify=="quarter":
+                self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_midway)
+            elif type_notify == "quarter":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
                 self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_quarterly)
-            elif type_notify=="end":
+            elif type_notify == "end":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
                 self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_end)
-            elif type_notify=="general":
+            elif type_notify == "general":
                 self.notification_obj.title = title
                 self.notification_obj.message = message
                 self.notification_obj.audio = str(PATH_TO_SOUNDS / self.notification_sound_general)
             self.notification_obj.send()
             logger.info(f"{Color.CGREEN} NOTIFICATION SENT, Audio used {self.notification_obj.audio}{Color.CEND}")
-      
-            
         else:
             logger.info(f"{Color.CBLACK} NOTIFICATION ARE DISABLED {Color.CEND}")
 
-    def load_stack(self)->None:
+    def load_stack(self):
         '''
         Loads the stack from the database.
-        '''
-        connection,cursor=self.connect_db()
-       
+        '''        
+        connection, cursor = connect_db()
         # Fetching the data from the database
         cursor.execute(f"SELECT * FROM {MONTH_YEAR}_stack")
         result = cursor.fetchall()
-        insert_map = dict()
-        for row in result:  
-            if row[5]==0:
-                insert_map[row[8]]={'name':row[1],
-                                    'activity_mode':row[2],
-                                    'start_time':row[3],
-                                    'stop_time':row[4],
-                                    'activity_original_size':row[6],
-                                    'activity_latest_delta':row[7]
-                                    }
-        if len(insert_map)>0:
-            for i in range(0,len(insert_map)):
-         
-                self.add_stack(activity_name=insert_map[i]['name'],
-                               mode=insert_map[i]['activity_mode'],
-                               start_time=insert_map[i]['start_time'],
-                               stop_time=insert_map[i]['stop_time'],
-                               max_size=insert_map[i]['activity_original_size'],
+        for row in result:
+            if row[5] == 0:
+                self.add_stack(activity_id=row[0],
+                               activity_name=row[1],
+                               mode=row[2],
+                               start_time=row[3],
+                               stop_time=row[4],
+                               max_size=row[6],
                                load=True,
-                               load_progress=insert_map[i]['activity_latest_delta'])
-        
-        self.disconnect_db(connection,cursor)
+                               load_progress=row[7])
 
-    def generate_random_number(self)->int:
-        '''
-        This function generates a random number between 1 and 10000.
+        disconnect_db(connection, cursor)
 
-        Returns:
-            int:A random number between 1 and 10000. 
-        '''        
-        rand_no = random.randint(1, 10000)
-        return rand_no
-
-    def save_stack(self)->None:
+    def save_stack(self):
         '''
         Pauses the current stack and saves it to the database.
         ''' 
-        if len(self.stack_items)>0:       
-            connection,cursor=self.connect_db()
-            if self.stack_top_item is not None and self.stack_top_item._thread._is_running:
-                self.stack_top_item._thread.pause(self.stack_top_item.value())   
-            counting=0  
-            for i in range(0,len(self.stack_items)):
+        if len(self.stack_items) > 0:
+            connection, cursor = connect_db()
+            counting = 0
+            for index, stack_item in enumerate(self.stack_items):
                 try:
-                    counting+=1
-                    cursor.execute(f"UPDATE {MONTH_YEAR}_stack  SET activity_name=?, activity_mode=?, activity_start=?, activity_stop=?, activity_completed=?, activity_original_size=?,activity_latest_delta=?,position=? WHERE activity_id=?",
-                                    (
-                                    self.stack_items[i].objectName(),
-                                    self.stack_items[i].activity_mode,
-                                    self.stack_items[i].activity_start,
-                                    self.stack_items[i].activity_stop,
-                                    0,
-                                    self.stack_items[i].activity_original_size,
-                                    self.stack_items[i]._thread.current_value,
-                                    i,self.stack_items[i].activity_id,
-                                    ))
+                    counting += 1
+                    connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_name=?, activity_mode=?, "
+                                       f"activity_start=?, activity_stop=?, activity_completed=?, "
+                                       f"activity_original_size=?, activity_latest_delta=?, position=? "
+                                       f"WHERE activity_id=?",
+                                       (
+                                           stack_item.objectName(),
+                                           stack_item.activity_mode,
+                                           stack_item.activity_start,
+                                           stack_item.activity_stop,
+                                           0,
+                                           stack_item.activity_original_size,
+                                           stack_item._thread.current_value,
+                                           index,
+                                           stack_item.activity_id,
+                                       ))
                 except Exception as e:
                     logger.error(f'{Color.CRED} Error while saving the stack to the database. {e}{Color.ENDC}')
             logger.info(f'{Color.CGREEN} Saved {counting} items to the database{Color.ENDC}')
-            self.disconnect_db(connection,cursor)
+            disconnect_db(connection, cursor)
 
-    def clean_input_name(self,name:str)->str:
-        '''
-        A Clean function to clean the name of the activity.
-
-        Args:
-            name (str): A string that is to be cleaned.
-
-        Returns:
-            str: A cleaned string.
-        ''' 
-        cleaned_name = name.strip()
-        cleaned_name = re.sub(r'[^a-zA-Z0-9_]', '_', cleaned_name)
-        # Limit the length of the name to 50 characters
-        cleaned_name = cleaned_name[:50]
-        return cleaned_name
-    
-    def connect_db(self)->tuple:
-        '''
-        This function connects to the database and returns the connection and cursor objects.
-
-        Returns:
-            tuple: (connection, cursor)
-        '''              
-        connection = sqlite3.connect(SAVE_FILE)
-        cursor = connection.cursor()
-        return connection, cursor
-    
-    def disconnect_db(self,connection:sqlite3.Connection,cursor:sqlite3.Cursor)->None:
-        '''
-        This function disconnects from the database.
-
-        Args:
-            connection (sqlite3.Connection): A connection object to the database.
-            cursor (sqlite3.Cursor): A cursor object to the database.
-        '''        
-        connection.commit()
-        connection.close()         
-
-    def check_db(self)->None:
-        '''
-        This function checks if the database file exists. If it does not exist, it creates a new database file.
-            # 0 - activity_id , 1 - activity_name , 2 - activity_mode ,
-            # 3 - activity_start , 4 - activity_stop , 5 - activity_completed ,
-            # 6 - activity_original_size , 7 - activity_latest_delta , 8 - position
-        '''        
-        logger.info(f'{Color.GREEN}Checking if {SAVE_FILE} exists{Color.ENDC}')
-        if not pathlib.Path(SAVE_FILE).exists():
-            logger.info(f'{Color.RED}File {SAVE_FILE} does not exist{Color.ENDC}')
-            logger.info(f'{Color.GREEN}Creating file {SAVE_FILE}{Color.ENDC}')
-
-            pathlib.Path(SAVE_FILE).parent.mkdir(parents=True, exist_ok=True)
-            connection,cursor=self.connect_db()
-            cursor.execute(f'''CREATE TABLE {MONTH_YEAR}_stack
-                            ( activity_id INTEGER PRIMARY KEY , 
-                            activity_name TEXT NOT NULL,
-                            activity_mode TEXT NOT NULL,
-                            activity_start DATETIME NOT NULL,
-                            activity_stop DATETIME NOT NULL,
-                            activity_completed INT NOT NULL,
-                            activity_original_size INT NOT NULL,
-                            activity_latest_delta INT NOT NULL,
-                            position INT NOT NULL );''')
-
-            self.disconnect_db(connection,cursor)
-        else:
-            logger.info(f'{Color.GREEN}File {SAVE_FILE} exists{Color.ENDC}')
-
-    def _start_thread(self) -> None:
+    def _start_thread(self):
         '''
         Starts the thread of the top progress bar in the stack.
-        '''
-
-        if self.stack_top_item is not None :       
-            if self.stack_top_item._thread.maxsize==self.stack_top_item._thread.current_value:
-                logger.info(f"{Color.GREEN}Starting Thread - {self.stack_top_item.objectName()} from {self.stack_top_item._thread.current_value}{Color.ENDC}")
+        '''        
+        if self.stack_top_item is not None:
+            if self.stack_top_item._thread.maxsize == self.stack_top_item._thread.current_value:
+                logger.info(f"{Color.GREEN}Starting Thread - {self.stack_top_item.objectName()} from "
+                            f"{self.stack_top_item._thread.current_value}{Color.ENDC}")
                 self.stack_top_item._thread.start()
             else:
-                logger.info(f"{Color.GREEN}Resuming Thread - {self.stack_top_item.objectName() } from {self.stack_top_item._thread.current_value}{Color.ENDC}")
+                logger.info(f"{Color.GREEN}Resuming Thread - {self.stack_top_item.objectName() } from "
+                            f"{self.stack_top_item._thread.current_value}{Color.ENDC}")
                 self._resume_thread()
-        else :
+        else:
             logger.info(f"{Color.RED}No stack bar in the stack{Color.ENDC}")
             self.warningmsg.setText("No stack bar in the stack")
             self.warningmsg.exec()
 
-    def _resume_thread(self) -> None:
+    def _resume_thread(self):
         '''
         Resumes the thread of the top progress bar in the stack.
-        '''
+        '''        
         if self.stack_top_item is not None:
             if not self.stack_top_item._thread.isRunning():
-                self.stack_top_item._thread.start() # This is to start the thread if it is not running        
+                self.stack_top_item._thread.start()
             self.stack_top_item._thread.resume()
-            
 
-    def _pause_thread(self) -> None:
+    def _pause_thread(self):
+        '''
+        Pauses the thread of the top progress bar in the stack.
+        '''        
         if self.stack_top_item is not None:
-            if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value!=self.stack_top_item._thread.maxsize:
+            if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value != \
+                    self.stack_top_item._thread.maxsize:
                 self.stack_top_item._thread.pause(self.stack_top_item.value())
-                connection,cursor=self.connect_db()
+                connection, cursor = connect_db()
                 connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_latest_delta=? WHERE activity_name=?",
-                   (self.stack_top_item.value(), self.stack_top_item.objectName()))   
-                self.disconnect_db(connection,cursor)
-                   
-    def add_stack(self, activity_name: str,mode:str,start_time:datetime.datetime,stop_time:datetime.datetime, max_size: int,load:bool=False,load_progress:int=0) -> StackActivityBar:
+                                   (self.stack_top_item.value(), self.stack_top_item.objectName()))
+                disconnect_db(connection, cursor)
+
+    def add_stack(self, activity_name, mode, start_time, stop_time, max_size, load=False, load_progress=0,
+                  activity_id=None):
         '''
         This function creates a new progress bar and adds it to the stack. Also the signal is connected to the remove_top_stack function.
         The progress bar is added to the layout and the stack_items list.
@@ -305,53 +219,65 @@ class StackManager():
             StackActivityBar (StackActivityBar): The progress bar that is currently being added to the stack.
 
         '''        
- 
-        connection,cursor=self.connect_db()
+
+        connection, cursor = connect_db()
         if load:
+
             self.stack_bar = StackActivityBar(name=f"{activity_name}",
                                               progress_bar_size=max_size,
-                                              mode=mode,                                              
+                                              mode=mode,
                                               activity_start=start_time,
                                               activity_stop=stop_time,
-                                              set_time=load_progress)
-            
+                                              set_time=load_progress,
+                                              )
             logger.info(f'{Color.GREEN}Loading {activity_name} from database{Color.ENDC}')
             self.stack_bar._remove_signal.connect(self.pop_top_stack)
             self.layout.addWidget(self.stack_bar)
             if self.stack_top_item is None:
                 self.stack_top_item = self.stack_bar
         else:
-            activity_name=self.clean_input_name(activity_name)
-            activity_id=self.generate_random_number()
-            activity_name=f'{activity_name}_{activity_id}'
-            my_stack_items=cursor.execute("SELECT * FROM {}_stack WHERE activity_id=?".format(MONTH_YEAR), (activity_id,)).fetchall()
-            # If the activity_id is already present in the database, then generate a new activity_id
-            while len(my_stack_items)!=0:
-                activity_id=self.generate_random_number()   
-                activity_name=f'{activity_name}_{activity_id}'
-                my_stack_items=cursor.execute("SELECT * FROM {}_stack WHERE activity_id=?".format(MONTH_YEAR), (activity_id,)).fetchall()
-                if len(my_stack_items)==0:
-                    break
-            self.stack_bar = StackActivityBar(name=f"{activity_name}", progress_bar_size=max_size,mode=mode,activity_start=start_time,activity_stop=stop_time)
+            activity_name = clean_input_name(activity_name)
+            if activity_id is None:
+                activity_id = rng_gen()
+                activity_name = f'{activity_name}_{activity_id}'
+                my_stack_items = cursor.execute("SELECT * FROM {}_stack WHERE activity_id=?".format(MONTH_YEAR),
+                                                (activity_id,)).fetchall()
+                while len(my_stack_items) != 0:
+                    activity_id = rng_gen()
+                    activity_name = f'{activity_name}_{activity_id}'
+                    my_stack_items = cursor.execute("SELECT * FROM {}_stack WHERE activity_id=?".format(MONTH_YEAR),
+                                                     (activity_id,)).fetchall()
+                    if len(my_stack_items) == 0:
+                        break
+   
+            self.stack_bar = StackActivityBar(name=f"{activity_name}", progress_bar_size=max_size, mode=mode,
+                                              activity_start=start_time, activity_stop=stop_time,
+                                              )
             self.stack_bar._remove_signal.connect(self.pop_top_stack)
             self.layout.addWidget(self.stack_bar)
-    
-            # self.notification(title="Stack Generator",message=f'Stack {self.stack_bar.objectName()} created successfully',type_notify="general")
+
             if self.stack_top_item is None:
                 self.stack_top_item = self.stack_bar
                 connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?,?,?)",
-                        (activity_id,activity_name, 'Casual', start_time, stop_time, 0, max_size,max_size,0))
+                                   (activity_id, activity_name, 'Habit', start_time, stop_time, 0, max_size, max_size, 0))
             else:
-               connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?,?,?)",
-                        (activity_id,activity_name, 'Casual', start_time, stop_time, 0, max_size,max_size,len(self.stack_items)))
-    
-        self.stack_bar._thread._midway_signal.connect(lambda: self.notification(title=f"{self.stack_bar.name} is midway done",message=f"Great job {self.stack_bar.name} is half way done",type_notify="midway"))
-        self.stack_bar._thread._quarter_signal.connect(lambda: self.notification(title=f"{self.stack_bar.name} is three quarters done",message=f"Almost there {self.stack_bar.name} is three quarters done",type_notify="quarter"))
-        self.disconnect_db(connection,cursor)
+                connection.execute(f"INSERT INTO {MONTH_YEAR}_stack VALUES (?,?,?,?,?,?,?,?,?)",
+                                   (activity_id, activity_name, 'Habit', start_time, stop_time, 0, max_size, max_size,
+                                    len(self.stack_items)))
+
+        self.stack_bar._thread._midway_signal.connect(
+            lambda: self.notification(title=f"{self.stack_bar.name} is midway done",
+                                      message=f"Great job {self.stack_bar.name} is half way done",
+                                      type_notify="midway"))
+        self.stack_bar._thread._quarter_signal.connect(
+            lambda: self.notification(title=f"{self.stack_bar.name} is three quarters done",
+                                      message=f"Almost there {self.stack_bar.name} is three quarters done",
+                                      type_notify="quarter"))
+        disconnect_db(connection, cursor)
         self.stack_items.append(self.stack_bar)
         return self.stack_bar
 
-    def pop_top_stack(self) -> None:
+    def pop_top_stack(self):
         '''
         Removes the top progress bar in the stack.
         The progress bar is removed from the layout and the stack_items list.
@@ -360,18 +286,19 @@ class StackManager():
      
         if self.stack_top_item is not None:
             logger.info(f"{Color.RED}Removing Thread - {self.stack_top_item.objectName()}{Color.ENDC}")
-            connection,cursor=self.connect_db()
-            # If the activity is not completed then set the activity completed to -1
-            if self.stack_top_item._thread.current_value!=0:
-                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_completed=?,position=? WHERE activity_name=?",
-                     (-1,-1, self.stack_top_item.objectName()))
+            connection, cursor = connect_db()
+            if self.stack_top_item._thread.current_value != 0:
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_completed=?, position=? WHERE activity_name=?",
+                                   (-1, -1, self.stack_top_item.objectName()))
                 logger.info(f"{Color.YELLOW}Activity forcefully removed - {self.stack_top_item.objectName()}{Color.ENDC}")
-            # If the activity is completed then set the activity completed to 1
-            elif self.stack_top_item._thread.current_value==0:
-                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_completed=?,activity_latest_delta=?,position=? WHERE activity_name=?",
-                     (1,0,-1,self.stack_top_item.objectName()))
+            elif self.stack_top_item._thread.current_value == 0:
+                connection.execute(f"UPDATE {MONTH_YEAR}_stack SET activity_completed=?, activity_latest_delta=?, "
+                                   f"position=? WHERE activity_name=?",
+                                   (1, 0, -1, self.stack_top_item.objectName()))
                 logger.info(f"{Color.YELLOW}Activity completed - {self.stack_top_item.objectName()}{Color.ENDC}")
-                self.notification(title=f"{self.stack_top_item.name} is completed",message=f"Nice Job!! {self.stack_top_item.name} is completed",type_notify="end")
+                self.notification(title=f"{self.stack_top_item.name} is completed",
+                                  message=f"Nice Job!! {self.stack_top_item.name} is completed",
+                                  type_notify="end")
 
             self.layout.removeWidget(self.stack_top_item)
             self.stack_top_item.deleteLater()
@@ -381,11 +308,11 @@ class StackManager():
                 self.stack_top_item = self.stack_items[0]
             else:
                 self.stack_top_item = None
-            
-            for index,stack_item in enumerate(self.stack_items):
+
+            for index, stack_item in enumerate(self.stack_items):
                 connection.execute(f"UPDATE {MONTH_YEAR}_stack SET position=? WHERE activity_name=?",
-                     (index, stack_item.objectName()))
-            self.disconnect_db(connection,cursor)
+                                   (index, stack_item.objectName()))
+            disconnect_db(connection, cursor)
         else:
             self.warningmsg.setText("No stack bar in the stack")
             self.warningmsg.exec()
@@ -400,17 +327,18 @@ class StackManager():
 
         '''
         if self.stack_items is not None:
-            if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value!=self.stack_top_item._thread.maxsize:
+            if self.stack_top_item._thread._is_running and self.stack_top_item._thread.current_value != \
+                    self.stack_top_item._thread.maxsize:
                 self.stack_top_item._thread.pause(self.stack_top_item.value())
-            self.stack_items=new_order
+            self.stack_items = new_order
             self.stack_top_item = self.stack_items[0]
             logger.info(f"{Color.GREEN}Updating Stack Top Item - {self.stack_top_item.objectName()}{Color.ENDC}")
-            connection,cursor=self.connect_db()
-            # Update the position of the stack items in the database
-            for index,stack_item in enumerate(self.stack_items):
+            connection, cursor = connect_db()
+            for index, stack_item in enumerate(self.stack_items):
                 connection.execute(f"UPDATE {MONTH_YEAR}_stack SET position=? WHERE activity_name=?",
-                     (index, stack_item.objectName()))
-            self.disconnect_db(connection,cursor)
+                                   (index, stack_item.objectName()))
+            disconnect_db(connection, cursor)
+
             
     def printer(self):
         '''
@@ -501,7 +429,7 @@ class Stack(QWidget):
         rand = random.randint(1, 100)
         start_time = datetime.datetime.now()
         end_time = start_time + datetime.timedelta(seconds=self.progress_end)
-        self.manager.add_stack(f"mygenerictask_{rand}", mode="casual",start_time=start_time, stop_time=end_time, max_size=self.progress_end)
+        self.manager.add_stack(f"mygenerictask_{rand}", mode="Habit",start_time=start_time, stop_time=end_time, max_size=self.progress_end)
 
     def start_thread(self):
         '''
