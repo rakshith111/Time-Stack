@@ -277,7 +277,7 @@ class ThemeManager:
         '''
         Loads the items in the application.
         '''
-        print(f"Current_theme={self.parent.current_theme}")
+
         if self.parent.current_theme == "dark":
 
             logger.info(f"{Color.GREEN}Setting theme to dark {Color.ENDC}")

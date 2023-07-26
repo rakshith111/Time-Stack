@@ -67,7 +67,6 @@ def backup_db() -> None:
             logger.info(f'{Color.RED}Data already backed up on {backup_SAVE_FILE}{Color.ENDC}')
     else:
         logger.info(f'{Color.GREEN}Not 5th day of the month{Color.ENDC}')
-        print("Current date:", current_date)
 
 
 def backup_table(connection: sqlite3.Connection, cursor: sqlite3.Cursor, table_name: str, backup_file_name: str):

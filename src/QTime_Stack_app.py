@@ -97,7 +97,7 @@ class TimeStack(QtWidgets.QMainWindow):
                 self.dragging = True
                 self.offset = event.pos()
         except Exception as e:
-            print(f"Error in mousePressEvent: {e}")
+            logger.error(f"{Color.RED}Error in mousePressEvent: {e}{Color.ENDC}")
 
     def mouseMoveEvent(self, event: QMouseEvent):
         try:
@@ -110,7 +110,7 @@ class TimeStack(QtWidgets.QMainWindow):
                 new_pos.setY(max(available_rect.top(), min(new_pos.y(), available_rect.bottom() - self.height())))
                 self.move(new_pos)
         except Exception as e:
-            print(f"Error in mouseMoveEvent: {e}")
+            logger.error(f"{Color.RED}Error in mouseMoveEvent: {e}{Color.ENDC}")
 
     def mouseReleaseEvent(self, event: QMouseEvent):
         self.dragging = False

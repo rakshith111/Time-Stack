@@ -1,4 +1,4 @@
-import sys
+import time
 import pathlib
 from copy import copy
 
@@ -79,6 +79,8 @@ class TimerThread(QThread):
         midway = self.maxsize // 2
         quarter = self.maxsize // 4
 
+        start_time = time.time()  # Record the start time
+
         while self.current_value > 0:
             if self._is_running:
                 self.current_value -= 1
@@ -89,7 +91,16 @@ class TimerThread(QThread):
                 elif self.current_value == quarter:
                     logger.info(f"{Color.RED} Quarter {self.name} | {Color.YELLOW}value@ {self.current_value} | Is running?={self._is_running} {Color.ENDC}")
                     self._quarter_signal.emit()
-                self.sleep(1)
+
+                # Calculate the time spent for updating the progress bar
+                elapsed_time = time.time() - start_time
+                # Calculate the time remaining for the sleep interval
+                sleep_time = max(0, 1.0 - elapsed_time)
+
+                time.sleep(sleep_time)  # Sleep for the remaining time
+
+                # Record the start time for the next iteration
+                start_time = time.time()
             else:
                 self.sleep(1)
 
