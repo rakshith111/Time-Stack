@@ -1,11 +1,13 @@
 # Init Expected Data
+
 ```json
 {
-    "challenge_code":"Key from qr",
-    
+  "challenge_code": "Key from qr"
 }
 ```
+
 # Once the server acknowledges the challenge code, it will send the following data
+
 ```json
 {
     "challenge_code":"Key from qr",
@@ -13,7 +15,9 @@
 }
 
 ```
+
 # If the challenge code is not accepted, the server will send the following data then close the connection
+
 ```json
 {
 
@@ -21,14 +25,27 @@
     "error":"Error message",
 }
 ```
-------
+
+---
+
+# If previoulsy accepted, the server will send the following data
+
+```json
+{
+    "Verified":True
+}
+
+```
+
+---
+
 # General req
+
 ```json
 {
     "challenge_code":"Key from qr",
     "endpoint":"ENDPOINT",
-    **optional**
-    { 
+    "extra":{
         "name":"NAME",
         "value":"VALUE"
         }
@@ -37,4 +54,5 @@
 ```
 
 ## Current endpoints
+
 # ENDPOINT: "get"

@@ -9,11 +9,10 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QLineEdit, QPu
 from PyQt6.QtGui import QPixmap
 
 
-from PyQt6.QtWebSockets import QWebSocketServer, QWebSocket
+from PyQt6.QtWebSockets import QWebSocketServer
 from PyQt6.QtNetwork import QHostAddress
-from pyqrcode import QRCode
-from PyQt6.QtCore import QByteArray
-from PyQt6.QtNetwork import QAbstractSocket
+from pyqrcode import QRCode 
+
 
 def get_local_ip() -> str:
     '''
@@ -100,6 +99,7 @@ class WebSocketServer(QWebSocketServer):
                     self.text_edit.append("Challenge code matched")
                     self.text_edit.append("welcome old user")
                     self.text_edit.append("Client connected")
+                    self.socket.sendTextMessage(json.dumps({"Verified":True}))
                 try:
                     if json_data["endpoint"]:
                         endpoint=True
@@ -110,8 +110,18 @@ class WebSocketServer(QWebSocketServer):
                     self.text_edit.append("Client connected")
                     self.text_edit.append(f"Client address: {sender_ip}")
                     self.text_edit.append(f"endpoint: {json_data['endpoint']}")
-                    self.socket.sendTextMessage(json.dumps({"challenge_code":  self.challenge_code,
-                                                            "challenge_code_accepted":True}))
+                    print(json_data)
+                    print(type(json_data))
+                    if json_data['endpoint'] == "pause":
+                        self.text_edit.append("pause")
+                    elif json_data['endpoint'] == "play":
+                        self.text_edit.append("play")
+                    elif json_data['endpoint'] == "next":
+                        self.text_edit.append("next")
+                    elif json_data['endpoint'] == "previous":
+                        self.text_edit.append("previous")
+                    
+                    
                     
             else:
                 self.text_edit.append("Challenge code did not match")

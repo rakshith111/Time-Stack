@@ -6,6 +6,7 @@ Server/
 user_data/
 # src/
 *.log
+challenge_code.json
 __pycache__
 Android-app
 *.iml

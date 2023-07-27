@@ -35,8 +35,7 @@ class QRCodeWindow(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    qr_code = QRCode("http://sdfsd"
-                        "sdfsdf")
+    qr_code = QRCode("DATATATATATAT")
     qr_code.png("qr_code.png", scale=8)
     with open("qr_code.png", "rb") as f:
         qr_code = base64.b64encode(f.read())
