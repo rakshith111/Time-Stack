@@ -46,6 +46,28 @@ class WebSocketServer(QWebSocketServer):
             with open("challenge_code.json", "w") as f:
                 json.dump({}, f)
         self.load_authed_clients()
+    def send_add(self):
+    
+        for i in self.authed_clients.values():
+            print("sending add to", i)
+            self.socket.sendTextMessage(json.dumps({"add": True}))
+    def send_pause(self):
+        for i in self.authed_clients.values():
+
+            print("sending pause to", i)
+            self.socket.sendTextMessage(json.dumps({"pause": True}))
+
+    def send_start_top(self):
+        for i in self.authed_clients.values():
+            print("sending start_top to", i)
+            self.socket.sendTextMessage(json.dumps({"start_top": True}))
+
+    def send_pop_top(self):
+        for i in self.authed_clients.values():
+            print("sending pop_top to", i)
+            self.socket.sendTextMessage(json.dumps({"pop_top": True}))
+
+
 
     def load_authed_clients(self):
         with open("challenge_code.json", "r") as f:
@@ -220,12 +242,34 @@ class MainWindow(QMainWindow):
         self.box_layout.addWidget(self.label)
         self.box_layout.addWidget(self.gen_qr_code_btn)
 
+        self.add_btn = QPushButton("Add", self)
+        self.add_btn.setGeometry(10, 300, 380, 30)
+       
+        self.pause_btn = QPushButton("Pause", self)
+        self.pause_btn.setGeometry(10, 340, 380, 30)
+
+        self.start_top_btn = QPushButton("Start Top", self)
+        self.start_top_btn.setGeometry(10, 380, 380, 30)
+
+        self.pop_top = QPushButton("End Top", self)
+        self.pop_top.setGeometry(10, 420, 380, 30)
+
+        self.box_layout.addWidget(self.add_btn)
+        self.box_layout.addWidget(self.pause_btn)
+        self.box_layout.addWidget(self.start_top_btn)
+        self.box_layout.addWidget(self.pop_top)
+
         self.setCentralWidget(self.central_widget)
         self.__codes = list()
         self._auth_clients = {}
         self.locale_ip = get_local_ip()
         if self.locale_ip:
             self.server = WebSocketServer(self.locale_ip, WEB_SOCKET_SERVER_PORT, self.text_edit)
+            self.add_btn.clicked.connect(self.server.send_add)
+            self.pause_btn.clicked.connect(self.server.send_pause)
+            self.start_top_btn.clicked.connect(self.server.send_start_top)
+            self.pop_top.clicked.connect(self.server.send_pop_top)
+
             if self.server.isListening():
                 self.text_edit.append(f"Server is listening on {self.locale_ip}:{WEB_SOCKET_SERVER_PORT}")
             else:
