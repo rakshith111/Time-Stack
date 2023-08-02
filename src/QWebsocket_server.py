@@ -1,6 +1,6 @@
 import os
 import sys
-import socket
+
 import json
 import base64
 import random
@@ -12,19 +12,7 @@ from PyQt6.QtNetwork import QHostAddress
 from pyqrcode import QRCode
 
 
-def get_local_ip() -> str:
-    '''
-    A function that returns the local IP address.
-    It makes a connection to Google's DNS server and returns the local IP address.
-    '''
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        local_ip = s.getsockname()[0]
-        s.close()
-        return local_ip
-    except:
-        return None
+from libs.util import get_local_ip
 
 
 class WebSocketServer(QWebSocketServer):
