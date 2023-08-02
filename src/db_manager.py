@@ -35,6 +35,27 @@ def check_db() -> None:
                         activity_latest_delta INT NOT NULL,
                         position INT NOT NULL );''')
         disconnect_db(connection, cursor)
+    
+    elif SAVE_FILE.exists():
+        # check for current month and year table
+        connection, cursor = connect_db()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+        MONTH_YEAR_TABLE = f'{MONTH_YEAR}_stack'
+        if (MONTH_YEAR_TABLE,) not in tables:
+            logger.info(f'{Color.RED}Table {MONTH_YEAR_TABLE} does not exist{Color.ENDC}')
+            logger.info(f'{Color.GREEN}Creating table {MONTH_YEAR_TABLE}{Color.ENDC}')
+            cursor.execute(f'''CREATE TABLE {MONTH_YEAR_TABLE}
+                            ( activity_id INTEGER PRIMARY KEY , 
+                            activity_name TEXT NOT NULL,
+                            activity_mode TEXT NOT NULL,
+                            activity_start DATETIME NOT NULL,
+                            activity_stop DATETIME NOT NULL,
+                            activity_completed INT NOT NULL,
+                            activity_original_size INT NOT NULL,
+                            activity_latest_delta INT NOT NULL,
+                            position INT NOT NULL );''')
+            disconnect_db(connection, cursor)
     else:
         backup_db()
         logger.info(f'{Color.GREEN}File {SAVE_FILE} exists{Color.ENDC}')
