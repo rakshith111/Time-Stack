@@ -42,6 +42,8 @@ a = Analysis(
             ('src\\ui_files\\icon\\device_white.png', 'src\\ui_files\\icon'),
             ('src\\ui_files\\icon\\minimize_black.png', 'src\\ui_files\\icon'),
             ('src\\ui_files\\icon\\minimize_white.png', 'src\\ui_files\\icon'),
+              ('src\\ui_files\\icon\\network_black.png', 'src\\ui_files\\icon'),
+            ('src\\ui_files\\icon\\network_white.png', 'src\\ui_files\\icon'),
             
             ('src\\ui_files\\Stack.qss','src\\ui_files'),
 

@@ -617,24 +617,6 @@
             </item>
            </layout>
           </item>
-          <!-- <item>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="1">
-             <widget class="QRadioButton" name="routine_value">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="routine_label">
-              <property name="text">
-               <string>Add to daily routine?</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item> -->
           <item>
            <layout class="QHBoxLayout" name="total_time_layout_h" stretch="0,0">
             <property name="spacing">
@@ -783,7 +765,7 @@ p, li { white-space: pre-wrap; }
            <height>701</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="main_app_layout" rowstretch="10,0,0,0,0,0,0">
+         <layout class="QGridLayout" name="main_app_layout" rowstretch="10,0,0,0,0,0,0,0">
           <property name="sizeConstraint">
            <enum>QLayout::SetFixedSize</enum>
           </property>
@@ -805,6 +787,104 @@ p, li { white-space: pre-wrap; }
           <property name="verticalSpacing">
            <number>20</number>
           </property>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="general_notification_sound">
+            <property name="minimumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="midway_notification_sound">
+            <property name="minimumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="general_notification_label">
+            <property name="text">
+             <string>GENERAL SOUND</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QComboBox" name="quarterly_notification_sound">
+            <property name="minimumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="quarterly_notification_label">
+            <property name="text">
+             <string>STACK QUARTERWAY SOUND</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="end_notification_label">
+            <property name="text">
+             <string>STACK COMPLETION SOUND</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QComboBox" name="end_notification_sound">
+            <property name="minimumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>130</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="midway_notification_label">
+            <property name="text">
+             <string>STACK MIDWAY SOUND</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="theme_toggle_label">
             <property name="text">
@@ -812,17 +892,13 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="close_to_tray_placeholder"/>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="close_to_tray_label">
             <property name="text">
              <string>CLOSE TO TRAY</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="notification_label">
-            <property name="text">
-             <string>ENABLE NOTIFICATION </string>
             </property>
            </widget>
           </item>
@@ -836,19 +912,13 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="close_to_tray_placeholder"/>
-          </item>
           <item row="2" column="1">
            <widget class="QCheckBox" name="notification_placeholder"/>
           </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="notification_icon_placeholder">
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
+          <item row="2" column="0">
+           <widget class="QLabel" name="notification_label">
             <property name="text">
-             <string>Notification_icon</string>
+             <string>ENABLE NOTIFICATION </string>
             </property>
            </widget>
           </item>
@@ -872,101 +942,33 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="notification_icon_placeholder">
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Notification_icon</string>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="general_notification_label">
+           <widget class="QLabel" name="network_label">
             <property name="text">
-             <string>GENERAL SOUND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="quarterly_notification_label">
-            <property name="text">
-             <string>STACK QUARTERWAY SOUND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QComboBox" name="quarterly_notification_sound">
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
+             <string>ENABLE NETWORK</string>
             </property>
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QComboBox" name="general_notification_sound">
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
-            </property>
-           </widget>
+           <widget class="QCheckBox" name="network_toggle_placeholder"/>
           </item>
-          <item row="4" column="1">
-           <widget class="QComboBox" name="midway_notification_sound">
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
+          <item row="3" column="2">
+           <widget class="QLabel" name="network_icon_placeholder">
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="sizeIncrement">
-             <size>
-              <width>0</width>
-              <height>30</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="midway_notification_label">
             <property name="text">
-             <string>STACK MIDWAY SOUND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="end_notification_label">
-            <property name="text">
-             <string>STACK COMPLETION SOUND</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QComboBox" name="end_notification_sound">
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>130</width>
-              <height>30</height>
-             </size>
+             <string>Notification_icon</string>
             </property>
            </widget>
           </item>
@@ -977,6 +979,79 @@ p, li { white-space: pre-wrap; }
         <attribute name="title">
          <string>Network</string>
         </attribute>
+        <widget class="QWidget" name="gridLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>591</width>
+           <height>671</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="2" column="0">
+           <widget class="QPushButton" name="generate_btn">
+            <property name="maximumSize">
+             <size>
+              <width>570</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>570</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Generate</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QTextEdit" name="log_text_edit">
+            <property name="maximumSize">
+             <size>
+              <width>570</width>
+              <height>180</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>470</width>
+              <height>180</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="qr_code_placeholder">
+              <property name="minimumSize">
+               <size>
+                <width>300</width>
+                <height>300</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>300</width>
+                <height>300</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </widget>
      </item>

@@ -17,6 +17,7 @@ DEFAULT_SETTINGS = {
     "theme": "dark",
     "close_to_tray": True,
     "notification": True,
+    "network": True,
     "notification_sound_general": "upset_(Default_gen).wav",
     "notification_sound_midway": "that_was_quick_(Default_midway).wav",
     "notification_sound_quarterly": "good_news_(Default_quat).wav",
@@ -37,7 +38,7 @@ class SettingsManager:
         '''        
 
         self.filename = filename
-        self.settings = DEFAULT_SETTINGS
+        self.settings:dict = DEFAULT_SETTINGS
 
     def save_settings(self):
         '''
@@ -55,6 +56,10 @@ class SettingsManager:
         if pathlib.Path(self.filename).exists():
             with open(self.filename, "r") as file:
                 self.settings = json.load(file)
+            for key in DEFAULT_SETTINGS.keys():
+                if key not in self.settings.keys():
+                    self.settings[key] = DEFAULT_SETTINGS[key]
+
             logger.info(f'{Color.CVIOLET}Settings loaded{Color.ENDC}')
         else:
             logger.info(f'{Color.RED}Settings file not found, creating new one{Color.ENDC}')
@@ -86,8 +91,9 @@ class ThemeManager:
         Replaces the placeholders with the actual widgets.
         Populates items with the settings data.
         Loads the settings from the settings file and updates the UI.
-        '''        
-   
+        '''
+        logger.info(f'{Color.CVIOLET}Initializing settings page{Color.ENDC}')
+          
         self.local_settings=SettingsManager(SETTINGS)
         self.local_settings.load_settings()
 
@@ -114,6 +120,20 @@ class ThemeManager:
         # change bool value of close_to_tray on state change
         self.time_stack_ui.toggle_close_to_tray_btn.stateChanged.connect(self.toggle_close_to_tray_update)
         
+         # Network btn
+
+        self.time_stack_ui.toggle_network_btn=AnimatedToggle()
+        self.time_stack_ui.toggle_network_btn.setFixedSize(self.time_stack_ui.toggle_network_btn.sizeHint())
+        self.time_stack_ui.toggle_network_btn.setObjectName("toggle_network_btn")
+
+        self.time_stack_ui.main_app_layout.replaceWidget(self.time_stack_ui.network_toggle_placeholder,self.time_stack_ui.toggle_network_btn)
+        self.time_stack_ui.network_toggle_placeholder.deleteLater()
+        self.time_stack_ui.toggle_network_btn.setChecked(self.local_settings.settings["network"])
+
+        self.parent.manager.network_enabled = self.local_settings.settings["network"]
+        # change bool value of network on state change
+        self.time_stack_ui.toggle_network_btn.stateChanged.connect(self.toggle_network_update)
+        self.parent.check_for_updates()
 
         # Notification btn
         self.time_stack_ui.toggle_notification_btn=AnimatedToggle()
@@ -129,6 +149,10 @@ class ThemeManager:
         self.time_stack_ui.toggle_notification_btn.stateChanged.connect(self.toggle_notification_update)
         self.populate_notification_sounds()
         self.toggle_notification_update()
+        logger.info(f'{Color.CVIOLET}Settings pagessssssssssssssss{Color.ENDC}')
+       
+
+
 
     def populate_notification_sounds(self):
         '''
@@ -244,7 +268,17 @@ class ThemeManager:
         logger.info(f'{Color.CVIOLET}End notification sound set to {self.local_settings.settings["notification_sound_end"]}{Color.ENDC}')
         self.local_settings.save_settings()
         self.play_sound(self.local_settings.settings["notification_sound_end"])
-        
+    
+    def toggle_network_update(self):
+        '''
+        This function is called when the user toggles the network updates button
+        '''
+        self.local_settings.settings["network"] = self.time_stack_ui.toggle_network_btn.isChecked()
+        self.parent.network_updates = self.local_settings.settings["network"]
+        self.parent.check_for_updates()
+        logger.info(f'{Color.CVIOLET}Network updates set to {self.local_settings.settings["network"]}{Color.ENDC}')
+        self.local_settings.save_settings()     
+
     def toggle_close_to_tray_update(self):
         '''
         This function is called when the user toggles the close to tray button
@@ -300,7 +334,7 @@ class ThemeManager:
           
             self.time_stack_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'sun.png')))
             self.time_stack_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'to_tray_white.png')))
-
+            self.time_stack_ui.network_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'network_white.png')))
             if self.time_stack_ui.toggle_notification_btn.isChecked():
                 self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'active_notif_white.png')))
             else:
@@ -310,7 +344,10 @@ class ThemeManager:
 
             self.parent.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'window_icon_bow_s.png')))
 
-            for toggle in [self.time_stack_ui.toggle_close_to_tray_btn, self.time_stack_ui.toggle_theme_btn,self.time_stack_ui.toggle_notification_btn]: 
+            for toggle in [self.time_stack_ui.toggle_close_to_tray_btn, 
+                            self.time_stack_ui.toggle_theme_btn,self.time_stack_ui.toggle_notification_btn,
+                            self.time_stack_ui.toggle_network_btn]:
+                          
 
                 toggle.setBarColor(Qt.GlobalColor.darkGray)
                 toggle.setHandleColor(Qt.GlobalColor.lightGray)
@@ -352,7 +389,7 @@ class ThemeManager:
             self.parent.setPalette(light_palette)
             self.time_stack_ui.theme_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'moon.png')))
             self.time_stack_ui.close_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'to_tray_black.png')))
-
+            self.time_stack_ui.network_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'network_black.png')))
             if self.time_stack_ui.toggle_notification_btn.isChecked():
                 self.time_stack_ui.notification_icon_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'active_notif_black.png')))
             else:
@@ -362,8 +399,9 @@ class ThemeManager:
             self.time_stack_ui.logo_placeholder.setPixmap(QtGui.QPixmap(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'horizontal_black.png')))
             self.parent.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) / 'src' / 'ui_files' / 'icon' / 'window_icon_wob_s.png')))
 
-            for toggle in [self.time_stack_ui.toggle_close_to_tray_btn, self.time_stack_ui.toggle_theme_btn,self.time_stack_ui.toggle_notification_btn]: 
-            
+            for toggle in  [self.time_stack_ui.toggle_close_to_tray_btn, 
+                            self.time_stack_ui.toggle_theme_btn,self.time_stack_ui.toggle_notification_btn,
+                            self.time_stack_ui.toggle_network_btn]:
                 toggle.setBarColor(Qt.GlobalColor.lightGray)
                 toggle.setHandleColor(Qt.GlobalColor.white)
                 toggle.setCheckedColor(QtGui.QColor(0, 123, 255))

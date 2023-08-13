@@ -1,10 +1,18 @@
 import sys
 import pathlib
 import datetime
+import base64
+import json
+import random
+import string
 from PyQt6.QtCore import Qt
 from PyQt6 import QtGui, QtWidgets, QtCore
+
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import QStandardPaths
 from PyQt6.QtGui import QCloseEvent,QAction,QMouseEvent
 from PyQt6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QMessageBox
+from pyqrcode import QRCode
 
 from libs._base_logger import logger
 from libs._base_logger import BASE_DIR
@@ -12,10 +20,12 @@ from libs.color import Color
 from libs.QClasses.QDragWidget import DragWidget
 from libs.QClasses.QScrollArea import DragScrollArea
 
+from libs.util import get_local_ip
 from QStack_Manager import StackManager
 from QStack_Settings import ThemeManager
+from QWebsocket_server import WebSocketServer
 from ui_generated.time_stack import Ui_MainWindow
-
+WEB_SOCKET_SERVER_PORT = 8888
 class TimeStack(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None) -> None:
@@ -36,8 +46,10 @@ class TimeStack(QtWidgets.QMainWindow):
         self.current_theme = "dark"
         self.close_to_tray=True
         self.showed_notification = False
+        self.network_updates = False
         self.dragging = False
         self.offset = None
+        self.__codes = []
         #Tray Icon
         self.tray_icon = QSystemTrayIcon(self)
         self.tray_icon.setIcon(QtGui.QIcon(str(pathlib.Path(BASE_DIR) /'src'/ 'ui_files' / 'icon' / 'window_icon_wob_s.png')))     
@@ -89,8 +101,7 @@ class TimeStack(QtWidgets.QMainWindow):
         self.time_stack_ui.minimize_btn.setFixedSize(30, 30)
         self.time_stack_ui.minimize_btn.setText("")
         self.time_stack_ui.close_btn.setText("")
-        
-
+    
     def mousePressEvent(self, event: QMouseEvent):
         try:
             if event.button() == Qt.MouseButton.LeftButton:
@@ -227,8 +238,113 @@ class TimeStack(QtWidgets.QMainWindow):
         self.informationmsg.setGeometry(QtCore.QRect(800, 600, 650, 300))
         self.informationmsg.setWindowTitle("Information")
         self.informationmsg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        
 
+    def check_for_updates(self):
+        if self.network_updates:
+            logger.info(f"{Color.YELLOW}Network updates are enabled.{Color.ENDC}")
+            # unlink the signal from the button
+            self.time_stack_ui.generate_btn.clicked.disconnect()
+            self._init_network_manager()
+        else:
+            # only disconnect the signal if it is connected to anything else
+            if self.time_stack_ui.generate_btn.receivers(self.time_stack_ui.generate_btn.clicked) > 0:
+                self.time_stack_ui.generate_btn.clicked.disconnect()
+                self.time_stack_ui.qr_code_placeholder.clear() 
+            self.time_stack_ui.generate_btn.clicked.connect(lambda: self.time_stack_ui.log_text_edit.append("Network updates are disabled.\n Please enable it in settings then try again."))
+            logger.info(f"{Color.YELLOW}Network updates are disabled.{Color.ENDC}")
+
+    def _init_network_manager(self) -> None:
+        '''
+        Function to initialize the network manager.
+        Creates a Websocket object.
+        Connects the websocket to the manager.
+        '''
+        logger.info(f"{Color.HEADER}Network Manager initializing.{Color.ENDC}")
+        self.locale_ip = get_local_ip()
+        if self.locale_ip:
+            self.server = WebSocketServer(self.locale_ip, WEB_SOCKET_SERVER_PORT,self.time_stack_ui.log_text_edit)
+            self.manager._network_manager = self.server
+            self.time_stack_ui.generate_btn.clicked.connect(self.set_qr_code)
+            self.time_stack_ui.create_stack_button.clicked.connect(self.server.send_add)
+            self.time_stack_ui.remove_btn.clicked.connect(self.server.send_pop_top)
+            self.time_stack_ui.start_btn.clicked.connect(self.server.send_start_top)
+            self.time_stack_ui.pause_btn.clicked.connect(self.server.send_pause)
+
+            if self.server.isListening():
+                logger.info(f"{Color.GREEN}Server is listening.{Color.ENDC}")
+                self.time_stack_ui.log_text_edit.append(
+                    f"Server is listening.")    
+            else:
+                logger.error(f"{Color.RED}Server is not listening.{Color.ENDC}")
+                self.time_stack_ui.log_text_edit.append(
+                    f"Server is not listening.")
+        else:
+            logger.error(f"{Color.RED}No local IP found.{Color.ENDC}")
+            self.time_stack_ui.log_text_edit.append(
+                f"No local IP found.")
+    
+        
+  
+        # set position of the qr code placeholder
+        # self.time_stack_ui.qr_code_placeholder.setGeometry(QtCore.QRect(0, 0, 135, 435))
+        # self.time_stack_ui.qr_code_placeholder.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        # self.time_stack_ui.qr_code_placeholder.setScaledContents(True)
+
+    def set_qr_code(self):
+        '''Sets the QR code image to the label
+
+        Args:
+            data (str): Base64 encoded QR code image
+        '''
+        self.secret_gen_code = self.generate_challenge_code()
+        self.qr_data = {
+            "Secret": self.secret_gen_code,
+            "IP": self.locale_ip,
+            "Port": WEB_SOCKET_SERVER_PORT
+        }
+        print(self.qr_data)
+        self.qr_code = self.generate_qr_code(self.qr_data)
+        pixmap = QPixmap()
+        pixmap.loadFromData(base64.b64decode(self.qr_code))
+        self.time_stack_ui.qr_code_placeholder.setPixmap(pixmap)
+        self.time_stack_ui.qr_code_placeholder.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.time_stack_ui.qr_code_placeholder.setScaledContents(True)
+        # self.time_stack_ui.qr_code_placeholder.setGeometry(10, 200, 300, 300)
+        self.time_stack_ui.qr_code_placeholder.show()
+        self.__codes.append(self.secret_gen_code)
+        self.server.update_challenge_code(self.__codes)
+        self.time_stack_ui.log_text_edit.append(
+            f"QR Code generated.\nSCAN QR CODE TO CONNECT TO SERVER.")
+
+    def generate_qr_code(self, data):
+        '''Secure QR code generator
+
+        Args:
+            data (dict): The data to be encoded in the QR code
+
+        Returns:
+            str: Base64 encoded QR code image
+        '''
+
+        qr = QRCode(json.dumps(data))
+        # temp_qr_image_path = os.path.join(os.path.dirname(__file__), "temp_qr_image.png")
+        temp_qr_image_path = pathlib.Path(QStandardPaths.writableLocation(QStandardPaths.StandardLocation.TempLocation)).joinpath("temp_qr_image.png")
+        qr.png(temp_qr_image_path, scale=8)
+        with open(temp_qr_image_path, "rb") as f:
+            base64_encoded = base64.b64encode(f.read())
+        pathlib.Path(temp_qr_image_path).unlink()
+        return base64_encoded
+    
+    def generate_challenge_code(self, length=15):
+        '''Generates a random string of uppercase letters and digits
+        '''
+        return ''.join(random.choices(string.ascii_uppercase +
+                                      string.digits +
+                                      string.ascii_lowercase,
+                                      k=length))
+            
+   
+            
     def create_stack(self) -> None:
         '''
         This function is called when the create stack button is clicked.

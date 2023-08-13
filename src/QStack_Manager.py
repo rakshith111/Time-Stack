@@ -45,6 +45,7 @@ class StackManager:
         self.notification_sound_midway = ""
         self.notification_sound_quarterly = ""
         self.notification_sound_end = ""
+        self._network_manager = None
         self.warningmsg = QMessageBox()
         self.warningmsg.setIcon(QMessageBox.Icon.Warning)
         self.warningmsg.setWindowTitle("Error")

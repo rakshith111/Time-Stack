@@ -5,6 +5,9 @@ import json
 import base64
 import random
 import string
+import pathlib
+from PyQt6.QtCore import QStandardPaths
+
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QLineEdit, QPushButton, QLabel, QVBoxLayout, QWidget
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWebSockets import QWebSocketServer
@@ -14,6 +17,7 @@ from pyqrcode import QRCode
 
 from libs.util import get_local_ip
 
+SETTINGS=pathlib.Path(QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppLocalDataLocation),'TIME_STACK','user_data','challenge_code.json')
 
 class WebSocketServer(QWebSocketServer):
     def __init__(self, address, port, text_edit):
@@ -30,18 +34,19 @@ class WebSocketServer(QWebSocketServer):
             "new_activity": self.on_new_activity,
         }
         self.newConnection.connect(self.on_new_connection)
-        if not os.path.exists("challenge_code.json"):
-            with open("challenge_code.json", "w") as f:
+
+        if not os.path.exists(SETTINGS):
+            with open(SETTINGS, "w") as f:
                 json.dump({}, f)
         self.load_authed_clients()
+
     def send_add(self):
-    
         for i in self.authed_clients.values():
             print("sending add to", i)
             self.socket.sendTextMessage(json.dumps({"add": True}))
+
     def send_pause(self):
         for i in self.authed_clients.values():
-
             print("sending pause to", i)
             self.socket.sendTextMessage(json.dumps({"pause": True}))
 
@@ -58,11 +63,11 @@ class WebSocketServer(QWebSocketServer):
 
 
     def load_authed_clients(self):
-        with open("challenge_code.json", "r") as f:
+        with open(SETTINGS, "r") as f:
             self.authed_clients = json.load(f)
 
     def save_authed_clients(self):
-        with open("challenge_code.json", "w") as f:
+        with open(SETTINGS, "w") as f:
             json.dump(self.authed_clients, f)
 
     def update_challenge_code(self, codes):
