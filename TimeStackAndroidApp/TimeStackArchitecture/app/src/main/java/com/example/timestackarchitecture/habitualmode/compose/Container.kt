@@ -1,4 +1,4 @@
-package com.example.timestackarchitecture.casualmode.compose
+package com.example.timestackarchitecture.habitualmode.compose
 
 
 import android.content.Intent
@@ -104,7 +104,7 @@ fun Container(
                     .padding(top = 20.dp, start = 20.dp, bottom = 20.dp)
             ) {
                 Text(
-                    "Casual",
+                    "Habitual",
                     fontSize = 30.sp,
                     color = Color(0x7f000000),
                     style = MaterialTheme.typography.titleLarge,

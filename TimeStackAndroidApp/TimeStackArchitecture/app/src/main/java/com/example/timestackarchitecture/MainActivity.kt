@@ -61,15 +61,9 @@ class MainActivity : ComponentActivity()  {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("onCreate")
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
-
         setContent {
             TimeStackArchitectureTheme {
                 val context = LocalContext.current
-
                 when {
                     ContextCompat.checkSelfPermission(
                         context,
@@ -106,7 +100,6 @@ class MainActivity : ComponentActivity()  {
                 }
 
                 val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
-
                 val navController = rememberAnimatedNavController()
 
                 Surface(
@@ -134,7 +127,6 @@ class MainActivity : ComponentActivity()  {
 
     override fun onDestroy() {
         val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
-
         val elapsed = (System.currentTimeMillis() - sharedPreferencesProgress.getStartTime()) + sharedPreferencesProgress.getTimerProgress()
         sharedPreferencesProgress.saveTimerProgress(elapsed)
         sharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())

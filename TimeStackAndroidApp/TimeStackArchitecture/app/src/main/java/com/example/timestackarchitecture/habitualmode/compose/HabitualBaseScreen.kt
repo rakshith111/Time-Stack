@@ -1,4 +1,4 @@
-package com.example.timestackarchitecture.casualmode.compose
+package com.example.timestackarchitecture.habitualmode.compose
 
 
 import android.os.Build
@@ -15,7 +15,7 @@ import timber.log.Timber
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CasualBaseScreen(
+fun HabitualBaseScreen(
     stackViewModel: StackViewModel,
     timerViewModel: TimerViewModel
 ) {

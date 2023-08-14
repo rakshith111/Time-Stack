@@ -1,4 +1,4 @@
-package com.example.timestackarchitecture.casualmode.compose
+package com.example.timestackarchitecture.habitualmode.compose
 
 
 import androidx.compose.foundation.layout.aspectRatio

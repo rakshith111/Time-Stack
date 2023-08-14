@@ -62,7 +62,10 @@ fun NavGraph(
             exitTransition = {
                 fadeOut(animationSpec = tween(500))
             }) {
-            HabitualBaseScreen()
+            HabitualBaseScreen(
+                stackViewModel = viewModel(factory = stackViewModelFactory),
+                timerViewModel = viewModel(factory = timerViewModelFactory)
+            )
         }
     }
 }
