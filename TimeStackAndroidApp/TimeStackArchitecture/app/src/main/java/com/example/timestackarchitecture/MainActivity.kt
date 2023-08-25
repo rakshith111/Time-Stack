@@ -13,9 +13,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgressRepository
 import com.example.timestackarchitecture.casualmode.service.TimerService
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
@@ -108,6 +112,19 @@ class MainActivity : ComponentActivity()  {
                 val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
 
                 val navController = rememberAnimatedNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                when (navBackStackEntry?.destination?.route) {
+                    "casualMode" -> {
+                        window.statusBarColor = Color(0xFF8EC5FC).toArgb()
+
+                    }
+                    "habitualMode" -> {
+                        window.statusBarColor = Color(0xFF466B8A).toArgb()
+                    }
+                    else -> {
+                        window.statusBarColor = Color(0xFF8EC5FC).toArgb()
+                    }
+                }
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),

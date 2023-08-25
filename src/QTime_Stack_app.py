@@ -25,7 +25,7 @@ from QStack_Manager import StackManager
 from QStack_Settings import ThemeManager
 from QWebsocket_server import WebSocketServer
 from ui_generated.time_stack import Ui_MainWindow
-WEB_SOCKET_SERVER_PORT = 8888
+WEB_SOCKET_SERVER_PORT = 8000
 class TimeStack(QtWidgets.QMainWindow):
 
     def __init__(self, parent=None) -> None:

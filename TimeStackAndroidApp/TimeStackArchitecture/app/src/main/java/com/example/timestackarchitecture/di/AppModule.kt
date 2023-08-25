@@ -6,6 +6,9 @@ import androidx.room.Room
 import com.example.timestackarchitecture.casualmode.data.StackDatabase
 import com.example.timestackarchitecture.casualmode.data.StackRepository
 import com.example.timestackarchitecture.casualmode.data.StackRepositoryImpl
+import com.example.timestackarchitecture.habitualmode.data.HabitualStackDatabase
+import com.example.timestackarchitecture.habitualmode.data.HabitualStackRepository
+import com.example.timestackarchitecture.habitualmode.data.HabitualStackRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +29,17 @@ object AppModule {
         ).build()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideHabitualStackDatabase(app: Application) : HabitualStackDatabase {
+        return Room.databaseBuilder(
+            app,
+            HabitualStackDatabase::class.java,
+            "converter_data_database"
+        ).build()
+    }
+
     @Provides
     @Singleton
     fun provideStackRepository(db : StackDatabase) : StackRepository {
@@ -35,5 +49,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideContext(application: Application): Context = application.applicationContext
+
+    @Provides
+    @Singleton
+    fun provideHabitualStackRepository(db : HabitualStackDatabase) : HabitualStackRepository {
+        return HabitualStackRepositoryImpl(db.habitualStackDAO)
+    }
 
 }
