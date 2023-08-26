@@ -51,8 +51,9 @@ fun HomeScreen(
     val glassBackgroundShape: Shape = MaterialTheme.shapes.medium
     val backgroundGradient = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFFe9b7ce),
-            Color(0xFFd3f3f1)
+            Color(0xFFa4e9f9),
+            Color(0xFFc5aef2),
+            Color(0xFFc5aef2)
 
         ),
     )

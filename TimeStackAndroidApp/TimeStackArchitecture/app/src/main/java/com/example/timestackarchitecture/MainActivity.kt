@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity()  {
                         window.statusBarColor = Color(0xFF466B8A).toArgb()
                     }
                     else -> {
-                        window.statusBarColor = Color(0xFFe9b7ce).toArgb()
+                        window.statusBarColor = Color(0xFFa4e9f9).toArgb()
                     }
                 }
 
