@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "stack_table")
+@Entity(tableName = "stack_table_habitual")
 data class HabitualStackData(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "stack_id")

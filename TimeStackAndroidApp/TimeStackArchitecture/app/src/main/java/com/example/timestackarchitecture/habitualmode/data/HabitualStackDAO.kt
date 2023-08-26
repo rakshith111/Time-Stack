@@ -12,9 +12,9 @@ interface HabitualStackDAO {
     suspend fun updateStack(stack: HabitualStackData)
     @Delete
     suspend fun deleteStack(stack: HabitualStackData)
-    @Query("DELETE FROM stack_table")
+    @Query("DELETE FROM stack_table_habitual")
     suspend fun deleteAll()
-    @Query("SELECT * FROM stack_table")
+    @Query("SELECT * FROM stack_table_habitual")
     fun getStacks(): Flow<List<HabitualStackData>>
 }
 

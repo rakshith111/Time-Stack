@@ -14,6 +14,8 @@ import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgre
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
 import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.home.compose.HomeScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -25,8 +27,9 @@ fun NavGraph(
     navController: NavHostController,
     stackViewModelFactory: StackViewModelFactory,
     timerViewModelFactory: TimerViewModelFactory,
-    sharedPreferencesProgress: SharedPreferencesProgressRepository
-
+    sharedPreferencesProgress: SharedPreferencesProgressRepository,
+    habitualStackViewModel: HabitualStackViewModel,
+    habitualTimerViewModel: HabitualTimerViewModel
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -62,7 +65,10 @@ fun NavGraph(
             exitTransition = {
                 fadeOut(animationSpec = tween(500))
             }) {
-            HabitualBaseScreen()
+            HabitualBaseScreen(
+                habitualStackViewModel = habitualStackViewModel,
+                habitualTimerViewModel = habitualTimerViewModel
+            )
         }
     }
 }

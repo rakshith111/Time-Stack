@@ -22,6 +22,5 @@ class HabitualStackRepositoryImpl(private val dao: HabitualStackDAO) : HabitualS
     override fun getStacks(): Flow<List<HabitualStackData>>{
         return dao.getStacks()
     }
-
 }
 
