@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,8 @@ import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgre
 import com.example.timestackarchitecture.casualmode.service.TimerService
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.navigation.NavGraph
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
@@ -36,6 +39,10 @@ class MainActivity : ComponentActivity()  {
 
     @Inject
     lateinit var timerViewModelFactory: TimerViewModelFactory
+
+
+    private val habitualStackViewModel by viewModels<HabitualStackViewModel>()
+    private val habitualTimerViewModel by viewModels<HabitualTimerViewModel>()
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -111,7 +118,9 @@ class MainActivity : ComponentActivity()  {
                             navController = navController,
                             stackViewModelFactory = stackViewModelFactory,
                             timerViewModelFactory = timerViewModelFactory,
-                            sharedPreferencesProgress = sharedPreferencesProgress
+                            sharedPreferencesProgress = sharedPreferencesProgress,
+                            habitualStackViewModel = habitualStackViewModel,
+                            habitualTimerViewModel = habitualTimerViewModel
                         )
                     }
                 }

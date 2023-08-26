@@ -14,10 +14,13 @@ import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgre
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
 import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.home.compose.HomeScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
+
 @OptIn(ExperimentalAnimationApi::class)
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
@@ -25,8 +28,9 @@ fun NavGraph(
     navController: NavHostController,
     stackViewModelFactory: StackViewModelFactory,
     timerViewModelFactory: TimerViewModelFactory,
-    sharedPreferencesProgress: SharedPreferencesProgressRepository
-
+    sharedPreferencesProgress: SharedPreferencesProgressRepository,
+    habitualStackViewModel: HabitualStackViewModel,
+    habitualTimerViewModel: HabitualTimerViewModel
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -63,8 +67,8 @@ fun NavGraph(
                 fadeOut(animationSpec = tween(500))
             }) {
             HabitualBaseScreen(
-                stackViewModel = viewModel(factory = stackViewModelFactory),
-                timerViewModel = viewModel(factory = timerViewModelFactory)
+                habitualStackViewModel = habitualStackViewModel,
+                habitualTimerViewModel = habitualTimerViewModel
             )
         }
     }
