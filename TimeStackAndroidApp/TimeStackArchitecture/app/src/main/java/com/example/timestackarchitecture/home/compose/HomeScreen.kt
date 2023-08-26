@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -48,12 +49,12 @@ fun HomeScreen(
     val context = LocalContext.current
 
     val glassBackgroundShape: Shape = MaterialTheme.shapes.medium
-
     val backgroundGradient = Brush.verticalGradient(
         colors = listOf(
-            Color(0xFF8EC5FC),
-            Color(0xFFE0C3FC)
-        )
+            Color(0xFFe9b7ce),
+            Color(0xFFd3f3f1)
+
+        ),
     )
 
     val glassBackgroundModifier = Modifier
@@ -148,7 +149,7 @@ fun HomeScreen(
 
                     Text(
                         text = "Casual Mode",
-                        color = Color(0x6FFFFFFF),
+                        color = Color(0x6F000000),
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                             .padding(start = 20.dp, end = 10.dp),
