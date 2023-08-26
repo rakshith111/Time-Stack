@@ -1,47 +1,43 @@
 package com.example.timestackarchitecture.habitualmode.compose
 
-
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Dialog
-import com.example.timestackarchitecture.casualmode.data.StackData
-import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
-import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
+import com.example.timestackarchitecture.habitualmode.data.HabitualStackData
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import timber.log.Timber
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HabitualBaseScreen(
-    stackViewModel: StackViewModel,
-    timerViewModel: TimerViewModel
+    habitualStackViewModel: HabitualStackViewModel,
+    habitualTimerViewModel: HabitualTimerViewModel
 ) {
-    val stackList = stackViewModel.stackList
-    val selectedItems = stackViewModel.selectedItems
+    val stackList = habitualStackViewModel.stackList
+    val selectedItems = habitualStackViewModel.selectedItems
     val alertDialogTriggered = remember { mutableStateOf(false) }
 
-    Timber.d("timer: ${timerViewModel.getProgress()}")
+    Timber.d("timer: ${habitualTimerViewModel.getProgress()}")
 
-    if (timerViewModel.getAlarmTriggered()) {
+    if (habitualTimerViewModel.getAlarmTriggered()) {
         alertDialogTriggered.value = true
     }
 
     if (alertDialogTriggered.value) {
         Dialog(onDismissRequest = {
             alertDialogTriggered.value = false
-            timerViewModel.saveAlarmTriggered(false)
+            habitualTimerViewModel.saveAlarmTriggered(false)
         }) {
             NewAlertDialogBox(
                 onConfirm = {
                     alertDialogTriggered.value = false
-                    timerViewModel.saveAlarmTriggered(false)
+                    habitualTimerViewModel.saveAlarmTriggered(false)
                 },
                 onDismiss = {
                     alertDialogTriggered.value = false
-                    timerViewModel.saveAlarmTriggered(false)
+                    habitualTimerViewModel.saveAlarmTriggered(false)
                 },
                 title = "Activity removed",
                 text = "Your activity was completed and has now been removed.",
@@ -51,27 +47,27 @@ fun HabitualBaseScreen(
         }
     }
 
-    Container(
-        stackList,
+    HabitualContainer(  stackList,
         selectedItems,
-        getProgress = { timerViewModel.getProgress() },
+        getProgress = { habitualTimerViewModel.getProgress() },
 
-        updateProgress = { playedTime: Long -> timerViewModel.saveProgress(playedTime)
+        updateProgress = { playedTime: Long -> habitualTimerViewModel.saveProgress(playedTime)
             Timber.d("updateProgress: $playedTime") },
 
-        insertStack = { stackData: StackData ->
-            stackViewModel.insertStack(stackData) },
+        insertStack = { habitualStackData: HabitualStackData ->
+            habitualStackViewModel.insertStack(habitualStackData) },
 
-        updateStack = { stackData: StackData ->
-            stackViewModel.updateStack(stackData) },
+        updateStack = { stackData: HabitualStackData ->
+            habitualStackViewModel.updateStack(stackData) },
 
-        removeStack = {stackData: StackData -> stackViewModel.removeStack(stackData)},
+        removeStack = {habitualStackData: HabitualStackData -> habitualStackViewModel.removeStack(habitualStackData)},
 
-        getStartTime = { timerViewModel.getStartTime() },
+        getStartTime = { habitualTimerViewModel.getStartTime() },
 
-        {startTime: Long -> timerViewModel.saveCurrentTime(startTime)},
+        {startTime: Long -> habitualTimerViewModel.saveCurrentTime(startTime)},
 
-        { timerViewModel.firstTime() })
+        { habitualTimerViewModel.firstTime() })
 
-        { firstTime: Boolean -> timerViewModel.setFirstTime(firstTime) }
+    { firstTime: Boolean -> habitualTimerViewModel.setFirstTime(firstTime) }
+
 }
