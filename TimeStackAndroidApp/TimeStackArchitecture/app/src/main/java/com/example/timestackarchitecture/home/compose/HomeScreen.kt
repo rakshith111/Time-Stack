@@ -8,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +35,8 @@ import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
+import com.example.timestackarchitecture.ui.components.snackBarMessage
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,10 +48,12 @@ fun HomeScreen(
     timerViewModelFactory: TimerViewModelFactory,
     sharedPreferencesProgress: SharedPreferencesProgressRepository,
     stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
-    timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory)
+    timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory),
+    habitualStackViewModel: HabitualStackViewModel,
 ) {
     val context = LocalContext.current
-
+    val scope = rememberCoroutineScope()
+    val snackBarHostState = remember { SnackbarHostState() }
     val glassBackgroundShape: Shape = MaterialTheme.shapes.medium
     val backgroundGradient = Brush.verticalGradient(
         colors = listOf(
@@ -70,20 +76,21 @@ fun HomeScreen(
             )
         })
 
-    if(sharedPreferencesProgress.firstTime()) {
+    if (sharedPreferencesProgress.firstTime()) {
         Timber.d("firstTime")
         sharedPreferencesProgress.saveTimerProgress(0)
     } else {
-        if(stackViewModel.stackList.isNotEmpty()) {
-            if(stackViewModel.stackList[0].isPlaying) {
-                val elapsed = (System.currentTimeMillis() - sharedPreferencesProgress.getStartTime()) + sharedPreferencesProgress.getTimerProgress()
+        if (stackViewModel.stackList.isNotEmpty()) {
+            if (stackViewModel.stackList[0].isPlaying) {
+                val elapsed =
+                    (System.currentTimeMillis() - sharedPreferencesProgress.getStartTime()) + sharedPreferencesProgress.getTimerProgress()
                 sharedPreferencesProgress.saveTimerProgress(elapsed)
                 sharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
             }
         }
     }
 
-    if(timerViewModel.getAlarmTriggered()) {
+    if (timerViewModel.getAlarmTriggered()) {
         if (stackViewModel.stackList.isNotEmpty()) {
             stackViewModel.removeStack(stackViewModel.stackList[0])
             Timber.d("removeStack 0 in MainActivity")
@@ -98,7 +105,8 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },) {
         println(it)
 
         Column(
@@ -106,16 +114,22 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(brush = backgroundGradient),
         ) {
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(top = 70.dp)){
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(top = 70.dp)
+            ) {
                 Spacer(modifier = Modifier.weight(1f))
-                Image(painter = painterResource(
-                    id = R.drawable.ic_stack_noti),
+                Image(
+                    painter = painterResource(
+                        id = R.drawable.ic_stack_noti
+                    ),
                     contentDescription = "brand logo",
                     modifier = Modifier
                         .size(50.dp)
 
                 )
-                Text(text = " TIME STACK",
+                Text(
+                    text = " TIME STACK",
                     color = Color.Black,
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
@@ -125,13 +139,21 @@ fun HomeScreen(
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
-            
+
             Spacer(modifier = Modifier.height(50.dp))
             IconButton(
                 onClick = {
-                    navController.navigate("casualMode") {
-                        popUpTo(navController.graph.startDestinationId)
-                        launchSingleTop = true
+                    if (habitualStackViewModel.stackList.isNotEmpty() && habitualStackViewModel.stackList[0].isPlaying) {
+                        snackBarMessage(
+                            message = "You are currently in Habitual Mode. Please finish your activity first.",
+                            scope = scope,
+                            snackBarHostState = snackBarHostState
+                        )
+                    } else {
+                        navController.navigate("casualMode") {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
                     }
                 },
                 modifier = Modifier
@@ -139,7 +161,7 @@ fun HomeScreen(
                     .aspectRatio(2f)
                     .then(glassBackgroundModifier),
             ) {
-                Row{
+                Row {
                     Image(
                         painter = painterResource(id = R.drawable.causal),
                         contentDescription = "causal",
@@ -162,9 +184,17 @@ fun HomeScreen(
 
             IconButton(
                 onClick = {
-                    navController.navigate("habitualMode") {
-                        popUpTo(navController.graph.startDestinationId)
-                        launchSingleTop = true
+                    if (stackViewModel.stackList.isNotEmpty() && stackViewModel.stackList[0].isPlaying) {
+                        snackBarMessage(
+                            message = "You are currently in Casual Mode. Please finish your activity first.",
+                            scope = scope,
+                            snackBarHostState = snackBarHostState
+                        )
+                    } else {
+                        navController.navigate("habitualMode") {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
                     }
                 },
                 modifier = Modifier
@@ -172,7 +202,7 @@ fun HomeScreen(
                     .aspectRatio(2f)
                     .then(glassBackgroundModifier),
             ) {
-                Row{
+                Row {
                     Image(
                         painter = painterResource(id = R.drawable.habitual),
                         contentDescription = "habitual",

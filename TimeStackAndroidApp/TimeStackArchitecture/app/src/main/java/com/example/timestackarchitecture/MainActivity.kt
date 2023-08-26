@@ -38,15 +38,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity()  {
-
     @Inject
     lateinit var stackViewModelFactory: StackViewModelFactory
 
     @Inject
     lateinit var timerViewModelFactory: TimerViewModelFactory
 
-
     private val habitualStackViewModel by viewModels<HabitualStackViewModel>()
+
     private val habitualTimerViewModel by viewModels<HabitualTimerViewModel>()
 
     private val requestPermissionLauncher =
@@ -126,7 +125,6 @@ class MainActivity : ComponentActivity()  {
                         window.statusBarColor = Color(0xFFa4e9f9).toArgb()
                     }
                 }
-
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),

@@ -17,6 +17,8 @@ import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
 import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
 import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.home.compose.HomeScreen
+import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
+import com.example.timestackarchitecture.ui.components.snackBarMessage
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
@@ -37,14 +39,17 @@ fun NavGraph(
         startDestination = "home",
     ) {
         composable("home") {
-            HomeScreen(
-                navController,
-                stackViewModelFactory,
-                timerViewModelFactory,
-                sharedPreferencesProgress
-            )
-            Timber.d("back to home")
+
+                HomeScreen(
+                    navController,
+                    stackViewModelFactory,
+                    timerViewModelFactory,
+                    sharedPreferencesProgress,
+                    habitualStackViewModel = habitualStackViewModel
+                )
+                Timber.d("back to home")
         }
+
         composable("casualMode",
             enterTransition = {
                 fadeIn(animationSpec = tween(500))
@@ -53,10 +58,12 @@ fun NavGraph(
                 fadeOut(animationSpec = tween(500))
             }
         ) {
-            CasualBaseScreen(
-                stackViewModel = viewModel(factory = stackViewModelFactory),
-                timerViewModel = viewModel(factory = timerViewModelFactory)
-            )
+
+                CasualBaseScreen(
+                    stackViewModel = viewModel(factory = stackViewModelFactory),
+                    timerViewModel = viewModel(factory = timerViewModelFactory)
+                )
+
         }
 
         composable("habitualMode",
