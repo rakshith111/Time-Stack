@@ -97,28 +97,47 @@ fun Container(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp, start = 20.dp, bottom = 20.dp)
-            ) {
-                Text(
-                    "Casual",
-                    fontSize = 30.sp,
-                    color = Color(0x7f000000),
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Start,
-                )
-                Text(
-                    "Mode",
-                    fontSize = 30.sp,
-                    color = Color(0x7f000000),
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier.padding(start = 30.dp)
-                )
-            }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp, start = 20.dp, bottom = 20.dp)
+                ) {
+                    Text(
+                        "Casual Mode",
+                        fontSize = 30.sp,
+                        color = Color(0x7f000000),
+                        style = MaterialTheme.typography.titleLarge,
+                        textAlign = TextAlign.Start,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    IconButton(
+                        onClick = {
+
+                        },
+                        Modifier
+                            .size(70.dp, 50.dp)
+                            .padding(end = 15.dp)
+                            .clip(RoundedCornerShape(30.dp)),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color(0xFF000000)
+                        )
+                    ) {
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.inventory
+                            ),
+                            contentDescription = "Remove",
+                            Modifier.size(25.dp, 25.dp),
+                            tint = Color.White
+                        )
+                    }
+
+                }
+
+
 
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -474,16 +493,15 @@ fun Container(
                     openDialogAdd = false
                 },
 
-                onDismiss = {
+                onDismiss = { message ->
                     openDialogAdd = false
-                    if (activityName.isBlank()) {
+                    if (activityName.isBlank() && message == "Blank") {
                         snackBarMessage(
                             message = "Please enter activity name",
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
-
-                    } else {
+                    } else if (message == "0") {
                         snackBarMessage(
                             message = "Please enter activity time",
                             scope = scope,
@@ -626,10 +644,11 @@ fun Container(
                     TimerAlarmReceiver().cancelTimerAlarm(context)
                     editDialog = false
                 },
-                onDismiss = { editDialog = false
-                    if (activityName.isBlank()) {
+                onDismiss = { message ->
+                    editDialog = false
+                    if (message == "activityName is blank and time is 0 or same as before") {
                         snackBarMessage(
-                            message = "Please enter activity name",
+                            message = "activityName is blank and time is 0 or same as before",
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )

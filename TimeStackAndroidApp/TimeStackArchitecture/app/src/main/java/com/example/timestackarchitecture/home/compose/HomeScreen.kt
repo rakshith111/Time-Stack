@@ -143,7 +143,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(50.dp))
             IconButton(
                 onClick = {
-                    if (habitualStackViewModel.stackList.isNotEmpty() && habitualStackViewModel.stackList[0].isPlaying) {
+                    if (habitualStackViewModel.stackList.value.isNotEmpty() && habitualStackViewModel.stackList.value[0].isPlaying) {
                         snackBarMessage(
                             message = "You are currently in Habitual Mode. Please finish your activity first.",
                             scope = scope,

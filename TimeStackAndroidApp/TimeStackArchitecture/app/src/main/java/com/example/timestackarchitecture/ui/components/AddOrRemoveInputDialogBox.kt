@@ -13,12 +13,12 @@ import com.example.timestackarchitecture.habitualmode.data.HabitualStackData
 @Composable
 fun AddInputDialog(
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: (message : String) -> Unit,
     activityName: String, onActivityNameChange: (String) -> Unit, onActivityTimeChange: (String) -> Unit){
     var timeInMilli = "0"
     AlertDialog(
         onDismissRequest = {
-            onDismiss()
+            onDismiss("Dismiss")
         },
         title = {
             Text(text = "New Activity", style = MaterialTheme.typography.titleLarge)
@@ -36,9 +36,11 @@ fun AddInputDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if(timeInMilli == "0" || activityName.isBlank()){
-                        onDismiss()
-                    } else {
+                    if(timeInMilli == "0"){
+                        onDismiss("0")
+                    } else if (activityName.isBlank()){
+                        onDismiss("Blank")
+                    }else {
                         onActivityTimeChange(timeInMilli)
                         onConfirm()
                     }
@@ -51,7 +53,7 @@ fun AddInputDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    onDismiss()
+                    onDismiss("Dismiss")
                 }
             ) {
                 Text("Dismiss", style = MaterialTheme.typography.bodyMedium)

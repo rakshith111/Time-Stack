@@ -20,7 +20,7 @@ import timber.log.Timber
 @Composable
 fun EditDialogBox(
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: (message: String) -> Unit,
     activityName: String,
     onActivityNameChange: (String) -> Unit,
     onActivityTimeChange: (String) -> Unit,
@@ -30,7 +30,7 @@ fun EditDialogBox(
     var timeInMilli = "0"
     AlertDialog(
         onDismissRequest = {
-            onDismiss()
+            onDismiss("Dismissed")
         },
         title = {
             Text(text = "Edit Activities", style = MaterialTheme.typography.titleLarge)
@@ -73,7 +73,7 @@ fun EditDialogBox(
             TextButton(
                 onClick = {
                     if(activityName.isBlank() && (timeInMilli == "0" || timeInMilli == stackList[if(selectedItems.size == 0) {0} else {selectedItems[0]}].stackTime.toString())){
-                        onDismiss()
+                        onDismiss("activityName is blank and time is 0 or same as before")
                         Timber.d("1")
                     } else if (activityName.isBlank() && timeInMilli != "0"){
                         onActivityTimeChange(timeInMilli)
@@ -95,7 +95,7 @@ fun EditDialogBox(
         dismissButton = {
             TextButton(
                 onClick = {
-                    onDismiss()
+                    onDismiss("Dismissed")
                 }
             ) {
                 Text("Dismiss", style = MaterialTheme.typography.bodyMedium)
@@ -108,7 +108,7 @@ fun EditDialogBox(
 @Composable
 fun EditDialogBoxHabitual(
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: (message: String) -> Unit,
     activityName: String,
     onActivityNameChange: (String) -> Unit,
     onActivityTimeChange: (String) -> Unit,
@@ -118,7 +118,7 @@ fun EditDialogBoxHabitual(
     var timeInMilli = "0"
     AlertDialog(
         onDismissRequest = {
-            onDismiss()
+            onDismiss("Dismissed")
         },
         title = {
             Text(text = "Edit Activities", style = MaterialTheme.typography.titleLarge)
@@ -161,7 +161,7 @@ fun EditDialogBoxHabitual(
             TextButton(
                 onClick = {
                     if(activityName.isBlank() && (timeInMilli == "0" || timeInMilli == stackList[if(selectedItems.size == 0) {0} else {selectedItems[0]}].stackTime.toString())){
-                        onDismiss()
+                        onDismiss("activityName is blank and time is 0 or same as before")
                         Timber.d("1")
                     } else if (activityName.isBlank() && timeInMilli != "0"){
                         onActivityTimeChange(timeInMilli)
@@ -183,7 +183,7 @@ fun EditDialogBoxHabitual(
         dismissButton = {
             TextButton(
                 onClick = {
-                    onDismiss()
+                    onDismiss("Dismissed")
                 }
             ) {
                 Text("Dismiss", style = MaterialTheme.typography.bodyMedium)

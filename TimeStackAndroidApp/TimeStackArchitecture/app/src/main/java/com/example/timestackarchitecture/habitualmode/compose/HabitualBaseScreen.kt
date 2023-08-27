@@ -15,7 +15,6 @@ fun HabitualBaseScreen(
     habitualStackViewModel: HabitualStackViewModel,
     habitualTimerViewModel: HabitualTimerViewModel
 ) {
-    val stackList = habitualStackViewModel.stackList
     val selectedItems = habitualStackViewModel.selectedItems
     val alertDialogTriggered = remember { mutableStateOf(false) }
 
@@ -47,7 +46,8 @@ fun HabitualBaseScreen(
         }
     }
 
-    HabitualContainer(  stackList,
+    HabitualContainer(
+        habitualStackViewModel,
         selectedItems,
         getProgress = { habitualTimerViewModel.getProgress() },
 
@@ -60,7 +60,8 @@ fun HabitualBaseScreen(
         updateStack = { stackData: HabitualStackData ->
             habitualStackViewModel.updateStack(stackData) },
 
-        removeStack = {habitualStackData: HabitualStackData -> habitualStackViewModel.removeStack(habitualStackData)},
+        removeStack = { habitualStackData: HabitualStackData ->
+            habitualStackViewModel.removeStack(habitualStackData)},
 
         getStartTime = { habitualTimerViewModel.getStartTime() },
 

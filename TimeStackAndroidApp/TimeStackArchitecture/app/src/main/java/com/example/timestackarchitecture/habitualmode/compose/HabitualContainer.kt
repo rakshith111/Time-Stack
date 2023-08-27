@@ -35,6 +35,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,38 +58,43 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.timestackarchitecture.R
-import com.example.timestackarchitecture.casualmode.compose.InfiniteAnimation
-import com.example.timestackarchitecture.casualmode.compose.Loader
-import com.example.timestackarchitecture.casualmode.data.StackData
 import com.example.timestackarchitecture.casualmode.service.TimerAlarmReceiver
 import com.example.timestackarchitecture.casualmode.service.TimerService
 import com.example.timestackarchitecture.habitualmode.data.HabitualStackData
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
 import com.example.timestackarchitecture.ui.components.AddInputDialog
-import com.example.timestackarchitecture.ui.components.EditDialogBox
 import com.example.timestackarchitecture.ui.components.EditDialogBoxHabitual
 import com.example.timestackarchitecture.ui.components.PlayPauseButton
-import com.example.timestackarchitecture.ui.components.RemoveInputDialog
 import com.example.timestackarchitecture.ui.components.RemoveInputDialogHabitual
 import com.example.timestackarchitecture.ui.components.ResetDialogBox
 import com.example.timestackarchitecture.ui.components.convertTime
 import com.example.timestackarchitecture.ui.components.snackBarMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HabitualContainer(
-    stackList: List<HabitualStackData>,
+    habitualStackViewModel: HabitualStackViewModel,
     selectedItems: MutableList<Int>,
     getProgress: () -> Long,
     updateProgress: (Long) -> Unit,
-    insertStack: (HabitualStackData) -> Unit,
-    updateStack: (HabitualStackData) -> Unit,
-    removeStack: (HabitualStackData) -> Unit,
+    insertStack: suspend (HabitualStackData) -> Unit,
+    updateStack: suspend (HabitualStackData) -> Unit,
+    removeStack: suspend (HabitualStackData) -> Unit,
     getStartTime: () -> Long,
     saveCurrentTime: (Long) -> Unit,
-    getFirstTime: () -> Boolean,
+    getFirstTime:() -> Boolean,
     saveFirstTime: (Boolean) -> Unit,
 ) {
+    val stackList = habitualStackViewModel.stackList.collectAsState().value
+    LaunchedEffect(Unit){
+        habitualStackViewModel.getStacks()
+    }
     var openDialogAdd by remember { mutableStateOf(false) }
     var openDialogRemove by remember { mutableStateOf(false) }
     var activityName by remember { mutableStateOf("") }
@@ -106,6 +113,7 @@ fun HabitualContainer(
     play = if (stackList.isNotEmpty()) {
         Timber.d("play")
         Timber.d("stackList.size: ${stackList.size}")
+        Timber.d("stackList[0].isPlaying: ${stackList[0].isPlaying}")
         stackList[0].isPlaying
     } else {
         false
@@ -129,28 +137,46 @@ fun HabitualContainer(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
-                horizontalAlignment = Alignment.Start,
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp, start = 20.dp, bottom = 20.dp)
             ) {
                 Text(
-                    "Habitual",
+                    "Habitual Mode",
                     fontSize = 30.sp,
-                    color = Color(0x7FFFFFFF),
+                    color = Color(0xA3FFFFFF),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Start,
                 )
-                Text(
-                    "Mode",
-                    fontSize = 30.sp,
-                    color = Color(0x7FFFFFFF),
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier.padding(start = 30.dp)
-                )
+                Spacer(modifier = Modifier.weight(1f))
+
+                IconButton(
+                    onClick = {
+
+                    },
+                    Modifier
+                        .size(70.dp, 50.dp)
+                        .padding(end = 15.dp)
+                        .clip(RoundedCornerShape(30.dp)),
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color(0xFF000000)
+                    )
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.inventory
+                        ),
+                        contentDescription = "Remove",
+                        Modifier.size(25.dp, 25.dp),
+                        tint = Color.White
+                    )
+                }
+
             }
+
 
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -162,7 +188,7 @@ fun HabitualContainer(
                         .aspectRatio(0.82f)
                         .clip(shape = RoundedCornerShape(size = 12.dp))
                         .background(color = Color(0x3F82D8FF))
-                        .border(5.dp, Color(0x3FFFFFFF), shape = RoundedCornerShape(12.dp))
+                        .border(5.dp, Color(0x7f000000), shape = RoundedCornerShape(12.dp))
                 ) {
                     Column(
                         Modifier
@@ -222,7 +248,6 @@ fun HabitualContainer(
                                         )
                                     }
                             ) {
-
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     HabitualInfiniteAnimation(play = stackList[index].isPlaying)
                                     HabitualLoader(
@@ -230,21 +255,58 @@ fun HabitualContainer(
                                         stackList[index].stackTime,
                                         stackList[index].isPlaying
                                     ) {
+
                                         Timber.d("outside ${getProgress()}")
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            val serviceIntent =
-                                                Intent(context, TimerService::class.java)
+                                            val serviceIntent = Intent(context, TimerService::class.java)
                                             context.stopService(serviceIntent)
                                         }
-                                        play = false
-                                        saveFirstTime(true)
-                                        removeStack(stackList[0])
-                                        updateProgress(0)
-                                        snackBarMessage(
-                                            message = "Activity removed",
-                                            scope = scope,
-                                            snackBarHostState = snackBarHostState
-                                        )
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            try {
+                                                Timber.d("Coroutine started")
+                                                Timber.d("Before saveFirstTime")
+                                                saveFirstTime(true)
+                                                Timber.d("After saveFirstTime")
+                                                Timber.d("Before removeStack")
+                                                removeStack(stackList[0])
+                                                Timber.d("After removeStack")
+                                                Timber.d("stackList.size inside: ${stackList.size}")
+//                                                if (stackList.isNotEmpty()) {
+//                                                    Timber.d("stackList[0].isPlaying inside: ${stackList[0].isPlaying} ${stackList[0].stackName}")
+//                                                }
+                                                val stackList = habitualStackViewModel.getStacks()
+                                                Timber.d("stackList.size inside: ${stackList.size}")
+                                                Timber.d("before updateStack")
+                                                if (stackList.isNotEmpty()) {
+                                                    Timber.d("before updateStack inside")
+                                                    updateStack(
+                                                        HabitualStackData(
+                                                            stackList[0].id,
+                                                            stackList[0].stackName,
+                                                            stackList[0].stackTime,
+                                                            activeStack,
+                                                            true
+                                                        )
+                                                    )
+                                                }
+                                                Timber.d("after updateStack")
+
+                                                updateProgress(0)
+                                                Timber.d("Timer stopped, play: $play, stackList.size: ${stackList.size}")
+
+                                                // Move to the main thread to show the snackbar
+                                                withContext(Dispatchers.Main) {
+                                                    snackBarMessage(
+                                                        message = "Activity removed",
+                                                        scope = scope,
+                                                        snackBarHostState = snackBarHostState
+                                                    )
+                                                }
+                                                Timber.d("Coroutine finished")
+                                            } catch (e: Exception) {
+                                                Timber.e(e, "Error in coroutine")
+                                            }
+                                        }
                                     }
 
                                     Text(
@@ -364,15 +426,18 @@ fun HabitualContainer(
                         else {
                             play = it
                             stackList[0].isPlaying = it
-                            updateStack(
-                                HabitualStackData(
-                                    stackList[0].id,
-                                    stackList[0].stackName,
-                                    stackList[0].stackTime,
-                                    activeStack,
-                                    it
+                            CoroutineScope(Dispatchers.IO).launch {
+                                updateStack(
+                                    HabitualStackData(
+                                        stackList[0].id,
+                                        stackList[0].stackName,
+                                        stackList[0].stackTime,
+                                        activeStack,
+                                        it
+                                    )
                                 )
-                            )
+                            }
+
 
                             if (it) {
                                 Timber.d("Timer started")
@@ -489,15 +554,17 @@ fun HabitualContainer(
         openDialogAdd -> {
             AddInputDialog(
                 onConfirm = {
-                    insertStack(
-                        HabitualStackData(
-                            0,
-                            activityName,
-                            activityTime.toLong(),
-                            activeStack,
-                            false
+                    CoroutineScope(Dispatchers.IO).launch {
+                        insertStack(
+                            HabitualStackData(
+                                0,
+                                activityName,
+                                activityTime.toLong(),
+                                activeStack,
+                                false
+                            )
                         )
-                    )
+                    }
                     snackBarMessage(
                         message = "$activityName activity added",
                         scope = scope,
@@ -506,16 +573,15 @@ fun HabitualContainer(
                     openDialogAdd = false
                 },
 
-                onDismiss = {
+                onDismiss = {message ->
                     openDialogAdd = false
-                    if (activityName.isBlank()) {
+                    if (activityName.isBlank() && message == "Blank") {
                         snackBarMessage(
                             message = "Please enter activity name",
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
-
-                    } else {
+                    } else if (message == "0") {
                         snackBarMessage(
                             message = "Please enter activity time",
                             scope = scope,
@@ -534,7 +600,9 @@ fun HabitualContainer(
                 onConfirm = {
                     if (selectedItems.size > 0) {
                         selectedItems.sortedDescending().forEach { index ->
-                            removeStack(stackList[index])
+                            CoroutineScope(Dispatchers.IO).launch {
+                                removeStack(stackList[index])
+                            }
                         }
                         if (selectedItems.contains(0)) {
                             Timber.d("contains 0")
@@ -552,7 +620,9 @@ fun HabitualContainer(
                         selectedItems.clear()
                     } else {
                         if (stackList.isNotEmpty()) {
-                            removeStack(stackList[0])
+                            CoroutineScope(Dispatchers.IO).launch {
+                                removeStack(stackList[0])
+                            }
                             if (play) {
                                 play = false
                                 //stop notification
@@ -614,15 +684,18 @@ fun HabitualContainer(
             EditDialogBoxHabitual(
                 onConfirm = {
                     if (selectedItems.size > 0 && selectedItems.size == 1){
-                        updateStack(
-                            HabitualStackData(
-                                stackList[selectedItems[0]].id,
-                                activityName,
-                                activityTime.toLong(),
-                                activeStack,
-                                false
+                        CoroutineScope(Dispatchers.IO).launch {
+                            updateStack(
+                                HabitualStackData(
+                                    stackList[selectedItems[0]].id,
+                                    activityName,
+                                    activityTime.toLong(),
+                                    activeStack,
+                                    false
+                                )
                             )
-                        )
+                        }
+
                         snackBarMessage(
                             message = "Activity updated",
                             scope = scope,
@@ -637,15 +710,17 @@ fun HabitualContainer(
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
-                        updateStack(
-                            HabitualStackData(
-                                stackList[0].id,
-                                activityName,
-                                activityTime.toLong(),
-                                activeStack,
-                                false
+                        CoroutineScope(Dispatchers.IO).launch {
+                            updateStack(
+                                HabitualStackData(
+                                    stackList[0].id,
+                                    activityName,
+                                    activityTime.toLong(),
+                                    activeStack,
+                                    false
+                                )
                             )
-                        )
+                        }
                     }
                     if (activityTime != "0") {
                         updateProgress(0)
@@ -658,10 +733,11 @@ fun HabitualContainer(
                     TimerAlarmReceiver().cancelTimerAlarm(context)
                     editDialog = false
                 },
-                onDismiss = { editDialog = false
-                    if (activityName.isBlank()) {
+                onDismiss = { message ->
+                    editDialog = false
+                    if (message == "activityName is blank and time is 0 or same as before") {
                         snackBarMessage(
-                            message = "Please enter activity name",
+                            message = "activityName is blank and time is 0 or same as before",
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
