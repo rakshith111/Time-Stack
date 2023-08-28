@@ -1,6 +1,7 @@
 package com.example.timestackarchitecture.habitualmode.data
 
 import android.content.Context
+import timber.log.Timber
 
 class SharedPreferencesProgressRepositoryHabitual(context: Context) {
     private val sharedPrefTimer = context.getSharedPreferences("my_prefs_timer_habitual", Context.MODE_PRIVATE)
@@ -10,6 +11,7 @@ class SharedPreferencesProgressRepositoryHabitual(context: Context) {
     //save the progress of the timer
     fun saveTimerProgress(progress: Long) {
         sharedPrefTimer.edit().putLong("progressHabitual", progress).apply()
+        Timber.d("updateProgress: $progress")
     }
 
     //get the progress of the timer

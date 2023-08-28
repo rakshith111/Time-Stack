@@ -12,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.*
 import com.example.timestackarchitecture.R
+import timber.log.Timber
 
 @Composable
 fun Loader(
@@ -24,6 +25,8 @@ fun Loader(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration
     val progress: Float
+    Timber.d("totalPlayed: $totalPlayed")
+    Timber.d("totalTime: $totalTime")
 
     if (videoLength != null) {
         progress = if ( totalPlayed > totalTime) {
@@ -32,6 +35,7 @@ fun Loader(
         } else {
             totalPlayed.toFloat() / totalTime
         }
+        Timber.d("progress: $progress")
 
         val progressAsState by animateLottieCompositionAsState(
             composition = composition,

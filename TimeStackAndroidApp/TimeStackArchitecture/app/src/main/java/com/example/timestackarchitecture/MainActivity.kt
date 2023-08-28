@@ -33,6 +33,9 @@ import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
 import com.example.timestackarchitecture.ui.theme.TimeStackArchitectureTheme
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -162,7 +165,10 @@ class MainActivity : ComponentActivity()  {
 
 
         val elapsedHabitual = (System.currentTimeMillis() - habitualSharedPreferencesProgress.getStartTime()) + habitualSharedPreferencesProgress.getTimerProgress()
-        habitualSharedPreferencesProgress.saveTimerProgress(elapsedHabitual)
+        CoroutineScope(Dispatchers.IO).launch {
+            habitualSharedPreferencesProgress.saveTimerProgress(elapsedHabitual)
+        }
+
         habitualSharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
         super.onDestroy()
     }

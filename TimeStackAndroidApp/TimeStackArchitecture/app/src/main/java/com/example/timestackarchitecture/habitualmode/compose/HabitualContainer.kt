@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.sp
 import com.example.timestackarchitecture.R
 import com.example.timestackarchitecture.casualmode.service.TimerAlarmReceiver
 import com.example.timestackarchitecture.casualmode.service.TimerService
+import com.example.timestackarchitecture.habitualmode.components.afterPlay
 import com.example.timestackarchitecture.habitualmode.data.HabitualStackData
 import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
 import com.example.timestackarchitecture.ui.components.AddInputDialog
@@ -82,17 +83,17 @@ fun HabitualContainer(
     habitualStackViewModel: HabitualStackViewModel,
     selectedItems: MutableList<Int>,
     getProgress: () -> Long,
-    updateProgress: (Long) -> Unit,
+    updateProgress: suspend (Long) -> Unit,
     insertStack: suspend (HabitualStackData) -> Unit,
     updateStack: suspend (HabitualStackData) -> Unit,
     removeStack: suspend (HabitualStackData) -> Unit,
     getStartTime: () -> Long,
-    saveCurrentTime: (Long) -> Unit,
-    getFirstTime:() -> Boolean,
+    saveCurrentTime: suspend (Long) -> Unit,
+    getFirstTime: () -> Boolean,
     saveFirstTime: (Boolean) -> Unit,
 ) {
     val stackList = habitualStackViewModel.stackList.collectAsState().value
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         habitualStackViewModel.getStacks()
     }
     var openDialogAdd by remember { mutableStateOf(false) }
@@ -109,7 +110,8 @@ fun HabitualContainer(
     var resetDialog by remember { mutableStateOf(false) }
     var editDialog by remember { mutableStateOf(false) }
 
-    Timber.d("timePlayed: ${getProgress()}")
+    getProgress()
+
     play = if (stackList.isNotEmpty()) {
         Timber.d("play")
         Timber.d("stackList.size: ${stackList.size}")
@@ -169,7 +171,7 @@ fun HabitualContainer(
                         painter = painterResource(
                             id = R.drawable.inventory
                         ),
-                        contentDescription = "Remove",
+                        contentDescription = "inventory",
                         Modifier.size(25.dp, 25.dp),
                         tint = Color.White
                     )
@@ -258,7 +260,8 @@ fun HabitualContainer(
 
                                         Timber.d("outside ${getProgress()}")
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            val serviceIntent = Intent(context, TimerService::class.java)
+                                            val serviceIntent =
+                                                Intent(context, TimerService::class.java)
                                             context.stopService(serviceIntent)
                                         }
                                         CoroutineScope(Dispatchers.IO).launch {
@@ -279,6 +282,7 @@ fun HabitualContainer(
                                                 Timber.d("before updateStack")
                                                 if (stackList.isNotEmpty()) {
                                                     Timber.d("before updateStack inside")
+                                                    stackList[0].isPlaying = true
                                                     updateStack(
                                                         HabitualStackData(
                                                             stackList[0].id,
@@ -288,12 +292,42 @@ fun HabitualContainer(
                                                             true
                                                         )
                                                     )
+                                                    Timber.d("after updateStack")
+
+                                                    updateProgress(0)
+                                                    val getProgressVal = getProgress()
+                                                    play = false
+                                                    Timber.d("Timer stopped, play: $play, stackList.size: ${stackList.size}")
+                                                    afterPlay(
+                                                        play = false,
+                                                        context = context,
+                                                        stackList = stackList,
+                                                        getProgress = getProgressVal,
+                                                        updateProgress = updateProgress,
+                                                        saveCurrentTime = saveCurrentTime,
+                                                        getStartTime = getStartTime,
+                                                        saveFirstTime = saveFirstTime,
+                                                        getFirstTime = getFirstTime
+                                                    )
+                                                    Timber.d("affertplay 1 finished ")
+                                                    afterPlay(
+                                                        play = true,
+                                                        context = context,
+                                                        stackList = stackList,
+                                                        getProgress = getProgressVal,
+                                                        updateProgress = updateProgress,
+                                                        saveCurrentTime = saveCurrentTime,
+                                                        getStartTime = getStartTime,
+                                                        saveFirstTime = saveFirstTime,
+                                                        getFirstTime = getFirstTime
+                                                    )
+                                                    play = true
+                                                } else {
+                                                    play = false
+                                                    updateProgress(0)
+                                                    stackList[0].isPlaying = false
                                                 }
-                                                Timber.d("after updateStack")
-
-                                                updateProgress(0)
-                                                Timber.d("Timer stopped, play: $play, stackList.size: ${stackList.size}")
-
+                                                Timber.d("afterplay 2 finished ")
                                                 // Move to the main thread to show the snackbar
                                                 withContext(Dispatchers.Main) {
                                                     snackBarMessage(
@@ -361,7 +395,7 @@ fun HabitualContainer(
                                 )
                                 return@IconButton
                             } else if (selectedItems.isNotEmpty()) {
-                                if(!selectedItems.contains(0)){
+                                if (!selectedItems.contains(0)) {
                                     snackBarMessage(
                                         message = "Selected activity is not the first one",
                                         scope = scope,
@@ -438,11 +472,12 @@ fun HabitualContainer(
                                 )
                             }
 
-
                             if (it) {
                                 Timber.d("Timer started")
                                 //use system time to update progress
-                                saveCurrentTime(System.currentTimeMillis())
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    saveCurrentTime(System.currentTimeMillis())
+                                }
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     val serviceIntent = Intent(context, TimerService::class.java)
                                     serviceIntent.putExtra("duration", stackList[0].stackTime)
@@ -455,7 +490,9 @@ fun HabitualContainer(
                                     TimerAlarmReceiver().setTimerAlarm(context, remainingTime)
                                     Timber.d("set alarm for $remainingTime")
                                     if (getFirstTime()) {
-                                        updateProgress(0)
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            updateProgress(0)
+                                        }
                                     }
                                 }
 
@@ -466,7 +503,9 @@ fun HabitualContainer(
                                 //stop notification
                                 val elapsed =
                                     (System.currentTimeMillis() - getStartTime()) + getProgress()
-                                updateProgress(elapsed)
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    updateProgress(elapsed)
+                                }
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     val serviceIntent =
@@ -521,15 +560,16 @@ fun HabitualContainer(
                                     snackBarHostState = snackBarHostState
                                 )
                                 return@IconButton
-                            } else if (selectedItems.size > 1){
+                            } else if (selectedItems.size > 1) {
                                 snackBarMessage(
                                     message = "Select only one activity to edit",
                                     scope = scope,
                                     snackBarHostState = snackBarHostState
                                 )
-                            }else {
+                            } else {
                                 editDialog = true
-                            } },
+                            }
+                        },
                         Modifier
                             .size(60.dp, 70.dp)
                             .padding(top = 15.dp)
@@ -573,7 +613,7 @@ fun HabitualContainer(
                     openDialogAdd = false
                 },
 
-                onDismiss = {message ->
+                onDismiss = { message ->
                     openDialogAdd = false
                     if (activityName.isBlank() && message == "Blank") {
                         snackBarMessage(
@@ -615,7 +655,9 @@ fun HabitualContainer(
                                     play = false
                                 }
                             }
-                            updateProgress(0)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                updateProgress(0)
+                            }
                         }
                         selectedItems.clear()
                     } else {
@@ -633,7 +675,9 @@ fun HabitualContainer(
                                 }
                                 TimerAlarmReceiver().cancelTimerAlarm(context)
                             }
-                            updateProgress(0)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                updateProgress(0)
+                            }
 
                         }
                     }
@@ -657,7 +701,9 @@ fun HabitualContainer(
                 onConfirm = {
                     if (stackList.isNotEmpty()) {
                         //reset the progress
-                        updateProgress(0)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            updateProgress(0)
+                        }
                         //stop the timer service or notification
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             val serviceIntent =
@@ -683,7 +729,7 @@ fun HabitualContainer(
         editDialog -> {
             EditDialogBoxHabitual(
                 onConfirm = {
-                    if (selectedItems.size > 0 && selectedItems.size == 1){
+                    if (selectedItems.size > 0 && selectedItems.size == 1) {
                         CoroutineScope(Dispatchers.IO).launch {
                             updateStack(
                                 HabitualStackData(
@@ -723,7 +769,9 @@ fun HabitualContainer(
                         }
                     }
                     if (activityTime != "0") {
-                        updateProgress(0)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            updateProgress(0)
+                        }
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         val serviceIntent =
@@ -741,7 +789,8 @@ fun HabitualContainer(
                             scope = scope,
                             snackBarHostState = snackBarHostState
                         )
-                    } },
+                    }
+                },
                 activityName = activityName,
                 onActivityNameChange = { activityName = it },
                 onActivityTimeChange = { activityTime = it },

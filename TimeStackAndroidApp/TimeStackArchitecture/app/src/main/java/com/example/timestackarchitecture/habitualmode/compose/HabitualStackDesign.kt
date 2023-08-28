@@ -12,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.*
 import com.example.timestackarchitecture.R
+import timber.log.Timber
 
 
 @Composable
@@ -26,6 +27,8 @@ fun HabitualLoader(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration
     val progress: Float
+    Timber.d("totalPlayed: $totalPlayed")
+    Timber.d("totalTime: $totalTime")
 
 
     if (videoLength != null) {
@@ -35,12 +38,14 @@ fun HabitualLoader(
         } else {
             totalPlayed.toFloat() / totalTime
         }
-
+        Timber.d("progress: $progress")
+        Timber.d("play: $play")
         val progressAsState by animateLottieCompositionAsState(
             composition = composition,
             clipSpec = LottieClipSpec.Progress(progress, 1f),
             isPlaying = play, speed = videoLength / speedTime
         )
+        Timber.d("progressAsState: $progressAsState")
         LottieAnimation(
             composition = composition,
             progress = { progressAsState },
@@ -49,8 +54,9 @@ fun HabitualLoader(
             contentScale = ContentScale.FillWidth,
         )
         LaunchedEffect(progressAsState) {
-            if (progressAsState == 1F) {
+            if (progressAsState >= 1F) {
                 onFinishedChange()
+                progressAsState == 0F
             }
         }
     }

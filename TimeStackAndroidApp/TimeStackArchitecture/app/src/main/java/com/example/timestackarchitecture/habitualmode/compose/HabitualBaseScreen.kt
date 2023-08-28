@@ -49,7 +49,7 @@ fun HabitualBaseScreen(
     HabitualContainer(
         habitualStackViewModel,
         selectedItems,
-        getProgress = { habitualTimerViewModel.getProgress() },
+        getProgress = {  habitualTimerViewModel.getProgress() },
 
         updateProgress = { playedTime: Long -> habitualTimerViewModel.saveProgress(playedTime)
             Timber.d("updateProgress: $playedTime") },
