@@ -155,27 +155,27 @@ fun HabitualContainer(
                 )
                 Spacer(modifier = Modifier.weight(1f))
 
-                IconButton(
-                    onClick = {
-
-                    },
-                    Modifier
-                        .size(70.dp, 50.dp)
-                        .padding(end = 15.dp)
-                        .clip(RoundedCornerShape(30.dp)),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = Color(0xFF000000)
-                    )
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.inventory
-                        ),
-                        contentDescription = "inventory",
-                        Modifier.size(25.dp, 25.dp),
-                        tint = Color.White
-                    )
-                }
+//                IconButton(
+//                    onClick = {
+//
+//                    },
+//                    Modifier
+//                        .size(70.dp, 50.dp)
+//                        .padding(end = 15.dp)
+//                        .clip(RoundedCornerShape(30.dp)),
+//                    colors = IconButtonDefaults.iconButtonColors(
+//                        containerColor = Color(0xFF000000)
+//                    )
+//                ) {
+//                    Icon(
+//                        painter = painterResource(
+//                            id = R.drawable.inventory
+//                        ),
+//                        contentDescription = "inventory",
+//                        Modifier.size(25.dp, 25.dp),
+//                        tint = Color.White
+//                    )
+//                }
 
             }
 
@@ -325,7 +325,11 @@ fun HabitualContainer(
                                                 } else {
                                                     play = false
                                                     updateProgress(0)
-                                                    stackList[0].isPlaying = false
+                                                    try {
+                                                        stackList[0].isPlaying = false
+                                                    }catch (e: Exception){
+                                                        Timber.e(e, "Error in coroutine")
+                                                    }
                                                 }
                                                 Timber.d("afterplay 2 finished ")
                                                 // Move to the main thread to show the snackbar
