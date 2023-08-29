@@ -90,7 +90,7 @@ fun HabitualContainer(
     getStartTime: () -> Long,
     saveCurrentTime: suspend (Long) -> Unit,
     getFirstTime: () -> Boolean,
-    saveFirstTime: (Boolean) -> Unit,
+    saveFirstTime: suspend  (Boolean) -> Unit,
 ) {
     val stackList = habitualStackViewModel.stackList.collectAsState().value
     LaunchedEffect(Unit) {
@@ -110,7 +110,7 @@ fun HabitualContainer(
     var resetDialog by remember { mutableStateOf(false) }
     var editDialog by remember { mutableStateOf(false) }
 
-    getProgress()
+    Timber.d("timePlayed: ${getProgress()}")
 
     play = if (stackList.isNotEmpty()) {
         Timber.d("play")
@@ -268,7 +268,7 @@ fun HabitualContainer(
                                             try {
                                                 Timber.d("Coroutine started")
                                                 Timber.d("Before saveFirstTime")
-                                                saveFirstTime(true)
+                                                saveFirstTime(false)
                                                 Timber.d("After saveFirstTime")
                                                 Timber.d("Before removeStack")
                                                 removeStack(stackList[0])
@@ -499,8 +499,10 @@ fun HabitualContainer(
                                         }
                                     }
                                 }
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    saveFirstTime(false)
+                                }
 
-                                saveFirstTime(false)
 //                               //start notification
                             } else {
                                 Timber.d("Timer paused")
@@ -692,7 +694,9 @@ fun HabitualContainer(
                         snackBarHostState = snackBarHostState
                     )
                     openDialogRemove = false
-                    saveFirstTime(true)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        saveFirstTime(true)
+                    }
                 },
                 onDismiss = { openDialogRemove = false },
                 selectedItems = selectedItems,
@@ -716,7 +720,9 @@ fun HabitualContainer(
                         }
                         TimerAlarmReceiver().cancelTimerAlarm(context)
                         play = false
-                        saveFirstTime(true)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            saveFirstTime(true)
+                        }
                         stackList[0].isPlaying = false
                         snackBarMessage(
                             message = "Activity reset",

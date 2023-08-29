@@ -8,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -35,8 +37,13 @@ import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModel
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
+import com.example.timestackarchitecture.habitualmode.data.SharedPreferencesProgressRepositoryHabitual
 import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
+import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.ui.components.snackBarMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +57,8 @@ fun HomeScreen(
     stackViewModel: StackViewModel = viewModel(factory = stackViewModelFactory),
     timerViewModel: TimerViewModel = viewModel(factory = timerViewModelFactory),
     habitualStackViewModel: HabitualStackViewModel,
+    habitualTimerViewModel: HabitualTimerViewModel,
+    habitualSharedPreferencesProgress: SharedPreferencesProgressRepositoryHabitual,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -96,6 +105,43 @@ fun HomeScreen(
             Timber.d("removeStack 0 in MainActivity")
             timerViewModel.saveProgress(0)
             timerViewModel.saveAlarmTriggered(false)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val serviceIntent =
+                    Intent(context, TimerService::class.java)
+                context.stopService(serviceIntent)
+            }
+
+        }
+    }
+
+
+    var habitualStackList = habitualStackViewModel.stackList.collectAsState()
+
+    if (habitualSharedPreferencesProgress.firstTime()) {
+        Timber.d("firstTime")
+        habitualSharedPreferencesProgress.saveTimerProgress(0)
+    } else {
+        if (habitualStackList.value.isNotEmpty()) {
+            if (habitualStackList.value[0].isPlaying) {
+                val elapsed =
+                    (System.currentTimeMillis() - habitualSharedPreferencesProgress.getStartTime()) + habitualSharedPreferencesProgress.getTimerProgress()
+                habitualSharedPreferencesProgress.saveTimerProgress(elapsed)
+                habitualSharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
+            }
+        }
+    }
+
+    if (habitualTimerViewModel.getAlarmTriggered()) {
+        if (habitualStackList.value.isNotEmpty()) {
+            LaunchedEffect(key1 = Unit){
+                CoroutineScope(Dispatchers.IO).launch {
+                    habitualStackViewModel.removeStack(habitualStackList.value[0])
+                }
+            }
+
+            Timber.d("removeStack 0 in MainActivity")
+            habitualTimerViewModel.saveProgress(0)
+            habitualTimerViewModel.saveAlarmTriggered(false)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val serviceIntent =
                     Intent(context, TimerService::class.java)

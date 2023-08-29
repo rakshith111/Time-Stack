@@ -25,8 +25,8 @@ fun Loader(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration
     val progress: Float
-    Timber.d("totalPlayed: $totalPlayed")
-    Timber.d("totalTime: $totalTime")
+//    Timber.d("totalPlayed: $totalPlayed")
+//    Timber.d("totalTime: $totalTime")
 
     if (videoLength != null) {
         progress = if ( totalPlayed > totalTime) {
@@ -35,7 +35,7 @@ fun Loader(
         } else {
             totalPlayed.toFloat() / totalTime
         }
-        Timber.d("progress: $progress")
+//        Timber.d("progress: $progress")
 
         val progressAsState by animateLottieCompositionAsState(
             composition = composition,

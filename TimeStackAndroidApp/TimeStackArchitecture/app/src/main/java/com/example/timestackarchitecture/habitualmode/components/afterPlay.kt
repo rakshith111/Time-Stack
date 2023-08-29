@@ -18,8 +18,8 @@ suspend fun afterPlay(
     getProgress:  Long,
     updateProgress: suspend (Long) -> Unit,
     saveCurrentTime: suspend (Long) -> Unit,
-    getStartTime: () -> Long,
-    saveFirstTime: (Boolean) -> Unit,
+    getStartTime: suspend () -> Long,
+    saveFirstTime: suspend (Boolean) -> Unit,
     getFirstTime: () -> Boolean
 ) {
     if (play) {

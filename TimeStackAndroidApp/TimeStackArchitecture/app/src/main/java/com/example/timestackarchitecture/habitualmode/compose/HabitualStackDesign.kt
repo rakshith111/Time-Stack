@@ -27,8 +27,8 @@ fun HabitualLoader(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.progressbar_2))
     val videoLength = composition?.duration
     val progress: Float
-    Timber.d("totalPlayed: $totalPlayed")
-    Timber.d("totalTime: $totalTime")
+//    Timber.d("totalPlayed: $totalPlayed")
+//    Timber.d("totalTime: $totalTime")
 
 
     if (videoLength != null) {
@@ -38,14 +38,14 @@ fun HabitualLoader(
         } else {
             totalPlayed.toFloat() / totalTime
         }
-        Timber.d("progress: $progress")
-        Timber.d("play: $play")
+//        Timber.d("progress: $progress")
+//        Timber.d("play: $play")
         val progressAsState by animateLottieCompositionAsState(
             composition = composition,
             clipSpec = LottieClipSpec.Progress(progress, 1f),
             isPlaying = play, speed = videoLength / speedTime
         )
-        Timber.d("progressAsState: $progressAsState")
+//        Timber.d("progressAsState: $progressAsState")
         LottieAnimation(
             composition = composition,
             progress = { progressAsState },

@@ -114,6 +114,8 @@ class MainActivity : ComponentActivity()  {
                 }
 
                 val sharedPreferencesProgress =  SharedPreferencesProgressRepository(this)
+                val habitualSharedPreferencesProgress = SharedPreferencesProgressRepositoryHabitual(this)
+
                 val navController = rememberAnimatedNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 when (navBackStackEntry?.destination?.route) {
@@ -140,7 +142,8 @@ class MainActivity : ComponentActivity()  {
                             timerViewModelFactory = timerViewModelFactory,
                             sharedPreferencesProgress = sharedPreferencesProgress,
                             habitualStackViewModel = habitualStackViewModel,
-                            habitualTimerViewModel = habitualTimerViewModel
+                            habitualTimerViewModel = habitualTimerViewModel,
+                            habitualSharedPreferencesProgress = habitualSharedPreferencesProgress
                         )
                     }
                 }
@@ -168,7 +171,6 @@ class MainActivity : ComponentActivity()  {
         CoroutineScope(Dispatchers.IO).launch {
             habitualSharedPreferencesProgress.saveTimerProgress(elapsedHabitual)
         }
-
         habitualSharedPreferencesProgress.saveCurrentTime(System.currentTimeMillis())
         super.onDestroy()
     }

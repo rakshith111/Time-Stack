@@ -14,11 +14,10 @@ import com.example.timestackarchitecture.casualmode.data.SharedPreferencesProgre
 import com.example.timestackarchitecture.casualmode.viewmodels.StackViewModelFactory
 import com.example.timestackarchitecture.casualmode.viewmodels.TimerViewModelFactory
 import com.example.timestackarchitecture.habitualmode.compose.HabitualBaseScreen
+import com.example.timestackarchitecture.habitualmode.data.SharedPreferencesProgressRepositoryHabitual
 import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualStackViewModel
 import com.example.timestackarchitecture.habitualmode.viewmodel.HabitualTimerViewModel
 import com.example.timestackarchitecture.home.compose.HomeScreen
-import com.example.timestackarchitecture.ui.components.NewAlertDialogBox
-import com.example.timestackarchitecture.ui.components.snackBarMessage
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
@@ -32,7 +31,8 @@ fun NavGraph(
     timerViewModelFactory: TimerViewModelFactory,
     sharedPreferencesProgress: SharedPreferencesProgressRepository,
     habitualStackViewModel: HabitualStackViewModel,
-    habitualTimerViewModel: HabitualTimerViewModel
+    habitualTimerViewModel: HabitualTimerViewModel,
+    habitualSharedPreferencesProgress: SharedPreferencesProgressRepositoryHabitual
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -45,7 +45,9 @@ fun NavGraph(
                     stackViewModelFactory,
                     timerViewModelFactory,
                     sharedPreferencesProgress,
-                    habitualStackViewModel = habitualStackViewModel
+                    habitualSharedPreferencesProgress = habitualSharedPreferencesProgress,
+                    habitualStackViewModel = habitualStackViewModel,
+                    habitualTimerViewModel = habitualTimerViewModel,
                 )
                 Timber.d("back to home")
         }
